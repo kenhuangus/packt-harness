@@ -1,7 +1,7 @@
 # Module 3: Spec-Driven Development (SDD)
 
 ## Overview
-Spec-Driven Development eliminates prompt ambiguity by anchoring LLM agent execution against a formal, machine-verifiable specification document (`SPEC.md`).
+Spec-Driven Development reduces prompt ambiguity by anchoring LLM agent execution against a formal, machine-verifiable specification document (`SPEC.md`).
 
 ## Core Principles
 1. **Upfront Contract**: Define exact input/output data schemas before writing code.

@@ -7,9 +7,11 @@ Demonstrates multi-agent team workflows:
 4. Telemetry-Driven Self-Improvement Loops
 """
 
-import os
+import ast
 import json
+import os
 import subprocess
+import tempfile
 from datetime import datetime, timezone
 
 class SubagentPromptIsolator:
@@ -54,10 +56,160 @@ class MultiAgentTeamSimulator:
         return "def validate_jwt" in content
 
 if __name__ == "__main__":
-    sim = MultiAgentTeamSimulator(os.path.abspath("."))
-    print("Multi-Agent Team Simulator & Subagent Prompt Isolator initialized.")
-    plan = sim.run_planner("SPEC: JWT Auth System")
-    for st in plan["subtasks"]:
-        ok = sim.run_implementer_in_worktree(st, "SPEC: JWT Auth System Allowed Scope: auth.py")
-        rev = sim.run_reviewer(st["target_file"])
-        print(f"Subtask '{st['name']}': Implement={ok} | Review={rev}")
+    print("=" * 72)
+    print("MODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS")
+    print("=" * 72)
+
+    allowed_scope = {"auth.py", "test_auth.py"}
+    master_spec = (
+        "SPEC: JWT Auth System\n"
+        "Allowed Scope: auth.py, test_auth.py\n"
+        "auth_component: Implement JWT validation\n"
+        "test_suite: Write unit tests for JWT\n"
+        "Non-goals: network calls and dependency changes"
+    )
+
+    with tempfile.TemporaryDirectory(prefix="module_08_team_") as workspace:
+        sim = MultiAgentTeamSimulator(workspace)
+        spec_path = os.path.join(workspace, "SPEC.md")
+        try:
+            with open(spec_path, "w", encoding="utf-8") as spec_file:
+                spec_file.write(master_spec)
+            with open(spec_path, "r", encoding="utf-8") as spec_file:
+                supplied_spec = spec_file.read()
+        except OSError as exc:
+            print(f"[FAIL] Could not prepare the temporary SPEC.md: {exc}")
+            raise SystemExit(1)
+
+        print("[Planner Subagent (Architect)] Analyzing requirement...")
+        plan = sim.run_planner(supplied_spec)
+        subtasks = plan.get("subtasks") if isinstance(plan, dict) else None
+        plan_valid = (
+            isinstance(subtasks, list)
+            and bool(subtasks)
+            and all(
+                isinstance(subtask, dict)
+                and {"name", "target_file", "action"} <= subtask.keys()
+                for subtask in subtasks
+            )
+        )
+        if not plan_valid:
+            print("[FAIL] Planner returned an invalid or empty subtask plan.")
+            raise SystemExit(1)
+        print(f"  [PASS] Plan Generated: {len(subtasks)} micro-subtasks allocated.")
+
+        print(
+            "[Implementer Subagent (Coder)] Executing simulated edits in a "
+            "temporary sandbox..."
+        )
+        print(
+            "  Claude Code project subagents are defined in "
+            ".claude/agents/<name>.md with frontmatter `isolation: worktree`."
+        )
+        print(
+            "  [Illustrative command - NOT EXECUTED] "
+            "git worktree add -b agent-worktree ./worktree-dir main"
+        )
+
+        implementation_results = []
+        for subtask in subtasks:
+            try:
+                implemented = sim.run_implementer_in_worktree(
+                    subtask, supplied_spec
+                )
+            except (KeyError, OSError) as exc:
+                print(
+                    f"  [FAIL] Implementer could not complete "
+                    f"'{subtask.get('name', '<unknown>')}': {exc}"
+                )
+                raise SystemExit(1)
+            implementation_results.append(implemented)
+            if not implemented:
+                print(
+                    f"  [FAIL] Implementer returned failure for "
+                    f"'{subtask['name']}'."
+                )
+                raise SystemExit(1)
+            print(
+                f"  [PASS] Simulated isolated edit completed for "
+                f"'{subtask['name']}'."
+            )
+
+        print(
+            "[Reviewer Subagent (Auditor)] Auditing Implementer output "
+            "against SPEC.md..."
+        )
+        review_results = []
+        planned_targets = {subtask["target_file"] for subtask in subtasks}
+        for subtask in subtasks:
+            target_file = subtask["target_file"]
+            target_path = os.path.abspath(os.path.join(workspace, target_file))
+            reviewer_passed = sim.run_reviewer(target_file)
+            try:
+                with open(target_path, "r", encoding="utf-8") as source_file:
+                    ast.parse(source_file.read(), filename=target_path)
+                syntax_valid = True
+            except (OSError, SyntaxError):
+                syntax_valid = False
+            scope_compliant = (
+                target_file in allowed_scope
+                and os.path.commonpath([workspace, target_path]) == workspace
+            )
+            review_results.append(
+                reviewer_passed and syntax_valid and scope_compliant
+            )
+
+        produced_targets = {
+            name for name in os.listdir(workspace) if name.endswith(".py")
+        }
+        full_scope_compliance = (
+            planned_targets == produced_targets
+            and planned_targets <= allowed_scope
+        )
+        all_reviews_passed = (
+            all(implementation_results)
+            and all(review_results)
+            and full_scope_compliance
+        )
+        if not all_reviews_passed:
+            print(
+                "  [FAIL] Review failed: reviewer, AST, or scope validation "
+                "did not pass."
+            )
+            raise SystemExit(1)
+        print(
+            "  [PASS] Review Passed: AST syntax valid, scope compliance confirmed."
+        )
+
+        task_name = "jwt_auth_multi_agent_handoff"
+        telemetry_record = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "task": task_name,
+            "subtasks": len(subtasks),
+            "implementation_passed": all(implementation_results),
+            "review_passed": all_reviews_passed,
+        }
+        try:
+            with open(sim.telemetry_log, "a", encoding="utf-8") as telemetry_file:
+                telemetry_file.write(json.dumps(telemetry_record) + "\n")
+            with open(sim.telemetry_log, "r", encoding="utf-8") as telemetry_file:
+                recorded_telemetry = json.loads(telemetry_file.readlines()[-1])
+        except (OSError, IndexError, json.JSONDecodeError) as exc:
+            print(f"[FAIL] Telemetry could not be recorded and verified: {exc}")
+            raise SystemExit(1)
+
+        telemetry_verified = (
+            recorded_telemetry == telemetry_record
+            and os.path.basename(sim.telemetry_log) == "telemetry.jsonl"
+        )
+        if not telemetry_verified:
+            print("[FAIL] Telemetry read-back did not match the recorded task.")
+            raise SystemExit(1)
+        print(
+            f"[Self-Improvement Telemetry] Recorded task '{task_name}' into "
+            f"'{os.path.basename(sim.telemetry_log)}'."
+        )
+
+    print(
+        "\nMODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!"
+    )

@@ -1,27 +1,50 @@
-[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+# Module 9 Run Results
+
+Captured from an actual run.
+
+```text
+> python five_step_sop_pipeline.py
 ============================================================
-MODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'Calculator Division Safeguard' 
+MODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'User Auth Token Validator'
 ============================================================
 
-[STEP 1: SPEC FIRST] Parsing SPEC.md requirements & scope boundaries...
-  [PASS] Acceptance Criteria defined: 3 test cases registered.
+[STEP 1: SPEC FIRST] Parsing SPEC.md requirements...
+  [PASS] SPEC.md parsed: read C:\Users\kenhu\packt\harness\course_implementation\module_03_spec_driven_development\SPEC.md
+  Allowed file scope: ['auth_validator.py', 'tests/test_auth.py']
+  Explicit non-goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']
 
-[STEP 2: CONSTRAINED EXECUTION] Spawning sandboxed agent runner with aisuite LLM...
+[STEP 2: CONSTRAINED EXECUTION] Enforcing the parsed allowed-file scope...
+  [PASS] In-scope edit: Wrote allowed file 'auth_validator.py'.
+  [PASS] Out-of-scope edit rejected: 'database.py' is not in the allowed file scope. File created: False.
 
-[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars
-  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (5596 chars)
-  [PASS] Allowed file scope restricted to 'src/calculator.py'.
+[STEP 3: DETERMINISTIC CHECKS] Running module 4 guardrails...
+  [PASS] AST syntax and generated-code secret scan: AST syntax valid. Zero secret leaks detected.
+  [PASS] Secret-bearing code rejected: SECURITY CRITICAL: Hardcoded API secret key detected!
+  [PASS] Dangerous shell command intercepted: CRITICAL SECURITY BLOCK: Command matches dangerous pattern 'rm\s+-rf'
 
-[STEP 3: DETERMINISTIC CHECKS] Triggering pre/post hooks & AST linters...
-  [PASS] Pre-hook: No dangerous commands.
-  [PASS] Post-hook: AST syntax check passed; zero secret leaks.
+[STEP 4: TEST VERIFICATION] Running a real temporary pytest suite...
+    ...                                                                      [100%]
+    3 passed in 0.41s
+  [PASS] Pytest suite: return code 0; 3 passed, 0 failed.
 
-[STEP 4: TEST VERIFICATION] Running automated pytest suite...
-  [PASS] 14/14 unit tests PASSED (0 failures, 100% coverage).
-
-[STEP 5: HUMAN REVIEW] Generating clean PR diff preview for developer approval...
-  [PASS] Developer Click Approval: PR merged into main branch.
+[STEP 5: HUMAN REVIEW] Showing the implementation actually produced...
+  --- /dev/null
+  +++ auth_validator.py
+  @@ -0,0 +1,8 @@
+  +"""Token validation constrained by the feature specification."""
+  +
+  +def validate_jwt(token: str) -> dict:
+  +    if token == "valid-token":
+  +        return {"valid": True, "user_id": "123"}
+  +    if token == "expired-token":
+  +        return {"valid": False, "error": "EXPIRED"}
+  +    return {"valid": False, "error": "INVALID"}
+  [PASS] Review diff generated: 8 implementation lines shown from the temporary workspace.
+  Human approval and any PR merge are out-of-band; this pipeline did not create or merge a PR.
 
 ============================================================
-PIPELINE SUCCESS: 5-Step SOP Executed Flawlessly!
+PIPELINE COMPLETE: ALL REPORTED CHECKS EXECUTED AND PASSED
 ============================================================
+```
+
+Exit code: 0

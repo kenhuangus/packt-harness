@@ -1,52 +1,124 @@
 """
-Module 7: MCP 2.0 Client Protocol Test Runner
-Integrates standardized LLM Client (.env configured with 127.0.0.1 Qwen model as default).
+Module 7: Model Context Protocol (MCP) Client Test Runner
+
+Starts the MCPServer process and communicates with it over stdio.
 """
 
-import sys, os, asyncio
-sys.stdout.reconfigure(encoding='utf-8')
+import asyncio
+import os
+from pathlib import Path
+import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from common.llm_client import CourseLLMClient
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
-import mcp.types as types
-from mcp_server_demo import server, handle_list_tools, handle_call_tool, handle_list_resources
 
-async def main_async():
+sys.stdout.reconfigure(encoding="utf-8")
+
+MODULE_DIR = Path(__file__).resolve().parent
+sys.path.append(os.path.abspath(MODULE_DIR.parent))
+
+from common.llm_client import CourseLLMClient  # noqa: E402
+
+
+def synthesize_with_llm(tool_output: str) -> None:
+    """Use the course LLM client when its configured endpoint is available."""
+    try:
+        llm_client = CourseLLMClient()
+        response = llm_client.generate(
+            f"Synthesize MCP tool output: {tool_output}"
+        )
+    except Exception as exc:
+        print(f"  [SKIPPED] LLM synthesis unavailable: {exc}")
+        return
+
+    if not response or response.startswith("[Harness Simulated Output"):
+        print(
+            "  [SKIPPED] LLM synthesis unavailable: "
+            "the configured endpoint did not return a live response."
+        )
+        return
+
+    print(f"  [PASS] Live LLM synthesis received ({len(response)} chars).")
+
+
+async def main_async() -> None:
     print("=" * 60)
-    print("MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP 2.0) TEST RUNNER ")
+    print("MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER")
     print("=" * 60)
 
-    llm_client = CourseLLMClient()
+    server_parameters = StdioServerParameters(
+        command=sys.executable,
+        args=[str(MODULE_DIR / "mcp_server_demo.py")],
+    )
 
-    # 1. Query Tools List
-    print("\n[MCP Client] Sending JSON-RPC 'tools/list' request...")
-    tools_res = await handle_list_tools(types.ListToolsRequest())
-    for t in tools_res.tools:
-        print(f"  ✓ Tool Available: '{t.name}' - {t.description}")
+    async with stdio_client(server_parameters) as (read_stream, write_stream):
+        async with ClientSession(read_stream, write_stream) as session:
+            await session.initialize()
+            print("  [PASS] MCP session initialized over subprocess stdio.")
 
-    # 2. Invoke Tool Call
-    print("\n[MCP Client] Sending JSON-RPC 'tools/call' request...")
-    call_params = types.CallToolRequestParams(name="query_database_record", arguments={"record_id": 4092})
-    call_res = await handle_call_tool(call_params)
-    for content in call_res.content:
-        print(f"  ✓ Tool Execution Result: '{content.text}'")
+            print("\n[MCP Client] Sending 'tools/list' request...")
+            tools_result = await session.list_tools()
+            for tool in tools_result.tools:
+                print(
+                    f"  [PASS] Tool Available: '{tool.name}' - "
+                    f"{tool.description}"
+                )
 
-    # Pass MCP result to LLM via aisuite
-    llm_out = llm_client.complete(f"Synthesize MCP tool output: {call_res.content[0].text}")
+            print("\n[MCP Client] Sending 'tools/call' request...")
+            call_result = await session.call_tool(
+                "query_database_record",
+                arguments={"record_id": 4092},
+            )
+            text_items = [
+                content.text
+                for content in call_result.content
+                if getattr(content, "type", None) == "text"
+            ]
+            if not text_items:
+                raise RuntimeError("MCP tool call returned no text content.")
+            tool_output = text_items[0]
+            print(f"  [PASS] Tool Execution Result: '{tool_output}'")
 
-    # 3. Query Resources List
-    print("\n[MCP Client] Sending JSON-RPC 'resources/list' request...")
-    res_list = await handle_list_resources(types.ListResourcesRequest())
-    for r in res_list.resources:
-        print(f"  ✓ Resource Stream Available: '{r.uri}' ({r.name})")
+            print("\n[LLM Client] Synthesizing the MCP tool result...")
+            synthesize_with_llm(tool_output)
+
+            print("\n[MCP Client] Sending 'resources/list' request...")
+            resources_result = await session.list_resources()
+            for resource in resources_result.resources:
+                print(
+                    f"  [PASS] Resource Available: "
+                    f"'{resource.uri}' ({resource.name})"
+                )
+
+            print("\n[MCP Client] Sending 'resources/read' request...")
+            resource_result = await session.read_resource(
+                "config://app-settings"
+            )
+            resource_text_items = [
+                content.text
+                for content in resource_result.contents
+                if getattr(content, "text", None) is not None
+            ]
+            if not resource_text_items:
+                raise RuntimeError("MCP resource read returned no text content.")
+            print(
+                "  [PASS] Resource Read Result: "
+                f"'{resource_text_items[0]}'"
+            )
 
     print("\n" + "=" * 60)
-    print("MODULE 7 DEMO COMPLETE: MCP 2.0 Client/Server Interaction Verified!")
+    print("MODULE 7 DEMO COMPLETE: REAL MCP STDIO SESSION VERIFIED!")
     print("=" * 60)
 
-def main():
-    asyncio.run(main_async())
+
+def main() -> None:
+    try:
+        asyncio.run(main_async())
+    except Exception as exc:
+        print(f"\n  [FAIL] MCP client/server demo failed: {exc}")
+        raise
+
 
 if __name__ == "__main__":
     main()

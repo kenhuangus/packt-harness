@@ -1,27 +1,33 @@
-============================================================
-MODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS )
-============================================================
-[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
-[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)
+# Module 2 Run Results
 
-[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=31 chars
-  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (5095 chars)
+Captured from an actual run.
+
+```text
+> python core_harness_stack.py
+========================================================================
+MODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)
+========================================================================
+[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)
+Allocations: {'memory': 25600, 'spec': 25600, 'workspace': 64000, 'output_buffer': 12800}
 
 >>> HARNESS EXECUTION TASK: write_file <<<
-[Pillar 2 - Permission] Tool 'write_file' and path 'C:\Users\kenhu\packt\harness\course_implementation\module_02_core_harness_stack\sample_module.py' validated.
+[Pillar 2 - Permission] Tool 'write_file' and path 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b\sample_module.py' validated.
 [Pillar 3 - Pre-Hook] Code safety inspection passed.
 [Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...
+  [PASS] AST syntax valid.
 [Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.
 
 >>> HARNESS EXECUTION TASK: run_test <<<
 [Pillar 2 - Permission] Tool 'run_test' and path 'None' validated.
 [Pillar 4 - Test Runner] Executing test suite: pytest
+  [PASS] pytest exited with code 0.
 [Pillar 5 - Trace] Logged 'RUN_TEST_SUCCESS' to JSONL audit file.
 
 >>> HARNESS EXECUTION TASK: write_file <<<
 [Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.
-[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace 'C:\Users\kenhu\packt\harness\course_implementation\module_02_core_harness_stack'.
+[FAIL] HARNESS ERROR: Path Traversal Blocked: Target 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b\..\..\forbidden.py' is outside workspace 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b'
 
-============================================================
 MODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!
-============================================================
+```
+
+Exit code: 0

@@ -9,21 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-slate: #0b0f19;
-      --card-bg: #151c2c;
-      --card-border: #2a364f;
-      --accent-teal: #0d9488;
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-      --text-main: #f8fafc;
-      --text-muted: #cbd5e1;
-      --terminal-bg: #030712;
-      --terminal-text: #38bdf8;
+      --bg-slate: #F0EEE6;
+      --card-bg: #FAF9F5;
+      --card-border: #E3E0D6;
+      --accent-teal: #D97757;
+      --accent-cyan: #BD5D3A;
+      --accent-emerald: #6B6B63;
+      --text-main: #141413;
+      --text-muted: #6B6B63;
+      --tinted-fill: #F5E6DF;
+      --terminal-bg: #23221F;
+      --terminal-text: #F7F5EE;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
       background: var(--bg-slate);
       color: var(--text-main);
       min-height: 100vh;
@@ -32,13 +33,12 @@
     }
 
     header {
-      padding: 1.25rem 2rem;
+      padding: 1.5rem 2.5rem;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0f172a;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      background: var(--card-bg);
     }
 
     .brand {
@@ -50,21 +50,26 @@
     .brand-logo {
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
-      border-radius: 10px;
+      background: var(--accent-teal);
+      color: var(--text-main);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.3rem;
-      box-shadow: 0 0 20px rgba(13, 148, 136, 0.4);
     }
 
-    .brand-title { font-size: 1.3rem; font-weight: 700; color: #fff; }
+    .brand-title {
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
     .badge {
-      background: rgba(13, 148, 136, 0.25);
-      color: #2dd4bf;
-      border: 1px solid var(--accent-teal);
+      background: var(--tinted-fill);
+      color: var(--text-main);
+      border: 1px solid #E7C8BA;
       padding: 0.35rem 0.85rem;
       border-radius: 9999px;
       font-size: 0.85rem;
@@ -74,7 +79,7 @@
 
     main {
       flex: 1;
-      padding: 1.5rem 2rem;
+      padding: 2.5rem;
       max-width: 1600px;
       margin: 0 auto;
       width: 100%;
@@ -86,19 +91,18 @@
     .sidebar {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.25rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .sidebar-title {
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: #94a3b8;
+      color: var(--text-muted);
       margin-bottom: 0.5rem;
       font-weight: 700;
     }
@@ -115,18 +119,18 @@
       justify-content: space-between;
       border: 1px solid transparent;
       color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.02);
+      background: transparent;
     }
 
     .module-nav-item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
+      background: var(--tinted-fill);
+      color: var(--text-main);
     }
 
     .module-nav-item.active {
-      background: linear-gradient(135deg, rgba(13, 148, 136, 0.3), rgba(6, 182, 212, 0.2));
-      border-color: var(--accent-cyan);
-      color: #38bdf8;
+      background: var(--tinted-fill);
+      border-color: var(--accent-teal);
+      color: var(--text-main);
       font-weight: 700;
     }
 
@@ -139,9 +143,8 @@
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
     }
 
     .card-header {
@@ -151,36 +154,43 @@
       margin-bottom: 1.25rem;
     }
 
-    .card-title { font-size: 1.4rem; font-weight: 700; color: #fff; }
+    .card-title {
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
 
     .terminal-window {
       background: var(--terminal-bg);
-      border: 1px solid #334155;
+      border: 1px solid #3D3A34;
       border-radius: 12px;
       padding: 1.5rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
       font-size: 0.92rem;
       line-height: 1.7;
-      color: #f1f5f9;
+      color: var(--terminal-text);
       overflow-y: auto;
       min-height: 520px;
       max-height: 700px;
       white-space: pre-wrap;
-      box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);
     }
 
     .btn {
-      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
-      color: #fff;
-      border: none;
+      background: var(--accent-teal);
+      color: var(--text-main);
+      border: 1px solid var(--accent-teal);
       padding: 0.65rem 1.4rem;
-      border-radius: 10px;
+      border-radius: 12px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.4);
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
-    .btn:hover { opacity: 0.95; transform: translateY(-1px); }
+    .btn:hover {
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+      color: var(--text-main);
+    }
 
     .grid-2 {
       display: grid;
@@ -189,13 +199,21 @@
     }
 
     .stat-box {
-      background: #0f172a;
+      background: var(--bg-slate);
       border: 1px solid var(--card-border);
       padding: 1.1rem;
       border-radius: 12px;
     }
-    .stat-label { font-size: 0.82rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
     .stat-val { font-size: 1.5rem; font-weight: 800; color: var(--accent-emerald); margin-top: 0.35rem; }
+    #module-time { color: var(--text-main) !important; }
+
+    @media (max-width: 900px) {
+      header { align-items: flex-start; gap: 1rem; padding: 1.25rem; }
+      main { grid-template-columns: 1fr; padding: 1.25rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .badge { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -205,7 +223,7 @@
       <div class="brand-logo">HE</div>
       <div>
         <div class="brand-title">Harness Engineering Course Dashboard</div>
-        <div style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600;">Standardized Multi-Provider LLM Client Interface</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Standardized Multi-Provider LLM Client Interface</div>
       </div>
     </div>
     <div class="badge">HARNESS SYSTEMS ARCHITECTURE</div>
@@ -225,7 +243,7 @@
       <div class="module-nav-item" onclick="loadModule(9)">Mod 9: 5-Step SOP Pattern</div>
       <div class="module-nav-item" onclick="loadModule(10)">Mod 10: Readiness Audit</div>
       <div style="border-top: 1px solid var(--card-border); margin: 0.5rem 0;"></div>
-      <div class="module-nav-item" style="background: rgba(16, 185, 129, 0.15); border-color: var(--accent-emerald); color: var(--accent-emerald);" onclick="loadAllModules()">VIEW ALL 10 MODULE TESTS</div>
+      <div class="module-nav-item" style="background: var(--tinted-fill); border-color: var(--accent-teal); color: var(--text-main);" onclick="loadAllModules()">VIEW ALL 10 MODULE TESTS</div>
     </div>
 
     <div class="content-area">
@@ -249,7 +267,7 @@
           </div>
         </div>
 
-        <div style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; color: #94a3b8; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
           <span>LIVE EXECUTION OUTPUT (RUN_RESULTS.MD)</span>
           <span style="font-size: 0.8rem; color: var(--accent-emerald);">[HIGH CONTRAST FULL VIEW]</span>
         </div>
@@ -264,61 +282,61 @@
         time: "09:00 AM - 09:15 AM",
         title: "Module 1: Why Harness Engineering & Agent Failure Modes",
         status: "ACTIVE & SAFE",
-        output: `============================================================\nMODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n--- UN-HARNESSED AGENT SIMULATION ---\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=22 chars\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1972 chars)\n[LLM Response Output]: \nTo give you a precise fix, I need a few details...\n[LLM Attempt 1] Trying command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 2] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 3] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*\n[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!\n\n--- HARNESSED AGENT SIMULATION ---\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [PASS] Loop detector passed: No execution trap.\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [FAIL] Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.\n\n[Harness Evaluator] Inspecting tool call: run_shell('rm -rf /var/log/*')\n  [FAIL] Security Violation: BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\\s+-rf' detected.\n\n============================================================\nDEMO SUMMARY: Harness successfully blocked execution loops & dangerous mutations!\n============================================================`
+        output: `============================================================\nMODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED \n============================================================\n\n--- UN-HARNESSED AGENT SIMULATION ---\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=22 chars\n[LLM Response Output]: \nTo give you a precise fix, I need a few details...\n[LLM Attempt 1] Trying command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 2] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 3] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*\n[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!\n\n--- HARNESSED AGENT SIMULATION ---\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [PASS] Loop detector passed: No execution trap.\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [FAIL] Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.\n\n[Harness Evaluator] Inspecting tool call: run_shell('rm -rf /var/log/*')\n  [FAIL] Security Violation: BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\\s+-rf' detected.\n\n============================================================\nDEMO SUMMARY: Harness successfully blocked execution loops & dangerous mutations!\n============================================================`
       },
       2: {
         time: "09:15 AM - 09:30 AM",
         title: "Module 2: Core Harness Stack & 5 System Pillars",
         status: "5 PILLARS ACTIVE",
-        output: `============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS )\n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - Pre-Hook] Code safety inspection passed.\n[Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: run_test <<<\n[Pillar 2 - Permission] Tool 'run_test' and path 'None' validated.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'RUN_TEST_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n\n============================================================\nMODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!\n============================================================`
+        output: `============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS )\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - Pre-Hook] Code safety inspection passed.\n[Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: run_test <<<\n[Pillar 2 - Permission] Tool 'run_test' and path 'None' validated.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'RUN_TEST_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n\n============================================================\nMODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!\n============================================================`
       },
       3: {
         time: "09:30 AM - 09:50 AM",
         title: "Module 3: Spec-Driven Development (SDD)",
         status: "SPEC VERIFIED",
-        output: `============================================================\nMODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n[Spec Verifier] Parsed SPEC.md:\n  Allowed Files Scope: ['auth_validator.py']\n  Explicit Non-Goals: ['Do NOT modify existing database connection pools.']\n\n[Spec Verifier] Auditing proposed modification to 'auth_validator.py'...\n  [PASS] Spec Compliance Verified: Scope & Non-Goals satisfied.\n\n[Spec Verifier] Auditing proposed modification to 'database.py'...\n  [FAIL] SCOPE VIOLATION: 'database.py' is outside allowed spec scope!\n\n============================================================\nMODULE 3 DEMO COMPLETE: Spec Verifier Enforced Target Boundaries!\n============================================================`
+        output: `============================================================\nMODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER \n============================================================\n[Spec Verifier] Parsed SPEC.md:\n  Allowed Files Scope: ['auth_validator.py']\n  Explicit Non-Goals: ['Do NOT modify existing database connection pools.']\n\n[Spec Verifier] Auditing proposed modification to 'auth_validator.py'...\n  [PASS] Spec Compliance Verified: Scope & Non-Goals satisfied.\n\n[Spec Verifier] Auditing proposed modification to 'database.py'...\n  [FAIL] SCOPE VIOLATION: 'database.py' is outside allowed spec scope!\n\n============================================================\nMODULE 3 DEMO COMPLETE: Spec Verifier Enforced Target Boundaries!\n============================================================`
       },
       4: {
         time: "09:50 AM - 10:10 AM",
         title: "Module 4: Guardrails & Deterministic Hooks Engine",
         status: "GUARDRAILS ACTIVE",
-        output: `============================================================\nMODULE 4 DEMO: PRODUCTION GUARDRAILS & HOOKS ENGINE \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'pytest tests/unit/'\n  [PASS] Pre-Hook Status: Command approved for execution.\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'sudo rm -rf /var/config'\n  [FAIL] PRE-HOOK SECURITY VIOLATION: Command matches forbidden pattern 'rm\\s+-rf'!\n\n[Guardrail - Post-Action Hook] Auditing generated code for 'processor.py'...\n  [PASS] AST Parser Status: Valid Python syntax tree generated.\n\n============================================================\nMODULE 4 DEMO COMPLETE: All Guardrail Interceptors Active!\n============================================================`
+        output: `============================================================\nMODULE 4 DEMO: PRODUCTION GUARDRAILS & HOOKS ENGINE \n============================================================\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'pytest tests/unit/'\n  [PASS] Pre-Hook Status: Command approved for execution.\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'sudo rm -rf /var/config'\n  [FAIL] PRE-HOOK SECURITY VIOLATION: Command matches forbidden pattern 'rm\\s+-rf'!\n\n[Guardrail - Post-Action Hook] Auditing generated code for 'processor.py'...\n  [PASS] AST Parser Status: Valid Python syntax tree generated.\n\n============================================================\nMODULE 4 DEMO COMPLETE: All Guardrail Interceptors Active!\n============================================================`
       },
       5: {
         time: "10:10 AM - 10:20 AM",
         title: "Module 5: Risk-Tiered Permission Escalation Gateway",
         status: "GATEWAY ACTIVE",
-        output: `============================================================\nMODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[Escalation Gateway] Evaluating Request: Tool='read_file' | Risk Level=LOW\n  [PASS] [AUTO-APPROVED] Low-risk tool call permitted instantly.\n\n[Escalation Gateway] Evaluating Request: Tool='write_file' | Risk Level=MEDIUM\n  [PASS] [LOGGED & APPROVED] Medium-risk tool call executed and logged to audit trace.\n\n[Escalation Gateway] Evaluating Request: Tool='git_push' | Risk Level=CRITICAL\n  [FAIL] [ESCALATION BLOCKED] Critical action requires explicit developer click approval!\n\n============================================================\nMODULE 5 DEMO COMPLETE: Escalation Gateway Risk Matrix Active!\n============================================================`
+        output: `============================================================\nMODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY \n============================================================\n\n[Escalation Gateway] Evaluating Request: Tool='read_file' | Risk Level=LOW\n  [PASS] [AUTO-APPROVED] Low-risk tool call permitted instantly.\n\n[Escalation Gateway] Evaluating Request: Tool='write_file' | Risk Level=MEDIUM\n  [PASS] [LOGGED & APPROVED] Medium-risk tool call executed and logged to audit trace.\n\n[Escalation Gateway] Evaluating Request: Tool='git_push' | Risk Level=CRITICAL\n  [FAIL] [ESCALATION BLOCKED] Critical action requires explicit developer click approval!\n\n============================================================\nMODULE 5 DEMO COMPLETE: Escalation Gateway Risk Matrix Active!\n============================================================`
       },
       6: {
         time: "10:20 AM - 10:35 AM",
         title: "Module 6: Tests as Reliability Layer & TDA Loop",
         status: "TDA LOOP PASSED",
-        output: `============================================================\nMODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[TDA Pipeline] Running automated test suite against proposed code...\n  [FAIL] Test Run Failed! Traceback captured automatically.\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=246 chars\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1570 chars)\n\n[TDA Pipeline] Running automated test suite against proposed code...\n  [PASS] All unit tests PASSED (100% coverage).\n\n[Anti-Regression Pipeline] Registered new regression safeguard: 'test_divide_zero_guard' (Total Safeguards: 1)\n\n============================================================\nMODULE 6 DEMO COMPLETE: TDA Automated Feedback Loop Active!\n============================================================`
+        output: `============================================================\nMODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE\n============================================================\n[PASS] pytest availability check: pytest 9.1.1\n\n[TDA Stage 1] Prove the proposed implementation fails a real test.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[FAIL] pytest exited with return code 1; captured failure output follows:\nF                                                                        [100%]\n================================== FAILURES ===================================\n_____________________________ test_divide_by_zero _____________________________\ntest_calculator.py:5: in test_divide_by_zero\n    assert divide(10, 0) == 0\n           ^^^^^^^^^^^^^\ncalculator.py:2: in divide\n    return a / b\n           ^^^^^\nE   ZeroDivisionError: division by zero\n=========================== short test summary info ===========================\nFAILED test_calculator.py::test_divide_by_zero - ZeroDivisionError: division ...\n1 failed in 1.90s\n\n[TDA Stage 2] Apply the known-good offline repair and rerun pytest.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[PASS] pytest summary: 1 passed in 0.77s\n\n[TDA Stage 3] Persist the bug as a regression test and rerun pytest.\n\n[Anti-Regression Pipeline] Writing regression safeguard 'test_divide_zero_guard' to the real pytest file...\n[PASS] Regression safeguard enforced. pytest summary: 2 passed in 0.71s\n[Anti-Regression Pipeline] Total enforced safeguards: 1\n[PASS] Temporary pytest scratch directory cleaned up.\n\n============================================================\nMODULE 6 DEMO COMPLETE: REAL TDA FEEDBACK LOOP VERIFIED!\n============================================================`
       },
       7: {
         time: "10:35 AM - 10:50 AM",
-        title: "Module 7: Model Context Protocol (MCP 2.0) FastMCP Server",
-        status: "MCP 2.0 CONNECTED",
-        output: `============================================================\nMODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP 2.0) TEST RUNNER \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[MCP Client] Sending JSON-RPC 'tools/list' request...\n  [PASS] Tool Available: 'query_database_record' - Queries enterprise database record safely via MCP tool protocol.\n\n[MCP Client] Sending JSON-RPC 'tools/call' request...\n[MCP Server 2.0] Processing Tool Call: 'query_database_record' with args {'record_id': 4092}\n  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'\n\n[MCP Client] Sending JSON-RPC 'resources/list' request...\n  [PASS] Resource Stream Available: 'config://app-settings' (Application Settings)\n\n============================================================\nMODULE 7 DEMO COMPLETE: MCP 2.0 Client/Server Interaction Verified!\n============================================================`
+        title: "Module 7: Model Context Protocol (MCP) stdio Server",
+        status: "MCP STDIO SESSION VERIFIED",
+        output: `============================================================\nMODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER\n============================================================\n  [PASS] MCP session initialized over subprocess stdio.\n\n[MCP Client] Sending 'tools/list' request...\n  [PASS] Tool Available: 'query_database_record' - Query one enterprise database record by its numeric identifier.\n\n[MCP Client] Sending 'tools/call' request...\n  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'\n\n[LLM Client] Synthesizing the MCP tool result...\n  [SKIPPED] LLM synthesis unavailable: the configured endpoint did not return a live response.\n\n[MCP Client] Sending 'resources/list' request...\n  [PASS] Resource Available: 'config://app-settings' (app_settings)\n\n[MCP Client] Sending 'resources/read' request...\n  [PASS] Resource Read Result: '{"application": "harness-enterprise", "environment": "production", "record_access": "read-only"}'\n\n============================================================\nMODULE 7 DEMO COMPLETE: REAL MCP STDIO SESSION VERIFIED!\n============================================================`
       },
       8: {
         time: "10:50 AM - 11:05 AM",
         title: "Module 8: Compound Engineering & Multi-Agent Swarms",
         status: "SWARM PASSED",
-        output: `============================================================\nMODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[Planner Subagent (Architect)] Analyzing requirement via aisuite LLM...\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (8054 chars)\n  [PASS] Plan Generated: 2 micro-subtasks allocated.\n\n[Implementer Subagent (Coder)] Executing edits in Git Worktree sandbox...\n  • Executing command: git worktree add -b agent-worktree ./worktree-dir main\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (6638 chars)\n  [PASS] Code diff produced (70 bytes).\n\n[Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...\n  [PASS] Review Passed: AST syntax valid, scope compliance confirmed.\n\n[Self-Improvement Telemetry] Recorded task 'TASK-801' (APPROVED) into telemetry.jsonl.\n\n============================================================\nMODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!\n============================================================`
+        output: `============================================================\nMODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS \n============================================================\n\n[Planner Subagent (Architect)] Analyzing requirement via aisuite LLM...\n  [PASS] Plan Generated: 2 micro-subtasks allocated.\n\n[Implementer Subagent (Coder)] Executing edits in Git Worktree sandbox...\n  • Executing command: git worktree add -b agent-worktree ./worktree-dir main\n  [PASS] Code diff produced (70 bytes).\n\n[Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...\n  [PASS] Review Passed: AST syntax valid, scope compliance confirmed.\n\n[Self-Improvement Telemetry] Recorded task 'TASK-801' (APPROVED) into telemetry.jsonl.\n\n============================================================\nMODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!\n============================================================`
       },
       9: {
         time: "11:05 AM - 11:15 AM",
         title: "Module 9: Practical Workflow Pattern (5-Step SOP)",
         status: "SOP PASSED",
-        output: `============================================================\nMODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'Calculator Division Safeguard' \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n[STEP 1: SPEC FIRST] Parsing SPEC.md requirements & scope boundaries...\n  [PASS] Acceptance Criteria defined: 3 test cases registered.\n\n[STEP 2: CONSTRAINED EXECUTION] Spawning sandboxed agent runner with aisuite LLM...\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (5596 chars)\n  [PASS] Allowed file scope restricted to 'src/calculator.py'.\n\n[STEP 3: DETERMINISTIC CHECKS] Triggering pre/post hooks & AST linters...\n  [PASS] Pre-hook: No dangerous commands.\n  [PASS] Post-hook: AST syntax check passed; zero secret leaks.\n\n[STEP 4: TEST VERIFICATION] Running automated pytest suite...\n  [PASS] 14/14 unit tests PASSED (0 failures, 100% coverage).\n\n[STEP 5: HUMAN REVIEW] Generating clean PR diff preview for developer approval...\n  [PASS] Developer Click Approval: PR merged into main branch.\n\n============================================================\nPIPELINE SUCCESS: 5-Step SOP Executed Flawlessly!\n============================================================`
+        output: `============================================================\nMODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'User Auth Token Validator'\n============================================================\n\n[STEP 1: SPEC FIRST] Parsing SPEC.md requirements...\n  Allowed file scope: ['auth_validator.py', 'tests/test_auth.py']\n  Explicit non-goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']\n\n[STEP 2: CONSTRAINED EXECUTION] Enforcing the parsed allowed-file scope...\n  [PASS] In-scope edit: Wrote allowed file 'auth_validator.py'.\n  [PASS] Out-of-scope edit rejected: 'database.py' is not in the allowed file scope. File created: False.\n\n[STEP 3: DETERMINISTIC CHECKS] Running module 4 guardrails...\n  [PASS] AST syntax and generated-code secret scan: AST syntax valid. Zero secret leaks detected.\n  [PASS] Secret-bearing code rejected: SECURITY CRITICAL: Hardcoded API secret key detected!\n  [PASS] Dangerous shell command intercepted: CRITICAL SECURITY BLOCK: Command matches dangerous pattern 'rm\\s+-rf'\n\n[STEP 4: TEST VERIFICATION] Running a real temporary pytest suite...\n    ...                                                                      [100%]\n    3 passed in 0.73s\n  [PASS] Pytest suite: return code 0; 3 passed, 0 failed.\n\n[STEP 5: HUMAN REVIEW] Showing the implementation actually produced...\n  --- /dev/null\n  +++ auth_validator.py\n  @@ -0,0 +1,8 @@\n  +\"\"\"Token validation constrained by the feature specification.\"\"\"\n  +\n  +def validate_jwt(token: str) -> dict:\n  +    if token == \"valid-token\":\n  +        return {\"valid\": True, \"user_id\": \"123\"}\n  +    if token == \"expired-token\":\n  +        return {\"valid\": False, \"error\": \"EXPIRED\"}\n  +    return {\"valid\": False, \"error\": \"INVALID\"}\n  [PASS] Review diff generated: 8 implementation lines shown from the temporary workspace.\n  Human approval and any PR merge are out-of-band; this pipeline did not create or merge a PR.\n\n============================================================\nPIPELINE COMPLETE: ALL REPORTED CHECKS EXECUTED AND PASSED\n============================================================`
       },
       10: {
         time: "11:15 AM - 11:30 AM",
         title: "Module 10: Closing Principles & Production Readiness Audit",
         status: "AUDIT 100%",
-        output: `============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\nTarget Project Path: C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\n\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP 2.0) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1020 chars)\n\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)\nSTATUS: PRODUCTION READY FOR DEPLOYMENT!\n============================================================`
+        output: `============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\nTarget Project Path: C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\n\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars\n\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)\nSTATUS: PRODUCTION READY FOR DEPLOYMENT!\n============================================================`
       }
     };
 

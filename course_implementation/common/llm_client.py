@@ -54,6 +54,9 @@ class LLMClient:
         # Fallback simulation
         return f"[Harness Simulated Output for prompt: {prompt[:60]}...]"
 
+    def complete(self, prompt: str, system_prompt: str = None) -> str:
+        return self.generate(prompt, system_prompt=system_prompt)
+
 CourseLLMClient = LLMClient
 
 if __name__ == "__main__":

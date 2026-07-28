@@ -1,0 +1,8 @@
+{
+  "name": "harness-spec-tools",
+  "description": "Teaching examples for a specification-checking skill and subagent.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Packt"
+  }
+}

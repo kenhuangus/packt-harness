@@ -1,19 +1,26 @@
-[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
-============================================================
-MODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT 
-============================================================
-Target Project Path: C:\Users\kenhu\packt\harness\course_implementation\module_02_core_harness_stack
+# Module 10 Run Results
 
-  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED
-  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED
-  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED
-  [PASS] Check 4: Model Context Protocol (MCP 2.0) Scoped Tools -> PASSED
-  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED
+Captured from an actual run against this repository.
 
-[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars
-  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1020 chars)
+```text
+> python production_harness_audit.py
+============================================================
+MODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT
+============================================================
+Target Project Path: C:\Users\kenhu\packt\harness
+
+  [PASS] Check 1: Memory files -> found regular file(s): CLAUDE.md, AGENTS.md
+  [PASS] Check 2: Pre-execution hooks -> PreToolUse matcher 'Bash' runs existing hook file C:\Users\kenhu\packt\harness\.claude\hooks\bash_guard.py
+  [PASS] Check 3: Automated test runner -> run_all_modules.py is valid Python; pytest 9.1.1
+  [PASS] Check 4: MCP scoped tools/resources -> AST declarations found: tools=['query_database_record']; resources=['app_settings']
+  [PASS] Check 5: Multi-agent role definitions -> validated 1 subagent definition(s): spec-reviewer.md
 
 ============================================================
 AUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)
-STATUS: PRODUCTION READY FOR DEPLOYMENT!
+STATUS: ALL AUDITED READINESS CHECKS PASSED.
 ============================================================
+```
+
+Exit code: 0
+
+The audit inspects the real repository and can fail: run against an empty directory it reports 0/5.

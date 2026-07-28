@@ -11,7 +11,7 @@ This module provides an automated Production Readiness Audit Suite verifying tha
 
 ## The 5 Audit Criteria
 - [ ] 1. Memory files present (`CLAUDE.md` / `AGENTS.md`).
-- [ ] 2. Pre-execution hooks active for dangerous commands.
+- [ ] 2. `PreToolUse` hooks active for dangerous commands.
 - [ ] 3. Automated test runner integrated into agent loop.
 - [ ] 4. MCP tool permissions scoped appropriately.
 - [ ] 5. Multi-agent role division configured for complex tasks.

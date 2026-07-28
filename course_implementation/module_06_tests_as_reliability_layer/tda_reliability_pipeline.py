@@ -1,76 +1,278 @@
 """
 Module 6: Test-Driven Agent (TDA) & Anti-Regression Pipeline
-Integrates standardized LLM Client (.env configured with 127.0.0.1 Qwen model as default).
+Runs real pytest subprocesses and feeds their captured output into the repair loop.
 """
 
-import sys, os
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tempfile
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from common.llm_client import CourseLLMClient
+
+sys.stdout.reconfigure(encoding="utf-8")
+
+MODULE_DIR = Path(__file__).resolve().parent
+BASE_TEST = """\
+from calculator import divide
+
+
+def test_divide_by_zero():
+    assert divide(10, 0) == 0
+"""
+
+
+def check_pytest_availability():
+    """Check pytest with the same interpreter that will run the test suite."""
+    command = [sys.executable, "-m", "pytest", "--version"]
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    version_output = (result.stdout or result.stderr).strip()
+    if result.returncode != 0:
+        print(
+            f"[SKIPPED] pytest is not available for {sys.executable}. "
+            f"Install it with: {sys.executable} -m pip install pytest"
+        )
+        if version_output:
+            print(version_output)
+        return False
+
+    print(f"[PASS] pytest availability check: {version_output}")
+    return True
+
 
 class TDAReliabilityPipeline:
     def __init__(self):
         self.regression_suite = []
-        self.llm_client = CourseLLMClient()
+        self._scratch = tempfile.TemporaryDirectory(
+            prefix="tda_reliability_", dir=MODULE_DIR
+        )
+        self.scratch_dir = Path(self._scratch.name)
+        self.code_file = self.scratch_dir / "calculator.py"
+        self.test_file = self.scratch_dir / "test_calculator.py"
+        self.test_file.write_text(BASE_TEST, encoding="utf-8")
+
+    @staticmethod
+    def _combined_output(result):
+        output = result.stdout
+        if result.stderr:
+            if output and not output.endswith("\n"):
+                output += "\n"
+            output += result.stderr
+        return output
+
+    @staticmethod
+    def _summary_line(output):
+        for line in reversed(output.splitlines()):
+            stripped = line.strip()
+            if re.search(
+                r"\b(passed|failed|error|errors|skipped|xfailed|xpassed)\b",
+                stripped,
+                re.IGNORECASE,
+            ):
+                return stripped
+        return None
+
+    def _run_pytest(self):
+        environment = os.environ.copy()
+        environment["PYTHONDONTWRITEBYTECODE"] = "1"
+        environment["PYTHONIOENCODING"] = "utf-8"
+        return subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "pytest",
+                self.test_file.name,
+                "-q",
+                "--tb=short",
+                "-p",
+                "no:cacheprovider",
+            ],
+            cwd=self.scratch_dir,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=environment,
+        )
 
     def run_test_suite(self, code_under_test):
-        print("\n[TDA Pipeline] Running automated test suite against proposed code...")
-        
-        if "ZeroDivisionError" in code_under_test or " / 0" in code_under_test:
-            traceback = (
-                "Traceback (most recent call last):\n"
-                "  File 'calculator.py', line 4, in divide\n"
-                "    return a / b\n"
-                "ZeroDivisionError: division by zero\n"
-                "FAILED tests/test_calc.py::test_divide_by_zero"
+        print("\n[TDA Pipeline] Running real pytest suite against proposed code...")
+        self.code_file.write_text(code_under_test, encoding="utf-8")
+
+        result = self._run_pytest()
+        captured_output = self._combined_output(result)
+        summary = self._summary_line(captured_output)
+
+        if result.returncode != 0:
+            print(
+                f"[FAIL] pytest exited with return code {result.returncode}; "
+                "captured failure output follows:"
             )
-            print("  ❌ Test Run Failed! Traceback captured automatically.")
-            return {"passed": False, "traceback": traceback}
-        else:
-            print("  ✓ All unit tests PASSED (100% coverage).")
-            return {"passed": True, "traceback": None}
+            print(captured_output.rstrip())
+            return {
+                "passed": False,
+                "traceback": captured_output,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+                "returncode": result.returncode,
+                "summary": summary,
+            }
+
+        if summary is None:
+            print(
+                "[FAIL] pytest returned code 0, but no pytest summary line was "
+                "captured."
+            )
+            return {
+                "passed": False,
+                "traceback": captured_output,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+                "returncode": result.returncode,
+                "summary": None,
+            }
+
+        print(f"[PASS] pytest summary: {summary}")
+        return {
+            "passed": True,
+            "traceback": None,
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "returncode": result.returncode,
+            "summary": summary,
+        }
 
     def format_fix_prompt(self, traceback_str):
-        print("\n[TDA Pipeline] Formatting captured traceback into agent repair prompt:")
-        prompt = f"System Instruction: Fix the following test failure traceback:\n```\n{traceback_str}\n```"
+        print("\n[TDA Pipeline] Formatting real pytest failure into repair prompt:")
+        prompt = (
+            "System Instruction: Fix the following pytest failure output:\n"
+            f"```\n{traceback_str}\n```"
+        )
         print("--- REPAIR PROMPT GENERATED ---")
         print(prompt)
-        
-        # Pass traceback repair prompt to aisuite LLM
-        fix_response = self.llm_client.complete(prompt, system_prompt="You are a TDA repair agent.")
         return prompt
 
     def register_anti_regression_test(self, bug_name, test_code):
+        print(
+            "\n[Anti-Regression Pipeline] Writing regression safeguard "
+            f"'{bug_name}' to the real pytest file..."
+        )
+        with self.test_file.open("a", encoding="utf-8") as test_handle:
+            test_handle.write(f"\n\n{test_code.rstrip()}\n")
+
+        result = self._run_pytest()
+        captured_output = self._combined_output(result)
+        summary = self._summary_line(captured_output)
+
+        if result.returncode != 0 or summary is None:
+            print(
+                f"[FAIL] Regression safeguard pytest run exited with return "
+                f"code {result.returncode}."
+            )
+            print(captured_output.rstrip())
+            return {
+                "passed": False,
+                "traceback": captured_output,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+                "returncode": result.returncode,
+                "summary": summary,
+            }
+
         self.regression_suite.append({"name": bug_name, "code": test_code})
-        print(f"\n[Anti-Regression Pipeline] Registered new regression safeguard: '{bug_name}' (Total Safeguards: {len(self.regression_suite)})")
+        print(f"[PASS] Regression safeguard enforced. pytest summary: {summary}")
+        print(
+            f"[Anti-Regression Pipeline] Total enforced safeguards: "
+            f"{len(self.regression_suite)}"
+        )
+        return {
+            "passed": True,
+            "traceback": None,
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "returncode": result.returncode,
+            "summary": summary,
+        }
+
+    def cleanup(self):
+        scratch_path = self.scratch_dir
+        self._scratch.cleanup()
+        return not scratch_path.exists()
+
 
 def main():
     print("=" * 60)
-    print("MODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE ")
+    print("MODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE")
     print("=" * 60)
+
+    if not check_pytest_availability():
+        print("\n" + "=" * 60)
+        print("MODULE 6 DEMO SKIPPED: pytest is required for real verification.")
+        print("=" * 60)
+        return 0
 
     tda = TDAReliabilityPipeline()
+    demo_passed = False
+    try:
+        print("\n[TDA Stage 1] Prove the proposed implementation fails a real test.")
+        failing_code = "def divide(a, b):\n    return a / b\n"
+        result = tda.run_test_suite(failing_code)
 
-    # 1. Simulate failing code run
-    failing_code = "def divide(a, b):\n    return a / b  # Bug: ZeroDivisionError"
-    res = tda.run_test_suite(failing_code)
+        if result["passed"]:
+            print("[FAIL] Stage 1 unexpectedly passed; repair loop was not proven.")
+        else:
+            tda.format_fix_prompt(result["traceback"])
 
-    # 2. Extract traceback & format repair prompt
-    if not res["passed"]:
-        repair_prompt = tda.format_fix_prompt(res["traceback"])
+            print(
+                "\n[TDA Stage 2] Apply the known-good offline repair and rerun "
+                "pytest."
+            )
+            fixed_code = (
+                "def divide(a, b):\n"
+                "    if b == 0:\n"
+                "        return 0\n"
+                "    return a / b\n"
+            )
+            fixed_result = tda.run_test_suite(fixed_code)
 
-    # 3. Simulate repaired code run
-    fixed_code = "def divide(a, b):\n    if b == 0: return 0\n    return a / b"
-    res_fixed = tda.run_test_suite(fixed_code)
+            if fixed_result["passed"]:
+                print(
+                    "\n[TDA Stage 3] Persist the bug as a regression test and "
+                    "rerun pytest."
+                )
+                regression_result = tda.register_anti_regression_test(
+                    "test_divide_zero_guard",
+                    (
+                        "def test_divide_zero_guard():\n"
+                        "    assert divide(10, 0) == 0"
+                    ),
+                )
+                demo_passed = regression_result["passed"]
+    finally:
+        cleaned = tda.cleanup()
 
-    # 4. Register anti-regression safeguard
-    if res_fixed["passed"]:
-        tda.register_anti_regression_test("test_divide_zero_guard", "def test_divide_zero_guard(): assert divide(10, 0) == 0")
+    if cleaned:
+        print("[PASS] Temporary pytest scratch directory cleaned up.")
+    else:
+        print("[FAIL] Temporary pytest scratch directory was not cleaned up.")
 
     print("\n" + "=" * 60)
-    print("MODULE 6 DEMO COMPLETE: TDA Automated Feedback Loop Active!")
+    if demo_passed and cleaned:
+        print("MODULE 6 DEMO COMPLETE: REAL TDA FEEDBACK LOOP VERIFIED!")
+        exit_code = 0
+    else:
+        print("MODULE 6 DEMO FAILED: REAL TDA FEEDBACK LOOP NOT VERIFIED.")
+        exit_code = 1
     print("=" * 60)
+    return exit_code
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

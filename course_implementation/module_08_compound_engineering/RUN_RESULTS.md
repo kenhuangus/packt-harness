@@ -1,26 +1,24 @@
-============================================================
-MODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS 
-============================================================
-[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+# Module 8 Run Results
 
-[Planner Subagent (Architect)] Analyzing requirement via aisuite LLM...
+Captured from an actual run.
 
-[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=70 chars
-  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (8054 chars)
+```text
+> python multi_agent_team_simulator.py
+========================================================================
+MODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS
+========================================================================
+[Planner Subagent (Architect)] Analyzing requirement...
   [PASS] Plan Generated: 2 micro-subtasks allocated.
-
-[Implementer Subagent (Coder)] Executing edits in Git Worktree sandbox...
-   Executing command: git worktree add -b agent-worktree ./worktree-dir main
-
-[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=34 chars
-  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (6638 chars)
-  [PASS] Code diff produced (70 bytes).
-
+[Implementer Subagent (Coder)] Executing simulated edits in a temporary sandbox...
+  Claude Code project subagents are defined in .claude/agents/<name>.md with frontmatter `isolation: worktree`.
+  [Illustrative command - NOT EXECUTED] git worktree add -b agent-worktree ./worktree-dir main
+  [PASS] Simulated isolated edit completed for 'auth_component'.
+  [PASS] Simulated isolated edit completed for 'test_suite'.
 [Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...
   [PASS] Review Passed: AST syntax valid, scope compliance confirmed.
+[Self-Improvement Telemetry] Recorded task 'jwt_auth_multi_agent_handoff' into 'telemetry.jsonl'.
 
-[Self-Improvement Telemetry] Recorded task 'TASK-801' (APPROVED) into 'C:\Users\kenhu\packt\harness\course_implementation\module_08_compound_engineering\telemetry.jsonl'.
-
-============================================================
 MODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!
-============================================================
+```
+
+Exit code: 0
