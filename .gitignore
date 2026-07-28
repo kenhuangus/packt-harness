@@ -1,0 +1,29 @@
+# Local Environment & Secrets
+.env
+*.env
+
+# PowerPoint Presentations & Build Assets (Local Only)
+*.pptx
+harness_course_presentation/
+
+# Local Agent Skills & Scratch Files
+.agents/
+scratch/
+
+# Intermediate Course Material Build & Generator Scripts (Local Only)
+build_all_63_svg_slides.py
+build_comprehensive_svg_slides.py
+clean_index_references.py
+clean_index_tech_focus.py
+deep_clean_references.py
+generate_html_slides.py
+run_all_modules.py
+update_index_overview.py
+course_implementation/run_all_live_tests.py
+course_implementation/module_01_why_harness_engineering/fix_script.py
+course_implementation/module_01_why_harness_engineering/update_results.py
+
+# Byte-compiled / Python Cache
+__pycache__/
+*.py[cod]
+*$py.class

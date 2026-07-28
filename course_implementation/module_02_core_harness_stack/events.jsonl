@@ -1,0 +1,9 @@
+{"timestamp": "2026-07-28T14:01:47Z", "event": "WRITE_FILE_SUCCESS", "payload": {"path": "C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\\sample_module.py"}}
+{"timestamp": "2026-07-28T14:01:47Z", "event": "RUN_TEST_SUCCESS", "payload": {"exit_code": 0, "stdout": "tests/test_core.py PASSED (1.2s)", "stderr": "", "failed_tests": []}}
+{"timestamp": "2026-07-28T14:01:47Z", "event": "HARNESS_ERROR", "payload": {"error": "Path Traversal Blocked: Target '../../forbidden.py' is outside workspace 'C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack'."}}
+{"timestamp": "2026-07-28T14:12:52Z", "event": "WRITE_FILE_SUCCESS", "payload": {"path": "C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\\sample_module.py"}}
+{"timestamp": "2026-07-28T14:12:52Z", "event": "RUN_TEST_SUCCESS", "payload": {"exit_code": 0, "stdout": "tests/test_core.py PASSED (1.2s)", "stderr": "", "failed_tests": []}}
+{"timestamp": "2026-07-28T14:12:52Z", "event": "HARNESS_ERROR", "payload": {"error": "Path Traversal Blocked: Target '../../forbidden.py' is outside workspace 'C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack'."}}
+{"timestamp": "2026-07-28T14:16:21Z", "event": "WRITE_FILE_SUCCESS", "payload": {"path": "C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\\sample_module.py"}}
+{"timestamp": "2026-07-28T14:16:21Z", "event": "RUN_TEST_SUCCESS", "payload": {"exit_code": 0, "stdout": "tests/test_core.py PASSED (1.2s)", "stderr": "", "failed_tests": []}}
+{"timestamp": "2026-07-28T14:16:21Z", "event": "HARNESS_ERROR", "payload": {"error": "Path Traversal Blocked: Target '../../forbidden.py' is outside workspace 'C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack'."}}

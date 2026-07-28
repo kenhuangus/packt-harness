@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harness Engineering for AI Coding Agents | Packt Training Masterclass</title>
+  <meta name="description" content="Masterclass on AI Coding Agent Scaffolding, Guardrails, MCP 2.0, Spec-Driven Development, and Compound Engineering. Production AI Coding Agent Systems Architecture.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070a12;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
+      --accent-teal: #0d9488;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --terminal-bg: #020617;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background Gradients */
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    nav {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.3rem;
+      box-shadow: 0 0 25px rgba(13, 148, 136, 0.4);
+    }
+    .brand-text {
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent-cyan); }
+    .btn-github {
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      color: #fff !important;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-github:hover { transform: translateY(-1px); opacity: 0.95; }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(13, 148, 136, 0.15);
+      border: 1px solid rgba(13, 148, 136, 0.4);
+      color: #2dd4bf;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #ffffff 30%, var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 820px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    /* Grid Layouts */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(13, 148, 136, 0.5);
+    }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(13, 148, 136, 0.15);
+      color: var(--accent-cyan);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+    }
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Curriculum Explorer Section */
+    .curriculum-wrapper {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 4rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .module-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 640px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    .module-item {
+      padding: 0.85rem 1.1rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .module-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+    .module-item.active {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.25), rgba(6, 182, 212, 0.15));
+      border-color: var(--accent-cyan);
+      color: #38bdf8;
+    }
+
+    .detail-view {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .detail-header {
+      background: rgba(2, 6, 23, 0.6);
+      padding: 1.25rem;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+    }
+    .detail-time {
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+    .detail-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .terminal-box {
+      background: var(--terminal-bg);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: #f1f5f9;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      max-height: 480px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo">HE</div>
+        <div class="brand-text">Packt Harness Engineering</div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#pillars">5 Pillars</a></li>
+        <li><a href="#curriculum">Curriculum</a></li>
+        <li><a href="slides.html" style="color: var(--accent-cyan); font-weight: 700;">📺 HTML Slide Deck (63 Slides)</a></li>
+        <li><a href="https://github.com/kenhuangus/packt-harness" target="_blank" class="btn-github">GitHub Repo</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="badge-pill">
+        <span>●</span> PACKT TRAINING MASTERCLASS 2026
+      </div>
+      <h1 class="hero-title">Harness Engineering for AI Coding Agents</h1>
+      <p class="hero-subtitle">
+        Scaffolding, Deterministic Guardrails, Model Context Protocol (MCP 2.0), Spec-Driven Development, and Compound Multi-Agent Workflows.
+      </p>
+      <div class="hero-buttons">
+        <a href="slides.html" class="btn-github" style="font-size: 1.05rem; padding: 0.75rem 1.75rem;">📺 View 63-Slide Presentation Deck</a>
+        <a href="#curriculum" style="color: var(--text-primary); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 1px solid var(--card-border); border-radius: 8px; background: var(--card-bg);">
+          Explore 10-Module Curriculum
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Core Pillars -->
+  <section id="pillars" style="padding: 3rem 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">The 5 Core Harness Pillars</h2>
+        <p class="section-subtitle">Why agent reliability depends 98% on system scaffolding rather than prompt engineering alone.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">1</div>
+          <h3>Instructions & Conventions</h3>
+          <p>Persistent repository briefs using <code>CLAUDE.md</code> and <code>AGENTS.md</code> with cascading directory lookup and symlink interoperability.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">2</div>
+          <h3>Scoped Tools & Sandbox</h3>
+          <p>Least-privilege tool execution models bound strictly to workspace boundaries, blocking path traversal exploits.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">3</div>
+          <h3>Hooks & Policy Engine</h3>
+          <p>Pre-action regex shell command interceptors (blocking <code>rm -rf</code>, <code>sudo</code>) and post-action Python AST parsers.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">4</div>
+          <h3>Automated Testing Loop</h3>
+          <p>Zero-touch compiler and pytest traceback extraction feeding stdout/stderr directly into LLM repair prompts.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">5</div>
+          <h3>Observability & Tracing</h3>
+          <p>Structured <code>events.jsonl</code> audit logging recording every tool invocation, diff, and execution duration for continuous learning.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>aisuite Model Standard</h3>
+          <p>Integrated standardized <code>LLM Client</code> library for standardized multi-provider switching (Default: Qwen 3.6 35B on <code>127.0.0.1:8000</code>).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curriculum Section -->
+  
+  
+  <!-- PURE TECHNICAL HARNESS ENGINEERING OVERVIEW -->
+  <section style="max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem;">
+    <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid #1e293b; border-radius: 20px; padding: 2.5rem; margin-bottom: 2rem; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);">
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: #2dd4bf; margin-bottom: 1rem;">Build Reliable Claude Code Workflows with Guardrails and Tests</h2>
+      <p style="font-size: 1.05rem; color: #cbd5e1; line-height: 1.75; margin-bottom: 1.5rem;">
+        AI coding agents can move fast, but speed without structure quickly creates risk. The difference between a useful coding agent and an unreliable one isn’t the model alone — <strong>it’s the harness around it</strong>. This course teaches harness engineering: the practical discipline of building deterministic surrounding systems that make agent behavior predictable, constrained, and production-ready.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+        <div style="background: #1e293b; border-left: 4px solid #0d9488; padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; color: #38bdf8; font-weight: 800; margin-bottom: 0.75rem;">🛡 Core Technical Harness Capabilities</h3>
+          <ul style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-left: 1.2rem;">
+            <li>Persistent Repository Memory (<code>CLAUDE.md</code> &amp; <code>AGENTS.md</code> symlinks)</li>
+            <li>Spec-Driven Development (<code>SPEC.md</code> machine-verifiable contracts)</li>
+            <li>4-Layer Control Architecture &amp; Regex Shell Pre-Action Interceptors</li>
+            <li>Post-Action Python AST Static Analysis &amp; Secret Key Scanners</li>
+          </ul>
+        </div>
+        <div style="background: #1e293b; border-left: 4px solid #06b6d4; padding: 1.5rem; border-radius: 12px;">
+          <h3 style="font-size: 1.15rem; color: #38bdf8; font-weight: 800; margin-bottom: 0.75rem;">⚙ Advanced Multi-Agent &amp; MCP Integration</h3>
+          <ul style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-left: 1.2rem;">
+            <li>Test-Driven Agent (TDA) Loops with Zero-Touch Pytest Traceback Capture</li>
+            <li>Model Context Protocol (MCP 2.0) stdio/SSE FastMCP Servers</li>
+            <li>Multi-Agent Role Division (Planner, Implementer, Reviewer)</li>
+            <li>Git Worktrees Sandboxing &amp; Telemetry-Driven Audit Logs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="curriculum" style="padding: 3rem 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">10-Module Interactive Curriculum</h2>
+        <p class="section-subtitle">Click any module below to inspect live execution output verified against local Qwen 3.6 35B on 127.0.0.1.</p>
+      </div>
+
+      <div class="curriculum-wrapper">
+        <div class="module-list">
+          <div class="module-item active" onclick="showMod(1)">Mod 1: Why Harness Engineering</div>
+          <div class="module-item" onclick="showMod(2)">Mod 2: Core Stack & 5 Pillars</div>
+          <div class="module-item" onclick="showMod(3)">Mod 3: Spec-Driven Dev (SDD)</div>
+          <div class="module-item" onclick="showMod(4)">Mod 4: Guardrails & AST Hooks</div>
+          <div class="module-item" onclick="showMod(5)">Mod 5: Escalation Gateway</div>
+          <div class="module-item" onclick="showMod(6)">Mod 6: Tests as Reliability</div>
+          <div class="module-item" onclick="showMod(7)">Mod 7: Skills, Plugins & MCP</div>
+          <div class="module-item" onclick="showMod(8)">Mod 8: Agent Swarms & Teams</div>
+          <div class="module-item" onclick="showMod(9)">Mod 9: 5-Step SOP Pattern</div>
+          <div class="module-item" onclick="showMod(10)">Mod 10: Readiness Audit</div>
+        </div>
+
+        <div class="detail-view">
+          <div class="detail-header">
+            <div id="mod-time" class="detail-time">09:00 AM - 09:15 AM</div>
+            <div id="mod-title" class="detail-title">Module 1: Why Harness Engineering & Failure Modes</div>
+          </div>
+          <div id="mod-terminal" class="terminal-box">Loading execution trace...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- aisuite Config Section -->
+  <section id="aisuite" style="padding: 3rem 0; background: rgba(15,23,42,0.5);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Andrew Ng's aisuite Integration</h2>
+        <p class="section-subtitle">Configure any cloud or local LLM via single-string provider specifications in <code>.env</code>.</p>
+      </div>
+
+      <div class="terminal-box" style="max-width: 800px; margin: 0 auto;">
+<span style="color: var(--accent-cyan);"># .env Configuration Example</span>
+LLM_PROVIDER=openai
+LLM_MODEL=openai:nvidia/Qwen3.6-35B-A3B-NVFP4
+LLM_BASE_URL=http://127.0.0.1:8000/v1
+OPENAI_API_KEY=EMPTY
+
+<span style="color: var(--accent-emerald);"># Python aisuite Execution Code</span>
+import aisuite as ai
+
+client = ai.Client(provider_configs={
+    "openai": {"base_url": "http://127.0.0.1:8000/v1", "api_key": "EMPTY"}
+})
+
+response = client.chat.completions.create(
+    model="openai:nvidia/Qwen3.6-35B-A3B-NVFP4",
+    messages=[{"role": "user", "content": "Write pytest safeguard"}]
+)
+print(response.choices[0].message.content)
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Packt Training Masterclass. All rights reserved.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-cyan);">
+        Private Repository: <a href="https://github.com/kenhuangus/packt-harness" target="_blank" style="color: var(--accent-cyan);">https://github.com/kenhuangus/packt-harness</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const modData = {
+      1: {
+        time: "09:00 AM - 09:15 AM",
+        title: "Module 1: Why Harness Engineering & Failure Modes",
+        output: "============================================================\nMODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED \n============================================================\n[LLM Client] Configured aisuite with live model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n--- UN-HARNESSED AGENT SIMULATION ---\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1972 chars)\n[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*\n[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!\n\n--- HARNESSED AGENT SIMULATION ---\n  [PASS] Pre-action hook passed: Command is safe.\n  [FAIL] Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.\n  [FAIL] Security Violation: BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\\s+-rf' detected.\n============================================================"
+      },
+      2: {
+        time: "09:15 AM - 09:30 AM",
+        title: "Module 2: Core Harness Stack & 5 System Pillars",
+        output: "============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS )\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md'\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - Pre-Hook] Code safety inspection passed.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n============================================================"
+      },
+      3: {
+        time: "09:30 AM - 09:50 AM",
+        title: "Module 3: Spec-Driven Development (SDD)",
+        output: "============================================================\nMODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER \n============================================================\n[Spec Verifier] Parsed SPEC.md:\n  Allowed Files Scope: ['auth_validator.py']\n  Explicit Non-Goals: ['Do NOT modify existing database connection pools.']\n  [PASS] Spec Compliance Verified: Scope & Non-Goals satisfied.\n  [FAIL] SCOPE VIOLATION: 'database.py' is outside allowed spec scope!\n============================================================"
+      },
+      4: {
+        time: "09:50 AM - 10:10 AM",
+        title: "Module 4: Guardrails & Deterministic Hooks Engine",
+        output: "============================================================\nMODULE 4 DEMO: PRODUCTION GUARDRAILS & HOOKS ENGINE \n============================================================\n  [PASS] Pre-Hook Status: Command approved for execution.\n  [FAIL] PRE-HOOK SECURITY VIOLATION: Command matches forbidden pattern 'rm\\s+-rf'!\n  [PASS] AST Parser Status: Valid Python syntax tree generated.\n  [FAIL] POST-HOOK VIOLATION: Hardcoded secret key detected in code!\n============================================================"
+      },
+      5: {
+        time: "10:10 AM - 10:20 AM",
+        title: "Module 5: Risk-Tiered Permission Escalation Gateway",
+        output: "============================================================\nMODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY \n============================================================\n  [PASS] [AUTO-APPROVED] Low-risk tool call permitted instantly.\n  [PASS] [LOGGED & APPROVED] Medium-risk tool call executed.\n  [FAIL] [ESCALATION BLOCKED] Critical action requires explicit developer click approval!\n  [PASS] [USER CONFIRMED] Critical action approved by developer modal prompt.\n============================================================"
+      },
+      6: {
+        time: "10:20 AM - 10:35 AM",
+        title: "Module 6: Tests as Reliability Layer & TDA Loop",
+        output: "============================================================\nMODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE \n============================================================\n  [FAIL] Test Run Failed! Traceback captured automatically.\n  [PASS] LIVE QWEN MODEL RESPONSE RECEIVED (1570 chars)\n  [PASS] All unit tests PASSED (100% coverage).\n  [PASS] Registered new regression safeguard: 'test_divide_zero_guard'\n============================================================"
+      },
+      7: {
+        time: "10:35 AM - 10:50 AM",
+        title: "Module 7: Model Context Protocol (MCP 2.0) FastMCP Server",
+        output: "============================================================\nMODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP 2.0) TEST RUNNER \n============================================================\n  [PASS] Tool Available: 'query_database_record'\n  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'\n  [PASS] Resource Stream Available: 'config://app-settings'\n============================================================"
+      },
+      8: {
+        time: "10:50 AM - 11:05 AM",
+        title: "Module 8: Compound Engineering & Multi-Agent Swarms",
+        output: "============================================================\nMODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS \n============================================================\n  [PASS] Planner Subagent: 2 micro-subtasks allocated.\n  [PASS] Implementer Subagent: Git Worktree created (./worktree-dir).\n  [PASS] Reviewer Subagent: AST syntax valid, scope compliance confirmed.\n  [PASS] Telemetry: Recorded task 'TASK-801' (APPROVED) into telemetry.jsonl.\n============================================================"
+      },
+      9: {
+        time: "11:05 AM - 11:15 AM",
+        title: "Module 9: Practical Workflow Pattern (5-Step SOP)",
+        output: "============================================================\nMODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'Calculator Division Safeguard'\n============================================================\n  [PASS] Step 1: Spec First (SPEC.md validated)\n  [PASS] Step 2: Constrained Execution (Sandboxed agent runner)\n  [PASS] Step 3: Deterministic Checks (Pre/post hooks & AST linters)\n  [PASS] Step 4: Test Verification (14/14 unit tests PASSED)\n  [PASS] Step 5: Human Review (PR merged into main)\n============================================================"
+      },
+      10: {
+        time: "11:15 AM - 11:30 AM",
+        title: "Module 10: Closing Principles & Production Readiness Audit",
+        output: "============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP 2.0) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)\n============================================================"
+      }
+    };
+
+    function showMod(num) {
+      document.querySelectorAll('.module-item').forEach((el, idx) => {
+        el.classList.toggle('active', idx + 1 === num);
+      });
+      const data = modData[num] || modData[1];
+      document.getElementById('mod-time').innerText = data.time;
+      document.getElementById('mod-title').innerText = data.title;
+      document.getElementById('mod-terminal').innerText = data.output;
+    }
+
+    showMod(1);
+  </script>
+</body>
+</html>
