@@ -314,25 +314,38 @@ html_template = '''<!DOCTYPE html>
       padding: 0.32rem 0.78rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 750; white-space: nowrap;
     }
     .slide-body {
-      flex: 1; overflow-y: auto; padding-right: 0.35rem; font-size: 0.98rem;
-      color: var(--ink-muted); line-height: 1.55; scrollbar-color: var(--rule) transparent;
+      --fit-scale: 1;
+      --slide-body-base-size: 0.98rem;
+      flex: 1; min-height: 0; overflow: hidden; padding-right: 0.35rem;
+      font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
+      color: var(--ink-muted); line-height: 1.55;
+    }
+    .slide-body > svg {
+      display: block; width: 100% !important; height: auto; max-width: 100%;
+      max-height: min(18vh, 150px) !important;
     }
 
     /* Visual Hierarchy: Parent vs Sub Bullets (NO NUMBERS) */
     .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.55rem; }
+    .main-bullets.dense-columns {
+      column-count: 2; column-gap: clamp(1.5rem, 4vw, 3rem); column-fill: balance;
+    }
+    .bullet-group, .primary-bullet, .sub-bullets, .sub-bullet {
+      break-inside: avoid; page-break-inside: avoid;
+    }
     .primary-bullet {
-      font-family: var(--font-display); font-size: 1.1rem; font-weight: 650; color: var(--ink);
-      margin-top: 0.9rem; margin-bottom: 0.32rem; display: flex; align-items: center; gap: 0.55rem;
+      font-family: var(--font-display); font-size: 1.12em; font-weight: 650; color: var(--ink);
+      margin-top: 0.9em; margin-bottom: 0.32em; display: flex; align-items: center; gap: 0.55em;
     }
     .primary-bullet::before {
       content: "◆"; color: var(--accent); font-size: 0.68rem;
     }
     .sub-bullets {
-      list-style-type: none; padding-left: 1.35rem; border-left: 1px solid var(--rule);
-      margin-left: 0.32rem; margin-bottom: 0.7rem;
+      list-style-type: none; padding-left: 1.35em; border-left: 1px solid var(--rule);
+      margin-left: 0.32em; margin-bottom: 0.7em;
     }
     .sub-bullet {
-      font-size: 0.94rem; color: var(--ink-muted); margin-bottom: 0.38rem; position: relative; padding-left: 1rem;
+      font-size: 0.96em; color: var(--ink-muted); margin-bottom: 0.38em; position: relative; padding-left: 1em;
     }
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.1rem; line-height: 1;
@@ -372,7 +385,7 @@ html_template = '''<!DOCTYPE html>
     @media (max-height: 760px) {
       .slide-card { padding: 1.2rem 1.5rem; }
       .primary-bullet { margin-top: 0.65rem; }
-      .slide-body { font-size: 0.92rem; line-height: 1.45; }
+      .slide-body { --slide-body-base-size: 0.92rem; line-height: 1.45; }
     }
   </style>
 </head>
@@ -415,6 +428,14 @@ html_template = '''<!DOCTYPE html>
 
     let currentIdx = 0;
     let isGridMode = false;
+    let fitSequence = 0;
+    let resizeTimer = null;
+
+    const DENSE_BULLET_MIN_LINES = 8;
+    const FIT_MIN = 0.72;
+    const FIT_STEP = 0.02;
+    const FIT_MAX_ITERATIONS = 15;
+    const bodyEl = document.getElementById('slide-body');
 
     const selectEl = document.getElementById('slide-select');
     slidesData.forEach((s, idx) => {
@@ -425,6 +446,8 @@ html_template = '''<!DOCTYPE html>
     });
 
     function cleanNumbers(text) {
+      // A leading clock time is not list numbering: keep "09:00 AM - 11:30 AM" intact.
+      if (/^\\d{1,2}:\\d{2}/.test(text.trim())) return text.trim();
       text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s*/, '');
       text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s*/i, '');
       return text.trim();
@@ -440,10 +463,13 @@ html_template = '''<!DOCTYPE html>
 
     function formatBullets(lines) {
       if (!lines || lines.length === 0) return '';
-      let html = '<ul class="main-bullets">';
-      let inSub = false;
+      const populatedLines = lines.filter(line => line.trim());
+      const denseClass = populatedLines.length >= DENSE_BULLET_MIN_LINES ? ' dense-columns' : '';
+      let html = `<ul class="main-bullets${denseClass}">`;
+      let groupOpen = false;
+      let subListOpen = false;
 
-      lines.forEach(line => {
+      populatedLines.forEach(line => {
         const trimmed = line.trim();
         const isSub = trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd');
         let cleanText = trimmed.replace(/^[•\-\ufffd]\s*/, '').trim();
@@ -453,23 +479,75 @@ html_template = '''<!DOCTYPE html>
         if (!cleanText) return;
 
         if (isSub) {
-          if (!inSub) {
+          if (!groupOpen) {
+            html += '<li class="bullet-group">';
+            groupOpen = true;
+          }
+          if (!subListOpen) {
             html += '<ul class="sub-bullets">';
-            inSub = true;
+            subListOpen = true;
           }
           html += `<li class="sub-bullet">${cleanText}</li>`;
         } else {
-          if (inSub) {
+          if (subListOpen) {
             html += '</ul>';
-            inSub = false;
+            subListOpen = false;
           }
-          html += `<li class="primary-bullet">${cleanText}</li>`;
+          if (groupOpen) html += '</li>';
+          html += `<li class="bullet-group"><div class="primary-bullet">${cleanText}</div>`;
+          groupOpen = true;
         }
       });
 
-      if (inSub) html += '</ul>';
+      if (subListOpen) html += '</ul>';
+      if (groupOpen) html += '</li>';
       html += '</ul>';
       return html;
+    }
+
+    function bodyOverflows() {
+      return bodyEl.scrollHeight > bodyEl.clientHeight + 1 ||
+             bodyEl.scrollWidth > bodyEl.clientWidth + 1;
+    }
+
+    function fitSlideBody() {
+      if (isGridMode || bodyEl.clientHeight === 0) return;
+
+      let scale = 1;
+      let iterations = 0;
+      bodyEl.style.setProperty('--fit-scale', '1');
+      bodyEl.dataset.fitScale = '1.00';
+      bodyEl.dataset.fitOverflow = 'false';
+
+      while (bodyOverflows() && scale > FIT_MIN && iterations < FIT_MAX_ITERATIONS) {
+        scale = Math.max(FIT_MIN, scale - FIT_STEP);
+        bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
+        bodyEl.dataset.fitScale = scale.toFixed(2);
+        iterations += 1;
+      }
+
+      const stillOverflows = bodyOverflows();
+      bodyEl.dataset.fitOverflow = String(stillOverflows);
+      if (stillOverflows) {
+        console.warn(
+          `[slide-fit] Slide ${slidesData[currentIdx].number} still overflows at scale ${scale.toFixed(2)}`
+        );
+      }
+    }
+
+    function scheduleFit() {
+      const sequence = ++fitSequence;
+      const fontsReady = document.fonts && document.fonts.ready
+        ? document.fonts.ready.catch(() => {})
+        : Promise.resolve();
+
+      fontsReady.then(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (sequence === fitSequence) fitSlideBody();
+          });
+        });
+      });
     }
 
     function renderSlide(idx) {
@@ -494,10 +572,15 @@ html_template = '''<!DOCTYPE html>
         bodyHtml += formatBullets(restLines);
       }
 
-      document.getElementById('slide-body').innerHTML = bodyHtml;
+      bodyEl.style.setProperty('--fit-scale', '1');
+      bodyEl.dataset.fitScale = '1.00';
+      bodyEl.dataset.fitOverflow = 'pending';
+      bodyEl.innerHTML = bodyHtml;
+      bodyEl.dataset.columns = bodyEl.querySelector('.dense-columns') ? '2' : '1';
       
       const pct = ((idx + 1) / slidesData.length) * 100;
       document.getElementById('progress-fill').style.width = pct + '%';
+      scheduleFit();
     }
 
     function renderGrid() {
@@ -533,6 +616,7 @@ html_template = '''<!DOCTYPE html>
       document.getElementById('mode-text').innerText = isGridMode ? 'Presentation Mode' : 'Grid View';
       document.getElementById('mode-icon').innerText = isGridMode ? '📺' : '📜';
       if (isGridMode) renderGrid();
+      else scheduleFit();
     }
 
     function toggleFullscreen() {
@@ -549,6 +633,11 @@ html_template = '''<!DOCTYPE html>
       if (e.key === 'f' || e.key === 'F') toggleFullscreen();
       if (e.key === 'm' || e.key === 'M') toggleMode();
     });
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(scheduleFit, 150);
+    });
+    document.addEventListener('fullscreenchange', scheduleFit);
 
     renderSlide(0);
   </script>
