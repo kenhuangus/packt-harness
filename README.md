@@ -23,7 +23,8 @@ This repository supports the Packt masterclass **Build Reliable Claude Code Work
 
 - Python 3.13.
 - The MCP Python SDK: `python -m pip install mcp`.
-- A **local** OpenAI-compatible model. Tests call `http://127.0.0.1:8000/v1` (this machine's vLLM `nvidia/Qwen3.6-35B-A3B-NVFP4`). They do not call paid cloud APIs. `run_all_modules.py` fails if the local model is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
+- [aisuite](https://github.com/andrewyng/aisuite) (`python -m pip install aisuite`). The course client talks to every provider through aisuite.
+- A **local** OpenAI-compatible model by default (`http://127.0.0.1:8000/v1`, vLLM `nvidia/Qwen3.6-35B-A3B-NVFP4`). Switch to Claude or others with a gitignored `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`). Never commit keys. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
 
 Example configuration:
 
