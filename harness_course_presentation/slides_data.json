@@ -34,8 +34,7 @@
       "Why Harness Engineering",
       "• Model skill ≠ production reliability",
       "• Most reliability comes from the harness",
-      "• Failures: drift, loops, unverified edits",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
+      "• Failures: drift, loops, unverified edits"
     ]
   },
   {
@@ -87,7 +86,8 @@
       "Unsanitized Actions",
       "• rm -rf and other shell landmines",
       "• Overwrites config, drops data",
-      "• Fix: PreToolUse guards + path sandbox"
+      "• Fix: PreToolUse guards + path sandbox",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
   },
   {
@@ -97,8 +97,7 @@
       "Core Harness Stack",
       "• Five pillars of a production harness",
       "• Memory files: CLAUDE.md / AGENTS.md",
-      "• Least privilege + pre/post hooks",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
+      "• Least privilege + pre/post hooks"
     ]
   },
   {
@@ -150,7 +149,8 @@
       "Budget and Audit",
       "• Compact long compiler dumps",
       "• Feed pytest failures back to the agent",
-      "• Log every tool event to JSONL"
+      "• Log every tool event to JSONL",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
   {
@@ -160,8 +160,7 @@
       "Spec-Driven Development",
       "• Specs beat vague prompts",
       "• Allowed files + explicit non-goals",
-      "• Machine-checkable acceptance tests",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
+      "• Machine-checkable acceptance tests"
     ]
   },
   {
@@ -222,7 +221,8 @@
       "Before Code Ships",
       "• Validate the spec itself first",
       "• Check non-goals and schemas",
-      "• Reject hallucinated scope"
+      "• Reject hallucinated scope",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
   {
@@ -232,8 +232,7 @@
       "Guardrails and Hooks",
       "• Four control layers, not one prompt",
       "• Pre-hook shell deny-list",
-      "• Post-hook AST + secret scan",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
+      "• Post-hook AST + secret scan"
     ]
   },
   {
@@ -306,7 +305,8 @@
       "Three Must-Haves",
       "• JSONL audit with timestamps",
       "• Secret scan on file writes",
-      "• Path sandbox on every write"
+      "• Path sandbox on every write",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
     ]
   },
   {
@@ -316,8 +316,7 @@
       "Break & Permission Gateways",
       "• Pause and take questions",
       "• Risk tiers: auto, log, or confirm",
-      "• git_push needs an approval record",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
+      "• git_push needs an approval record"
     ]
   },
   {
@@ -327,7 +326,8 @@
       "Discussion",
       "• How do you gate agent permissions?",
       "• Which failure mode hurts you most?",
-      "• Where would a spec save a week?"
+      "• Where would a spec save a week?",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
   {
@@ -337,8 +337,7 @@
       "Tests as Reliability",
       "• Test-driven agent loop",
       "• Capture real pytest tracebacks",
-      "• Keep every bug as a regression test",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
+      "• Keep every bug as a regression test"
     ]
   },
   {
@@ -389,7 +388,8 @@
       "Watch These",
       "• First-pass pass rate",
       "• Mean repair iterations",
-      "• Regression rate"
+      "• Regression rate",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
     ]
   },
   {
@@ -399,8 +399,7 @@
       "Skills, Plugins, MCP",
       "• SKILL.md is description-driven",
       "• Plugins bundle skills, agents, hooks",
-      "• MCP: tools and resources over stdio",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
+      "• MCP: tools and resources over stdio"
     ]
   },
   {
@@ -472,7 +471,8 @@
       "Lock It Down",
       "• Auth for remote servers",
       "• Gate tools read vs write",
-      "• Least privilege still applies"
+      "• Least privilege still applies",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
     ]
   },
   {
@@ -482,8 +482,7 @@
       "Compound Engineering",
       "• Split Planner / Implementer / Reviewer",
       "• isolation: worktree",
-      "• Telemetry feeds the next run",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
+      "• Telemetry feeds the next run"
     ]
   },
   {
@@ -553,7 +552,8 @@
       "Close the Loop",
       "• Log runs to telemetry.jsonl",
       "• Find repeating failures",
-      "• Write the lesson into AGENTS.md"
+      "• Write the lesson into AGENTS.md",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
     ]
   },
   {
@@ -563,8 +563,7 @@
       "Practical SOP",
       "• Five steps, one pipeline",
       "• Spec, sandbox, hooks, tests, review",
-      "• Run it end to end",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
+      "• Run it end to end"
     ]
   },
   {
@@ -606,7 +605,8 @@
       "Human Review",
       "• Show the actual diff",
       "• Check business logic",
-      "• Merge is out of band"
+      "• Merge is out of band",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
     ]
   },
   {
@@ -616,8 +616,7 @@
       "Principles and Audit",
       "• Four principles",
       "• Five readiness checks",
-      "• Score the real repo",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md"
+      "• Score the real repo"
     ]
   },
   {
@@ -650,6 +649,7 @@
       "Where to Go Next",
       "• 10 runnable modules in the repo",
       "• Dashboard: course_implementation/dashboard/index.html",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md",
       "• Questions"
     ]
   }
