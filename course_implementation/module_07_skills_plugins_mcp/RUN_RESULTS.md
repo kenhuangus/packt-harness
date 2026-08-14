@@ -6,9 +6,10 @@ Environment: Python 3.13 at
 `C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe`,
 MCP Python SDK 2.0.0 (`mcp.server.mcpserver.MCPServer`).
 
-The LLM synthesis step reports `[SKIPPED]` when no OpenAI-compatible
-endpoint is reachable at `LLM_BASE_URL`. The MCP protocol steps are
-independent of it and still pass.
+The LLM synthesis step now requires the local vLLM model at
+`http://127.0.0.1:8000/v1` (`nvidia/Qwen3.6-35B-A3B-NVFP4`). The
+2026-08-14 suite run printed `PASS` for `mcp_client_runner.py` with
+that live model (preflight reply: `harness-ok`).
 
 ```text
 > C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py

@@ -23,7 +23,7 @@ This repository supports the Packt masterclass **Build Reliable Claude Code Work
 
 - Python 3.13.
 - The MCP Python SDK: `python -m pip install mcp`.
-- For live LLM demos, an OpenAI-compatible endpoint configured with `LLM_PROVIDER`, `LLM_MODEL`, `LLM_BASE_URL`, and `LLM_API_KEY` in a root `.env` file or the environment. Without a reachable endpoint, the demos fall back to simulated output so the harness exercises can still run.
+- A **local** OpenAI-compatible model. Tests call `http://127.0.0.1:8000/v1` (this machine's vLLM `nvidia/Qwen3.6-35B-A3B-NVFP4`). They do not call paid cloud APIs. `run_all_modules.py` fails if the local model is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
 
 Example configuration:
 

@@ -1,8 +1,9 @@
 # Module 3 Run Results
 
-Captured 2026-08-14 from a real process. A real HS256 JWT module was
-written, `database.py` was not created, pytest reported 3 passed, and
-`validate_jwt` was called on live tokens.
+Captured 2026-08-14 from a real process against local vLLM
+`nvidia/Qwen3.6-35B-A3B-NVFP4`. Live reply:
+"An agent must write only files listed in SPEC.md to ensure strict
+adherence to the project's defined scope..."
 
 ```text
 > C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py

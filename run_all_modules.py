@@ -3,6 +3,23 @@ import subprocess
 import sys
 
 base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'course_implementation')
+
+print("Preflight: local model at LLM_BASE_URL / http://127.0.0.1:8000/v1")
+preflight = subprocess.run(
+    [sys.executable, os.path.join(base_dir, "common", "llm_client.py")],
+    cwd=base_dir,
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+)
+print(preflight.stdout)
+if preflight.returncode != 0:
+    print(preflight.stderr)
+    print("FAIL local-model preflight")
+    raise SystemExit(1)
+print("PASS local-model preflight")
+
 modules = sorted([d for d in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, d)) and d.startswith('module_')])
 passed = 0
 failures = []

@@ -21,31 +21,16 @@ sys.path.append(os.path.abspath(MODULE_DIR.parent))
 from common.llm_client import CourseLLMClient  # noqa: E402
 
 
-def synthesize_with_llm(tool_output: str) -> None:
-    """
-    Optional live-model step. Not required for the MCP PASS lines.
-
-    If aisuite is missing, the endpoint is down, or the client returns
-    its simulated fallback string, this prints [SKIPPED]. The MCP
-    session is independent and has already succeeded by this point.
-    """
-    try:
-        llm_client = CourseLLMClient()
-        response = llm_client.generate(
-            f"Synthesize MCP tool output: {tool_output}"
-        )
-    except Exception as exc:
-        print(f"  [SKIPPED] LLM synthesis unavailable: {exc}")
-        return
-
+def synthesize_with_llm(tool_output: str) -> str:
+    """Ask the local model to summarize a real MCP tool payload."""
+    llm_client = CourseLLMClient(require_live=True)
+    response = llm_client.generate(
+        "In one sentence, summarize this MCP tool output: " + tool_output
+    )
     if not response or response.startswith("[Harness Simulated Output"):
-        print(
-            "  [SKIPPED] LLM synthesis unavailable: "
-            "the configured endpoint did not return a live response."
-        )
-        return
-
-    print(f"  [PASS] Live LLM synthesis received ({len(response)} chars).")
+        raise RuntimeError("Module 7 requires a live local-model synthesis.")
+    print(f"  [PASS] Live LLM synthesis received ({len(response)} chars): {response[:200]}")
+    return response
 
 
 async def main_async() -> None:

@@ -106,10 +106,13 @@ class UnharnessedAgent:
     def run_task(self, workspace: Path) -> dict:
         print("\n--- UN-HARNESSED AGENT ---")
         response = self.llm_client.complete(
-            "Fix auth test failures",
-            system_prompt="You are an un-harnessed coding agent.",
+            "In one sentence, say why a coding agent needs a harness around the model.",
+            system_prompt="You are a concise coding-agent instructor.",
         )
-        print(f"[LLM Response Output]: {response[:60]}...")
+        if not response or response.startswith("[Harness Simulated"):
+            raise RuntimeError("Module 1 requires a live local-model reply.")
+        print(f"[LLM Response Output]: {response[:200]}")
+        self.last_llm_reply = response
 
         pytest_runs = []
         for attempt in range(1, 4):
@@ -137,6 +140,7 @@ class UnharnessedAgent:
             "pytest_runs": pytest_runs,
             "deleted": removed,
             "log_survived": still_there,
+            "llm_reply": getattr(self, "last_llm_reply", ""),
         }
 
 

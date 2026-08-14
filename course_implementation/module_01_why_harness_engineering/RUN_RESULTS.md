@@ -1,8 +1,11 @@
 # Module 1 Run Results
 
-Captured 2026-08-14 from a real process. pytest was executed six times
-(three un-harnessed, one harnessed, two blocked). `var/log/app.log` was
-deleted in the un-harnessed workspace and left intact in the harnessed one.
+Captured 2026-08-14 from a real process against local vLLM
+`nvidia/Qwen3.6-35B-A3B-NVFP4` at `http://127.0.0.1:8000/v1`.
+Live reply (stored in `output\run_evidence.json`):
+"A harness is essential to enforce safety, manage execution context, and
+ensure the model's code output is reliable and actionable within a specific
+environment."
 
 ```text
 > C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py

@@ -181,7 +181,12 @@ def main() -> int:
     source.write_text("print('hello from module 5')\n", encoding="utf-8")
 
     gateway = PermissionEscalationGateway(OUTPUT_DIR)
-    gateway.llm_client.complete("Determine risk tier for tool call git_push")
+    llm_reply = gateway.llm_client.complete(
+        "In one sentence, why does git_push require explicit human approval?"
+    )
+    if not llm_reply or llm_reply.startswith("[Harness Simulated"):
+        raise RuntimeError("Module 5 requires a live local-model reply.")
+    print(f"[LLM live reply] {llm_reply[:240]}")
 
     read = gateway.evaluate_request(
         "read_file", {"path": "src/main.py"}, request_id="req-read"
@@ -215,6 +220,7 @@ def main() -> int:
         "audit_events": len(audit_lines),
         "audit_path": str(gateway.audit_path),
         "approvals_path": str(gateway.approvals_path),
+        "llm_reply": llm_reply,
     }
     evidence_path = OUTPUT_DIR / "run_evidence.json"
     evidence_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")

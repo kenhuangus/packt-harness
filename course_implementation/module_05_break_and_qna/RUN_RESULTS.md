@@ -1,9 +1,9 @@
 # Module 5 Run Results
 
-Captured 2026-08-14 from a real process. The gateway read and wrote
-`output\src\main.py`, blocked an unapproved push, then wrote
-`pending_push.json` after an approval record was added. `git push` was
-not executed.
+Captured 2026-08-14 from a real process against local vLLM
+`nvidia/Qwen3.6-35B-A3B-NVFP4`. Live reply:
+"Git push requires explicit human approval to prevent accidental or
+unauthorized changes from being propagated to shared repositories..."
 
 ```text
 > C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\permission_escalation_gateway.py

@@ -19,11 +19,13 @@ Before editing teaching content about Claude Code, subagents, hooks, skills, plu
 
 ## Common commands
 
-Run all modules:
+Run all modules (preflight requires the local vLLM model at `http://127.0.0.1:8000/v1`):
 
 ```powershell
 python run_all_modules.py
 ```
+
+Do not test against paid cloud APIs. Use the local model. Simulated LLM output is allowed only when `HARNESS_ALLOW_SIMULATED_LLM=1`.
 
 Rebuild the slide deck:
 

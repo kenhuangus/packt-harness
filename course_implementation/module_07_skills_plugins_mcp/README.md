@@ -42,8 +42,8 @@ Protocol versioning: MCP uses dated revisions such as `2025-06-18`.
 Local servers use stdio. Remote servers use Streamable HTTP. HTTP+SSE is
 the legacy predecessor.
 
-The optional LLM synthesis step prints `[SKIPPED]` when
-`http://127.0.0.1:8000/v1` is down. The MCP PASS lines do not depend on it.
+The LLM synthesis step calls the local vLLM model and must return a live
+reply. If `http://127.0.0.1:8000/v1` is down, this module fails.
 
 ## Files
 

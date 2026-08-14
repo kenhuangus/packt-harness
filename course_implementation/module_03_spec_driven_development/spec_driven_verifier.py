@@ -144,7 +144,12 @@ def main() -> int:
 
     spec_path = MODULE_DIR / "SPEC.md"
     verifier = SpecVerifier(spec_path, OUTPUT_DIR)
-    verifier.llm_client.complete("Generate auth_validator.py according to SPEC.md")
+    llm_reply = verifier.llm_client.complete(
+        "In one sentence, why must an agent write only files listed in SPEC.md?"
+    )
+    if not llm_reply or llm_reply.startswith("[Harness Simulated"):
+        raise RuntimeError("Module 3 requires a live local-model reply.")
+    print(f"[LLM live reply] {llm_reply[:240]}")
 
     wrote_impl, impl_reason = verifier.attempt_write(
         "auth_validator.py", auth_validator_source()
@@ -194,6 +199,7 @@ def main() -> int:
         "pytest_output": pytest_output,
         "live_valid": live_result,
         "live_expired": expired_result,
+        "llm_reply": llm_reply,
     }
     evidence_path = OUTPUT_DIR / "run_evidence.json"
     evidence_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
