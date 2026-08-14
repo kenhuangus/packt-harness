@@ -534,7 +534,7 @@
 
         <div class="detail-view">
           <div class="detail-header">
-            <div id="mod-time" class="detail-time">09:00 AM - 09:15 AM</div>
+            <div id="mod-time" class="detail-time"></div>
             <div id="mod-title" class="detail-title">Module 1: Why Harness Engineering & Failure Modes</div>
           </div>
           <div id="mod-terminal" class="terminal-box">Loading execution trace...</div>
@@ -587,52 +587,52 @@ print(response.choices[0].message.content)
   <script>
     const modData = {
       1: {
-        time: "09:00 AM - 09:15 AM",
+        time: "",
         title: "Module 1: Why Harness Engineering & Failure Modes",
         output: "============================================================\nMODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED \n============================================================\n[LLM Client] Configured model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'\n\n--- UN-HARNESSED AGENT SIMULATION ---\n  [PASS] MODEL RESPONSE RECEIVED\n[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*\n[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!\n\n--- HARNESSED AGENT SIMULATION ---\n  [PASS] PreToolUse hook passed: Command is safe.\n  [FAIL] Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.\n  [FAIL] Security Violation: BLOCKED BY PreToolUse: Dangerous command pattern 'rm\\s+-rf' detected.\n============================================================"
       },
       2: {
-        time: "09:15 AM - 09:30 AM",
+        time: "",
         title: "Module 2: Core Harness Stack & 5 System Pillars",
         output: "============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md'\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - PreToolUse] Code safety inspection passed.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n============================================================"
       },
       3: {
-        time: "09:30 AM - 09:50 AM",
+        time: "",
         title: "Module 3: Spec-Driven Development (SDD)",
         output: "============================================================\nMODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER \n============================================================\n[Spec Verifier] Parsed SPEC.md:\n  Allowed Files Scope: ['auth_validator.py']\n  Explicit Non-Goals: ['Do NOT modify existing database connection pools.']\n  [PASS] Spec Compliance Verified: Scope & Non-Goals satisfied.\n  [FAIL] SCOPE VIOLATION: 'database.py' is outside allowed spec scope!\n============================================================"
       },
       4: {
-        time: "09:50 AM - 10:10 AM",
+        time: "",
         title: "Module 4: Guardrails & Deterministic Hooks Engine",
         output: "============================================================\nMODULE 4 DEMO: PRODUCTION GUARDRAILS & HOOKS ENGINE \n============================================================\n  [PASS] PreToolUse Status: Command approved for execution.\n  [FAIL] PreToolUse SECURITY VIOLATION: Command matches forbidden pattern 'rm\\s+-rf'!\n  [PASS] AST Parser Status: Valid Python syntax tree generated.\n  [FAIL] PostToolUse VIOLATION: Hardcoded secret key detected in code!\n============================================================"
       },
       5: {
-        time: "10:10 AM - 10:20 AM",
+        time: "",
         title: "Module 5: Risk-Tiered Permission Escalation Gateway",
         output: "============================================================\nMODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY \n============================================================\n  [PASS] [AUTO-APPROVED] Low-risk tool call permitted instantly.\n  [PASS] [LOGGED & APPROVED] Medium-risk tool call executed.\n  [FAIL] [ESCALATION BLOCKED] Critical action requires explicit developer click approval!\n  [PASS] [USER CONFIRMED] Critical action approved by developer modal prompt.\n============================================================"
       },
       6: {
-        time: "10:20 AM - 10:35 AM",
+        time: "",
         title: "Module 6: Tests as Reliability Layer & TDA Loop",
         output: "============================================================\nMODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE\n============================================================\n[PASS] pytest availability check: pytest 9.1.1\n\n[TDA Stage 1] Prove the proposed implementation fails a real test.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[FAIL] pytest exited with return code 1; captured failure output follows:\nF                                                                        [100%]\n================================== FAILURES ===================================\n_____________________________ test_divide_by_zero _____________________________\ntest_calculator.py:5: in test_divide_by_zero\n    assert divide(10, 0) == 0\n           ^^^^^^^^^^^^^\ncalculator.py:2: in divide\n    return a / b\n           ^^^^^\nE   ZeroDivisionError: division by zero\n=========================== short test summary info ===========================\nFAILED test_calculator.py::test_divide_by_zero - ZeroDivisionError: division ...\n1 failed in 1.90s\n\n[TDA Stage 2] Apply the known-good offline repair and rerun pytest.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[PASS] pytest summary: 1 passed in 0.77s\n\n[TDA Stage 3] Persist the bug as a regression test and rerun pytest.\n\n[Anti-Regression Pipeline] Writing regression safeguard 'test_divide_zero_guard' to the real pytest file...\n[PASS] Regression safeguard enforced. pytest summary: 2 passed in 0.71s\n[Anti-Regression Pipeline] Total enforced safeguards: 1\n[PASS] Temporary pytest scratch directory cleaned up.\n\n============================================================\nMODULE 6 DEMO COMPLETE: REAL TDA FEEDBACK LOOP VERIFIED!\n============================================================"
       },
       7: {
-        time: "10:35 AM - 10:50 AM",
+        time: "",
         title: "Module 7: Model Context Protocol (MCP) Python SDK 2.x Server",
         output: "============================================================\nMODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER \n============================================================\n  [PASS] Tool Available: 'query_database_record'\n  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'\n  [PASS] Resource Available: 'config://app-settings'\n============================================================"
       },
       8: {
-        time: "10:50 AM - 11:05 AM",
+        time: "",
         title: "Module 8: Compound Engineering & Multi-Agent Swarms",
         output: "============================================================\nMODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS \n============================================================\n  [PASS] Planner Subagent: 2 micro-subtasks allocated.\n  [PASS] Implementer Subagent: isolation: worktree created (./worktree-dir).\n  [PASS] Reviewer Subagent: AST syntax valid, scope compliance confirmed.\n  [PASS] Telemetry: Recorded task 'TASK-801' (APPROVED) into telemetry.jsonl.\n============================================================"
       },
       9: {
-        time: "11:05 AM - 11:15 AM",
+        time: "",
         title: "Module 9: Practical Workflow Pattern (5-Step SOP)",
         output: "============================================================\nMODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'User Auth Token Validator'\n============================================================\n\n[STEP 1: SPEC FIRST] Parsing SPEC.md requirements...\n  Allowed file scope: ['auth_validator.py', 'tests/test_auth.py']\n  Explicit non-goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']\n\n[STEP 2: CONSTRAINED EXECUTION] Enforcing the parsed allowed-file scope...\n  [PASS] In-scope edit: Wrote allowed file 'auth_validator.py'.\n  [PASS] Out-of-scope edit rejected: 'database.py' is not in the allowed file scope. File created: False.\n\n[STEP 3: DETERMINISTIC CHECKS] Running module 4 guardrails...\n  [PASS] AST syntax and generated-code secret scan: AST syntax valid. Zero secret leaks detected.\n  [PASS] Secret-bearing code rejected: SECURITY CRITICAL: Hardcoded API secret key detected!\n  [PASS] Dangerous shell command intercepted: CRITICAL SECURITY BLOCK: Command matches dangerous pattern 'rm\\s+-rf'\n\n[STEP 4: TEST VERIFICATION] Running a real temporary pytest suite...\n    ...                                                                      [100%]\n    3 passed in 0.73s\n  [PASS] Pytest suite: return code 0; 3 passed, 0 failed.\n\n[STEP 5: HUMAN REVIEW] Showing the implementation actually produced...\n  --- /dev/null\n  +++ auth_validator.py\n  @@ -0,0 +1,8 @@\n  +\"\"\"Token validation constrained by the feature specification.\"\"\"\n  +\n  +def validate_jwt(token: str) -> dict:\n  +    if token == \"valid-token\":\n  +        return {\"valid\": True, \"user_id\": \"123\"}\n  +    if token == \"expired-token\":\n  +        return {\"valid\": False, \"error\": \"EXPIRED\"}\n  +    return {\"valid\": False, \"error\": \"INVALID\"}\n  [PASS] Review diff generated: 8 implementation lines shown from the temporary workspace.\n  Human approval and any PR merge are out-of-band; this pipeline did not create or merge a PR.\n\n============================================================\nPIPELINE COMPLETE: ALL REPORTED CHECKS EXECUTED AND PASSED\n============================================================"
       },
       10: {
-        time: "11:15 AM - 11:30 AM",
+        time: "",
         title: "Module 10: Closing Principles & Production Readiness Audit",
         output: "============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: PreToolUse Shell Command Hook -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Roles -> PASSED\n============================================================\nDEMO SUMMARY: 5/5 Checks Passed\n============================================================"
       }

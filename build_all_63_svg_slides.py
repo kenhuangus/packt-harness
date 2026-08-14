@@ -44,12 +44,12 @@ def generate_svg_for_slide(num, title):
         return '''<svg viewBox="0 0 800 130" style="width:100%; max-height:130px; margin:0.5rem 0;">
   <rect x="20" y="10" width="360" height="110" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
   <text x="200" y="42" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">PART 1: FOUNDATIONS &amp; CONTROL</text>
-  <text x="200" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">09:00 AM - 10:20 AM</text>
+  <text x="200" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 1–5</text>
   <text x="200" y="92" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">Modules 1–5: Foundations, Control &amp; Break</text>
   <path d="M380 65 L420 65" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="4 4"/>
   <rect x="420" y="10" width="360" height="110" rx="12" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
   <text x="600" y="42" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">PART 2: RELIABILITY &amp; TEAMS</text>
-  <text x="600" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">10:20 AM - 11:30 AM</text>
+  <text x="600" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10</text>
   <text x="600" y="95" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10: TDA, MCP &amp; Multi-Agent Teams</text>
 </svg>'''
     elif num == 10:
@@ -443,7 +443,7 @@ html_template = '''<!DOCTYPE html>
     });
 
     function cleanNumbers(text) {
-      // A leading clock time is not list numbering: keep "09:00 AM - 11:30 AM" intact.
+      // A leading HH:MM clock is not list numbering.
       if (/^\\d{1,2}:\\d{2}/.test(text.trim())) return text.trim();
       text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s*/, '');
       text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s*/i, '');

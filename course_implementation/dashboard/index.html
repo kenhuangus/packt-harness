@@ -231,7 +231,7 @@
 
   <main>
     <div class="sidebar">
-      <div class="sidebar-title">Course Modules (09:00 - 11:30)</div>
+      <div class="sidebar-title">Course Modules</div>
       <div class="module-nav-item active" onclick="loadModule(1)">Mod 1: Why Harness Eng</div>
       <div class="module-nav-item" onclick="loadModule(2)">Mod 2: Core Stack & Pillars</div>
       <div class="module-nav-item" onclick="loadModule(3)">Mod 3: Spec-Driven Dev</div>
@@ -250,7 +250,7 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <div id="module-time" style="font-size: 0.9rem; color: var(--accent-cyan); font-weight: 700;">09:00 AM - 09:15 AM</div>
+            <div id="module-time" style="font-size: 0.9rem; color: var(--accent-cyan); font-weight: 700;"></div>
             <div id="module-title" class="card-title">Module 1: Why Harness Engineering & Agent Failure Modes</div>
           </div>
           <button class="btn" onclick="runDemo()">Execute Demo Code</button>
@@ -279,61 +279,61 @@
   <script>
     const moduleData = {
       1: {
-        time: "09:00 AM - 09:15 AM",
+        time: "",
         title: "Module 1: Why Harness Engineering & Agent Failure Modes",
         status: "ACTIVE & SAFE",
         output: `============================================================\nMODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED \n============================================================\n\n--- UN-HARNESSED AGENT SIMULATION ---\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=22 chars\n[LLM Response Output]: \nTo give you a precise fix, I need a few details...\n[LLM Attempt 1] Trying command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 2] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 3] Retrying same command: pytest tests/auth_test.py\n[System Output] Error: ModuleNotFoundError: No module named 'jwt'\n[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*\n[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!\n\n--- HARNESSED AGENT SIMULATION ---\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [PASS] Loop detector passed: No execution trap.\n\n[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')\n  [PASS] Pre-action hook passed: Command is safe.\n  [FAIL] Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.\n\n[Harness Evaluator] Inspecting tool call: run_shell('rm -rf /var/log/*')\n  [FAIL] Security Violation: BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\\s+-rf' detected.\n\n============================================================\nDEMO SUMMARY: Harness successfully blocked execution loops & dangerous mutations!\n============================================================`
       },
       2: {
-        time: "09:15 AM - 09:30 AM",
+        time: "",
         title: "Module 2: Core Harness Stack & 5 System Pillars",
         status: "5 PILLARS ACTIVE",
         output: `============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS )\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - Pre-Hook] Code safety inspection passed.\n[Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: run_test <<<\n[Pillar 2 - Permission] Tool 'run_test' and path 'None' validated.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'RUN_TEST_SUCCESS' to JSONL audit file.\n\n>>> HARNESS EXECUTION TASK: write_file <<<\n[Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n\n============================================================\nMODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!\n============================================================`
       },
       3: {
-        time: "09:30 AM - 09:50 AM",
+        time: "",
         title: "Module 3: Spec-Driven Development (SDD)",
         status: "SPEC VERIFIED",
         output: `============================================================\nMODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER \n============================================================\n[Spec Verifier] Parsed SPEC.md:\n  Allowed Files Scope: ['auth_validator.py']\n  Explicit Non-Goals: ['Do NOT modify existing database connection pools.']\n\n[Spec Verifier] Auditing proposed modification to 'auth_validator.py'...\n  [PASS] Spec Compliance Verified: Scope & Non-Goals satisfied.\n\n[Spec Verifier] Auditing proposed modification to 'database.py'...\n  [FAIL] SCOPE VIOLATION: 'database.py' is outside allowed spec scope!\n\n============================================================\nMODULE 3 DEMO COMPLETE: Spec Verifier Enforced Target Boundaries!\n============================================================`
       },
       4: {
-        time: "09:50 AM - 10:10 AM",
+        time: "",
         title: "Module 4: Guardrails & Deterministic Hooks Engine",
         status: "GUARDRAILS ACTIVE",
         output: `============================================================\nMODULE 4 DEMO: PRODUCTION GUARDRAILS & HOOKS ENGINE \n============================================================\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'pytest tests/unit/'\n  [PASS] Pre-Hook Status: Command approved for execution.\n\n[Guardrail - Pre-Action Hook] Inspecting shell command: 'sudo rm -rf /var/config'\n  [FAIL] PRE-HOOK SECURITY VIOLATION: Command matches forbidden pattern 'rm\\s+-rf'!\n\n[Guardrail - Post-Action Hook] Auditing generated code for 'processor.py'...\n  [PASS] AST Parser Status: Valid Python syntax tree generated.\n\n============================================================\nMODULE 4 DEMO COMPLETE: All Guardrail Interceptors Active!\n============================================================`
       },
       5: {
-        time: "10:10 AM - 10:20 AM",
+        time: "",
         title: "Module 5: Risk-Tiered Permission Escalation Gateway",
         status: "GATEWAY ACTIVE",
         output: `============================================================\nMODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY \n============================================================\n\n[Escalation Gateway] Evaluating Request: Tool='read_file' | Risk Level=LOW\n  [PASS] [AUTO-APPROVED] Low-risk tool call permitted instantly.\n\n[Escalation Gateway] Evaluating Request: Tool='write_file' | Risk Level=MEDIUM\n  [PASS] [LOGGED & APPROVED] Medium-risk tool call executed and logged to audit trace.\n\n[Escalation Gateway] Evaluating Request: Tool='git_push' | Risk Level=CRITICAL\n  [FAIL] [ESCALATION BLOCKED] Critical action requires explicit developer click approval!\n\n============================================================\nMODULE 5 DEMO COMPLETE: Escalation Gateway Risk Matrix Active!\n============================================================`
       },
       6: {
-        time: "10:20 AM - 10:35 AM",
+        time: "",
         title: "Module 6: Tests as Reliability Layer & TDA Loop",
         status: "TDA LOOP PASSED",
         output: `============================================================\nMODULE 6 DEMO: TEST-DRIVEN AGENT (TDA) & ANTI-REGRESSION PIPELINE\n============================================================\n[PASS] pytest availability check: pytest 9.1.1\n\n[TDA Stage 1] Prove the proposed implementation fails a real test.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[FAIL] pytest exited with return code 1; captured failure output follows:\nF                                                                        [100%]\n================================== FAILURES ===================================\n_____________________________ test_divide_by_zero _____________________________\ntest_calculator.py:5: in test_divide_by_zero\n    assert divide(10, 0) == 0\n           ^^^^^^^^^^^^^\ncalculator.py:2: in divide\n    return a / b\n           ^^^^^\nE   ZeroDivisionError: division by zero\n=========================== short test summary info ===========================\nFAILED test_calculator.py::test_divide_by_zero - ZeroDivisionError: division ...\n1 failed in 1.90s\n\n[TDA Stage 2] Apply the known-good offline repair and rerun pytest.\n\n[TDA Pipeline] Running real pytest suite against proposed code...\n[PASS] pytest summary: 1 passed in 0.77s\n\n[TDA Stage 3] Persist the bug as a regression test and rerun pytest.\n\n[Anti-Regression Pipeline] Writing regression safeguard 'test_divide_zero_guard' to the real pytest file...\n[PASS] Regression safeguard enforced. pytest summary: 2 passed in 0.71s\n[Anti-Regression Pipeline] Total enforced safeguards: 1\n[PASS] Temporary pytest scratch directory cleaned up.\n\n============================================================\nMODULE 6 DEMO COMPLETE: REAL TDA FEEDBACK LOOP VERIFIED!\n============================================================`
       },
       7: {
-        time: "10:35 AM - 10:50 AM",
+        time: "",
         title: "Module 7: Model Context Protocol (MCP) stdio Server",
         status: "MCP STDIO SESSION VERIFIED",
         output: `============================================================\nMODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER\n============================================================\n  [PASS] MCP session initialized over subprocess stdio.\n\n[MCP Client] Sending 'tools/list' request...\n  [PASS] Tool Available: 'query_database_record' - Query one enterprise database record by its numeric identifier.\n\n[MCP Client] Sending 'tools/call' request...\n  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'\n\n[LLM Client] Synthesizing the MCP tool result...\n  [SKIPPED] LLM synthesis unavailable: the configured endpoint did not return a live response.\n\n[MCP Client] Sending 'resources/list' request...\n  [PASS] Resource Available: 'config://app-settings' (app_settings)\n\n[MCP Client] Sending 'resources/read' request...\n  [PASS] Resource Read Result: '{"application": "harness-enterprise", "environment": "production", "record_access": "read-only"}'\n\n============================================================\nMODULE 7 DEMO COMPLETE: REAL MCP STDIO SESSION VERIFIED!\n============================================================`
       },
       8: {
-        time: "10:50 AM - 11:05 AM",
+        time: "",
         title: "Module 8: Compound Engineering & Multi-Agent Swarms",
         status: "SWARM PASSED",
         output: `============================================================\nMODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS \n============================================================\n\n[Planner Subagent (Architect)] Analyzing requirement via aisuite LLM...\n  [PASS] Plan Generated: 2 micro-subtasks allocated.\n\n[Implementer Subagent (Coder)] Executing edits in Git Worktree sandbox...\n  • Executing command: git worktree add -b agent-worktree ./worktree-dir main\n  [PASS] Code diff produced (70 bytes).\n\n[Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...\n  [PASS] Review Passed: AST syntax valid, scope compliance confirmed.\n\n[Self-Improvement Telemetry] Recorded task 'TASK-801' (APPROVED) into telemetry.jsonl.\n\n============================================================\nMODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!\n============================================================`
       },
       9: {
-        time: "11:05 AM - 11:15 AM",
+        time: "",
         title: "Module 9: Practical Workflow Pattern (5-Step SOP)",
         status: "SOP PASSED",
         output: `============================================================\nMODULE 9 DEMO: 5-STEP SOP PIPELINE FOR 'User Auth Token Validator'\n============================================================\n\n[STEP 1: SPEC FIRST] Parsing SPEC.md requirements...\n  Allowed file scope: ['auth_validator.py', 'tests/test_auth.py']\n  Explicit non-goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']\n\n[STEP 2: CONSTRAINED EXECUTION] Enforcing the parsed allowed-file scope...\n  [PASS] In-scope edit: Wrote allowed file 'auth_validator.py'.\n  [PASS] Out-of-scope edit rejected: 'database.py' is not in the allowed file scope. File created: False.\n\n[STEP 3: DETERMINISTIC CHECKS] Running module 4 guardrails...\n  [PASS] AST syntax and generated-code secret scan: AST syntax valid. Zero secret leaks detected.\n  [PASS] Secret-bearing code rejected: SECURITY CRITICAL: Hardcoded API secret key detected!\n  [PASS] Dangerous shell command intercepted: CRITICAL SECURITY BLOCK: Command matches dangerous pattern 'rm\\s+-rf'\n\n[STEP 4: TEST VERIFICATION] Running a real temporary pytest suite...\n    ...                                                                      [100%]\n    3 passed in 0.73s\n  [PASS] Pytest suite: return code 0; 3 passed, 0 failed.\n\n[STEP 5: HUMAN REVIEW] Showing the implementation actually produced...\n  --- /dev/null\n  +++ auth_validator.py\n  @@ -0,0 +1,8 @@\n  +\"\"\"Token validation constrained by the feature specification.\"\"\"\n  +\n  +def validate_jwt(token: str) -> dict:\n  +    if token == \"valid-token\":\n  +        return {\"valid\": True, \"user_id\": \"123\"}\n  +    if token == \"expired-token\":\n  +        return {\"valid\": False, \"error\": \"EXPIRED\"}\n  +    return {\"valid\": False, \"error\": \"INVALID\"}\n  [PASS] Review diff generated: 8 implementation lines shown from the temporary workspace.\n  Human approval and any PR merge are out-of-band; this pipeline did not create or merge a PR.\n\n============================================================\nPIPELINE COMPLETE: ALL REPORTED CHECKS EXECUTED AND PASSED\n============================================================`
       },
       10: {
-        time: "11:15 AM - 11:30 AM",
+        time: "",
         title: "Module 10: Closing Principles & Production Readiness Audit",
         status: "AUDIT 100%",
         output: `============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\nTarget Project Path: C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\n\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars\n\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)\nSTATUS: PRODUCTION READY FOR DEPLOYMENT!\n============================================================`
@@ -354,7 +354,7 @@
     function loadAllModules() {
       document.querySelectorAll('.module-nav-item').forEach((el) => el.classList.remove('active'));
       document.querySelectorAll('.module-nav-item')[10].classList.add('active');
-      document.getElementById('module-time').innerText = "09:00 AM - 11:30 AM (FULL COURSE)";
+      document.getElementById('module-time').innerText = "All 10 modules";
       document.getElementById('module-title').innerText = "ALL 10 MODULE TEST RESULTS (COMBINED VIEW)";
       document.getElementById('stat-status').innerText = "ALL 10 PASSED (100%)";
       
