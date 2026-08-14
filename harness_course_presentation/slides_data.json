@@ -39,7 +39,7 @@
       "• Understand why AI model capability does not equal production reliability.",
       "• Examine the 98% Harness Rule in 2026 agentic systems engineering.",
       "• Analyze concrete failure modes: context drift, infinite loops, & unverified edits.",
-      "• Code Implementation: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
   },
   {
@@ -108,7 +108,7 @@
       "• Deconstruct the 5 core pillars of a production AI coding harness.",
       "• Implement persistent memory standards (CLAUDE.md vs AGENTS.md).",
       "• Build least-privilege permission models and pre/post hooks.",
-      "• Code Implementation: course_implementation/module_02_core_harness_stack/core_harness_stack.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
   {
@@ -181,7 +181,7 @@
       "• Master Spec-Driven Development to eliminate prompt ambiguity.",
       "• Draft machine-verifiable acceptance criteria and scope boundaries.",
       "• Implement upfront spec verification and anti-hallucination checks.",
-      "• Code Implementation: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
   {
@@ -256,7 +256,7 @@
       "• Enforce 4-layer defense-in-depth security boundaries.",
       "• Build pre-action shell interceptors and post-action AST linters.",
       "• Implement path isolation sandboxing and secret key scanning.",
-      "• Code Implementation: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
     ]
   },
   {
@@ -345,7 +345,7 @@
       "• Take a 10-minute break to refresh.",
       "• Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.",
       "• Review Risk-Tiered Permission Gateway implementation.",
-      "• Code Implementation: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
   {
@@ -367,7 +367,7 @@
       "• Architect Test-Driven Agent (TDA) execution loops.",
       "• Leverage multi-tier testing (Unit, Integration, E2E) for validation.",
       "• Extract automated tracebacks and register anti-regression tests.",
-      "• Code Implementation: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
     ]
   },
   {
@@ -430,7 +430,7 @@
       "• Master the Agent Skills open standard (SKILL.md).",
       "• Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.",
       "• Implement Model Context Protocol (MCP) servers over stdio and Streamable HTTP.",
-      "• Code Implementation: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
     ]
   },
   {
@@ -517,7 +517,7 @@
       "• Design multi-agent architectures for complex software projects.",
       "• Implement specialized agent roles: Planner, Implementer, & Reviewer.",
       "• Isolate agent workspaces using Git Worktrees.",
-      "• Code Implementation: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
     ]
   },
   {
@@ -597,7 +597,7 @@
       "• Master the 5-step standard operating procedure for AI coding agents.",
       "• Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.",
       "• Execute production SOP pipeline end-to-end.",
-      "• Code Implementation: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
     ]
   },
   {
@@ -648,7 +648,7 @@
       "• Review the 4 core principles of Harness Engineering.",
       "• Evaluate your team's readiness using the Production Readiness Audit Suite.",
       "• Access full course implementations, multi-provider LLM client & repository.",
-      "• Code Implementation: course_implementation/module_10_closing_and_principles/production_harness_audit.py"
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md"
     ]
   },
   {

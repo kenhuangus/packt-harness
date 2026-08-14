@@ -340,6 +340,13 @@ html_template = '''<!DOCTYPE html>
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.1rem; line-height: 1;
     }
+    .slide-body a {
+      color: var(--accent-dk);
+      font-weight: 650;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    .slide-body a:hover { color: var(--accent); }
 
     code {
       background: var(--accent-sf); border: 1px solid var(--rule);
@@ -448,7 +455,10 @@ html_template = '''<!DOCTYPE html>
       keywords.forEach(kw => {
         text = text.replaceAll(kw, `<code>${kw}</code>`);
       });
-      return text;
+      return text.replace(
+        /(https:\\/\\/[^\\s<]+)/g,
+        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+      );
     }
 
     function formatBullets(lines) {

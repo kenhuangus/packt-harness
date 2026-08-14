@@ -189,7 +189,7 @@ make_section(1, 'Why Harness Engineering', '09:00 AM - 09:15 AM', [
     'Understand why AI model capability does not equal production reliability.',
     'Examine the 98% Harness Rule in 2026 agentic systems engineering.',
     'Analyze concrete failure modes: context drift, infinite loops, & unverified edits.',
-    'Code Implementation: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Speed Without Structure Creates Risk: Harness Thesis', None, [
@@ -247,7 +247,7 @@ make_section(2, 'Core Harness Stack & Architecture', '09:15 AM - 09:30 AM', [
     'Deconstruct the 5 core pillars of a production AI coding harness.',
     'Implement persistent memory standards (CLAUDE.md vs AGENTS.md).',
     'Build least-privilege permission models and pre/post hooks.',
-    'Code Implementation: course_implementation/module_02_core_harness_stack/core_harness_stack.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('System Architecture: The 5 Harness Pillars', None, [
@@ -311,7 +311,7 @@ make_section(3, 'Spec-Driven Development (SDD)', '09:30 AM - 09:50 AM', [
     'Master Spec-Driven Development to eliminate prompt ambiguity.',
     'Draft machine-verifiable acceptance criteria and scope boundaries.',
     'Implement upfront spec verification and anti-hallucination checks.',
-    'Code Implementation: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Why Prompts Fail & Specs Succeed', None, [
@@ -371,7 +371,7 @@ make_section(4, 'Guardrails and Deterministic Hooks', '09:50 AM - 10:10 AM', [
     'Enforce 4-layer defense-in-depth security boundaries.',
     'Build pre-action shell interceptors and post-action AST linters.',
     'Implement path isolation sandboxing and secret key scanning.',
-    'Code Implementation: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('The 4-Layer Control Architecture', None, [
@@ -443,7 +443,7 @@ make_section(5, 'Mid-Morning Break & Permission Gateways', '10:10 AM - 10:20 AM'
     'Take a 10-minute break to refresh.',
     'Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.',
     'Review Risk-Tiered Permission Gateway implementation.',
-    'Code Implementation: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Open Q&A & Group Discussion', None, [
@@ -459,7 +459,7 @@ make_section(6, 'Tests as Reliability Layer', '10:20 AM - 10:35 AM', [
     'Architect Test-Driven Agent (TDA) execution loops.',
     'Leverage multi-tier testing (Unit, Integration, E2E) for validation.',
     'Extract automated tracebacks and register anti-regression tests.',
-    'Code Implementation: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Test-Driven Agent (TDA) Loop Architecture', None, [
@@ -508,7 +508,7 @@ make_section(7, 'Skills, Plugins, and MCP Tools', '10:35 AM - 10:50 AM', [
     'Master the Agent Skills open standard (SKILL.md).',
     'Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.',
     'Implement Model Context Protocol (MCP) servers over stdio & Streamable HTTP.',
-    'Code Implementation: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Agent Skills Open Standard (SKILL.md)', None, [
@@ -571,7 +571,7 @@ make_section(8, 'Compound Engineering & Agent Teams', '10:50 AM - 11:05 AM', [
     'Design multi-agent architectures for complex software projects.',
     'Implement specialized agent roles: Planner, Implementer, & Reviewer.',
     'Isolate agent workspaces using Git Worktrees.',
-    'Code Implementation: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('Multi-Agent Workflows vs Single Agents', None, [
@@ -632,7 +632,7 @@ make_section(9, 'Practical Workflow Pattern', '11:05 AM - 11:15 AM', [
     'Master the 5-step standard operating procedure for AI coding agents.',
     'Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.',
     'Execute production SOP pipeline end-to-end.',
-    'Code Implementation: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('The 5-Step Practical Workflow Overview', None, [
@@ -671,7 +671,7 @@ make_section(10, 'Closing Principles & Production Audit', '11:15 AM - 11:30 AM',
     'Review the 4 core principles of Harness Engineering.',
     'Evaluate your team\'s readiness using the Production Readiness Audit Suite.',
     'Access full course implementations, multi-provider LLM client & repository.',
-    'Code Implementation: course_implementation/module_10_closing_and_principles/production_harness_audit.py'
+    'Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md'
 ], slides_cnt + 1); slides_cnt += 1
 
 make_cards('The 4 Core Principles of Harness Engineering', None, [
