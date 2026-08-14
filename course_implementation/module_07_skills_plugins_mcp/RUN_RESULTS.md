@@ -1,9 +1,18 @@
 # Module 7 Run Results
 
-Real end-to-end MCP session over subprocess stdio, captured from an actual run.
+Captured 2026-08-14 on this machine from an actual MCP stdio session.
+
+Environment: Python 3.13 at
+`C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe`,
+MCP Python SDK 2.0.0 (`mcp.server.mcpserver.MCPServer`).
+
+The LLM synthesis step reports `[SKIPPED]` when no OpenAI-compatible
+endpoint is reachable at `LLM_BASE_URL`. The MCP protocol steps are
+independent of it and still pass.
 
 ```text
-> python mcp_client_runner.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp
 ============================================================
 MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER
 ============================================================
@@ -16,7 +25,7 @@ MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER
   [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'
 
 [LLM Client] Synthesizing the MCP tool result...
-[LLM Client] Configured LLM client with model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
   [SKIPPED] LLM synthesis unavailable: the configured endpoint did not return a live response.
 
 [MCP Client] Sending 'resources/list' request...
@@ -32,11 +41,6 @@ MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER
 ============================================================
 MODULE 7 DEMO COMPLETE: REAL MCP STDIO SESSION VERIFIED!
 ============================================================
-EXIT=0
 ```
 
-Environment: Python 3.13, MCP Python SDK 2.0.0 (`mcp.server.mcpserver.MCPServer`).
-
-The LLM synthesis step reports `[SKIPPED]` by design when no OpenAI-compatible
-endpoint is reachable at the configured `LLM_BASE_URL`; the MCP protocol steps are
-independent of it and still pass.
+Exit code: 0

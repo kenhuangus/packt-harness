@@ -1,13 +1,129 @@
 # Module 1: Why Harness Engineering
 
-## Overview
-This module demonstrates why model capability alone does not equal production software reliability.
-Formula: **Agent = Model + Harness**
+## What this module teaches
 
-## Key Concepts
-1. **The Probabilistic Reasoner**: Models generate text via token probabilities, making them susceptible to hallucinations, context drift, and execution loops.
-2. **The Deterministic Harness**: The system scaffolding surrounding the model that enforces path isolation, command sanitization, loop detection, and verification.
-3. **The Harness Contribution**: Production reliability depends on system scaffolding as well as model capability and prompt design.
+A strong model is not a reliable coding agent. Reliability comes from the
+deterministic scaffolding around the model.
 
-## Executable Demo
-`harness_vs_model_demo.py` simulates both an un-harnessed model runner (showing failure modes) and a harnessed execution engine (showing deterministic protection).
+**Agent = Model + Harness**
+
+The demo runs the same task two ways:
+
+1. **Un-harnessed runner** — the model (or its simulated fallback) can retry
+   the same failing `pytest` command forever and then execute `rm -rf` with
+   no inspection.
+2. **Harnessed runner** — every proposed shell command is checked first. A
+   repeated command is stopped as a loop. A `rm -rf` pattern is denied by a
+   pre-execution hook.
+
+Three failure modes are made visible:
+
+| Failure mode | What happens without a harness | What the harness does |
+| --- | --- | --- |
+| Execution loop | Same `pytest` command retried after the same `ModuleNotFoundError` | Loop detector blocks the second identical call |
+| Dangerous mutation | `rm -rf /var/log/*` is executed as typed | Pre-hook matches `rm\s+-rf` and denies it |
+| Context decay | The runner never inspects *why* the test failed | The harness at least refuses to repeat a stall |
+
+The LLM client at
+`C:\Users\kenhu\packt-harness\course_implementation\common\llm_client.py`
+is used. If `http://127.0.0.1:8000/v1` is down, the client prints a simulated
+string and the harness checks still run.
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py` | Runnable demo |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\RUN_RESULTS.md` | Last captured stdout |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\README.md` | This file |
+
+This module writes no artifact file. Evidence is stdout.
+
+## How to run
+
+Use the Python 3.13 interpreter and the absolute script path. Working
+directory does not matter; the script locates `common\llm_client.py` from
+its own file path.
+
+```powershell
+C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py
+```
+
+Or run every module from the repository root:
+
+```powershell
+C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\run_all_modules.py
+```
+
+## Output file and evidence
+
+- **Stdout** from the command above (exit 0).
+- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\RUN_RESULTS.md`
+
+Captured on this machine, 2026-08-14:
+
+```text
+============================================================
+MODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED
+============================================================
+[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
+
+--- UN-HARNESSED AGENT SIMULATION ---
+[LLM Response Output]: [Harness Simulated Output for prompt: Fix auth test failures...
+[LLM Attempt 1] Trying command: pytest tests/auth_test.py
+[System Output] Error: ModuleNotFoundError: No module named 'jwt'
+...
+[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*
+[WARNING] UN-HARNESSED FAILURE: Unsanitized dangerous command executed!
+
+--- HARNESSED AGENT SIMULATION ---
+[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')
+  ✓ Pre-action hook passed: Command is safe.
+  ✓ Loop detector passed: No execution trap.
+[Harness Evaluator] Inspecting tool call: run_shell('pytest tests/auth_test.py')
+  ❌ Loop Detected: BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress.
+[Harness Evaluator] Inspecting tool call: run_shell('rm -rf /var/log/*')
+  ❌ Security Violation: BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\s+-rf' detected.
+```
+
+## Annotated code
+
+The full file is
+`C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py`.
+Each block is commented in the source. The two classes:
+
+```python
+class UnharnessedAgentSimulator:
+    """
+    Simulate a raw model runner with no policy, no sandbox, and no loop stop.
+
+    Everything after the LLM call is scripted so the failure modes are
+    reproducible. The point is not that a particular model always does this;
+    it is that nothing in this runner would stop it if it did.
+    """
+
+    def run_task(self, prompt):
+        # Call the model. The return value is printed but never inspected
+        # for command safety, so a dangerous suggestion would still run.
+        response = self.llm_client.complete(prompt, ...)
+
+        # Failure mode 1: the same pytest command is retried three times
+        # against the same ModuleNotFoundError. No loop detector exists.
+        # Failure mode 2: a destructive cleanup command is executed as typed.
+        print("[LLM Attempt 4] Trying dangerous cleanup command: rm -rf /var/log/*")
+
+
+class HarnessedAgentRunner:
+    """
+    Two deterministic gates sit in front of execution:
+    - pre_execution_hook: regex deny-list for destructive shell patterns
+    - loop_detector: halt when the same command repeats without progress
+    """
+
+    def execute_tool_call(self, tool_name, command):
+        # Gate 1: deny-list check before anything is recorded as executed.
+        self.pre_execution_hook(command)
+        # Gate 2: identical-retry detector. The first pytest call passes;
+        # the second identical call is halted when max_retries == 2.
+        self.loop_detector(command)
+```

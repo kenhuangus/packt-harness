@@ -42,7 +42,14 @@ def print_check(label: str, passed: bool, detail: str) -> bool:
 
 
 def parse_spec(spec_path: Path) -> tuple[list[str], list[str]]:
-    """Parse allowed files and explicit non-goals from the module 3 spec."""
+    """
+    Step 1 helper: read the committed module 3 SPEC.md.
+
+    Allowed files are the backtick-quoted names on the Allowed Files
+    line. Non-goals are the dash list under heading 3. Either field
+    empty is a hard error so the pipeline cannot claim a parse it
+    did not perform.
+    """
     content = spec_path.read_text(encoding="utf-8")
 
     allowed_line = re.search(
@@ -79,7 +86,12 @@ def parse_spec(spec_path: Path) -> tuple[list[str], list[str]]:
 
 
 class ScopeEnforcer:
-    """Allow writes only to the exact relative paths declared by the spec."""
+    """
+    Step 2: allow writes only to the exact relative paths in the spec.
+
+    database.py is rejected even though the workspace is writable.
+    Paths that resolve outside the temp workspace are also rejected.
+    """
 
     def __init__(self, workspace: Path, allowed_files: list[str]) -> None:
         self.workspace = workspace.resolve()
@@ -103,6 +115,14 @@ class ScopeEnforcer:
 
 
 class FiveStepSOPPipeline:
+    """
+    Run the five SOP steps against a real spec, real guardrails, and
+    a real pytest subprocess.
+
+    Temporary files are always deleted. Human PR merge is printed as
+    out-of-band so the demo does not claim it opened a pull request.
+    """
+
     def __init__(self) -> None:
         self.spec_path = MODULE_03_DIR / "SPEC.md"
         self.results: list[bool] = []

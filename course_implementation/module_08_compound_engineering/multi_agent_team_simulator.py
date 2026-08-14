@@ -15,7 +15,13 @@ import tempfile
 from datetime import datetime, timezone
 
 class SubagentPromptIsolator:
-    """Isolates subagent context windows by stripping parent chat history and passing focused SPEC sub-segments."""
+    """
+    Give each subagent a focused spec slice instead of the parent chat.
+
+    Real Claude Code subagents already start with a clean context window.
+    This helper is the course stand-in: keep lines that mention the
+    subtask name, allowed scope, or non-goals, and drop the rest.
+    """
     def extract_sub_spec(self, master_spec: str, subtask_name: str) -> str:
         lines = master_spec.splitlines()
         filtered = [l for l in lines if subtask_name.lower() in l.lower() or "allowed scope" in l.lower() or "non-goals" in l.lower()]
@@ -24,12 +30,21 @@ class SubagentPromptIsolator:
         return "\n".join(filtered)
 
 class MultiAgentTeamSimulator:
+    """
+    Planner -> Implementer -> Reviewer handoff plus telemetry.
+
+    The implementer writes into a TemporaryDirectory, not a real git
+    worktree. The printed `git worktree add` line is labelled
+    NOT EXECUTED so the demo does not pretend it isolated a worktree.
+    """
+
     def __init__(self, workspace_root: str):
         self.workspace_root = os.path.abspath(workspace_root)
         self.isolator = SubagentPromptIsolator()
         self.telemetry_log = os.path.join(self.workspace_root, "telemetry.jsonl")
 
     def run_planner(self, spec_text: str) -> dict:
+        """Return two named subtasks. The spec_text is accepted so the planner API matches a real agent."""
         plan = {
             "subtasks": [
                 {"name": "auth_component", "target_file": "auth.py", "action": "Implement JWT validation"},
@@ -39,6 +54,7 @@ class MultiAgentTeamSimulator:
         return plan
 
     def run_implementer_in_worktree(self, subtask: dict, master_spec: str) -> bool:
+        """Write one scoped Python file from a focused spec slice. Isolated by the temp workspace, not git."""
         focused_spec = self.isolator.extract_sub_spec(master_spec, subtask["name"])
         target = os.path.join(self.workspace_root, subtask["target_file"])
         
@@ -48,6 +64,7 @@ class MultiAgentTeamSimulator:
         return True
 
     def run_reviewer(self, target_file: str) -> bool:
+        """Cheap reviewer: the file exists and defines validate_jwt. AST and scope are checked in main()."""
         target = os.path.join(self.workspace_root, target_file)
         if not os.path.exists(target):
             return False

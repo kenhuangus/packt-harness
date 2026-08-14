@@ -1,10 +1,90 @@
-# Module 8: Compound Engineering & Multi-Agent Teams
+# Module 8: Compound Engineering
 
-## Overview
-This module implements multi-agent role specialization, the `isolation: worktree` subagent frontmatter field, and recursive self-improvement loops.
+## What this module teaches
 
-## Architecture & Subagent Roles
-1. **Planner Agent** (Architect): Read-only context access; analyzes requirements & generates task plans.
-2. **Implementer Agent** (Coder): Executes file edits within strict workspace boundaries; `isolation: worktree` gives the subagent its own git worktree.
-3. **Reviewer Agent** (Auditor): Independent subagent running static analysis, AST linters, and spec checks.
-4. **Recursive Self-Improvement Loop**: Telemetry logging (`telemetry.jsonl`) feeding continuous rule updates to `CLAUDE.md`.
+One agent that plans, codes, and reviews its own work is a single
+point of failure. Compound engineering splits the job into roles with
+separate context windows, then records the handoff.
+
+| Role | Job in this demo | Isolation |
+| --- | --- | --- |
+| Planner (architect) | Turn a spec into two named subtasks | Read-only by design |
+| Implementer (coder) | Write `auth.py` and `test_auth.py` | Temporary sandbox (see below) |
+| Reviewer (auditor) | File exists, defines `validate_jwt`, AST parses, path stays in scope | Independent pass over the files |
+
+Claude Code project subagents are files under `.claude/agents/` with
+YAML frontmatter. `isolation: worktree` is the documented field that
+gives a subagent its own git worktree. This demo **does not** run
+`git worktree add`. It prints that command labelled `NOT EXECUTED` and
+writes into a `TemporaryDirectory` instead. Do not treat the committed
+`auth.py` / `test_auth.py` as live implementer output; the current run
+writes those names only inside `%TEMP%\module_08_team_*`.
+
+Telemetry is the self-improvement hook: one JSON line per completed
+handoff. The live file is in the temp workspace. The committed
+`telemetry.jsonl` next to this README is leftover from an older run
+that wrote into the module directory.
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py` | Planner / implementer / reviewer |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py` | Historical leftover |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\test_auth.py` | Historical leftover |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\telemetry.jsonl` | Historical leftover |
+| `C:\Users\kenhu\packt-harness\.claude\agents\spec-reviewer.md` | Real Claude Code subagent definition |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\RUN_RESULTS.md` | Last captured stdout |
+
+## How to run
+
+```powershell
+C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py
+```
+
+## Output file and evidence
+
+- **Stdout** (exit 0).
+- **Live telemetry (ephemeral):** `C:\Users\kenhu\AppData\Local\Temp\module_08_team_<random>\telemetry.jsonl`
+- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\RUN_RESULTS.md`
+
+Captured on this machine, 2026-08-14:
+
+```text
+[Planner Subagent (Architect)] Analyzing requirement...
+  [PASS] Plan Generated: 2 micro-subtasks allocated.
+[Implementer Subagent (Coder)] Executing simulated edits in a temporary sandbox...
+  Claude Code project subagents are defined in .claude/agents/<name>.md with frontmatter `isolation: worktree`.
+  [Illustrative command - NOT EXECUTED] git worktree add -b agent-worktree ./worktree-dir main
+  [PASS] Simulated isolated edit completed for 'auth_component'.
+  [PASS] Simulated isolated edit completed for 'test_suite'.
+[Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...
+  [PASS] Review Passed: AST syntax valid, scope compliance confirmed.
+[Self-Improvement Telemetry] Recorded task 'jwt_auth_multi_agent_handoff' into 'telemetry.jsonl'.
+```
+
+## Annotated code
+
+```python
+class SubagentPromptIsolator:
+    """
+    Real Claude Code subagents already start with a clean context window.
+    This helper keeps lines that mention the subtask name, allowed scope,
+    or non-goals, and drops the rest.
+    """
+
+class MultiAgentTeamSimulator:
+    """
+    The implementer writes into a TemporaryDirectory, not a real git
+    worktree. The printed `git worktree add` line is labelled NOT EXECUTED.
+    """
+
+    def run_planner(self, spec_text):
+        # Two named subtasks: auth_component -> auth.py, test_suite -> test_auth.py
+
+    def run_implementer_in_worktree(self, subtask, master_spec):
+        # Write one scoped Python file from a focused spec slice.
+
+    def run_reviewer(self, target_file):
+        # File exists and defines validate_jwt. AST and scope are checked in main().
+```

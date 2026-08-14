@@ -1,13 +1,14 @@
 # Module 3 Run Results
 
-Captured from an actual run.
+Captured 2026-08-14 on this machine from an actual process.
 
 ```text
-> python spec_driven_verifier.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development
 ============================================================
 MODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER 
 ============================================================
-[LLM Client] Configured LLM client with model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
 [Spec Verifier] Parsed SPEC.md:
   Allowed Files Scope: ['auth_validator.py']
   Explicit Non-Goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']

@@ -96,10 +96,19 @@ def parse_frontmatter(path: Path) -> dict[str, Any]:
 
 
 class ProductionHarnessAuditor:
+    """
+    Five evidence-backed readiness checks against a real directory.
+
+    Each check returns (passed, reason). A failed check lowers the
+    score; the process still exits 0 so a partial project can be
+    audited. The reason string is the evidence, not a slogan.
+    """
+
     def __init__(self, target_dir: Path) -> None:
         self.target_dir = target_dir.resolve()
 
     def check_memory_files(self) -> tuple[bool, str]:
+        """Check 1: CLAUDE.md and/or AGENTS.md exist as regular files."""
         found = [
             name
             for name in ("CLAUDE.md", "AGENTS.md")
@@ -129,6 +138,10 @@ class ProductionHarnessAuditor:
         return None
 
     def check_pre_execution_hooks(self) -> tuple[bool, str]:
+        """
+        Check 2: .claude/settings.json registers a PreToolUse command hook
+        whose command string points at a file that actually exists.
+        """
         settings_path = self.target_dir / ".claude" / "settings.json"
         if not settings_path.is_file():
             return False, f"missing settings file: {settings_path}"
@@ -180,6 +193,7 @@ class ProductionHarnessAuditor:
         return False, "; ".join(reasons)
 
     def check_test_runner(self) -> tuple[bool, str]:
+        """Check 3: run_all_modules.py parses as Python and pytest --version works."""
         runner = self.target_dir / "run_all_modules.py"
         if not runner.is_file():
             return False, f"missing automated runner: {runner}"
@@ -215,6 +229,7 @@ class ProductionHarnessAuditor:
         return True, f"{runner.name} is valid Python; {output}"
 
     def check_mcp_scoped_tools(self) -> tuple[bool, str]:
+        """Check 4: module 7 Python files declare at least one @tool and one @resource."""
         module_dir = (
             self.target_dir
             / "course_implementation"
@@ -261,6 +276,7 @@ class ProductionHarnessAuditor:
         )
 
     def check_multi_agent_roles(self) -> tuple[bool, str]:
+        """Check 5: .claude/agents/*.md have documented frontmatter (name, description, ...)."""
         agents_dir = self.target_dir / ".claude" / "agents"
         if not agents_dir.is_dir():
             return False, f"missing subagent directory: {agents_dir}"

@@ -1,17 +1,23 @@
 # Module 2 Run Results
 
-Captured from an actual run.
+Captured 2026-08-14 on this machine from an actual process.
+
+The live `events.jsonl` for this run was
+`C:\Users\kenhu\AppData\Local\Temp\module_02_harness_0gg2cx8v\events.jsonl`
+and was deleted with the temporary workspace. The `[FAIL] HARNESS ERROR`
+line is the expected path-traversal rejection.
 
 ```text
-> python core_harness_stack.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\core_harness_stack.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack
 ========================================================================
 MODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)
 ========================================================================
-[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (467 bytes)
+[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (482 bytes)
 Allocations: {'memory': 25600, 'spec': 25600, 'workspace': 64000, 'output_buffer': 12800}
 
 >>> HARNESS EXECUTION TASK: write_file <<<
-[Pillar 2 - Permission] Tool 'write_file' and path 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b\sample_module.py' validated.
+[Pillar 2 - Permission] Tool 'write_file' and path 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_0gg2cx8v\sample_module.py' validated.
 [Pillar 3 - Pre-Hook] Code safety inspection passed.
 [Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...
   [PASS] AST syntax valid.
@@ -25,7 +31,7 @@ Allocations: {'memory': 25600, 'spec': 25600, 'workspace': 64000, 'output_buffer
 
 >>> HARNESS EXECUTION TASK: write_file <<<
 [Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.
-[FAIL] HARNESS ERROR: Path Traversal Blocked: Target 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b\..\..\forbidden.py' is outside workspace 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_yq78lg1b'
+[FAIL] HARNESS ERROR: Path Traversal Blocked: Target 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_0gg2cx8v\..\..\forbidden.py' is outside workspace 'C:\Users\kenhu\AppData\Local\Temp\module_02_harness_0gg2cx8v'
 
 MODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!
 ```

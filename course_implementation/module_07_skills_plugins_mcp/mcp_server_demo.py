@@ -9,13 +9,21 @@ import json
 
 from mcp.server.mcpserver import MCPServer
 
-
+# MCP Python SDK 2.x authoring API. The server speaks JSON-RPC on stdio
+# when mcp.run() is called. Do not print to stdout: that stream is the
+# protocol, not a log.
 mcp = MCPServer("Harness-Enterprise-Tools")
 
 
 @mcp.tool()
 def query_database_record(record_id: int) -> str:
-    """Query one enterprise database record by its numeric identifier."""
+    """
+    Teaching MCP tool: return one fake enterprise record.
+
+    The client calls this with record_id=4092. A real server would
+    talk to a database; this one returns a fixed ACTIVE row so the
+    protocol exchange can be verified without credentials.
+    """
     return (
         f"DB_RECORD #{record_id}: "
         "status=ACTIVE, owner=admin, env=production"
@@ -24,7 +32,13 @@ def query_database_record(record_id: int) -> str:
 
 @mcp.resource("config://app-settings")
 def app_settings() -> str:
-    """Return the demo application's read-only settings as JSON."""
+    """
+    Teaching MCP resource: a read-only JSON document.
+
+    Resources are not tools. The client lists them, then reads the URI
+    `config://app-settings`. The payload is static so the read can be
+    asserted in RUN_RESULTS.md.
+    """
     return json.dumps(
         {
             "application": "harness-enterprise",

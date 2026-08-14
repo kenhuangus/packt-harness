@@ -1,13 +1,14 @@
 # Module 1 Run Results
 
-Captured from an actual run.
+Captured 2026-08-14 on this machine from an actual process.
 
 ```text
-> python harness_vs_model_demo.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering
 ============================================================
 MODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED 
 ============================================================
-[LLM Client] Configured LLM client with model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
 
 --- UN-HARNESSED AGENT SIMULATION ---
 [LLM Response Output]: [Harness Simulated Output for prompt: Fix auth test failures...

@@ -1,13 +1,14 @@
 # Module 5 Run Results
 
-Captured from an actual run.
+Captured 2026-08-14 on this machine from an actual process.
 
 ```text
-> python permission_escalation_gateway.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\permission_escalation_gateway.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna
 ============================================================
 MODULE 5 DEMO: RISK-TIERED PERMISSION ESCALATION GATEWAY 
 ============================================================
-[LLM Client] Configured LLM client with model 'openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint: 'http://127.0.0.1:8000/v1'
+[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
 
 [Escalation Gateway] Evaluating Request: Tool='read_file' | Risk Level=LOW
   ✓ [AUTO-APPROVED] Low-risk tool call permitted instantly.

@@ -22,7 +22,13 @@ from common.llm_client import CourseLLMClient  # noqa: E402
 
 
 def synthesize_with_llm(tool_output: str) -> None:
-    """Use the course LLM client when its configured endpoint is available."""
+    """
+    Optional live-model step. Not required for the MCP PASS lines.
+
+    If aisuite is missing, the endpoint is down, or the client returns
+    its simulated fallback string, this prints [SKIPPED]. The MCP
+    session is independent and has already succeeded by this point.
+    """
     try:
         llm_client = CourseLLMClient()
         response = llm_client.generate(
@@ -47,6 +53,8 @@ async def main_async() -> None:
     print("MODULE 7 DEMO: MODEL CONTEXT PROTOCOL (MCP) TEST RUNNER")
     print("=" * 60)
 
+    # Spawn mcp_server_demo.py as a child process. The SDK wires the
+    # child's stdin/stdout to JSON-RPC; we never parse the bytes ourselves.
     server_parameters = StdioServerParameters(
         command=sys.executable,
         args=[str(MODULE_DIR / "mcp_server_demo.py")],
@@ -54,6 +62,7 @@ async def main_async() -> None:
 
     async with stdio_client(server_parameters) as (read_stream, write_stream):
         async with ClientSession(read_stream, write_stream) as session:
+            # initialize is the MCP handshake (protocol version + capabilities).
             await session.initialize()
             print("  [PASS] MCP session initialized over subprocess stdio.")
 

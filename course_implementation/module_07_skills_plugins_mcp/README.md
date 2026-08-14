@@ -1,71 +1,143 @@
-# Module 7: Skills, Plugins & Model Context Protocol (MCP)
+# Module 7: Skills, Plugins, and MCP
 
-## Overview
+## What this module teaches
 
-This module demonstrates three real Claude Code extension mechanisms: Agent
-Skills, subagents packaged in plugins, and a Model Context Protocol client/server
-exchange.
+Claude Code is extended three ways that are easy to confuse. This module
+keeps them separate and then runs a real Model Context Protocol session.
 
-## Agent Skill
+### Agent Skill
 
-`skills/spec-check/SKILL.md` uses documented frontmatter. A skill's
-`description` tells Claude what it does and when to load it; there is no
-`triggers` field. Project skills normally live under
-`.claude/skills/<name>/SKILL.md`, while plugin skills live under `skills/`.
+`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\skills\spec-check\SKILL.md`
 
-## Subagent
+A skill's `description` tells Claude what it does and when to load it.
+There is no `triggers` field. Project skills normally live under
+`.claude/skills/<name>/SKILL.md`. Plugin skills live under `skills/`.
 
-`agents/spec-reviewer.md` is a read-only reviewer with its own context window.
-Claude Code project subagents normally live under `.claude/agents/`; a plugin
-can bundle them under `agents/`.
+### Subagent
 
-## Plugin
+`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\agents\spec-reviewer.md`
 
-`.claude-plugin/plugin.json` is the plugin manifest. The manifest is not a bare
-`plugin.json` at the plugin root. Plugins can bundle skills, agents, hooks, MCP
+A read-only reviewer with its own context window. Project subagents live
+under `.claude/agents/`. A plugin can bundle them under `agents/`.
+
+### Plugin
+
+`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\.claude-plugin\plugin.json`
+
+The manifest is `.claude-plugin/plugin.json`, not a bare `plugin.json`
+at the plugin root. Plugins can bundle skills, agents, hooks, MCP
 servers, LSP servers, and monitors.
 
-## Real MCP stdio Demo
+### MCP (the runnable demo)
 
-This machine has version `2.0.0` of the MCP Python SDK package installed. In
-that SDK line, the server class is `MCPServer`:
+`mcp_client_runner.py` starts `mcp_server_demo.py` as a child process and
+speaks JSON-RPC over stdio. It initializes the session, lists tools,
+calls `query_database_record(4092)`, lists resources, and reads
+`config://app-settings`.
+
+Protocol versioning: MCP uses dated revisions such as `2025-06-18`.
+`2.0.0` on this machine is the **Python SDK package** version. JSON-RPC
+2.0 is the message framing. They are three different numbers.
+
+Local servers use stdio. Remote servers use Streamable HTTP. HTTP+SSE is
+the legacy predecessor.
+
+The optional LLM synthesis step prints `[SKIPPED]` when
+`http://127.0.0.1:8000/v1` is down. The MCP PASS lines do not depend on it.
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_server_demo.py` | MCP server (stdio) |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py` | Client that drives the server |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\skills\spec-check\SKILL.md` | Skill frontmatter + body |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\agents\spec-reviewer.md` | Subagent frontmatter + body |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\.claude-plugin\plugin.json` | Plugin manifest |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\RUN_RESULTS.md` | Last captured stdout |
+
+No extra output file. The MCP exchange is on the child's stdio pipes.
+
+## How to run
+
+Install the SDK once if needed:
+
+```powershell
+C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe -m pip install mcp
+```
+
+Run the client (it starts the server):
+
+```powershell
+C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py
+```
+
+Do not run `mcp_server_demo.py` by itself unless you intend to speak
+JSON-RPC on that process's stdin. Its stdout is the protocol, not a log.
+
+`run_all_modules.py` also runs `mcp_server_demo.py` as a standalone
+`.py` file. The server then sits on stdin and exits quickly with no
+client, which still counts as exit 0. The session that proves MCP works
+is `mcp_client_runner.py`.
+
+## Output file and evidence
+
+- **Stdout** (exit 0).
+- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\RUN_RESULTS.md`
+
+Captured on this machine, 2026-08-14:
+
+```text
+  [PASS] MCP session initialized over subprocess stdio.
+[MCP Client] Sending 'tools/list' request...
+  [PASS] Tool Available: 'query_database_record' - Query one enterprise database record by its numeric identifier.
+[MCP Client] Sending 'tools/call' request...
+  [PASS] Tool Execution Result: 'DB_RECORD #4092: status=ACTIVE, owner=admin, env=production'
+[LLM Client] Synthesizing the MCP tool result...
+  [SKIPPED] LLM synthesis unavailable: the configured endpoint did not return a live response.
+[MCP Client] Sending 'resources/list' request...
+  [PASS] Resource Available: 'config://app-settings' (app_settings)
+[MCP Client] Sending 'resources/read' request...
+  [PASS] Resource Read Result: '{
+  "application": "harness-enterprise",
+  "environment": "production",
+  "record_access": "read-only"
+}'
+```
+
+## Annotated code
+
+Server:
 
 ```python
-from mcp.server.mcpserver import MCPServer
-
+# MCP Python SDK 2.x authoring API. Do not print to stdout: that stream
+# is the protocol, not a log.
 mcp = MCPServer("Harness-Enterprise-Tools")
-
 
 @mcp.tool()
 def query_database_record(record_id: int) -> str:
-    return f"DB_RECORD #{record_id}"
-
+    """Teaching MCP tool: return one fake enterprise record."""
+    return f"DB_RECORD #{record_id}: status=ACTIVE, owner=admin, env=production"
 
 @mcp.resource("config://app-settings")
 def app_settings() -> str:
-    return '{"environment": "production"}'
-
-
-if __name__ == "__main__":
-    mcp.run()  # stdio is the default transport
+    """Teaching MCP resource: a read-only JSON document."""
+    return json.dumps({...}, indent=2)
 ```
 
-`mcp_client_runner.py` starts `mcp_server_demo.py` in a separate Python
-subprocess, creates a `ClientSession`, initializes the session, and invokes
-`list_tools()`, `call_tool()`, `list_resources()`, and `read_resource()` over
-stdio.
+Client:
 
-Run it from the repository root:
-
-```powershell
-& 'C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe' 'course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py'
+```python
+# Spawn mcp_server_demo.py as a child. The SDK wires stdin/stdout to JSON-RPC.
+server_parameters = StdioServerParameters(
+    command=sys.executable,
+    args=[str(MODULE_DIR / "mcp_server_demo.py")],
+)
+async with stdio_client(server_parameters) as (read_stream, write_stream):
+    async with ClientSession(read_stream, write_stream) as session:
+        await session.initialize()          # handshake
+        await session.list_tools()
+        await session.call_tool("query_database_record", {"record_id": 4092})
+        await session.list_resources()
+        await session.read_resource("config://app-settings")
 ```
-
-The MCP protocol uses dated revisions, such as `2025-06-18`; it does not use a
-`2.0` protocol version. JSON-RPC 2.0 is the message framing version, while
-`2.0.0` here is the Python SDK package version. Local servers commonly use
-stdio. Remote servers use Streamable HTTP; HTTP+SSE is its legacy predecessor.
-
-The course LLM client remains part of the demo. If its configured endpoint is
-not reachable, the MCP exchange still runs and the optional synthesis step
-prints a clear `[SKIPPED]` result.

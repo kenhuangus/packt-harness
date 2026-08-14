@@ -24,7 +24,13 @@ def test_divide_by_zero():
 
 
 def check_pytest_availability():
-    """Check pytest with the same interpreter that will run the test suite."""
+    """
+    Prove pytest is importable for *this* interpreter before claiming a run.
+
+    The course uses the same sys.executable for the availability check
+    and the later test suite so a different Python on PATH cannot fake
+    a pass. Missing pytest prints [SKIPPED] and exits 0.
+    """
     command = [sys.executable, "-m", "pytest", "--version"]
     result = subprocess.run(
         command,
@@ -48,8 +54,21 @@ def check_pytest_availability():
 
 
 class TDAReliabilityPipeline:
+    """
+    Three-stage Test-Driven Agent loop against a real pytest subprocess.
+
+    Stage 1 writes a divide() that raises ZeroDivisionError and captures
+    the traceback. Stage 2 writes the known-good repair and reruns.
+    Stage 3 appends a permanent regression test and reruns again.
+
+    All files live in a TemporaryDirectory under this module and are
+    deleted before the process exits. Nothing is left in the git tree.
+    """
+
     def __init__(self):
         self.regression_suite = []
+        # Scratch dir is next to this file so a leftover is visible if
+        # cleanup fails; the finally block removes it on success.
         self._scratch = tempfile.TemporaryDirectory(
             prefix="tda_reliability_", dir=MODULE_DIR
         )
@@ -80,6 +99,7 @@ class TDAReliabilityPipeline:
         return None
 
     def _run_pytest(self):
+        """Run pytest as a subprocess in the scratch dir and return the CompletedProcess."""
         environment = os.environ.copy()
         environment["PYTHONDONTWRITEBYTECODE"] = "1"
         environment["PYTHONIOENCODING"] = "utf-8"
@@ -103,6 +123,7 @@ class TDAReliabilityPipeline:
         )
 
     def run_test_suite(self, code_under_test):
+        """Write calculator.py, run pytest, and return pass/fail plus captured output."""
         print("\n[TDA Pipeline] Running real pytest suite against proposed code...")
         self.code_file.write_text(code_under_test, encoding="utf-8")
 
@@ -150,6 +171,7 @@ class TDAReliabilityPipeline:
         }
 
     def format_fix_prompt(self, traceback_str):
+        """Turn captured pytest stdout/stderr into the repair prompt an agent would see."""
         print("\n[TDA Pipeline] Formatting real pytest failure into repair prompt:")
         prompt = (
             "System Instruction: Fix the following pytest failure output:\n"
@@ -160,6 +182,7 @@ class TDAReliabilityPipeline:
         return prompt
 
     def register_anti_regression_test(self, bug_name, test_code):
+        """Append a new test to the live file, rerun pytest, and keep it only if it passes."""
         print(
             "\n[Anti-Regression Pipeline] Writing regression safeguard "
             f"'{bug_name}' to the real pytest file..."

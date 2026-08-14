@@ -17,7 +17,17 @@ from typing import TextIO
 
 
 class ClaudeCodeHookInterceptor:
-    """Model the documented Claude Code command-hook input/output contract."""
+    """
+    Model the documented Claude Code command-hook contract.
+
+    Claude Code writes a JSON object to the hook's stdin. For PreToolUse,
+    an exit-0 hook may return hookSpecificOutput with permissionDecision
+    set to allow, deny, ask, or defer. Exit 2 is the blocking-error path:
+    stderr is shown, stdout is ignored.
+
+    Event names are case-sensitive PascalCase. This class only accepts
+    PreToolUse and PostToolUse.
+    """
 
     PRE_TOOL_USE = "PreToolUse"
     POST_TOOL_USE = "PostToolUse"
@@ -33,7 +43,13 @@ class ClaudeCodeHookInterceptor:
     def intercept_pre_tool_use(
         self, tool_name: str, tool_input: dict
     ) -> tuple[bool, str]:
-        """Evaluate a PreToolUse payload before a tool executes."""
+        """
+        Evaluate a PreToolUse payload before a tool executes.
+
+        Only Bash commands are inspected. Flags such as
+        --dangerously-skip-permissions are denied because they disable
+        the very permission system this course is teaching.
+        """
         command = tool_input.get("command", "")
         if tool_name != "Bash":
             return True, f"No Bash policy applies to tool '{tool_name}'."
@@ -116,6 +132,17 @@ class ClaudeCodeHookInterceptor:
 
 
 class GuardrailsEngine:
+    """
+    Four-layer teaching engine used by this module and by module 9.
+
+    1. Prompt rules live outside this file (system prompt).
+    2. Tool schemas are implied by the typed arguments below.
+    3. PreToolUse / PostToolUse are handled by ClaudeCodeHookInterceptor
+       plus intercept_shell_command / audit_ast_and_secrets.
+    4. Path sandbox uses Path.resolve() + is_relative_to(), which rejects
+       both `..` traversal and sibling directories that share a prefix.
+    """
+
     def __init__(self, workspace_root: str | Path) -> None:
         self.workspace_root = Path(workspace_root).resolve()
         self.claude_interceptor = ClaudeCodeHookInterceptor()
@@ -129,6 +156,7 @@ class GuardrailsEngine:
         ]
 
     def intercept_shell_command(self, command: str) -> tuple[bool, str]:
+        """Deny a command that matches a destructive regex (rm -rf, sudo, ...)."""
         for pattern in self.dangerous_patterns:
             if re.search(pattern, command, re.IGNORECASE):
                 return (
@@ -141,6 +169,12 @@ class GuardrailsEngine:
     def audit_ast_and_secrets(
         self, file_path: str, code_content: str
     ) -> tuple[bool, list[str]]:
+        """
+        Post-edit check: parse Python, then scan for common secret prefixes.
+
+        A syntax error fails immediately. sk-proj-... and AKIA... are the
+        two teaching patterns; they stand in for a real secret scanner.
+        """
         issues = []
         try:
             ast.parse(code_content, filename=file_path)
@@ -161,6 +195,13 @@ class GuardrailsEngine:
         return True, ["AST syntax valid. Zero secret leaks detected."]
 
     def enforce_path_sandbox(self, target_path: str | Path) -> tuple[bool, str]:
+        """
+        Resolve the target, then require it to sit under workspace_root.
+
+        String-prefix checks are not used: a sibling named
+        `<workspace>-outside` would pass startswith() but fail
+        is_relative_to(). The demo asserts that case.
+        """
         target = Path(target_path)
         if not target.is_absolute():
             target = self.workspace_root / target

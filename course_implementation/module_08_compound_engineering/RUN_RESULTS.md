@@ -1,9 +1,15 @@
 # Module 8 Run Results
 
-Captured from an actual run.
+Captured 2026-08-14 on this machine from an actual process.
+
+The live `telemetry.jsonl` for this run lived inside
+`C:\Users\kenhu\AppData\Local\Temp\module_08_team_*` and was deleted
+with that workspace. The `git worktree add` line is labelled
+`NOT EXECUTED`.
 
 ```text
-> python multi_agent_team_simulator.py
+> C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py
+cwd = C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering
 ========================================================================
 MODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS
 ========================================================================

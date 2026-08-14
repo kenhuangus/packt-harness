@@ -10,6 +10,19 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from common.llm_client import CourseLLMClient
 
 class PermissionEscalationGateway:
+    """
+    Risk-tiered approval gate for tool calls.
+
+    LOW    — read-only tools, auto-approve
+    MEDIUM — non-destructive writes/tests, log then approve
+    HIGH   — package installs, extra logging, still allowed here
+    CRITICAL — git_push / db_drop: blocked unless the caller supplies
+               an explicit user confirmation (user_auto_approve=True)
+
+    The demo never opens a real confirmation UI. The boolean stands in
+    for a modal click so the two CRITICAL outcomes can be shown in one run.
+    """
+
     def __init__(self):
         self.risk_matrix = {
             "read_file": "LOW",
@@ -24,6 +37,8 @@ class PermissionEscalationGateway:
         self.llm_client = CourseLLMClient()
 
     def evaluate_request(self, tool_name, params, user_auto_approve=False):
+        """Return True when the request may proceed under the risk matrix."""
+        # Unknown tools default to HIGH so they are never silently treated as LOW.
         risk = self.risk_matrix.get(tool_name, "HIGH")
         print(f"\n[Escalation Gateway] Evaluating Request: Tool='{tool_name}' | Risk Level={risk}")
 
@@ -51,19 +66,20 @@ def main():
 
     gateway = PermissionEscalationGateway()
 
-    # Call LLM via aisuite
+    # Optional LLM call. The matrix below is deterministic and does not
+    # take the model's answer as an approval signal.
     llm_req = gateway.llm_client.complete("Determine risk tier for tool call git_push")
 
-    # 1. Low-risk auto-approved
+    # 1. LOW: read_file is auto-approved.
     gateway.evaluate_request("read_file", {"path": "src/main.py"})
 
-    # 2. Medium-risk logged
+    # 2. MEDIUM: write_file is logged and approved.
     gateway.evaluate_request("write_file", {"path": "src/main.py"})
 
-    # 3. Critical-risk without user approval
+    # 3. CRITICAL without a confirmation click: blocked.
     gateway.evaluate_request("git_push", {"branch": "main"}, user_auto_approve=False)
 
-    # 4. Critical-risk with user confirmation
+    # 4. Same CRITICAL action after the developer confirms: allowed.
     gateway.evaluate_request("git_push", {"branch": "main"}, user_auto_approve=True)
 
     print("\n" + "=" * 60)

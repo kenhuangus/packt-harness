@@ -17,7 +17,14 @@ import tempfile
 from datetime import datetime, timezone
 
 class ContextTokenBudgeter:
-    """Manages token allocation and compacts long context windows to prevent amnesia."""
+    """
+    Pillar 4 helper: split a 128k context window into fixed buckets and
+    compact long compiler output so the model does not drown in logs.
+
+    The 20/20/50/10 split is a teaching default, not a measured optimum.
+    `compact_output` keeps the first 5 and last 15 lines of a long dump.
+    """
+
     def __init__(self, max_tokens=128000):
         self.max_tokens = max_tokens
         self.allocations = {
@@ -26,13 +33,15 @@ class ContextTokenBudgeter:
             'workspace': int(max_tokens * 0.50),
             'output_buffer': int(max_tokens * 0.10)
         }
-        
+
     def estimate_tokens(self, text: str) -> int:
-        # Standard token estimation: ~1.33 tokens per word
+        # Rough classroom estimator: ~1.33 tokens per whitespace-split word.
         words = text.split()
         return int(len(words) * 1.33)
-        
+
     def compact_output(self, raw_output: str, max_lines=20) -> str:
+        # Keep a head/tail window so the model still sees the error and
+        # the last compiler lines, while the middle is replaced by a marker.
         lines = raw_output.splitlines()
         if len(lines) <= max_lines:
             return raw_output
@@ -41,13 +50,25 @@ class ContextTokenBudgeter:
         omitted_count = len(lines) - 20
         return "\n".join(header) + f"\n\n... [HARNESS COMPACTION: Omitted {omitted_count} lines of compiler stdout] ...\n\n" + "\n".join(footer)
 
+
 class CoreHarnessStack:
+    """
+    In-process teaching harness for the five pillars.
+
+    workspace_root is the only directory write_file may touch. Every
+    permission decision and hook result is appended to events.jsonl
+    inside that workspace as one JSON object per line.
+    """
+
     def __init__(self, workspace_root: str):
         self.workspace_root = os.path.abspath(workspace_root)
+        # Durable audit trail for this run. The demo uses a TemporaryDirectory,
+        # so this file lives under %TEMP%\module_02_harness_*\events.jsonl.
         self.audit_log_path = os.path.join(self.workspace_root, "events.jsonl")
         self.budgeter = ContextTokenBudgeter()
 
     def log_event(self, event_type: str, details: dict):
+        """Append one structured event. Never overwrite previous lines."""
         payload = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "event_type": event_type,
@@ -57,6 +78,13 @@ class CoreHarnessStack:
             f.write(json.dumps(payload) + "\n")
 
     def validate_tool_permission(self, tool_name: str, target_path: str = None) -> bool:
+        """
+        Pillar 2: least-privilege tool names plus a prefix sandbox.
+
+        A missing tool name is denied. A target whose abspath does not
+        start with workspace_root is treated as path traversal. Both
+        outcomes are logged before the caller proceeds.
+        """
         allowed_tools = ["read_file", "write_file", "run_test", "list_dir"]
         if tool_name not in allowed_tools:
             self.log_event("PERMISSION_DENIED", {"reason": f"Tool '{tool_name}' not in allowed tool set."})
@@ -72,6 +100,12 @@ class CoreHarnessStack:
         return True
 
     def run_post_edit_hook(self, file_path: str, code_content: str) -> bool:
+        """
+        Pillar 3: inspect proposed file content before it is written.
+
+        Two cheap deterministic checks: a hardcoded OpenAI-style key
+        prefix, and an empty edit. Syntax is checked later with ast.parse.
+        """
         if "sk-proj-" in code_content:
             self.log_event("SECURITY_VIOLATION", {"file": file_path, "issue": "Hardcoded OpenAI secret key detected!"})
             return False
@@ -88,6 +122,8 @@ if __name__ == "__main__":
     print("MODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)")
     print("=" * 72)
 
+    # Pillar 1: load the committed AGENTS.md next to this script. The
+    # byte count is evidence the file was actually read, not assumed.
     module_dir = os.path.dirname(os.path.abspath(__file__))
     memory_path = os.path.join(module_dir, "AGENTS.md")
     try:
@@ -102,10 +138,13 @@ if __name__ == "__main__":
         f"'AGENTS.md' ({len(memory_bytes)} bytes)"
     )
 
+    # Isolated workspace so the demo never writes sample_module.py into
+    # the git tree. events.jsonl for this run lives here, then is deleted.
     with tempfile.TemporaryDirectory(prefix="module_02_harness_") as workspace:
         harness = CoreHarnessStack(workspace)
         print("Allocations:", harness.budgeter.allocations)
 
+        # Happy-path write: permission, secret/empty hook, then AST parse.
         print("\n>>> HARNESS EXECUTION TASK: write_file <<<")
         sample_path = os.path.join(workspace, "sample_module.py")
         permission_granted = harness.validate_tool_permission("write_file", sample_path)

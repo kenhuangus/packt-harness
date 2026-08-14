@@ -43,6 +43,10 @@ python -m pip install mcp
 python run_all_modules.py
 ```
 
+Each module folder under `C:\Users\kenhu\packt-harness\course_implementation\`
+has its own `README.md` with what that module teaches, the absolute-path
+run command, and captured stdout in `RUN_RESULTS.md`.
+
 Open [`course_implementation/dashboard/index.html`](./course_implementation/dashboard/index.html) for the dashboard, or view the [interactive HTML slide deck](https://kenhuangus.github.io/packt-harness/slides.html).
 
 ## What is actually verified here
