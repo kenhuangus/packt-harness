@@ -17,17 +17,17 @@
       "COURSE MASTER MAP & GITHUB REPOSITORY",
       "09:00 AM - 11:30 AM",
       "PART 1: FOUNDATIONS & CONTROL (09:00 - 10:20)",
-      "\u2022 Mod 1 (09:00-09:15): Why Harness Engineering & Failure Modes",
-      "\u2022 Mod 2 (09:15-09:30): Core Harness Stack & 5 System Pillars",
-      "\u2022 Mod 3 (09:30-09:50): Spec-Driven Development (SDD) & Schemas",
-      "\u2022 Mod 4 (09:50-10:10): Guardrails, AST Checks & Deterministic Hooks",
-      "\u2022 Mod 5 (10:10-10:20): Mid-Morning Break & Permission Gateways Q&A",
+      "• Mod 1 (09:00-09:15): Why Harness Engineering & Failure Modes",
+      "• Mod 2 (09:15-09:30): Core Harness Stack & 5 System Pillars",
+      "• Mod 3 (09:30-09:50): Spec-Driven Development (SDD) & Schemas",
+      "• Mod 4 (09:50-10:10): Guardrails, AST Checks & Deterministic Hooks",
+      "• Mod 5 (10:10-10:20): Mid-Morning Break & Permission Gateways Q&A",
       "PART 2: RELIABILITY & TEAMS (10:20 - 11:30)",
-      "\u2022 Mod 6 (10:20-10:35): Tests as Reliability Layer & TDA Loop",
-      "\u2022 Mod 7 (10:35-10:50): Skills, Plugins & Model Context Protocol (MCP)",
-      "\u2022 Mod 8 (10:50-11:05): Compound Engineering & Multi-Agent Swarms",
-      "\u2022 Mod 9 (11:05-11:15): 5-Step Practical Workflow SOP Pattern",
-      "\u2022 Mod 10 (11:15-11:30): Core Principles, Audit Checklist & GitHub Code"
+      "• Mod 6 (10:20-10:35): Tests as Reliability Layer & TDA Loop",
+      "• Mod 7 (10:35-10:50): Skills, Plugins & Model Context Protocol (MCP)",
+      "• Mod 8 (10:50-11:05): Compound Engineering & Multi-Agent Swarms",
+      "• Mod 9 (11:05-11:15): 5-Step Practical Workflow SOP Pattern",
+      "• Mod 10 (11:15-11:30): Core Principles, Audit Checklist & GitHub Code"
     ]
   },
   {
@@ -36,10 +36,10 @@
       "MODULE 1  |  09:00 AM - 09:15 AM",
       "Why Harness Engineering",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Understand why AI model capability does not equal production reliability.",
-      "\u2022 Examine the 98% Harness Rule in 2026 agentic systems engineering.",
-      "\u2022 Analyze concrete failure modes: context drift, infinite loops, & unverified edits.",
-      "\u2022 Code Implementation: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py"
+      "• Understand why AI model capability does not equal production reliability.",
+      "• Examine the 98% Harness Rule in 2026 agentic systems engineering.",
+      "• Analyze concrete failure modes: context drift, infinite loops, & unverified edits.",
+      "• Code Implementation: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py"
     ]
   },
   {
@@ -47,13 +47,13 @@
     "raw_lines": [
       "Speed Without Structure Creates Risk: Harness Thesis",
       "The Un-Harnessed Agent Problem",
-      "\u2022 AI coding agents move fast, but raw model capability without scaffolding creates risk.",
-      "\u2022 Symptom: Impressive single-turn generation, followed by context amnesia & unverified edits.",
-      "\u2022 Risk: Infinite execution loops, path traversal exploits, and broken builds.",
+      "• AI coding agents move fast, but raw model capability without scaffolding creates risk.",
+      "• Symptom: Impressive single-turn generation, followed by context amnesia & unverified edits.",
+      "• Risk: Infinite execution loops, path traversal exploits, and broken builds.",
       "The Deterministic Harness Solution",
-      "\u2022 The difference between a useful coding agent and an unreliable one isn't the model alone \u2014 it's the harness around it.",
-      "\u2022 Harness engineering builds surrounding systems that make agent behavior predictable, testable, and constrained.",
-      "\u2022 Optimizes for trust, correctness, and production readiness rather than raw speed."
+      "• The difference between a useful coding agent and an unreliable one isn't the model alone — it's the harness around it.",
+      "• Harness engineering builds surrounding systems that make agent behavior predictable, testable, and constrained.",
+      "• Optimizes for trust, correctness, and production readiness rather than raw speed."
     ]
   },
   {
@@ -61,13 +61,12 @@
     "raw_lines": [
       "Model vs System Harness: The 2026 Paradigm",
       "The Model (Probabilistic Reasoner)",
-      "\u2022 Generates code proposals based on next-token probability.",
-      "\u2022 Susceptible to hallucinations, context amnesia, and command retries.",
-      "\u2022 Requires external scaffolding to verify logic.",
+      "• Generates code proposals based on next-token probability.",
+      "• Susceptible to hallucinations, context amnesia, and command retries.",
+      "• Requires external scaffolding to verify logic.",
       "The Harness (Deterministic Scaffolding)",
-      "\u2022 Enforces execution boundaries, AST linting, and path sandboxing.",
-      "\u2022 Intercepts infinite retry loops automatically.",
-      "\u2022 Provides standardized LLM client interface for enterprise model providers."
+      "• Enforces execution boundaries, AST linting, and path sandboxing.",
+      "• Intercepts infinite retry loops automatically."
     ]
   },
   {
@@ -75,9 +74,9 @@
     "raw_lines": [
       "Failure Mode 1: Context Decay & Amnesia",
       "Symptoms of Context Failure",
-      "\u2022 Agent forgets initial constraints after 8+ conversation turns.",
-      "\u2022 Mutates unrelated files or reverses prior architecture decisions.",
-      "\u2022 Mitigation: Persistent memory files (CLAUDE.md / AGENTS.md)."
+      "• Agent forgets initial constraints after 8+ conversation turns.",
+      "• Mutates unrelated files or reverses prior architecture decisions.",
+      "• Mitigation: Persistent memory files (CLAUDE.md / AGENTS.md)."
     ]
   },
   {
@@ -85,9 +84,9 @@
     "raw_lines": [
       "Failure Mode 2: Infinite Execution Loops",
       "Symptoms of Execution Traps",
-      "\u2022 Agent retries failing compiler command endlessly with minor tweaks.",
-      "\u2022 Burns tokens without making architectural progress.",
-      "\u2022 Mitigation: Harness loop detector in harness_vs_model_demo.py."
+      "• Agent retries failing compiler command endlessly with minor tweaks.",
+      "• Burns tokens without making architectural progress.",
+      "• Mitigation: Harness loop detector in harness_vs_model_demo.py."
     ]
   },
   {
@@ -95,9 +94,9 @@
     "raw_lines": [
       "Failure Mode 3: Unsanitized Mutations & Bad Tools",
       "Symptoms of Dangerous Tool Actions",
-      "\u2022 Agent attempts rm -rf / or unauthorized shell commands.",
-      "\u2022 Overwrites production configuration files or drops database tables.",
-      "\u2022 Mitigation: Pre-action regex shell interceptors & path isolation."
+      "• Agent attempts rm -rf / or unauthorized shell commands.",
+      "• Overwrites production configuration files or drops database tables.",
+      "• Mitigation: Pre-action regex shell interceptors & path isolation."
     ]
   },
   {
@@ -106,10 +105,10 @@
       "MODULE 2  |  09:15 AM - 09:30 AM",
       "Core Harness Stack & Architecture",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Deconstruct the 5 core pillars of a production AI coding harness.",
-      "\u2022 Implement persistent memory standards (CLAUDE.md vs AGENTS.md).",
-      "\u2022 Build least-privilege permission models and pre/post hooks.",
-      "\u2022 Code Implementation: course_implementation/module_02_core_harness_stack/core_harness_stack.py"
+      "• Deconstruct the 5 core pillars of a production AI coding harness.",
+      "• Implement persistent memory standards (CLAUDE.md vs AGENTS.md).",
+      "• Build least-privilege permission models and pre/post hooks.",
+      "• Code Implementation: course_implementation/module_02_core_harness_stack/core_harness_stack.py"
     ]
   },
   {
@@ -117,17 +116,17 @@
     "raw_lines": [
       "System Architecture: The 5 Harness Pillars",
       "Instructions & Repo Conventions",
-      "\u2022 CLAUDE.md / AGENTS.md specifying architecture & rules.",
-      "\u2022 Cascading lookup and symlink interoperability.",
+      "• CLAUDE.md / AGENTS.md specifying architecture & rules.",
+      "• Cascading lookup and symlink interoperability.",
       "Scoped Tools & Permissions",
-      "\u2022 Least-privilege tool execution model.",
-      "\u2022 Path sandboxing blocking path traversal exploits.",
+      "• Least-privilege tool execution model.",
+      "• Path sandboxing blocking path traversal exploits.",
       "Hooks & Policy Engine",
-      "\u2022 Pre-action security checks.",
-      "\u2022 Post-action AST linting and secret scanning.",
+      "• Pre-action security checks.",
+      "• Post-action AST linting and secret scanning.",
       "Testing & Tracing",
-      "\u2022 Automated pytest runner feeding tracebacks back.",
-      "\u2022 JSONL audit event logging for full observability."
+      "• Automated pytest runner feeding tracebacks back.",
+      "• JSONL audit event logging for full observability."
     ]
   },
   {
@@ -135,11 +134,11 @@
     "raw_lines": [
       "Pillar 1: Memory Files (CLAUDE.md vs AGENTS.md)",
       "CLAUDE.md (Anthropic Ecosystem)",
-      "\u2022 Dedicated standing brief for Claude Code agent sessions.",
-      "\u2022 Supports cascading subdirectory discovery.",
+      "• Dedicated standing brief for Claude Code agent sessions.",
+      "• Supports cascading subdirectory discovery.",
       "AGENTS.md (Universal Open Standard)",
-      "\u2022 Cross-tool standard for Cursor, Copilot, and Aider.",
-      "\u2022 Symlink pattern: ln -s AGENTS.md CLAUDE.md"
+      "• Cross-tool standard for Cursor, Copilot, and Aider.",
+      "• Symlink pattern: ln -s AGENTS.md CLAUDE.md"
     ]
   },
   {
@@ -147,9 +146,9 @@
     "raw_lines": [
       "Pillar 2: Scoped Tool & Permission Models",
       "Principle of Least Privilege Execution",
-      "\u2022 Grant minimal required tools (read_file, write_file, run_test).",
-      "\u2022 Validate target path resides within workspace root.",
-      "\u2022 Codebase: core_harness_stack.py validate_tool_permission()"
+      "• Grant minimal required tools (read_file, write_file, run_test).",
+      "• Validate target path resides within workspace root.",
+      "• Codebase: core_harness_stack.py validate_tool_permission()"
     ]
   },
   {
@@ -157,8 +156,8 @@
     "raw_lines": [
       "Pillar 3: Deterministic Hooks & Policy Engine",
       "Pre-Execution & Post-Execution Interceptors",
-      "\u2022 Pre-Hooks: Inspect tool call arguments before execution.",
-      "\u2022 Post-Hooks: Trigger AST static analysis and secret scanners on edits."
+      "• Pre-Hooks: Inspect tool call arguments before execution.",
+      "• Post-Hooks: Trigger AST static analysis and secret scanners on edits."
     ]
   },
   {
@@ -166,11 +165,11 @@
     "raw_lines": [
       "Pillars 4 & 5: Context Token Budgeting & Tracing",
       "Context Window Compacting & Budgeting",
-      "\u2022 Allocate token budget: 20% Memory, 20% Spec, 50% Edit, 10% Output.",
-      "\u2022 Truncate long compiler outputs while retaining core traceback.",
+      "• Allocate a token budget across memory, spec, edits, and output (illustrative split, e.g. 20/20/50/10).",
+      "• Truncate long compiler outputs while retaining core traceback.",
       "JSONL Observability & Audit Tracing",
-      "\u2022 Log structured JSON entries for every tool call and error.",
-      "\u2022 Audit trail logged to events.jsonl for complete telemetry."
+      "• Log structured JSON entries for every tool call and error.",
+      "• Audit trail logged to events.jsonl for complete telemetry."
     ]
   },
   {
@@ -179,10 +178,10 @@
       "MODULE 3  |  09:30 AM - 09:50 AM",
       "Spec-Driven Development (SDD)",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Master Spec-Driven Development to eliminate prompt ambiguity.",
-      "\u2022 Draft machine-verifiable acceptance criteria and scope boundaries.",
-      "\u2022 Implement upfront spec verification and anti-hallucination checks.",
-      "\u2022 Code Implementation: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py"
+      "• Master Spec-Driven Development to eliminate prompt ambiguity.",
+      "• Draft machine-verifiable acceptance criteria and scope boundaries.",
+      "• Implement upfront spec verification and anti-hallucination checks.",
+      "• Code Implementation: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py"
     ]
   },
   {
@@ -190,11 +189,11 @@
     "raw_lines": [
       "Why Prompts Fail & Specs Succeed",
       "The Flaws of Natural Language Prompts",
-      "\u2022 Prompts are ambiguous, subjective, and context-dependent.",
-      "\u2022 Lead to feature creep and unrequested refactoring.",
+      "• Prompts are ambiguous, subjective, and context-dependent.",
+      "• Lead to feature creep and unrequested refactoring.",
       "The Power of Executable Specifications",
-      "\u2022 Defines clear contracts, allowed files, and non-goals.",
-      "\u2022 Codebase: SPEC.md & spec_driven_verifier.py"
+      "• Defines clear contracts, allowed files, and non-goals.",
+      "• Codebase: SPEC.md & spec_driven_verifier.py"
     ]
   },
   {
@@ -202,11 +201,11 @@
     "raw_lines": [
       "Anatomy of a Production SPEC.md",
       "Required SPEC.md Structure",
-      "\u2022 Executive Summary & Problem Context",
-      "\u2022 Allowed Modification Scope (Explicit file list)",
-      "\u2022 Explicit Non-Goals (Forbidden actions)",
-      "\u2022 Input/Output Data Schemas (JSON/TypeScript)",
-      "\u2022 Machine-Verifiable Acceptance Criteria"
+      "• Executive Summary & Problem Context",
+      "• Allowed Modification Scope (Explicit file list)",
+      "• Explicit Non-Goals (Forbidden actions)",
+      "• Input/Output Data Schemas (JSON/TypeScript)",
+      "• Machine-Verifiable Acceptance Criteria"
     ]
   },
   {
@@ -214,9 +213,9 @@
     "raw_lines": [
       "Defining Scope Boundaries & Non-Goals",
       "Hard Boundaries to Prevent Scope Creep",
-      "\u2022 Coding agents tend to refactor adjacent files needlessly.",
-      "\u2022 SPEC.md lists explicitly allowed files (e.g. auth_validator.py).",
-      "\u2022 Verifier rejects edits to database.py or config files."
+      "• Coding agents tend to refactor adjacent files needlessly.",
+      "• SPEC.md lists explicitly allowed files (e.g. auth_validator.py).",
+      "• Verifier rejects edits to database.py or config files."
     ]
   },
   {
@@ -224,9 +223,9 @@
     "raw_lines": [
       "Drafting Machine-Verifiable Acceptance Criteria",
       "Vague vs Executable Criteria",
-      "\u2022 Vague: Make the API fast and handle errors gracefully.",
-      "\u2022 Executable: validate_jwt(token) returns {\"valid\": True} for valid tokens.",
-      "\u2022 Executable: 100% test coverage in tests/test_auth.py."
+      "• Vague: Make the API fast and handle errors gracefully.",
+      "• Executable: validate_jwt(token) returns {\"valid\": True} for valid tokens.",
+      "• Executable: 100% test coverage in tests/test_auth.py."
     ]
   },
   {
@@ -234,9 +233,9 @@
     "raw_lines": [
       "How Claude Code Processes Specs",
       "Agent Execution Lifecycle under SDD",
-      "\u2022 Agent reads SPEC.md at session initialization.",
-      "\u2022 Agent generates implementation plan matching SPEC criteria.",
-      "\u2022 Spec verifier audits diff against allowed scope prior to merge."
+      "• Agent reads SPEC.md at session initialization.",
+      "• Agent generates implementation plan matching SPEC criteria.",
+      "• Spec verifier audits diff against allowed scope prior to merge."
     ]
   },
   {
@@ -244,8 +243,8 @@
     "raw_lines": [
       "Spec Verification & Anti-Hallucination Checks",
       "Upfront Consistency Verification",
-      "\u2022 Run spec validation pass prior to code generation.",
-      "\u2022 Ensure proposed diff satisfies non-goals and schema constraints."
+      "• Run spec validation pass prior to code generation.",
+      "• Ensure proposed diff satisfies non-goals and schema constraints."
     ]
   },
   {
@@ -254,10 +253,10 @@
       "MODULE 4  |  09:50 AM - 10:10 AM",
       "Guardrails and Deterministic Hooks",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Enforce 4-layer defense-in-depth security boundaries.",
-      "\u2022 Build pre-action shell interceptors and post-action AST linters.",
-      "\u2022 Implement path isolation sandboxing and secret key scanning.",
-      "\u2022 Code Implementation: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py"
+      "• Enforce 4-layer defense-in-depth security boundaries.",
+      "• Build pre-action shell interceptors and post-action AST linters.",
+      "• Implement path isolation sandboxing and secret key scanning.",
+      "• Code Implementation: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py"
     ]
   },
   {
@@ -265,13 +264,13 @@
     "raw_lines": [
       "The 4-Layer Control Architecture",
       "Layer 1: System Rules (Prompt)",
-      "\u2022 Soft guidelines defined in CLAUDE.md / AGENTS.md.",
+      "• Soft guidelines defined in CLAUDE.md / AGENTS.md.",
       "Layer 2: Tool Schemas (JSON Schema)",
-      "\u2022 Strict argument type & payload shape enforcement.",
+      "• Strict argument type & payload shape enforcement.",
       "Layer 3: Interceptors & Hooks (Process)",
-      "\u2022 Pre-action regex filters & post-action AST static analysis.",
+      "• Pre-action regex filters & post-action AST static analysis.",
       "Layer 4: OS Sandboxing (System)",
-      "\u2022 Path traversal blocks & workspace root chroot isolation."
+      "• Path traversal blocks & workspace root chroot isolation."
     ]
   },
   {
@@ -279,13 +278,11 @@
     "raw_lines": [
       "Claude Code Native Hooks & Shell Interception",
       "Hook Events (Exact PascalCase Names)",
-      "\u2022 Lifecycle: SessionStart, Setup, UserPromptSubmit, UserPromptExpansion, MessageDisplay, Stop, StopFailure, SessionEnd.",
-      "\u2022 Tools: PreToolUse, PermissionRequest, PermissionDenied, PostToolUse, PostToolUseFailure, PostToolBatch.",
-      "\u2022 Agents/tasks: SubagentStart, SubagentStop, TaskCreated, TaskCompleted, TeammateIdle.",
-      "\u2022 State/context: Notification, InstructionsLoaded, ConfigChange, CwdChanged, FileChanged, WorktreeCreate, WorktreeRemove, PreCompact, PostCompact, Elicitation, ElicitationResult.",
+      "• Lifecycle: SessionStart, Setup, UserPromptSubmit, UserPromptExpansion, MessageDisplay, Stop, StopFailure, SessionEnd.",
+      "• Tools: PreToolUse, PermissionRequest, PermissionDenied, PostToolUse, PostToolUseFailure, PostToolBatch.",
       "settings.json Matcher Shape",
-      "\u2022 {\"hooks\":{\"PreToolUse\":[{\"matcher\":\"Bash\",\"hooks\":[{\"type\":\"command\",\"command\":\"$CLAUDE_PROJECT_DIR/.claude/hooks/guard.py\",\"timeout\":10}]}]}}",
-      "\u2022 matcher targets tool names; use Edit|Write for alternation and * (or omit it) to match all."
+      "• {\"hooks\":{\"PreToolUse\":[{\"matcher\":\"Bash\",\"hooks\":[{\"type\":\"command\",\"command\":\"$CLAUDE_PROJECT_DIR/.claude/hooks/guard.py\",\"timeout\":10}]}]}}",
+      "• matcher targets tool names; use Edit|Write for alternation and * (or omit it) to match all."
     ]
   },
   {
@@ -293,9 +290,9 @@
     "raw_lines": [
       "Post-Action Checks: AST Parsers & Linters",
       "AST Static Analysis & Secret Scanning",
-      "\u2022 Runs automatically whenever agent writes or updates a file.",
-      "\u2022 Executes ast.parse() to catch syntax & structural errors.",
-      "\u2022 Scans for hardcoded secret API keys (sk-proj...)."
+      "• Runs automatically whenever agent writes or updates a file.",
+      "• Executes ast.parse() to catch syntax & structural errors.",
+      "• Scans for hardcoded secret API keys (sk-proj...)."
     ]
   },
   {
@@ -303,8 +300,8 @@
     "raw_lines": [
       "Filesystem Sandboxing & Path Isolation",
       "Workspace Boundary Enforcement",
-      "\u2022 Bind agent file operations strictly to project working directory.",
-      "\u2022 Block path traversal exploits (../../etc/passwd or C:\\Windows)."
+      "• Bind agent file operations strictly to project working directory.",
+      "• Block path traversal exploits (../../etc/passwd or C:\\Windows)."
     ]
   },
   {
@@ -312,15 +309,13 @@
     "raw_lines": [
       "Admin Escalation & Claude Code Permissions",
       "Risk Tiers Mapped to Real Permission Modes",
-      "\u2022 Lowest mutation risk: plan is read-only exploration.",
-      "\u2022 Low risk: default runs reads and asks before other tools; add narrow allow rules for trusted reads.",
-      "\u2022 Reviewed edits: acceptEdits allows working-directory file edits and common filesystem commands; keep risky Bash actions in ask.",
-      "\u2022 Higher autonomy: auto routes actions through background safety checks; it is a research preview, not a substitute for review.",
-      "\u2022 Locked automation: dontAsk runs only pre-approved actions and denies anything that would prompt.",
-      "\u2022 Critical escape hatch: bypassPermissions skips the permission layer; use only inside an isolated container or VM.",
+      "• Lowest mutation risk: plan is read-only exploration.",
+      "• Low risk: default runs reads and asks before other tools; add narrow allow rules for trusted reads.",
+      "• Reviewed edits: acceptEdits allows working-directory file edits and common filesystem commands; keep risky Bash actions in ask.",
+      "• Critical escape hatch: bypassPermissions skips the permission layer; use only inside an isolated container or VM.",
       "settings.json Rules",
-      "\u2022 {\"permissions\":{\"defaultMode\":\"default\",\"allow\":[\"Read\",\"Grep\"],\"ask\":[\"Bash(git push *)\"],\"deny\":[\"Read(./.env)\"]}}",
-      "\u2022 Rules resolve deny \u2192 ask \u2192 allow; first matching rule wins."
+      "• {\"permissions\":{\"defaultMode\":\"default\",\"allow\":[\"Read\",\"Grep\"],\"ask\":[\"Bash(git push *)\"],\"deny\":[\"Read(./.env)\"]}}",
+      "• Rules resolve deny → ask → allow; first matching rule wins."
     ]
   },
   {
@@ -328,9 +323,9 @@
     "raw_lines": [
       "Evaluation Harnesses: Behavior, Not Just Test Outcomes",
       "Reproducible Agent-Control Evaluation",
-      "\u2022 Replay fixed tasks from known repository states with explicit acceptance tests.",
-      "\u2022 Score test results plus scope adherence, denied tool calls, path boundaries, retry budgets, hook decisions, and audit completeness.",
-      "\u2022 Keep the evaluator independent from the agent and turn every discovered failure into a regression case."
+      "• Replay fixed tasks from known repository states with explicit acceptance tests.",
+      "• Score test results plus scope adherence, denied tool calls, path boundaries, retry budgets, hook decisions, and audit completeness.",
+      "• Keep the evaluator independent from the agent and turn every discovered failure into a regression case."
     ]
   },
   {
@@ -338,9 +333,7 @@
     "raw_lines": [
       "Production Safety & Audit Matrix",
       "Verification Checklist",
-      "\u2022 [PASS] Are all shell commands logged to audit JSONL with timestamps?",
-      "\u2022 [PASS] Is secret scanning enforced through PostToolUse or FileChanged hooks?",
-      "\u2022 [PASS] Is path traversal sandboxing active for all file write tools?"
+      "• Three control checkpoints: audit logging (JSONL + timestamps), secret scanning via PostToolUse/FileChanged hooks, and path-traversal sandboxing on all file-write tools."
     ]
   },
   {
@@ -349,10 +342,10 @@
       "MODULE 5  |  10:10 AM - 10:20 AM",
       "Mid-Morning Break & Permission Gateways",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Take a 10-minute break to refresh.",
-      "\u2022 Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.",
-      "\u2022 Review Risk-Tiered Permission Gateway implementation.",
-      "\u2022 Code Implementation: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py"
+      "• Take a 10-minute break to refresh.",
+      "• Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.",
+      "• Review Risk-Tiered Permission Gateway implementation.",
+      "• Code Implementation: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py"
     ]
   },
   {
@@ -360,9 +353,9 @@
     "raw_lines": [
       "Open Q&A & Group Discussion",
       "Discussion Prompts",
-      "\u2022 How are you currently managing agent permissions in your organization?",
-      "\u2022 What failure modes have caused the most friction in your workflows?",
-      "\u2022 How can spec-driven development accelerate your team velocity?"
+      "• How are you currently managing agent permissions in your organization?",
+      "• What failure modes have caused the most friction in your workflows?",
+      "• How can spec-driven development accelerate your team velocity?"
     ]
   },
   {
@@ -371,10 +364,10 @@
       "MODULE 6  |  10:20 AM - 10:35 AM",
       "Tests as Reliability Layer",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Architect Test-Driven Agent (TDA) execution loops.",
-      "\u2022 Leverage multi-tier testing (Unit, Integration, E2E) for validation.",
-      "\u2022 Extract automated tracebacks and register anti-regression tests.",
-      "\u2022 Code Implementation: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py"
+      "• Architect Test-Driven Agent (TDA) execution loops.",
+      "• Leverage multi-tier testing (Unit, Integration, E2E) for validation.",
+      "• Extract automated tracebacks and register anti-regression tests.",
+      "• Code Implementation: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py"
     ]
   },
   {
@@ -382,10 +375,10 @@
     "raw_lines": [
       "Test-Driven Agent (TDA) Loop Architecture",
       "The TDA Execution Loop",
-      "\u2022 Write/Identify failing unit test based on SPEC.md.",
-      "\u2022 Agent generates implementation code to satisfy test.",
-      "\u2022 Run test runner; extract traceback on failure.",
-      "\u2022 Feed traceback back into agent repair prompt."
+      "• Write/Identify failing unit test based on SPEC.md.",
+      "• Agent generates implementation code to satisfy test.",
+      "• Run test runner; extract traceback on failure.",
+      "• Feed traceback back into agent repair prompt."
     ]
   },
   {
@@ -393,9 +386,9 @@
     "raw_lines": [
       "Multi-Tier Testing for Coding Agents",
       "Testing Hierarchy",
-      "\u2022 Unit Tests: Fast isolation tests verifying individual functions.",
-      "\u2022 Integration Tests: Verifies multi-module interactions & APIs.",
-      "\u2022 E2E Tests: Full system workflow verification."
+      "• Unit Tests: Fast isolation tests verifying individual functions.",
+      "• Integration Tests: Verifies multi-module interactions & APIs.",
+      "• E2E Tests: Full system workflow verification."
     ]
   },
   {
@@ -403,9 +396,9 @@
     "raw_lines": [
       "Automated Error Traceback Feedback Loops",
       "Zero-Touch Error Capture",
-      "\u2022 Eliminates manual copy-pasting of compiler/test errors by developer.",
-      "\u2022 Harness captures pytest/jest stdout and stderr automatically.",
-      "\u2022 Passes formatted traceback directly into LLM repair prompt."
+      "• Eliminates manual copy-pasting of compiler/test errors by developer.",
+      "• Harness captures pytest/jest stdout and stderr automatically.",
+      "• Passes formatted traceback directly into LLM repair prompt."
     ]
   },
   {
@@ -413,9 +406,9 @@
     "raw_lines": [
       "Turning Agent Failures into Permanent Tests",
       "Anti-Regression Safeguards",
-      "\u2022 Every agent hallucination or bug must yield a new regression test.",
-      "\u2022 Add test case to project regression test suite permanently.",
-      "\u2022 Codebase: tda_reliability_pipeline.py register_anti_regression_test()"
+      "• Every agent hallucination or bug must yield a new regression test.",
+      "• Add test case to project regression test suite permanently.",
+      "• Codebase: tda_reliability_pipeline.py register_anti_regression_test()"
     ]
   },
   {
@@ -423,9 +416,9 @@
     "raw_lines": [
       "Test Reliability Scorecard & Metrics",
       "Key Performance Indicators (KPIs)",
-      "\u2022 First-Pass Pass Rate: % of agent edits passing tests on turn 1.",
-      "\u2022 Mean Iterations to Repair: Avg attempts to fix failing test (< 3).",
-      "\u2022 Regression Rate: % of edits breaking existing tests."
+      "• First-Pass Pass Rate: % of agent edits passing tests on turn 1.",
+      "• Mean Iterations to Repair: Avg attempts to fix failing test (< 3).",
+      "• Regression Rate: % of edits breaking existing tests."
     ]
   },
   {
@@ -434,10 +427,10 @@
       "MODULE 7  |  10:35 AM - 10:50 AM",
       "Skills, Plugins, and MCP Tools",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Master the Agent Skills open standard (SKILL.md).",
-      "\u2022 Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.",
-      "\u2022 Implement Model Context Protocol (MCP) servers over stdio and Streamable HTTP.",
-      "\u2022 Code Implementation: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py"
+      "• Master the Agent Skills open standard (SKILL.md).",
+      "• Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.",
+      "• Implement Model Context Protocol (MCP) servers over stdio and Streamable HTTP.",
+      "• Code Implementation: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py"
     ]
   },
   {
@@ -445,10 +438,10 @@
     "raw_lines": [
       "Agent Skills Open Standard (SKILL.md)",
       "Folder-Based Skill Encapsulation",
-      "\u2022 Self-contained folder containing SKILL.md and reference assets.",
-      "\u2022 YAML frontmatter fields: name, description, allowed-tools, disable-model-invocation, context, agent, and model.",
-      "\u2022 There is no triggers field: description drives discovery and must say what the skill does and when to use it.",
-      "\u2022 Encapsulates domain expertise and repeatable workflows."
+      "• Self-contained folder containing SKILL.md and reference assets.",
+      "• YAML frontmatter fields: name, description, allowed-tools, disable-model-invocation, context, agent, and model.",
+      "• There is no triggers field: description drives discovery and must say what the skill does and when to use it.",
+      "• Encapsulates domain expertise and repeatable workflows."
     ]
   },
   {
@@ -456,9 +449,9 @@
     "raw_lines": [
       "Structuring Skill Instructions & Resources",
       "Skill Directory Anatomy",
-      "\u2022 SKILL.md: Frontmatter metadata + operational instructions.",
-      "\u2022 references/: Deep documentation, schema specs, and design rules.",
-      "\u2022 scripts/: Executable helper scripts and automation tools."
+      "• SKILL.md: Frontmatter metadata + operational instructions.",
+      "• references/: Deep documentation, schema specs, and design rules.",
+      "• scripts/: Executable helper scripts and automation tools."
     ]
   },
   {
@@ -466,9 +459,9 @@
     "raw_lines": [
       "Plugin Bundles: Packaging Capabilities",
       "Deployable Extension Packages",
-      "\u2022 Bundles skills, agents, hooks, MCP servers, LSP servers, and monitors.",
-      "\u2022 Manifest path: .claude-plugin/plugin.json (name is required; metadata can include description, version, author, and dependencies).",
-      "\u2022 Distribute through a marketplace.json catalog or load a plugin in place from a skills directory."
+      "• Bundles skills, agents, hooks, MCP servers, LSP servers, and monitors.",
+      "• Manifest path: .claude-plugin/plugin.json (name is required; metadata can include description, version, author, and dependencies).",
+      "• Distribute through a marketplace.json catalog or load a plugin in place from a skills directory."
     ]
   },
   {
@@ -476,11 +469,11 @@
     "raw_lines": [
       "Model Context Protocol (MCP) Foundation",
       "Open Standard by Anthropic",
-      "\u2022 Open standard created by Anthropic for AI-to-system connectivity.",
-      "\u2022 MCP protocol revisions are dated YYYY-MM-DD; there is no MCP protocol version \"2.0\".",
-      "\u2022 JSON-RPC 2.0 is the message framing, not the MCP protocol revision.",
-      "\u2022 The Python mcp SDK package installed here is 2.0.0; its package version is separate.",
-      "\u2022 Exposes Tools, Resources, and Prompts to LLMs."
+      "• Open standard created by Anthropic for AI-to-system connectivity.",
+      "• MCP protocol revisions are dated YYYY-MM-DD; there is no MCP protocol version \"2.0\".",
+      "• JSON-RPC 2.0 is the message framing, not the MCP protocol revision.",
+      "• The Python mcp SDK package installed here is 2.0.0; its package version is separate.",
+      "• Exposes Tools, Resources, and Prompts to LLMs."
     ]
   },
   {
@@ -488,9 +481,9 @@
     "raw_lines": [
       "MCP Transports: stdio vs Streamable HTTP",
       "Transport Layer Comparison",
-      "\u2022 stdio: current transport for local subprocess servers and CLI integrations.",
-      "\u2022 Streamable HTTP: current remote transport since MCP revision 2025-03-26.",
-      "\u2022 HTTP+SSE is the deprecated predecessor, not the current remote choice."
+      "• stdio: current transport for local subprocess servers and CLI integrations.",
+      "• Streamable HTTP: current remote transport since MCP revision 2025-03-26.",
+      "• HTTP+SSE is the deprecated predecessor, not the current remote choice."
     ]
   },
   {
@@ -498,12 +491,12 @@
     "raw_lines": [
       "MCP Python SDK 2.x vs 1.x",
       "Version-Sensitive Server Class; Shared Authoring Shape",
-      "\u2022 SDK 2.x (installed mcp 2.0.0): from mcp.server.mcpserver import MCPServer",
-      "\u2022 SDK 2.x: mcp = MCPServer(\"harness-tools\")",
-      "\u2022 SDK 1.x: from mcp.server.fastmcp import FastMCP; mcp = FastMCP(\"harness-tools\")",
-      "\u2022 Same in both: @mcp.tool() and @mcp.resource() decorators.",
-      "\u2022 Same in both: mcp.run(transport=\"stdio\"|\"streamable-http\"|\"sse\"); SSE is legacy.",
-      "\u2022 Codebase: mcp_server_demo.py & mcp_client_runner.py"
+      "• SDK 2.x (installed mcp 2.0.0): from mcp.server.mcpserver import MCPServer",
+      "• SDK 2.x: mcp = MCPServer(\"harness-tools\")",
+      "• SDK 1.x: from mcp.server.fastmcp import FastMCP; mcp = FastMCP(\"harness-tools\")",
+      "• Same in both: @mcp.tool() and @mcp.resource() decorators.",
+      "• Same in both: mcp.run(transport=\"stdio\"|\"streamable-http\"|\"sse\"); SSE is legacy.",
+      "• Codebase: mcp_server_demo.py & mcp_client_runner.py"
     ]
   },
   {
@@ -511,8 +504,8 @@
     "raw_lines": [
       "MCP Governance & Security Controls",
       "Enterprise Governance",
-      "\u2022 OAuth2 & API Key authentication for remote MCP servers.",
-      "\u2022 Granular tool-level permission gating (read vs write actions)."
+      "• OAuth2 & API Key authentication for remote MCP servers.",
+      "• Granular tool-level permission gating (read vs write actions)."
     ]
   },
   {
@@ -521,10 +514,10 @@
       "MODULE 8  |  10:50 AM - 11:05 AM",
       "Compound Engineering & Agent Teams",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Design multi-agent architectures for complex software projects.",
-      "\u2022 Implement specialized agent roles: Planner, Implementer, & Reviewer.",
-      "\u2022 Isolate agent workspaces using Git Worktrees.",
-      "\u2022 Code Implementation: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py"
+      "• Design multi-agent architectures for complex software projects.",
+      "• Implement specialized agent roles: Planner, Implementer, & Reviewer.",
+      "• Isolate agent workspaces using Git Worktrees.",
+      "• Code Implementation: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py"
     ]
   },
   {
@@ -532,9 +525,9 @@
     "raw_lines": [
       "Multi-Agent Workflows vs Single Agents",
       "Cognitive Specialization",
-      "\u2022 Single agents suffer cognitive overload as file count grows.",
-      "\u2022 Context window bloat reduces reasoning accuracy.",
-      "\u2022 Multi-agent teams partition responsibilities cleanly."
+      "• Single agents suffer cognitive overload as file count grows.",
+      "• Context window bloat reduces reasoning accuracy.",
+      "• Multi-agent teams partition responsibilities cleanly."
     ]
   },
   {
@@ -542,8 +535,8 @@
     "raw_lines": [
       "Role Specialization: Planner Agent",
       "Architect & Requirement Analyst",
-      "\u2022 Read-only access to codebase; analyzes SPEC.md requirements.",
-      "\u2022 Drafts high-level architecture & file modification plan."
+      "• Read-only access to codebase; analyzes SPEC.md requirements.",
+      "• Drafts high-level architecture & file modification plan."
     ]
   },
   {
@@ -551,8 +544,8 @@
     "raw_lines": [
       "Role Specialization: Implementer Agent",
       "Constrained Coder Agent",
-      "\u2022 Receives focused subtask assignment from Planner.",
-      "\u2022 Executes file edits within strict workspace boundary or Git Worktree."
+      "• Receives focused subtask assignment from Planner.",
+      "• Executes file edits within strict workspace boundary or Git Worktree."
     ]
   },
   {
@@ -560,8 +553,8 @@
     "raw_lines": [
       "Role Specialization: Reviewer Agent",
       "Independent Quality Auditor",
-      "\u2022 Independent agent inspecting Implementer output.",
-      "\u2022 Runs static analysis, AST linters, and secret scanners."
+      "• Independent agent inspecting Implementer output.",
+      "• Runs static analysis, AST linters, and secret scanners."
     ]
   },
   {
@@ -569,9 +562,9 @@
     "raw_lines": [
       "Subagent Workspace Isolation & Worktrees",
       "First-Class Worktree Isolation",
-      "\u2022 Define project agents in .claude/agents/<name>.md or personal agents in ~/.claude/agents/<name>.md.",
-      "\u2022 Set isolation: worktree in the agent frontmatter.",
-      "\u2022 Claude Code gives that subagent its own git worktree, separating edits from the parent workspace."
+      "• Define project agents in .claude/agents/<name>.md or personal agents in ~/.claude/agents/<name>.md.",
+      "• Set isolation: worktree in the agent frontmatter.",
+      "• Claude Code gives that subagent its own git worktree, separating edits from the parent workspace."
     ]
   },
   {
@@ -579,10 +572,10 @@
     "raw_lines": [
       "Subagent Context Windows & Agent Tool",
       "Focused Context and Delegation",
-      "\u2022 Each subagent gets its own context window and receives the agent file body as its system prompt.",
-      "\u2022 Pass only the focused sub-spec and required evidence to the Implementer.",
-      "\u2022 The Task tool was renamed Agent in Claude Code v2.1.63; Task(...) remains an alias.",
-      "\u2022 Codebase: multi_agent_team_simulator.py"
+      "• Each subagent gets its own context window and receives the agent file body as its system prompt.",
+      "• Pass only the focused sub-spec and required evidence to the Implementer.",
+      "• The Task tool was renamed Agent in Claude Code v2.1.63; Task(...) remains an alias.",
+      "• Codebase: multi_agent_team_simulator.py"
     ]
   },
   {
@@ -590,9 +583,9 @@
     "raw_lines": [
       "Building a Recursive Self-Improvement Loop",
       "Telemetry-Driven Learning",
-      "\u2022 Collect execution logs, tracebacks, and developer edits in telemetry.jsonl.",
-      "\u2022 Automatically analyze recurring failure patterns.",
-      "\u2022 Feed learnings back into CLAUDE.md / AGENTS.md rules."
+      "• Collect execution logs, tracebacks, and developer edits in telemetry.jsonl.",
+      "• Automatically analyze recurring failure patterns.",
+      "• Feed learnings back into CLAUDE.md / AGENTS.md rules."
     ]
   },
   {
@@ -601,10 +594,10 @@
       "MODULE 9  |  11:05 AM - 11:15 AM",
       "Practical Workflow Pattern",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Master the 5-step standard operating procedure for AI coding agents.",
-      "\u2022 Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.",
-      "\u2022 Execute production SOP pipeline end-to-end.",
-      "\u2022 Code Implementation: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py"
+      "• Master the 5-step standard operating procedure for AI coding agents.",
+      "• Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.",
+      "• Execute production SOP pipeline end-to-end.",
+      "• Code Implementation: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py"
     ]
   },
   {
@@ -612,11 +605,11 @@
     "raw_lines": [
       "The 5-Step Practical Workflow Overview",
       "Standard Operating Procedure (SOP)",
-      "\u2022 Spec First (Draft & validate SPEC.md)",
-      "\u2022 Constrained Execution (Sandboxed agent runner)",
-      "\u2022 Deterministic Checks (Pre/post hooks & AST linters)",
-      "\u2022 Test Verification (Automated pytest suite)",
-      "\u2022 Human Review (Developer sanity check & PR merge)"
+      "• Spec First (Draft & validate SPEC.md)",
+      "• Constrained Execution (Sandboxed agent runner)",
+      "• Deterministic Checks (Pre/post hooks & AST linters)",
+      "• Test Verification (Automated pytest suite)",
+      "• Human Review (Developer sanity check & PR merge)"
     ]
   },
   {
@@ -624,8 +617,8 @@
     "raw_lines": [
       "Phases 1 & 2: Spec First & Constrained Exec",
       "Alignment & Sandboxing",
-      "\u2022 Align human & AI on exact deliverables before writing code.",
-      "\u2022 Run agent with minimal tool permissions & strict file scopes."
+      "• Align human & AI on exact deliverables before writing code.",
+      "• Run agent with minimal tool permissions & strict file scopes."
     ]
   },
   {
@@ -633,8 +626,8 @@
     "raw_lines": [
       "Phases 3 & 4: Deterministic Checks & Tests",
       "Automated Verification Gating",
-      "\u2022 Automated AST parsers, linters, & security rule gates.",
-      "\u2022 Pass unit/integration test suite; feed back any errors."
+      "• Automated AST parsers, linters, & security rule gates.",
+      "• Pass unit/integration test suite; feed back any errors."
     ]
   },
   {
@@ -642,8 +635,8 @@
     "raw_lines": [
       "Phase 5: Human Review & Sanity Auditing",
       "Developer Final Approval",
-      "\u2022 Developer reviews clean, pre-validated PR diff.",
-      "\u2022 Verifies business logic alignment and edge case handling."
+      "• Developer reviews clean, pre-validated PR diff.",
+      "• Verifies business logic alignment and edge case handling."
     ]
   },
   {
@@ -652,10 +645,10 @@
       "MODULE 10  |  11:15 AM - 11:30 AM",
       "Closing Principles & Production Audit",
       "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
-      "\u2022 Review the 4 core principles of Harness Engineering.",
-      "\u2022 Evaluate your team's readiness using the Production Readiness Audit Suite.",
-      "\u2022 Access full course implementations, multi-provider LLM client & repository.",
-      "\u2022 Code Implementation: course_implementation/module_10_closing_and_principles/production_harness_audit.py"
+      "• Review the 4 core principles of Harness Engineering.",
+      "• Evaluate your team's readiness using the Production Readiness Audit Suite.",
+      "• Access full course implementations, multi-provider LLM client & repository.",
+      "• Code Implementation: course_implementation/module_10_closing_and_principles/production_harness_audit.py"
     ]
   },
   {
@@ -663,10 +656,10 @@
     "raw_lines": [
       "The 4 Core Principles of Harness Engineering",
       "Foundational Pillars",
-      "\u2022 Predictability Over Randomness: Standardize CLAUDE.md / AGENTS.md.",
-      "\u2022 Reduce Ambiguity: Use executable SPEC.md instead of prompts.",
-      "\u2022 Automate Checks: Replace human vigilance with deterministic hooks & tests.",
-      "\u2022 Optimize for Trust: Prioritize auditability and correctness."
+      "• Predictability Over Randomness: Standardize CLAUDE.md / AGENTS.md.",
+      "• Reduce Ambiguity: Use executable SPEC.md instead of prompts.",
+      "• Automate Checks: Replace human vigilance with deterministic hooks & tests.",
+      "• Optimize for Trust: Prioritize auditability and correctness."
     ]
   },
   {
@@ -674,33 +667,22 @@
     "raw_lines": [
       "Production Readiness Audit Checklist",
       "Audit Criteria (100% Score)",
-      "\u2022 [PASS] Is CLAUDE.md / AGENTS.md configured in project root?",
-      "\u2022 [PASS] Are pre-execution hooks active for dangerous shell commands?",
-      "\u2022 [PASS] Is automated test runner integrated into agent repair loop?",
-      "\u2022 [PASS] Are Model Context Protocol (MCP) tool permissions scoped appropriately?",
-      "\u2022 [PASS] Is multi-agent role division active for complex subtasks?"
+      "• [PASS] Is CLAUDE.md / AGENTS.md configured in project root?",
+      "• [PASS] Are pre-execution hooks active for dangerous shell commands?",
+      "• [PASS] Is automated test runner integrated into agent repair loop?",
+      "• [PASS] Are Model Context Protocol (MCP) tool permissions scoped appropriately?",
+      "• [PASS] Is multi-agent role division active for complex subtasks?"
     ]
   },
   {
     "number": 62,
     "raw_lines": [
-      "Harness System Verification & Observability",
-      "Production Readiness Scorecard",
-      "\u2022 Memory Files (CLAUDE.md / AGENTS.md) configured & symlinked.",
-      "\u2022 Path isolation sandboxing blocking unauthorized file access.",
-      "\u2022 Pre-action regex shell interceptors & post-action AST linters active.",
-      "\u2022 Automated pytest traceback extractor feeding into repair prompts."
-    ]
-  },
-  {
-    "number": 63,
-    "raw_lines": [
       "Final Q&A, Wrap-Up & Course Links",
       "Course Resources & Links",
-      "\u2022 Course Website: https://kenhuangus.github.io/packt-harness/",
-      "\u2022 GitHub Repository: https://github.com/kenhuangus/packt-harness",
-      "\u2022 Includes 10 Module Code Implementations, LLM Client, & Test Suite.",
-      "\u2022 Interactive Web Dashboard: course_implementation/dashboard/index.html"
+      "• Course Website: https://kenhuangus.github.io/packt-harness/",
+      "• GitHub Repository: https://github.com/kenhuangus/packt-harness",
+      "• Includes 10 Module Code Implementations, LLM Client, & Test Suite.",
+      "• Interactive Web Dashboard: course_implementation/dashboard/index.html"
     ]
   }
 ]

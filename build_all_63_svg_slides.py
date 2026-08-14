@@ -2,7 +2,8 @@ import json
 import re
 import os
 
-data_path = r'C:\Users\kenhu\packt\harness\harness_course_presentation\slides_data.json'
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+data_path = os.path.join(ROOT_DIR, 'harness_course_presentation', 'slides_data.json')
 with open(data_path, 'r', encoding='utf-8') as f:
     slides = json.load(f)
 
@@ -185,21 +186,10 @@ def generate_svg_for_slide(num, title):
   <text x="400" y="80" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Verified Harness Engineering Control &amp; Reliability Framework</text>
 </svg>'''
     else:
-        clean_title = re.sub(r'[^a-zA-Z0-9\s]', '', title)[:35]
-        return f'''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.5rem 0;">
-  <rect x="20" y="10" width="760" height="80" rx="12" fill="#FAF9F5" stroke="#F0EEE6" stroke-width="2"/>
-  <rect x="40" y="22" width="220" height="56" rx="8" fill="#F0EEE6" stroke="#D97757" stroke-width="1.5"/>
-  <text x="150" y="45" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">INPUT CONTEXT</text>
-  <text x="150" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Slide {num} Architecture</text>
-  <path d="M260 50 L330 50" stroke="#BD5D3A" stroke-width="2.5" stroke-dasharray="4 4"/>
-  <rect x="330" y="22" width="230" height="56" rx="8" fill="#F0EEE6" stroke="#BD5D3A" stroke-width="1.5"/>
-  <text x="445" y="45" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">{clean_title.upper()}</text>
-  <text x="445" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Harness Execution Pipeline</text>
-  <path d="M560 50 L630 50" stroke="#D97757" stroke-width="2.5"/>
-  <rect x="630" y="22" width="130" height="56" rx="8" fill="#F0EEE6" stroke="#D97757" stroke-width="1.5"/>
-  <text x="695" y="45" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">VERIFIED</text>
-  <text x="695" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">100% Pass Rate</text>
-</svg>'''
+        # ponytail: no generic placeholder diagram. Slides without a bespoke
+        # SVG render as clean text-only; the old scaffold repeated the same
+        # "INPUT CONTEXT / VERIFIED / 100% Pass Rate" graphic on ~44 slides.
+        return ''
 
 svg_all_63 = {}
 for s in slides:
@@ -644,8 +634,8 @@ html_template = '''<!DOCTYPE html>
 </body>
 </html>'''
 
-out_docs = r'C:\Users\kenhu\packt\harness\docs\slides.html'
-out_root = r'C:\Users\kenhu\packt\harness\slides.html'
+out_docs = os.path.join(ROOT_DIR, 'docs', 'slides.html')
+out_root = os.path.join(ROOT_DIR, 'slides.html')
 
 with open(out_docs, 'w', encoding='utf-8') as f:
     f.write(html_template)
