@@ -1,0 +1,23 @@
+compiler: note: unused symbol _0
+compiler: note: unused symbol _1
+compiler: note: unused symbol _2
+compiler: note: unused symbol _3
+compiler: note: unused symbol _4
+
+... [HARNESS COMPACTION: Omitted 20 lines of compiler stdout] ...
+
+compiler: note: unused symbol _25
+compiler: note: unused symbol _26
+compiler: note: unused symbol _27
+compiler: note: unused symbol _28
+compiler: note: unused symbol _29
+compiler: note: unused symbol _30
+compiler: note: unused symbol _31
+compiler: note: unused symbol _32
+compiler: note: unused symbol _33
+compiler: note: unused symbol _34
+compiler: note: unused symbol _35
+compiler: note: unused symbol _36
+compiler: note: unused symbol _37
+compiler: note: unused symbol _38
+compiler: note: unused symbol _39

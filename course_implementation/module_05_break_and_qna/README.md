@@ -14,9 +14,10 @@ auto-approve, log, or require an explicit confirmation.
 | HIGH | `pip_install` | Extra logging, still allowed |
 | CRITICAL | `git_push`, `db_drop` | Block unless `user_auto_approve=True` |
 
-The demo does not open a real UI. `user_auto_approve` stands in for a
-developer clicking Confirm so both CRITICAL outcomes appear in one run.
-Unknown tool names default to HIGH so they are never treated as reads.
+LOW actually reads `output\src\main.py`. MEDIUM actually overwrites that
+file. CRITICAL looks up `request_id` in `output\approvals.json`. Without
+a record the push is blocked; after `grant_approval` the gateway writes
+`pending_push.json` and does **not** run `git push`.
 
 ## Files
 
@@ -25,7 +26,13 @@ Unknown tool names default to HIGH so they are never treated as reads.
 | `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\permission_escalation_gateway.py` | Risk matrix + four cases |
 | `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\RUN_RESULTS.md` | Last captured stdout |
 
-No artifact file. Evidence is stdout.
+Output files:
+
+- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\src\main.py`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\approvals.json`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\pending_push.json`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\audit.jsonl`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\run_evidence.json`
 
 ## How to run
 

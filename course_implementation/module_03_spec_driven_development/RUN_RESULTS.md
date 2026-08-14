@@ -1,30 +1,21 @@
 # Module 3 Run Results
 
-Captured 2026-08-14 on this machine from an actual process.
+Captured 2026-08-14 from a real process. A real HS256 JWT module was
+written, `database.py` was not created, pytest reported 3 passed, and
+`validate_jwt` was called on live tokens.
 
 ```text
 > C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py
-cwd = C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development
-============================================================
-MODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER 
-============================================================
-[LLM Client] Configured LLM client with model 'default-harness-model' | Endpoint: 'http://127.0.0.1:8000/v1'
 [Spec Verifier] Parsed SPEC.md:
-  Allowed Files Scope: ['auth_validator.py']
-  Explicit Non-Goals: ['Do NOT modify existing database connection pools.', 'Do NOT implement OAuth2 refresh token rotation in this iteration.']
-
-[Spec Verifier] Auditing proposed modification to 'auth_validator.py'...
-  ✓ Spec Compliance Verified: Scope & Non-Goals satisfied.
-
-[Spec Verifier] Auditing proposed modification to 'database.py'...
-  ❌ SCOPE VIOLATION: 'database.py' is outside allowed spec scope ['auth_validator.py']!
-
-[Spec Verifier] Auditing proposed modification to 'auth_validator.py'...
-  ❌ NON-GOAL VIOLATION: Code diff attempts to modify database connection logic!
-
-============================================================
-MODULE 3 DEMO COMPLETE: Spec Verifier Enforced Target Boundaries!
-============================================================
+  Allowed Files Scope: ['auth_validator.py', 'tests/test_auth.py']
+  [PASS] Wrote ...\output\auth_validator.py (2201 bytes).
+  [BLOCKED] SCOPE VIOLATION: 'database.py'
+  [BLOCKED] NON-GOAL VIOLATION: diff mentions database or OAuth2 refresh logic.
+  [PASS] Wrote ...\output\tests\test_auth.py (673 bytes).
+3 passed in 0.23s
+[Live call] valid token -> {'valid': True, 'user_id': '123', 'roles': ['user']}
+[Live call] expired token -> {'valid': False, 'error': 'EXPIRED'}
+[OUTPUT] C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\run_evidence.json
 ```
 
 Exit code: 0

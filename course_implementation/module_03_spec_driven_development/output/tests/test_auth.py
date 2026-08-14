@@ -1,6 +1,6 @@
 import time
 
-from auth import encode_jwt, validate_jwt
+from auth_validator import encode_jwt, validate_jwt
 
 
 def test_valid_token():

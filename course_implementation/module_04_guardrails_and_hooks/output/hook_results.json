@@ -1,0 +1,28 @@
+[
+  {
+    "label": "safe pytest",
+    "command": "pytest tests/unit",
+    "exit": 0,
+    "decision": "defer",
+    "stdout": {
+      "hookSpecificOutput": {
+        "hookEventName": "PreToolUse",
+        "permissionDecision": "defer",
+        "permissionDecisionReason": "No dangerous command pattern matched; normal permissions still apply."
+      }
+    }
+  },
+  {
+    "label": "dangerous rm",
+    "command": "rm -rf /",
+    "exit": 0,
+    "decision": "deny",
+    "stdout": {
+      "hookSpecificOutput": {
+        "hookEventName": "PreToolUse",
+        "permissionDecision": "deny",
+        "permissionDecisionReason": "Blocked dangerous Bash command: recursive forced deletion (matched '\\\\brm\\\\s+-rf\\\\b')."
+      }
+    }
+  }
+]

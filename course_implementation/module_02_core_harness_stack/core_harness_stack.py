@@ -11,6 +11,8 @@ Demonstrates the 5 pillars of a production AI coding harness:
 import ast
 import json
 import os
+from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -91,9 +93,10 @@ class CoreHarnessStack:
             return False
 
         if target_path:
-            abs_target = os.path.abspath(target_path)
-            if not abs_target.startswith(self.workspace_root):
-                self.log_event("PATH_TRAVERSAL_BLOCKED", {"path": target_path, "workspace": self.workspace_root})
+            workspace = Path(self.workspace_root).resolve()
+            abs_target = Path(target_path).resolve()
+            if not abs_target.is_relative_to(workspace):
+                self.log_event("PATH_TRAVERSAL_BLOCKED", {"path": str(abs_target), "workspace": str(workspace)})
                 return False
 
         self.log_event("PERMISSION_GRANTED", {"tool": tool_name, "path": target_path})
@@ -138,11 +141,23 @@ if __name__ == "__main__":
         f"'AGENTS.md' ({len(memory_bytes)} bytes)"
     )
 
-    # Isolated workspace so the demo never writes sample_module.py into
-    # the git tree. events.jsonl for this run lives here, then is deleted.
+    output_dir = Path(module_dir) / "output"
+    output_dir.mkdir(exist_ok=True)
+
+    # Isolated workspace for the live run. events.jsonl is copied to
+    # output/ after the checks so the evidence survives the temp cleanup.
     with tempfile.TemporaryDirectory(prefix="module_02_harness_") as workspace:
         harness = CoreHarnessStack(workspace)
         print("Allocations:", harness.budgeter.allocations)
+
+        long_log = "\n".join(f"compiler: note: unused symbol _{index}" for index in range(40))
+        compacted = harness.budgeter.compact_output(long_log)
+        omitted = long_log.count("\n") + 1 - (compacted.count("\n") + 1) + compacted.count("Omitted")
+        print(
+            f"[Pillar 4 - Budget] Compacted {len(long_log.splitlines())} compiler "
+            f"lines down to {len(compacted.splitlines())} lines."
+        )
+        (Path(workspace) / "compacted_log.txt").write_text(compacted, encoding="utf-8")
 
         # Happy-path write: permission, secret/empty hook, then AST parse.
         print("\n>>> HARNESS EXECUTION TASK: write_file <<<")
@@ -285,5 +300,14 @@ if __name__ == "__main__":
             "[FAIL] HARNESS ERROR: Path Traversal Blocked: Target "
             f"'{traversal_target}' is outside workspace '{workspace}'"
         )
+
+        shutil.copy2(harness.audit_log_path, output_dir / "events.jsonl")
+        shutil.copy2(harness.audit_log_path, Path(module_dir) / "events.jsonl")
+        shutil.copy2(sample_path, output_dir / "sample_module.py")
+        shutil.copy2(sample_path, Path(module_dir) / "sample_module.py")
+        shutil.copy2(Path(workspace) / "compacted_log.txt", output_dir / "compacted_log.txt")
+        print(f"[OUTPUT] {output_dir / 'events.jsonl'}")
+        print(f"[OUTPUT] {output_dir / 'sample_module.py'}")
+        print(f"[OUTPUT] {output_dir / 'compacted_log.txt'}")
 
     print("\nMODULE 2 DEMO COMPLETE: All 5 Pillars Executed & Logged!")

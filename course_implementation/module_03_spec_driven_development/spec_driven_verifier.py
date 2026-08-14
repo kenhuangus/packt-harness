@@ -1,101 +1,224 @@
 """
-Module 3: Spec-Driven Development Verifier & Scope Auditor
-Integrates standardized LLM Client (.env configured with 127.0.0.1 Qwen model as default).
+Module 3: Spec-driven verifier that writes and tests a real JWT module.
+
+The spec at SPEC.md is parsed, in-scope files are written, out-of-scope
+writes are refused, and pytest is run against a real HS256 implementation.
 """
 
-import os, sys, re
-sys.stdout.reconfigure(encoding='utf-8')
+from __future__ import annotations
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from common.llm_client import CourseLLMClient
+import ast
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import time
+
+
+sys.stdout.reconfigure(encoding="utf-8")
+
+MODULE_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = MODULE_DIR / "output"
+sys.path.append(str(MODULE_DIR.parent))
+from common.jwt_tools import (  # noqa: E402
+    auth_validator_source,
+    encode_jwt,
+    test_auth_source,
+    validate_jwt,
+)
+from common.llm_client import CourseLLMClient  # noqa: E402
+
 
 class SpecVerifier:
-    """
-    Machine-check a proposed edit against SPEC.md.
+    """Parse SPEC.md and enforce file scope plus non-goal keywords."""
 
-    Two rules only:
-    1. The target file's basename must appear in the Allowed Files list.
-    2. The diff text must not mention database / connect_db, which the
-       spec lists as explicit non-goals.
-
-    This is not a full SDD engine. It is the smallest verifier that
-    proves a spec can reject work a prompt alone would accept.
-    """
-
-    def __init__(self, spec_path):
+    def __init__(self, spec_path: Path, workspace: Path) -> None:
         self.spec_path = spec_path
-        self.allowed_files = []
-        self.non_goals = []
-        # LLM is initialized so the demo still exercises .env wiring.
-        # The three audit cases below do not depend on its output.
+        self.workspace = workspace
+        self.allowed_files: list[str] = []
+        self.forbidden_files: list[str] = []
+        self.non_goals: list[str] = []
         self.llm_client = CourseLLMClient()
         self.parse_spec()
 
-    def parse_spec(self):
-        """Pull allowed files and non-goals out of the committed SPEC.md."""
-        with open(self.spec_path, "r", encoding="utf-8") as f:
-            content = f.read()
+    def parse_spec(self) -> None:
+        content = self.spec_path.read_text(encoding="utf-8")
 
-        # First backtick-quoted name after "Allowed Files:" becomes scope.
-        # The committed spec lists auth_validator.py first.
-        scope_match = re.search(r"Allowed Files:\s*`([^`]+)`", content)
-        if scope_match:
-            self.allowed_files = [f.strip() for f in scope_match.group(1).split(",")]
+        allowed_line = re.search(r"Allowed Files:\s*(.+)$", content, re.MULTILINE)
+        if allowed_line:
+            self.allowed_files = re.findall(r"`([^`]+)`", allowed_line.group(1))
 
-        # Everything between "## 3. Explicit Non-Goals" and the next H2.
-        non_goals_section = re.search(r"## 3\. Explicit Non-Goals\n(.*?)\n##", content, re.DOTALL)
-        if non_goals_section:
-            self.non_goals = [line.strip("- ").strip() for line in non_goals_section.group(1).strip().split("\n")]
+        forbidden_line = re.search(r"Forbidden Files:\s*(.+)$", content, re.MULTILINE)
+        if forbidden_line:
+            self.forbidden_files = re.findall(r"`([^`]+)`", forbidden_line.group(1))
 
-        print(f"[Spec Verifier] Parsed SPEC.md:")
+        non_goals_match = re.search(
+            r"^## 3\. Explicit Non-Goals\s*$(?P<body>.*?)(?=^##\s|\Z)",
+            content,
+            re.MULTILINE | re.DOTALL,
+        )
+        if non_goals_match:
+            self.non_goals = [
+                line.removeprefix("-").strip()
+                for line in non_goals_match.group("body").splitlines()
+                if line.strip().startswith("-")
+            ]
+
+        print("[Spec Verifier] Parsed SPEC.md:")
         print(f"  Allowed Files Scope: {self.allowed_files}")
+        print(f"  Forbidden Files: {self.forbidden_files}")
         print(f"  Explicit Non-Goals: {self.non_goals}")
+        if not self.allowed_files or not self.non_goals:
+            raise ValueError("SPEC.md did not yield allowed files and non-goals.")
 
-    def verify_proposed_diff(self, target_file, code_diff):
-        """Return True only when both the file and the text stay in spec."""
-        print(f"\n[Spec Verifier] Auditing proposed modification to '{target_file}'...")
+    def _normalized(self, target_file: str) -> str:
+        return Path(target_file).as_posix().lstrip("./")
 
-        # Scope gate: database.py fails here even before content is read.
-        base_name = os.path.basename(target_file)
-        if base_name not in self.allowed_files:
-            print(f"  ❌ SCOPE VIOLATION: '{base_name}' is outside allowed spec scope {self.allowed_files}!")
-            return False
+    def attempt_write(self, target_file: str, code: str) -> tuple[bool, str]:
+        """
+        Write only when the relative path is allowed and the body does
+        not implement a listed non-goal. Returns (written, reason).
+        """
+        print(f"\n[Spec Verifier] Auditing proposed write to '{target_file}'...")
+        relative = self._normalized(target_file)
+        dest = (self.workspace / relative).resolve()
 
-        # Non-goal gate: an in-scope file can still fail if it touches DB.
-        if "database" in code_diff.lower() or "connect_db" in code_diff.lower():
-            print("  ❌ NON-GOAL VIOLATION: Code diff attempts to modify database connection logic!")
-            return False
+        if relative not in self.allowed_files or relative in self.forbidden_files:
+            print(
+                f"  [BLOCKED] SCOPE VIOLATION: '{relative}' is outside "
+                f"allowed spec scope {self.allowed_files}."
+            )
+            return False, "SCOPE_VIOLATION"
 
-        print("  ✓ Spec Compliance Verified: Scope & Non-Goals satisfied.")
-        return True
+        if not dest.is_relative_to(self.workspace.resolve()):
+            print(f"  [BLOCKED] PATH VIOLATION: '{dest}' escapes the workspace.")
+            return False, "PATH_VIOLATION"
 
-def main():
+        lowered = code.lower()
+        if "database" in lowered or "connect_db" in lowered or "oauth2" in lowered:
+            print(
+                "  [BLOCKED] NON-GOAL VIOLATION: diff mentions database "
+                "or OAuth2 refresh logic."
+            )
+            return False, "NON_GOAL_VIOLATION"
+
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(code, encoding="utf-8")
+        ast.parse(code, filename=str(dest))
+        print(f"  [PASS] Wrote {dest} ({dest.stat().st_size} bytes).")
+        return True, str(dest)
+
+
+def run_pytest(workspace: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "tests/test_auth.py",
+            "-q",
+            "--tb=short",
+            "-p",
+            "no:cacheprovider",
+        ],
+        cwd=workspace,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+    )
+
+
+def main() -> int:
     print("=" * 60)
-    print("MODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER ")
+    print("MODULE 3 DEMO: SPEC-DRIVEN DEVELOPMENT VERIFIER")
     print("=" * 60)
 
-    work_dir = os.path.dirname(os.path.abspath(__file__))
-    spec_path = os.path.join(work_dir, "SPEC.md")
-    verifier = SpecVerifier(spec_path)
+    if OUTPUT_DIR.exists():
+        shutil.rmtree(OUTPUT_DIR)
+    OUTPUT_DIR.mkdir()
 
-    # Optional LLM call. The verifier does not use the returned text;
-    # the three cases below are fixed so the demo is deterministic.
-    llm_code = verifier.llm_client.complete("Generate auth_validator.py according to SPEC.md")
+    spec_path = MODULE_DIR / "SPEC.md"
+    verifier = SpecVerifier(spec_path, OUTPUT_DIR)
+    verifier.llm_client.complete("Generate auth_validator.py according to SPEC.md")
 
-    # Case 1: in-scope file, no non-goal keywords -> accept.
-    valid_diff = "def validate_jwt(token: str) -> dict:\n    return {'valid': True, 'user_id': '123'}\n"
-    verifier.verify_proposed_diff("auth_validator.py", valid_diff)
+    wrote_impl, impl_reason = verifier.attempt_write(
+        "auth_validator.py", auth_validator_source()
+    )
+    refused_db, db_reason = verifier.attempt_write(
+        "database.py", "def connect_db():\n    pass\n"
+    )
+    refused_nongoal, nongoal_reason = verifier.attempt_write(
+        "auth_validator.py",
+        "import database\n\ndef validate_jwt(token):\n    return database.connect_db()\n",
+    )
+    wrote_tests, test_reason = verifier.attempt_write(
+        "tests/test_auth.py", test_auth_source()
+    )
 
-    # Case 2: forbidden filename even if the content looks harmless -> reject.
-    verifier.verify_proposed_diff("database.py", "def connect_db(): pass\n")
+    db_absent = not (OUTPUT_DIR / "database.py").exists()
+    impl_intact = "import database" not in (
+        (OUTPUT_DIR / "auth_validator.py").read_text(encoding="utf-8")
+        if wrote_impl
+        else ""
+    )
 
-    # Case 3: allowed filename, but the diff implements a listed non-goal -> reject.
-    invalid_diff = "import database\ndef validate_jwt(token):\n    database.connect_db()\n"
-    verifier.verify_proposed_diff("auth_validator.py", invalid_diff)
+    print("\n[Spec Verifier] Running real pytest against the written module...")
+    pytest_result = run_pytest(OUTPUT_DIR)
+    pytest_output = (pytest_result.stdout + pytest_result.stderr).strip()
+    print(pytest_output)
+    pytest_ok = pytest_result.returncode == 0 and "passed" in pytest_output
+
+    sys.path.insert(0, str(OUTPUT_DIR))
+    from auth_validator import validate_jwt as disk_validate  # type: ignore  # noqa: E402
+
+    live_token = encode_jwt({"user_id": "123", "roles": ["user"], "exp": time.time() + 60})
+    live_result = disk_validate(live_token)
+    expired_token = encode_jwt({"user_id": "123", "exp": time.time() - 30})
+    expired_result = disk_validate(expired_token)
+    print(f"\n[Live call] valid token -> {live_result}")
+    print(f"[Live call] expired token -> {expired_result}")
+
+    evidence = {
+        "allowed_files": verifier.allowed_files,
+        "wrote_impl": wrote_impl,
+        "impl_path": impl_reason,
+        "refused_database": (not refused_db) and db_absent,
+        "refused_nongoal": (not refused_nongoal) and impl_intact,
+        "wrote_tests": wrote_tests,
+        "pytest_returncode": pytest_result.returncode,
+        "pytest_output": pytest_output,
+        "live_valid": live_result,
+        "live_expired": expired_result,
+    }
+    evidence_path = OUTPUT_DIR / "run_evidence.json"
+    evidence_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
+    print(f"[OUTPUT] {evidence_path}")
+
+    ok = (
+        wrote_impl
+        and wrote_tests
+        and db_absent
+        and impl_intact
+        and pytest_ok
+        and live_result.get("valid") is True
+        and live_result.get("user_id") == "123"
+        and expired_result.get("error") == "EXPIRED"
+    )
 
     print("\n" + "=" * 60)
-    print("MODULE 3 DEMO COMPLETE: Spec Verifier Enforced Target Boundaries!")
+    if ok:
+        print("MODULE 3 DEMO COMPLETE: Real JWT module written and tested.")
+        print("=" * 60)
+        return 0
+    print("MODULE 3 DEMO FAILED: spec write, pytest, or live JWT check failed.")
     print("=" * 60)
+    return 1
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

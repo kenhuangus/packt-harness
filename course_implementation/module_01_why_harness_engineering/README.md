@@ -7,14 +7,15 @@ deterministic scaffolding around the model.
 
 **Agent = Model + Harness**
 
-The demo runs the same task two ways:
+The demo runs the same task two ways against real workspaces under
+`output\`:
 
-1. **Un-harnessed runner** — the model (or its simulated fallback) can retry
-   the same failing `pytest` command forever and then execute `rm -rf` with
-   no inspection.
-2. **Harnessed runner** — every proposed shell command is checked first. A
-   repeated command is stopped as a loop. A `rm -rf` pattern is denied by a
-   pre-execution hook.
+1. **Un-harnessed runner** — actually runs `pytest` three times (the test
+   imports a missing module, so pytest exits 2) and then deletes
+   `output\unharnessed_workspace\var\log\app.log`.
+2. **Harnessed runner** — runs pytest once, blocks the second identical
+   call, and refuses `rm -rf` so
+   `output\harnessed_workspace\var\log\app.log` still exists.
 
 Three failure modes are made visible:
 
@@ -37,7 +38,11 @@ string and the harness checks still run.
 | `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\RUN_RESULTS.md` | Last captured stdout |
 | `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\README.md` | This file |
 
-This module writes no artifact file. Evidence is stdout.
+Output files:
+
+- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\run_evidence.json`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\unharnessed_workspace\`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\harnessed_workspace\`
 
 ## How to run
 

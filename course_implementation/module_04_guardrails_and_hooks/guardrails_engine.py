@@ -12,6 +12,7 @@ import ast
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 from typing import TextIO
 
@@ -287,6 +288,60 @@ def main() -> int:
     checks.append(
         print_check("Sibling-prefix path rejected", not allowed, reason)
     )
+
+    print("\n[Live Claude Code hook subprocess]")
+    hook_path = workspace.parents[1] / ".claude" / "hooks" / "bash_guard.py"
+    output_dir = workspace / "output"
+    output_dir.mkdir(exist_ok=True)
+    hook_results = []
+    for label, command in (
+        ("safe pytest", "pytest tests/unit"),
+        ("dangerous rm", "rm -rf /"),
+    ):
+        payload = {
+            "hook_event_name": "PreToolUse",
+            "tool_name": "Bash",
+            "tool_input": {"command": command},
+        }
+        completed = subprocess.run(
+            [sys.executable, str(hook_path)],
+            input=json.dumps(payload),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        try:
+            parsed = json.loads(completed.stdout)
+        except json.JSONDecodeError:
+            parsed = {"raw_stdout": completed.stdout, "stderr": completed.stderr}
+        decision = (
+            parsed.get("hookSpecificOutput", {}).get("permissionDecision")
+            if isinstance(parsed, dict)
+            else None
+        )
+        expected = "defer" if "pytest" in command else "deny"
+        hook_ok = completed.returncode == 0 and decision == expected
+        checks.append(
+            print_check(
+                f"bash_guard.py {label}",
+                hook_ok,
+                f"exit={completed.returncode} decision={decision}",
+            )
+        )
+        hook_results.append(
+            {
+                "label": label,
+                "command": command,
+                "exit": completed.returncode,
+                "decision": decision,
+                "stdout": parsed,
+            }
+        )
+    (output_dir / "hook_results.json").write_text(
+        json.dumps(hook_results, indent=2), encoding="utf-8"
+    )
+    print(f"  [OUTPUT] {output_dir / 'hook_results.json'}")
 
     print("\n" + "=" * 60)
     if all(checks):

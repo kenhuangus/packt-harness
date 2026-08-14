@@ -17,11 +17,11 @@ same idea for tools that follow the AGENTS.md convention. This module's
 committed memory file is
 `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\AGENTS.md`.
 
-The demo writes into a `TemporaryDirectory` under
-`C:\Users\kenhu\AppData\Local\Temp\module_02_harness_*`. The committed
-`events.jsonl` next to this README is leftover from an older run that
-wrote into the module directory. The current code does not update that
-file. Durable evidence is stdout and `RUN_RESULTS.md`.
+The live workspace is still a temp directory. After the checks, the
+harness copies `events.jsonl`, `sample_module.py`, and the compacted
+compiler log into
+`C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\output\`.
+Path checks use `Path.resolve().is_relative_to()`, not a string prefix.
 
 ## Files
 

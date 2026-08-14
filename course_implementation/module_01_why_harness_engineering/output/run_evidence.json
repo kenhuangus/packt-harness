@@ -1,0 +1,40 @@
+{
+  "unharnessed": {
+    "pytest_runs": [
+      {
+        "attempt": 1,
+        "returncode": 2,
+        "last_line": "1 error in 0.69s"
+      },
+      {
+        "attempt": 2,
+        "returncode": 2,
+        "last_line": "1 error in 0.47s"
+      },
+      {
+        "attempt": 3,
+        "returncode": 2,
+        "last_line": "1 error in 0.47s"
+      }
+    ],
+    "deleted": [
+      "C:\\Users\\kenhu\\packt-harness\\course_implementation\\module_01_why_harness_engineering\\output\\unharnessed_workspace\\var\\log\\app.log"
+    ],
+    "log_survived": false
+  },
+  "harnessed": {
+    "first_pytest": {
+      "status": "EXECUTED",
+      "returncode": 2
+    },
+    "second_pytest": {
+      "status": "LOOP_HALTED",
+      "reason": "BLOCKED BY HARNESS LOOP DETECTOR: Command 'pytest tests/auth_test.py' repeated 2 times without progress."
+    },
+    "rm": {
+      "status": "BLOCKED",
+      "reason": "BLOCKED BY PRE-HOOK: Dangerous command pattern 'rm\\s+-rf' detected."
+    },
+    "log_survived": true
+  }
+}

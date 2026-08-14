@@ -1,0 +1,24 @@
+{
+  "allowed_files": [
+    "auth_validator.py",
+    "tests/test_auth.py"
+  ],
+  "wrote_impl": true,
+  "impl_path": "C:\\Users\\kenhu\\packt-harness\\course_implementation\\module_03_spec_driven_development\\output\\auth_validator.py",
+  "refused_database": true,
+  "refused_nongoal": true,
+  "wrote_tests": true,
+  "pytest_returncode": 0,
+  "pytest_output": "...                                                                      [100%]\n3 passed in 0.23s",
+  "live_valid": {
+    "valid": true,
+    "user_id": "123",
+    "roles": [
+      "user"
+    ]
+  },
+  "live_expired": {
+    "valid": false,
+    "error": "EXPIRED"
+  }
+}

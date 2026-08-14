@@ -45,7 +45,10 @@ in `C:\Users\kenhu\packt-harness\.claude\settings.json` for matcher
 
 The sandbox "inside" path
 `...\module_04_guardrails_and_hooks\examples\output.py` is resolved, not
-created. No output file is written.
+created. The demo also launches
+`C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py` as a real
+subprocess and writes
+`C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\output\hook_results.json`.
 
 ## How to run
 

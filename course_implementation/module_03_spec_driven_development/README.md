@@ -14,23 +14,16 @@ It names:
 - **Non-goals:** do not touch the database pool; do not implement OAuth2 refresh rotation
 - **Acceptance criteria:** `validate_jwt(token) -> dict` with explicit valid / expired shapes
 
-The verifier does two checks only, on purpose:
+The verifier now writes files and runs pytest:
 
-1. The target file's basename must be in the allowed list.
-2. The proposed diff must not mention `database` or `connect_db`.
+1. Parse every backtick-quoted allowed and forbidden path from SPEC.md.
+2. Write a real HS256 `auth_validator.py` (stdlib HMAC, not a string table).
+3. Refuse `database.py` and refuse an in-scope file that mentions `connect_db`.
+4. Write `tests/test_auth.py`, run pytest (3 passed), then call `validate_jwt`
+   on a live token and an expired token.
 
-Three cases are run:
-
-| Case | File | Diff | Result |
-| --- | --- | --- | --- |
-| In scope | `auth_validator.py` | `validate_jwt` only | accepted |
-| Wrong file | `database.py` | anything | `SCOPE VIOLATION` |
-| In-scope leak | `auth_validator.py` | imports `database.connect_db` | `NON-GOAL VIOLATION` |
-
-The parser currently takes the first backtick-quoted name after
-`Allowed Files:`, so the printed scope is `['auth_validator.py']`.
-Module 9 parses the same spec more completely (both allowed files).
-That difference is real; do not paper over it.
+Generated files live under
+`C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\`.
 
 ## Files
 
@@ -40,7 +33,11 @@ That difference is real; do not paper over it.
 | `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py` | Parser + auditor |
 | `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\RUN_RESULTS.md` | Last captured stdout |
 
-No files are written. Evidence is stdout.
+Output files:
+
+- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\auth_validator.py`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\tests\test_auth.py`
+- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\run_evidence.json`
 
 ## How to run
 

@@ -1,8 +1,3 @@
-# Implementer subtask: auth_component
-# Focused spec:
-# Allowed Scope: auth.py, test_auth.py
-# auth_component: Implement JWT validation
-# Non-goals: network calls and dependency changes
 """HS256 JWT validator. Standard library only."""
 from __future__ import annotations
 

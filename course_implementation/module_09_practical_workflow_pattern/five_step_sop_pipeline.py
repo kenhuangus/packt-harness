@@ -11,6 +11,7 @@ import difflib
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -32,6 +33,10 @@ MODULE_04_DIR = (
 sys.path.insert(0, str(MODULE_04_DIR))
 
 from guardrails_engine import GuardrailsEngine  # noqa: E402
+
+COMMON_DIR = REPOSITORY_ROOT / "course_implementation" / "common"
+sys.path.insert(0, str(COMMON_DIR.parent))
+from common.jwt_tools import auth_validator_source, test_auth_source  # noqa: E402
 
 
 def print_check(label: str, passed: bool, detail: str) -> bool:
@@ -151,31 +156,8 @@ class FiveStepSOPPipeline:
         print(f"  Allowed file scope: {allowed_files}")
         print(f"  Explicit non-goals: {non_goals}")
 
-        implementation = (
-            '"""Token validation constrained by the feature specification."""\n'
-            "\n"
-            "def validate_jwt(token: str) -> dict:\n"
-            '    if token == "valid-token":\n'
-            '        return {"valid": True, "user_id": "123"}\n'
-            '    if token == "expired-token":\n'
-            '        return {"valid": False, "error": "EXPIRED"}\n'
-            '    return {"valid": False, "error": "INVALID"}\n'
-        )
-        tests = (
-            "from auth_validator import validate_jwt\n"
-            "\n"
-            "def test_valid_token():\n"
-            '    assert validate_jwt("valid-token") == '
-            '{"valid": True, "user_id": "123"}\n'
-            "\n"
-            "def test_expired_token():\n"
-            '    assert validate_jwt("expired-token") == '
-            '{"valid": False, "error": "EXPIRED"}\n'
-            "\n"
-            "def test_invalid_token():\n"
-            '    assert validate_jwt("other") == '
-            '{"valid": False, "error": "INVALID"}\n'
-        )
+        implementation = auth_validator_source()
+        tests = test_auth_source()
 
         with tempfile.TemporaryDirectory(prefix="module09_pipeline_") as temp:
             workspace = Path(temp)
@@ -336,6 +318,12 @@ class FiveStepSOPPipeline:
                 "  Human approval and any PR merge are out-of-band; "
                 "this pipeline did not create or merge a PR."
             )
+
+            output_dir = Path(__file__).resolve().parent / "output"
+            if output_dir.exists():
+                shutil.rmtree(output_dir)
+            shutil.copytree(workspace, output_dir)
+            print(f"  [OUTPUT] copied workspace to {output_dir}")
 
         return self.finish()
 

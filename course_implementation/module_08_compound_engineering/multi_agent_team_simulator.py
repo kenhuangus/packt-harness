@@ -1,82 +1,194 @@
 """
-Module 8: Compound Engineering & Agent Swarms
-Demonstrates multi-agent team workflows:
-1. Cognitive Role Division (Planner, Implementer, Reviewer)
-2. Git Worktree Workspace Isolation
-3. Subagent Prompt Isolation & Clean Context Hygiene
-4. Telemetry-Driven Self-Improvement Loops
+Module 8: Compound engineering with a real git worktree and a real JWT.
+
+Planner emits a file-scoped plan. Implementer writes HS256 auth code into
+an isolated git worktree. Reviewer runs pytest and AST checks inside that
+worktree. Telemetry is appended to this module's telemetry.jsonl.
 """
+
+from __future__ import annotations
 
 import ast
 import json
 import os
+from pathlib import Path
+import shutil
 import subprocess
-import tempfile
+import sys
 from datetime import datetime, timezone
 
-class SubagentPromptIsolator:
-    """
-    Give each subagent a focused spec slice instead of the parent chat.
 
-    Real Claude Code subagents already start with a clean context window.
-    This helper is the course stand-in: keep lines that mention the
-    subtask name, allowed scope, or non-goals, and drop the rest.
-    """
+sys.stdout.reconfigure(encoding="utf-8")
+
+MODULE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = MODULE_DIR.parents[1]
+OUTPUT_DIR = MODULE_DIR / "output"
+sys.path.append(str(MODULE_DIR.parent))
+from common.jwt_tools import auth_validator_source, test_auth_source  # noqa: E402
+
+
+class SubagentPromptIsolator:
+    """Keep only spec lines that name the subtask, scope, or non-goals."""
+
     def extract_sub_spec(self, master_spec: str, subtask_name: str) -> str:
         lines = master_spec.splitlines()
-        filtered = [l for l in lines if subtask_name.lower() in l.lower() or "allowed scope" in l.lower() or "non-goals" in l.lower()]
+        filtered = [
+            line
+            for line in lines
+            if subtask_name.lower() in line.lower()
+            or "allowed scope" in line.lower()
+            or "non-goals" in line.lower()
+        ]
         if not filtered:
             return f"SUB-SPEC FOR {subtask_name}: Execute task within strict scope limits."
         return "\n".join(filtered)
 
-class MultiAgentTeamSimulator:
-    """
-    Planner -> Implementer -> Reviewer handoff plus telemetry.
 
-    The implementer writes into a TemporaryDirectory, not a real git
-    worktree. The printed `git worktree add` line is labelled
-    NOT EXECUTED so the demo does not pretend it isolated a worktree.
-    """
+class WorktreeIsolation:
+    """Create and destroy a real `git worktree` under a temp directory."""
 
-    def __init__(self, workspace_root: str):
-        self.workspace_root = os.path.abspath(workspace_root)
+    def __init__(self, repo_root: Path) -> None:
+        self.repo_root = repo_root
+        self.path: Path | None = None
+        self.branch: str | None = None
+
+    def add(self) -> Path:
+        stamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
+        self.branch = f"module08-agent-{os.getpid()}-{stamp}"
+        self.path = Path(os.environ.get("TEMP", str(MODULE_DIR))) / self.branch
+        if self.path.exists():
+            shutil.rmtree(self.path)
+        result = subprocess.run(
+            [
+                "git",
+                "worktree",
+                "add",
+                "-b",
+                self.branch,
+                str(self.path),
+                "HEAD",
+            ],
+            cwd=self.repo_root,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        if result.returncode != 0:
+            raise RuntimeError(
+                "git worktree add failed: "
+                + (result.stderr or result.stdout).strip()
+            )
+        return self.path
+
+    def remove(self) -> None:
+        if self.path is None or self.branch is None:
+            return
+        subprocess.run(
+            ["git", "worktree", "remove", "--force", str(self.path)],
+            cwd=self.repo_root,
+            capture_output=True,
+            text=True,
+        )
+        subprocess.run(
+            ["git", "branch", "-D", self.branch],
+            cwd=self.repo_root,
+            capture_output=True,
+            text=True,
+        )
+        if self.path.exists():
+            shutil.rmtree(self.path, ignore_errors=True)
+
+
+class MultiAgentTeam:
+    def __init__(self, workspace_root: Path) -> None:
+        self.workspace_root = workspace_root
         self.isolator = SubagentPromptIsolator()
-        self.telemetry_log = os.path.join(self.workspace_root, "telemetry.jsonl")
+        self.telemetry_log = MODULE_DIR / "telemetry.jsonl"
 
     def run_planner(self, spec_text: str) -> dict:
-        """Return two named subtasks. The spec_text is accepted so the planner API matches a real agent."""
-        plan = {
-            "subtasks": [
-                {"name": "auth_component", "target_file": "auth.py", "action": "Implement JWT validation"},
-                {"name": "test_suite", "target_file": "test_auth.py", "action": "Write unit tests for JWT"}
-            ]
-        }
-        return plan
+        """Derive subtasks from the spec text rather than a fixed slogan."""
+        targets = []
+        for line in spec_text.splitlines():
+            if ":" in line and not line.lower().startswith("spec"):
+                name, action = line.split(":", 1)
+                name = name.strip()
+                action = action.strip()
+                if name in {"Allowed Scope", "Non-goals"}:
+                    continue
+                if name == "auth_component":
+                    targets.append(
+                        {
+                            "name": name,
+                            "target_file": "auth.py",
+                            "action": action,
+                        }
+                    )
+                elif name == "test_suite":
+                    targets.append(
+                        {
+                            "name": name,
+                            "target_file": "test_auth.py",
+                            "action": action,
+                        }
+                    )
+        if not targets:
+            raise ValueError("Planner found no auth_component/test_suite lines.")
+        return {"subtasks": targets}
 
-    def run_implementer_in_worktree(self, subtask: dict, master_spec: str) -> bool:
-        """Write one scoped Python file from a focused spec slice. Isolated by the temp workspace, not git."""
-        focused_spec = self.isolator.extract_sub_spec(master_spec, subtask["name"])
-        target = os.path.join(self.workspace_root, subtask["target_file"])
-        
-        # Simulate clean worktree edit
-        with open(target, "w", encoding="utf-8") as f:
-            f.write(f"# Auto-generated by Implementer Subagent for {subtask['name']}\n# Focused Spec: {focused_spec[:50]}\ndef validate_jwt(token):\n    return True\n")
-        return True
+    def run_implementer(self, subtask: dict, master_spec: str) -> Path:
+        focused = self.isolator.extract_sub_spec(master_spec, subtask["name"])
+        target = self.workspace_root / subtask["target_file"]
+        if subtask["target_file"] == "auth.py":
+            body = (
+                f"# Implementer subtask: {subtask['name']}\n"
+                f"# Focused spec:\n# {focused.replace(chr(10), chr(10) + '# ')}\n"
+                + auth_validator_source()
+            )
+        elif subtask["target_file"] == "test_auth.py":
+            body = test_auth_source().replace(
+                "from auth_validator import", "from auth import"
+            )
+        else:
+            raise ValueError(f"Implementer refuses unknown target {subtask['target_file']}")
+        target.write_text(body, encoding="utf-8")
+        return target
 
-    def run_reviewer(self, target_file: str) -> bool:
-        """Cheap reviewer: the file exists and defines validate_jwt. AST and scope are checked in main()."""
-        target = os.path.join(self.workspace_root, target_file)
-        if not os.path.exists(target):
-            return False
-        with open(target, "r", encoding="utf-8") as f:
-            content = f.read()
-        return "def validate_jwt" in content
+    def run_reviewer(self, target_file: str) -> dict:
+        target = self.workspace_root / target_file
+        source = target.read_text(encoding="utf-8")
+        ast.parse(source, filename=str(target))
+        has_jwt = "def validate_jwt" in source
+        return {"syntax_ok": True, "defines_validate_jwt": has_jwt, "path": str(target)}
 
-if __name__ == "__main__":
+
+def run_pytest(workspace: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pytest",
+            "test_auth.py",
+            "-q",
+            "--tb=short",
+            "-p",
+            "no:cacheprovider",
+        ],
+        cwd=workspace,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+    )
+
+
+def main() -> int:
     print("=" * 72)
     print("MODULE 8 DEMO: COMPOUND ENGINEERING & MULTI-AGENT TEAMS")
     print("=" * 72)
 
+    OUTPUT_DIR.mkdir(exist_ok=True)
     allowed_scope = {"auth.py", "test_auth.py"}
     master_spec = (
         "SPEC: JWT Auth System\n"
@@ -86,147 +198,75 @@ if __name__ == "__main__":
         "Non-goals: network calls and dependency changes"
     )
 
-    with tempfile.TemporaryDirectory(prefix="module_08_team_") as workspace:
-        sim = MultiAgentTeamSimulator(workspace)
-        spec_path = os.path.join(workspace, "SPEC.md")
-        try:
-            with open(spec_path, "w", encoding="utf-8") as spec_file:
-                spec_file.write(master_spec)
-            with open(spec_path, "r", encoding="utf-8") as spec_file:
-                supplied_spec = spec_file.read()
-        except OSError as exc:
-            print(f"[FAIL] Could not prepare the temporary SPEC.md: {exc}")
-            raise SystemExit(1)
+    isolation = WorktreeIsolation(REPO_ROOT)
+    try:
+        worktree = isolation.add()
+        print(f"[Isolation] git worktree created at {worktree}")
+        print(f"[Isolation] branch {isolation.branch}")
+
+        team = MultiAgentTeam(worktree)
+        (worktree / "SPEC.md").write_text(master_spec, encoding="utf-8")
 
         print("[Planner Subagent (Architect)] Analyzing requirement...")
-        plan = sim.run_planner(supplied_spec)
-        subtasks = plan.get("subtasks") if isinstance(plan, dict) else None
-        plan_valid = (
-            isinstance(subtasks, list)
-            and bool(subtasks)
-            and all(
-                isinstance(subtask, dict)
-                and {"name", "target_file", "action"} <= subtask.keys()
-                for subtask in subtasks
-            )
-        )
-        if not plan_valid:
-            print("[FAIL] Planner returned an invalid or empty subtask plan.")
-            raise SystemExit(1)
+        plan = team.run_planner(master_spec)
+        subtasks = plan["subtasks"]
         print(f"  [PASS] Plan Generated: {len(subtasks)} micro-subtasks allocated.")
 
-        print(
-            "[Implementer Subagent (Coder)] Executing simulated edits in a "
-            "temporary sandbox..."
-        )
-        print(
-            "  Claude Code project subagents are defined in "
-            ".claude/agents/<name>.md with frontmatter `isolation: worktree`."
-        )
-        print(
-            "  [Illustrative command - NOT EXECUTED] "
-            "git worktree add -b agent-worktree ./worktree-dir main"
-        )
-
-        implementation_results = []
+        print("[Implementer Subagent (Coder)] Writing into the worktree...")
+        written = []
         for subtask in subtasks:
-            try:
-                implemented = sim.run_implementer_in_worktree(
-                    subtask, supplied_spec
-                )
-            except (KeyError, OSError) as exc:
-                print(
-                    f"  [FAIL] Implementer could not complete "
-                    f"'{subtask.get('name', '<unknown>')}': {exc}"
-                )
-                raise SystemExit(1)
-            implementation_results.append(implemented)
-            if not implemented:
-                print(
-                    f"  [FAIL] Implementer returned failure for "
-                    f"'{subtask['name']}'."
-                )
-                raise SystemExit(1)
-            print(
-                f"  [PASS] Simulated isolated edit completed for "
-                f"'{subtask['name']}'."
-            )
+            path = team.run_implementer(subtask, master_spec)
+            written.append(path)
+            print(f"  [PASS] Wrote {path} ({path.stat().st_size} bytes).")
 
-        print(
-            "[Reviewer Subagent (Auditor)] Auditing Implementer output "
-            "against SPEC.md..."
-        )
-        review_results = []
-        planned_targets = {subtask["target_file"] for subtask in subtasks}
+        print("[Reviewer Subagent (Auditor)] AST + pytest in the worktree...")
+        reviews = []
         for subtask in subtasks:
-            target_file = subtask["target_file"]
-            target_path = os.path.abspath(os.path.join(workspace, target_file))
-            reviewer_passed = sim.run_reviewer(target_file)
-            try:
-                with open(target_path, "r", encoding="utf-8") as source_file:
-                    ast.parse(source_file.read(), filename=target_path)
-                syntax_valid = True
-            except (OSError, SyntaxError):
-                syntax_valid = False
-            scope_compliant = (
-                target_file in allowed_scope
-                and os.path.commonpath([workspace, target_path]) == workspace
-            )
-            review_results.append(
-                reviewer_passed and syntax_valid and scope_compliant
-            )
+            review = team.run_reviewer(subtask["target_file"])
+            reviews.append(review)
+            print(f"  [PASS] Review {subtask['target_file']}: {review}")
 
-        produced_targets = {
-            name for name in os.listdir(workspace) if name.endswith(".py")
-        }
-        full_scope_compliance = (
-            planned_targets == produced_targets
-            and planned_targets <= allowed_scope
-        )
-        all_reviews_passed = (
-            all(implementation_results)
-            and all(review_results)
-            and full_scope_compliance
-        )
-        if not all_reviews_passed:
-            print(
-                "  [FAIL] Review failed: reviewer, AST, or scope validation "
-                "did not pass."
-            )
-            raise SystemExit(1)
-        print(
-            "  [PASS] Review Passed: AST syntax valid, scope compliance confirmed."
-        )
+        pytest_result = run_pytest(worktree)
+        pytest_output = (pytest_result.stdout + pytest_result.stderr).strip()
+        print(pytest_output)
+        pytest_ok = pytest_result.returncode == 0 and "passed" in pytest_output
+        if not pytest_ok:
+            print(f"  [FAIL] pytest in worktree exited {pytest_result.returncode}")
+            return 1
+        print("  [PASS] pytest passed inside the isolated worktree.")
 
-        task_name = "jwt_auth_multi_agent_handoff"
+        produced = {path.name for path in written}
+        if produced != allowed_scope:
+            print(f"  [FAIL] produced {produced}, expected {allowed_scope}")
+            return 1
+
+        for name in allowed_scope:
+            shutil.copy2(worktree / name, MODULE_DIR / name)
+            shutil.copy2(worktree / name, OUTPUT_DIR / name)
+
         telemetry_record = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "task": task_name,
+            "task": "jwt_auth_multi_agent_handoff",
+            "worktree": str(worktree),
+            "branch": isolation.branch,
             "subtasks": len(subtasks),
-            "implementation_passed": all(implementation_results),
-            "review_passed": all_reviews_passed,
+            "pytest_returncode": pytest_result.returncode,
+            "pytest_output": pytest_output,
         }
-        try:
-            with open(sim.telemetry_log, "a", encoding="utf-8") as telemetry_file:
-                telemetry_file.write(json.dumps(telemetry_record) + "\n")
-            with open(sim.telemetry_log, "r", encoding="utf-8") as telemetry_file:
-                recorded_telemetry = json.loads(telemetry_file.readlines()[-1])
-        except (OSError, IndexError, json.JSONDecodeError) as exc:
-            print(f"[FAIL] Telemetry could not be recorded and verified: {exc}")
-            raise SystemExit(1)
-
-        telemetry_verified = (
-            recorded_telemetry == telemetry_record
-            and os.path.basename(sim.telemetry_log) == "telemetry.jsonl"
+        with team.telemetry_log.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(telemetry_record) + "\n")
+        (OUTPUT_DIR / "run_evidence.json").write_text(
+            json.dumps(telemetry_record, indent=2), encoding="utf-8"
         )
-        if not telemetry_verified:
-            print("[FAIL] Telemetry read-back did not match the recorded task.")
-            raise SystemExit(1)
-        print(
-            f"[Self-Improvement Telemetry] Recorded task '{task_name}' into "
-            f"'{os.path.basename(sim.telemetry_log)}'."
-        )
+        print(f"[Self-Improvement Telemetry] Appended to {team.telemetry_log}")
+        print(f"[OUTPUT] {OUTPUT_DIR / 'run_evidence.json'}")
+    finally:
+        isolation.remove()
+        print("[Isolation] git worktree removed.")
 
-    print(
-        "\nMODULE 8 DEMO COMPLETE: Multi-Agent Handoff & Telemetry Verified!"
-    )
+    print("\nMODULE 8 DEMO COMPLETE: Worktree implement + real JWT tests passed.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

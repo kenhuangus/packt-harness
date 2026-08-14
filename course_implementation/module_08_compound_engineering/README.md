@@ -12,27 +12,22 @@ separate context windows, then records the handoff.
 | Implementer (coder) | Write `auth.py` and `test_auth.py` | Temporary sandbox (see below) |
 | Reviewer (auditor) | File exists, defines `validate_jwt`, AST parses, path stays in scope | Independent pass over the files |
 
-Claude Code project subagents are files under `.claude/agents/` with
-YAML frontmatter. `isolation: worktree` is the documented field that
-gives a subagent its own git worktree. This demo **does not** run
-`git worktree add`. It prints that command labelled `NOT EXECUTED` and
-writes into a `TemporaryDirectory` instead. Do not treat the committed
-`auth.py` / `test_auth.py` as live implementer output; the current run
-writes those names only inside `%TEMP%\module_08_team_*`.
+This run creates a real `git worktree`, writes HS256 `auth.py` and
+`test_auth.py` into it, runs pytest there (3 passed), copies the files
+back to this module, appends `telemetry.jsonl`, then removes the worktree.
 
-Telemetry is the self-improvement hook: one JSON line per completed
-handoff. The live file is in the temp workspace. The committed
-`telemetry.jsonl` next to this README is leftover from an older run
-that wrote into the module directory.
+`C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py`
+is the implementer output from the last run, not a `return True` stub.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
 | `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py` | Planner / implementer / reviewer |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py` | Historical leftover |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\test_auth.py` | Historical leftover |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\telemetry.jsonl` | Historical leftover |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py` | HS256 JWT from the last implementer run |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\test_auth.py` | Real pytest file from the last implementer run |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\telemetry.jsonl` | Append-only telemetry |
+| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\output\run_evidence.json` | Last worktree path, branch, pytest output |
 | `C:\Users\kenhu\packt-harness\.claude\agents\spec-reviewer.md` | Real Claude Code subagent definition |
 | `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\RUN_RESULTS.md` | Last captured stdout |
 

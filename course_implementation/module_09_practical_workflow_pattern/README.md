@@ -13,9 +13,10 @@ standard operating procedure for one feature: User Auth Token Validator.
 | 4 | Test verification | Real pytest: 3 tests, 3 passed |
 | 5 | Human review | Print a unified diff. No PR is created or merged. |
 
-The implementation and tests live in a `TemporaryDirectory`
-(`module09_pipeline_*`) and are deleted when the run ends. The only
-durable outputs are stdout and `RUN_RESULTS.md`.
+The SOP writes a real HS256 JWT module (same implementation as module 3),
+not the old `"valid-token"` string table. The temp workspace is copied to
+`C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\output\`
+before it is deleted.
 
 This pipeline imports
 `C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\guardrails_engine.py`
