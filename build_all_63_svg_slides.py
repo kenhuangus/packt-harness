@@ -235,8 +235,8 @@ html_template = '''<!DOCTYPE html>
     }
 
     header {
-      height: 64px;
-      flex: 0 0 64px;
+      height: 54px;
+      flex: 0 0 54px;
       background: var(--surface);
       border-bottom: 1px solid var(--rule);
       display: flex;
@@ -283,20 +283,20 @@ html_template = '''<!DOCTYPE html>
     .slide-viewport {
       width: 100%; height: 100%;
       display: flex; justify-content: center; align-items: center;
-      padding: clamp(0.8rem, 2vw, 1.6rem);
+      padding: clamp(0.45rem, 1.2vw, 0.9rem);
     }
     .slide-card {
-      width: 100%; max-width: 1120px; height: 100%; max-height: 680px;
+      width: 100%; max-width: 1360px; height: 100%; max-height: none;
       background: var(--surface); border: 1px solid var(--rule);
-      border-radius: 12px; padding: clamp(1.35rem, 3vw, 2.25rem); display: flex; flex-direction: column;
+      border-radius: 12px; padding: clamp(1.1rem, 2.2vw, 1.8rem); display: flex; flex-direction: column;
       position: relative;
     }
     .slide-header {
       display: flex; justify-content: space-between; align-items: center;
-      gap: 1.25rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.85rem;
+      gap: 1.25rem; margin-bottom: 0.7rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.7rem;
     }
     .slide-title {
-      min-width: 0; font-family: var(--font-display); font-size: clamp(1.45rem, 2.8vw, 2.05rem);
+      min-width: 0; font-family: var(--font-display); font-size: clamp(1.85rem, 3.4vw, 2.55rem);
       font-weight: 650; line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
     }
     .slide-num-badge {
@@ -305,18 +305,18 @@ html_template = '''<!DOCTYPE html>
     }
     .slide-body {
       --fit-scale: 1;
-      --slide-body-base-size: 0.98rem;
+      --slide-body-base-size: 1.42rem;
       flex: 1; min-height: 0; overflow: hidden; padding-right: 0.35rem;
       font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
-      color: var(--ink-muted); line-height: 1.55;
+      color: var(--ink); line-height: 1.38;
     }
     .slide-body > svg {
       display: block; width: 100% !important; height: auto; max-width: 100%;
-      max-height: min(18vh, 150px) !important;
+      max-height: min(12vh, 110px) !important;
     }
 
     /* Visual Hierarchy: Parent vs Sub Bullets (NO NUMBERS) */
-    .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.55rem; }
+    .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.35rem; }
     .main-bullets.dense-columns {
       column-count: 2; column-gap: clamp(1.5rem, 4vw, 3rem); column-fill: balance;
     }
@@ -324,8 +324,8 @@ html_template = '''<!DOCTYPE html>
       break-inside: avoid; page-break-inside: avoid;
     }
     .primary-bullet {
-      font-family: var(--font-display); font-size: 1.12em; font-weight: 650; color: var(--ink);
-      margin-top: 0.9em; margin-bottom: 0.32em; display: flex; align-items: center; gap: 0.55em;
+      font-family: var(--font-display); font-size: 1.18em; font-weight: 700; color: var(--ink);
+      margin-top: 0.62em; margin-bottom: 0.22em; display: flex; align-items: center; gap: 0.55em;
     }
     .primary-bullet::before {
       content: "◆"; color: var(--accent); font-size: 0.68rem;
@@ -335,7 +335,7 @@ html_template = '''<!DOCTYPE html>
       margin-left: 0.32em; margin-bottom: 0.7em;
     }
     .sub-bullet {
-      font-size: 0.96em; color: var(--ink-muted); margin-bottom: 0.38em; position: relative; padding-left: 1em;
+      font-size: 1.02em; color: var(--ink); margin-bottom: 0.28em; position: relative; padding-left: 1em;
     }
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.1rem; line-height: 1;
@@ -380,9 +380,9 @@ html_template = '''<!DOCTYPE html>
       select.slide-select { max-width: 210px; }
     }
     @media (max-height: 760px) {
-      .slide-card { padding: 1.2rem 1.5rem; }
-      .primary-bullet { margin-top: 0.65rem; }
-      .slide-body { --slide-body-base-size: 0.92rem; line-height: 1.45; }
+      .slide-card { padding: 0.95rem 1.2rem; }
+      .primary-bullet { margin-top: 0.48rem; }
+      .slide-body { --slide-body-base-size: 1.28rem; line-height: 1.34; }
     }
   </style>
 </head>
@@ -428,10 +428,10 @@ html_template = '''<!DOCTYPE html>
     let fitSequence = 0;
     let resizeTimer = null;
 
-    const DENSE_BULLET_MIN_LINES = 8;
-    const FIT_MIN = 0.72;
+    const DENSE_BULLET_MIN_LINES = 10;
+    const FIT_MIN = 0.90;
     const FIT_STEP = 0.02;
-    const FIT_MAX_ITERATIONS = 15;
+    const FIT_MAX_ITERATIONS = 10;
     const bodyEl = document.getElementById('slide-body');
 
     const selectEl = document.getElementById('slide-select');
@@ -474,7 +474,12 @@ html_template = '''<!DOCTYPE html>
         const isSub = trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd');
         let cleanText = trimmed.replace(/^[•\-\ufffd]\s*/, '').trim();
         cleanText = cleanNumbers(cleanText);
-        cleanText = formatTextWithCode(cleanText);
+        const labUrl = cleanText.match(/^Lab demo:\\s*(https:\\/\\/[^\\s]+)/i);
+        if (labUrl) {
+          cleanText = `<a href="${labUrl[1]}" target="_blank" rel="noopener noreferrer">Lab demo: open this module README</a>`;
+        } else {
+          cleanText = formatTextWithCode(cleanText);
+        }
 
         if (!cleanText) return;
 

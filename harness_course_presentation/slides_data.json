@@ -5,7 +5,6 @@
       "2026 MASTERCLASS: CLAUDE CODE HARNESS",
       "Build Reliable Claude Code Workflows with Guardrails and Tests",
       "Harness Engineering Masterclass: Scaffolding, Guardrails, MCP & Compound Workflows",
-      "Masterclass Focus: Scaffolding, Guardrails, Model Context Protocol (MCP) & Compound Workflows",
       "Schedule: 09:00 AM - 11:30 AM  |  Production AI Coding Agent Systems Architecture",
       "GitHub Repository: https://github.com/kenhuangus/packt-harness",
       "Course Website: https://kenhuangus.github.io/packt-harness/"
@@ -35,7 +34,6 @@
     "raw_lines": [
       "MODULE 1  |  09:00 AM - 09:15 AM",
       "Why Harness Engineering",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Understand why AI model capability does not equal production reliability.",
       "• Examine the 98% Harness Rule in 2026 agentic systems engineering.",
       "• Analyze concrete failure modes: context drift, infinite loops, & unverified edits.",
@@ -104,7 +102,6 @@
     "raw_lines": [
       "MODULE 2  |  09:15 AM - 09:30 AM",
       "Core Harness Stack & Architecture",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Deconstruct the 5 core pillars of a production AI coding harness.",
       "• Implement persistent memory standards (CLAUDE.md vs AGENTS.md).",
       "• Build least-privilege permission models and pre/post hooks.",
@@ -177,7 +174,6 @@
     "raw_lines": [
       "MODULE 3  |  09:30 AM - 09:50 AM",
       "Spec-Driven Development (SDD)",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Master Spec-Driven Development to eliminate prompt ambiguity.",
       "• Draft machine-verifiable acceptance criteria and scope boundaries.",
       "• Implement upfront spec verification and anti-hallucination checks.",
@@ -252,7 +248,6 @@
     "raw_lines": [
       "MODULE 4  |  09:50 AM - 10:10 AM",
       "Guardrails and Deterministic Hooks",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Enforce 4-layer defense-in-depth security boundaries.",
       "• Build pre-action shell interceptors and post-action AST linters.",
       "• Implement path isolation sandboxing and secret key scanning.",
@@ -341,7 +336,6 @@
     "raw_lines": [
       "MODULE 5  |  10:10 AM - 10:20 AM",
       "Mid-Morning Break & Permission Gateways",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Take a 10-minute break to refresh.",
       "• Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.",
       "• Review Risk-Tiered Permission Gateway implementation.",
@@ -363,7 +357,6 @@
     "raw_lines": [
       "MODULE 6  |  10:20 AM - 10:35 AM",
       "Tests as Reliability Layer",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Architect Test-Driven Agent (TDA) execution loops.",
       "• Leverage multi-tier testing (Unit, Integration, E2E) for validation.",
       "• Extract automated tracebacks and register anti-regression tests.",
@@ -426,7 +419,6 @@
     "raw_lines": [
       "MODULE 7  |  10:35 AM - 10:50 AM",
       "Skills, Plugins, and MCP Tools",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Master the Agent Skills open standard (SKILL.md).",
       "• Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.",
       "• Implement Model Context Protocol (MCP) servers over stdio and Streamable HTTP.",
@@ -513,7 +505,6 @@
     "raw_lines": [
       "MODULE 8  |  10:50 AM - 11:05 AM",
       "Compound Engineering & Agent Teams",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Design multi-agent architectures for complex software projects.",
       "• Implement specialized agent roles: Planner, Implementer, & Reviewer.",
       "• Isolate agent workspaces using Git Worktrees.",
@@ -593,7 +584,6 @@
     "raw_lines": [
       "MODULE 9  |  11:05 AM - 11:15 AM",
       "Practical Workflow Pattern",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Master the 5-step standard operating procedure for AI coding agents.",
       "• Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.",
       "• Execute production SOP pipeline end-to-end.",
@@ -644,7 +634,6 @@
     "raw_lines": [
       "MODULE 10  |  11:15 AM - 11:30 AM",
       "Closing Principles & Production Audit",
-      "KEY MODULE OBJECTIVES & GITHUB IMPLEMENTATION",
       "• Review the 4 core principles of Harness Engineering.",
       "• Evaluate your team's readiness using the Production Readiness Audit Suite.",
       "• Access full course implementations, multi-provider LLM client & repository.",
@@ -679,8 +668,6 @@
     "raw_lines": [
       "Final Q&A, Wrap-Up & Course Links",
       "Course Resources & Links",
-      "• Course Website: https://kenhuangus.github.io/packt-harness/",
-      "• GitHub Repository: https://github.com/kenhuangus/packt-harness",
       "• Includes 10 Module Code Implementations, LLM Client, & Test Suite.",
       "• Interactive Web Dashboard: course_implementation/dashboard/index.html"
     ]
