@@ -7,7 +7,7 @@ machine-checkable `SPEC.md` in front of the agent and rejects work that
 leaves the declared scope.
 
 This module's spec is
-`C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\SPEC.md`.
+[SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md).
 It names:
 
 - **Allowed files:** `auth_validator.py`, `tests/test_auth.py`
@@ -23,21 +23,21 @@ The verifier now writes files and runs pytest:
    on a live token and an expired token.
 
 Generated files live under
-`C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\`.
+[course_implementation/module_03_spec_driven_development/output/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_03_spec_driven_development/output/).
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\SPEC.md` | The contract |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py` | Parser + auditor |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\RUN_RESULTS.md` | Last captured stdout |
+| [SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md) | The contract |
+| [spec_driven_verifier.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py) | Parser + auditor |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/RUN_RESULTS.md) | Last captured stdout |
 
 Output files:
 
-- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\auth_validator.py`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\tests\test_auth.py`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\output\run_evidence.json`
+- [auth_validator.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/output/auth_validator.py)
+- [test_auth.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/output/tests/test_auth.py)
+- [run_evidence.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/output/run_evidence.json)
 
 ## How to run
 
@@ -48,7 +48,7 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 ## Output file and evidence
 
 - **Stdout** (exit 0).
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

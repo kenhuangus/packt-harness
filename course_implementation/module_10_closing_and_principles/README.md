@@ -35,15 +35,15 @@ project can be audited. Against an empty directory the score is 0/5.
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_10_closing_and_principles\production_harness_audit.py` | Auditor |
-| `C:\Users\kenhu\packt-harness\CLAUDE.md` | Check 1 |
-| `C:\Users\kenhu\packt-harness\AGENTS.md` | Check 1 |
-| `C:\Users\kenhu\packt-harness\.claude\settings.json` | Check 2 |
-| `C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py` | Check 2 hook file |
-| `C:\Users\kenhu\packt-harness\run_all_modules.py` | Check 3 |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_server_demo.py` | Check 4 AST source |
-| `C:\Users\kenhu\packt-harness\.claude\agents\spec-reviewer.md` | Check 5 |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_10_closing_and_principles\RUN_RESULTS.md` | Last captured stdout |
+| [production_harness_audit.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py) | Auditor |
+| [CLAUDE.md](https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md) | Check 1 |
+| [AGENTS.md](https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md) | Check 1 |
+| [settings.json](https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json) | Check 2 |
+| [bash_guard.py](https://github.com/kenhuangus/packt-harness/blob/main/.claude/hooks/bash_guard.py) | Check 2 hook file |
+| [run_all_modules.py](https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py) | Check 3 |
+| [mcp_server_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py) | Check 4 AST source |
+| [spec-reviewer.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/spec-reviewer.md) | Check 5 |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/RUN_RESULTS.md) | Last captured stdout |
 
 No extra output file. The audit prints to stdout.
 
@@ -64,7 +64,7 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 ## Output file and evidence
 
 - **Stdout** (exit 0), score 5/5 against this repo.
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_10_closing_and_principles\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

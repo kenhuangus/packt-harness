@@ -15,23 +15,23 @@ A production coding harness is five pillars, not a better prompt.
 `CLAUDE.md` is Claude Code's repository memory file. `AGENTS.md` is the
 same idea for tools that follow the AGENTS.md convention. This module's
 committed memory file is
-`C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\AGENTS.md`.
+[AGENTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/AGENTS.md).
 
 The live workspace is still a temp directory. After the checks, the
 harness copies `events.jsonl`, `sample_module.py`, and the compacted
 compiler log into
-`C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\output\`.
+[course_implementation/module_02_core_harness_stack/output/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_02_core_harness_stack/output/).
 Path checks use `Path.resolve().is_relative_to()`, not a string prefix.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\core_harness_stack.py` | Five-pillar demo |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\AGENTS.md` | Pillar 1 memory file |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\sample_module.py` | Older sample; not written by the current demo |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\events.jsonl` | Historical leftover, not the live audit log |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\RUN_RESULTS.md` | Last captured stdout |
+| [core_harness_stack.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py) | Five-pillar demo |
+| [AGENTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/AGENTS.md) | Pillar 1 memory file |
+| [sample_module.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/sample_module.py) | Older sample; not written by the current demo |
+| [events.jsonl](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/events.jsonl) | Historical leftover, not the live audit log |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/RUN_RESULTS.md) | Last captured stdout |
 
 ## How to run
 
@@ -46,7 +46,7 @@ Without it the test pillar exits 1 instead of printing `[PASS]`.
 
 - **Stdout** (exit 0).
 - **Live audit log (ephemeral):** `C:\Users\kenhu\AppData\Local\Temp\module_02_harness_<random>\events.jsonl`
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

@@ -26,7 +26,7 @@ Three failure modes are made visible:
 | Context decay | The runner never inspects *why* the test failed | The harness at least refuses to repeat a stall |
 
 The LLM client at
-`C:\Users\kenhu\packt-harness\course_implementation\common\llm_client.py`
+[llm_client.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/common/llm_client.py)
 is used. If `http://127.0.0.1:8000/v1` is down, the client prints a simulated
 string and the harness checks still run.
 
@@ -34,15 +34,15 @@ string and the harness checks still run.
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py` | Runnable demo |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\RUN_RESULTS.md` | Last captured stdout |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\README.md` | This file |
+| [harness_vs_model_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py) | Runnable demo |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/RUN_RESULTS.md) | Last captured stdout |
+| [README.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md) | This file |
 
 Output files:
 
-- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\run_evidence.json`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\unharnessed_workspace\`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\output\harnessed_workspace\`
+- [run_evidence.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/output/run_evidence.json)
+- [course_implementation/module_01_why_harness_engineering/output/unharnessed_workspace/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/output/unharnessed_workspace/)
+- [course_implementation/module_01_why_harness_engineering/output/harnessed_workspace/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/output/harnessed_workspace/)
 
 ## How to run
 
@@ -63,7 +63,7 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 ## Output file and evidence
 
 - **Stdout** from the command above (exit 0).
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 
@@ -94,7 +94,7 @@ MODULE 1 DEMO: WHY HARNESS ENGINEERING IS REQUIRED
 ## Annotated code
 
 The full file is
-`C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py`.
+[harness_vs_model_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py).
 Each block is commented in the source. The two classes:
 
 ```python

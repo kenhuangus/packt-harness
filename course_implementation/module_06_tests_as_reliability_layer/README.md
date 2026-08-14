@@ -18,17 +18,16 @@ The Test-Driven Agent (TDA) loop here has three stages:
 That third step is the anti-regression rule: every agent bug becomes a
 permanent test.
 
-Scratch files live under
-`C:\Users\kenhu\packt-harness\course_implementation\module_06_tests_as_reliability_layer\tda_reliability_*`
-and are deleted before the process exits. If cleanup fails, the leftover
-directory is visible next to the script.
+Scratch files live in a local TemporaryDirectory next to the script
+(prefix `tda_reliability_`) and are deleted before the process exits.
+They are not committed.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_06_tests_as_reliability_layer\tda_reliability_pipeline.py` | TDA loop |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_06_tests_as_reliability_layer\RUN_RESULTS.md` | Last captured stdout |
+| [tda_reliability_pipeline.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py) | TDA loop |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/RUN_RESULTS.md) | Last captured stdout |
 
 No committed calculator or test file. They exist only inside the temp dir.
 
@@ -44,7 +43,7 @@ If pytest is missing the script prints `[SKIPPED]` and exits 0.
 ## Output file and evidence
 
 - **Stdout** (exit 0), including the real pytest traceback.
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_06_tests_as_reliability_layer\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

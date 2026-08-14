@@ -7,7 +7,7 @@ keeps them separate and then runs a real Model Context Protocol session.
 
 ### Agent Skill
 
-`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\skills\spec-check\SKILL.md`
+[SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/skills/spec-check/SKILL.md)
 
 A skill's `description` tells Claude what it does and when to load it.
 There is no `triggers` field. Project skills normally live under
@@ -15,14 +15,14 @@ There is no `triggers` field. Project skills normally live under
 
 ### Subagent
 
-`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\agents\spec-reviewer.md`
+[spec-reviewer.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/agents/spec-reviewer.md)
 
 A read-only reviewer with its own context window. Project subagents live
 under `.claude/agents/`. A plugin can bundle them under `agents/`.
 
 ### Plugin
 
-`C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\.claude-plugin\plugin.json`
+[plugin.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json)
 
 The manifest is `.claude-plugin/plugin.json`, not a bare `plugin.json`
 at the plugin root. Plugins can bundle skills, agents, hooks, MCP
@@ -49,12 +49,12 @@ reply. If `http://127.0.0.1:8000/v1` is down, this module fails.
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_server_demo.py` | MCP server (stdio) |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py` | Client that drives the server |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\skills\spec-check\SKILL.md` | Skill frontmatter + body |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\agents\spec-reviewer.md` | Subagent frontmatter + body |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\.claude-plugin\plugin.json` | Plugin manifest |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\RUN_RESULTS.md` | Last captured stdout |
+| [mcp_server_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py) | MCP server (stdio) |
+| [mcp_client_runner.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py) | Client that drives the server |
+| [SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/skills/spec-check/SKILL.md) | Skill frontmatter + body |
+| [spec-reviewer.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/agents/spec-reviewer.md) | Subagent frontmatter + body |
+| [plugin.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json) | Plugin manifest |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/RUN_RESULTS.md) | Last captured stdout |
 
 No extra output file. The MCP exchange is on the child's stdio pipes.
 
@@ -83,7 +83,7 @@ is `mcp_client_runner.py`.
 ## Output file and evidence
 
 - **Stdout** (exit 0).
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

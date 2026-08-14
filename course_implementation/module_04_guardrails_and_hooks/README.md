@@ -30,25 +30,25 @@ Valid decisions: `allow`, `deny`, `ask`, `defer`. Exit 2 is blocking:
 Claude Code shows stderr and ignores stdout.
 
 The repository hook that Claude Code actually runs is
-`C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py`, registered
-in `C:\Users\kenhu\packt-harness\.claude\settings.json` for matcher
+[bash_guard.py](https://github.com/kenhuangus/packt-harness/blob/main/.claude/hooks/bash_guard.py), registered
+in [settings.json](https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json) for matcher
 `Bash`. The teaching engine in this module models the same contract.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\guardrails_engine.py` | Teaching engine + self-checks |
-| `C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py` | Live Claude Code PreToolUse hook |
-| `C:\Users\kenhu\packt-harness\.claude\settings.json` | Hook registration |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\RUN_RESULTS.md` | Last captured stdout |
+| [guardrails_engine.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py) | Teaching engine + self-checks |
+| [bash_guard.py](https://github.com/kenhuangus/packt-harness/blob/main/.claude/hooks/bash_guard.py) | Live Claude Code PreToolUse hook |
+| [settings.json](https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json) | Hook registration |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/RUN_RESULTS.md) | Last captured stdout |
 
 The sandbox "inside" path
 `...\module_04_guardrails_and_hooks\examples\output.py` is resolved, not
 created. The demo also launches
-`C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py` as a real
+[bash_guard.py](https://github.com/kenhuangus/packt-harness/blob/main/.claude/hooks/bash_guard.py) as a real
 subprocess and writes
-`C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\output\hook_results.json`.
+[hook_results.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/output/hook_results.json).
 
 ## How to run
 
@@ -71,7 +71,7 @@ Pipe a `PreToolUse` payload into that command. Safe `pytest` returns
 ## Output file and evidence
 
 - **Stdout** (exit 0).
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

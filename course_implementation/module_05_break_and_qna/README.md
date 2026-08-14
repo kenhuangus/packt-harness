@@ -23,16 +23,16 @@ a record the push is blocked; after `grant_approval` the gateway writes
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\permission_escalation_gateway.py` | Risk matrix + four cases |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\RUN_RESULTS.md` | Last captured stdout |
+| [permission_escalation_gateway.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py) | Risk matrix + four cases |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/RUN_RESULTS.md) | Last captured stdout |
 
 Output files:
 
-- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\src\main.py`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\approvals.json`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\pending_push.json`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\audit.jsonl`
-- `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\output\run_evidence.json`
+- [main.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/src/main.py)
+- [approvals.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/approvals.json)
+- [pending_push.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/pending_push.json)
+- [audit.jsonl](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/audit.jsonl)
+- [run_evidence.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/run_evidence.json)
 
 ## How to run
 
@@ -43,7 +43,7 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 ## Output file and evidence
 
 - **Stdout** (exit 0).
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

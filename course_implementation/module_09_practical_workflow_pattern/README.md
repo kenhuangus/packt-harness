@@ -7,7 +7,7 @@ standard operating procedure for one feature: User Auth Token Validator.
 
 | Step | Name | What actually runs |
 | --- | --- | --- |
-| 1 | Spec first | Parse `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\SPEC.md` |
+| 1 | Spec first | Parse [SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md) |
 | 2 | Constrained execution | Write `auth_validator.py`; reject `database.py` |
 | 3 | Deterministic checks | Reuse module 4's `GuardrailsEngine` (AST, secret scan, `rm -rf`) |
 | 4 | Test verification | Real pytest: 3 tests, 3 passed |
@@ -15,21 +15,21 @@ standard operating procedure for one feature: User Auth Token Validator.
 
 The SOP writes a real HS256 JWT module (same implementation as module 3),
 not the old `"valid-token"` string table. The temp workspace is copied to
-`C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\output\`
+[course_implementation/module_09_practical_workflow_pattern/output/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/output/)
 before it is deleted.
 
 This pipeline imports
-`C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\guardrails_engine.py`
+[guardrails_engine.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py)
 by inserting that directory on `sys.path`. It does not copy the engine.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\five_step_sop_pipeline.py` | The SOP |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\SPEC.md` | Spec consumed in step 1 |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\guardrails_engine.py` | Engine reused in step 3 |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\RUN_RESULTS.md` | Last captured stdout |
+| [five_step_sop_pipeline.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py) | The SOP |
+| [SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md) | Spec consumed in step 1 |
+| [guardrails_engine.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py) | Engine reused in step 3 |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/RUN_RESULTS.md) | Last captured stdout |
 
 ## How to run
 
@@ -42,7 +42,7 @@ Requires pytest on that interpreter.
 ## Output file and evidence
 
 - **Stdout** (exit 0), including the 8-line review diff.
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 

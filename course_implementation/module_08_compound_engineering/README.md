@@ -16,20 +16,20 @@ This run creates a real `git worktree`, writes HS256 `auth.py` and
 `test_auth.py` into it, runs pytest there (3 passed), copies the files
 back to this module, appends `telemetry.jsonl`, then removes the worktree.
 
-`C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py`
+[auth.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/auth.py)
 is the implementer output from the last run, not a `return True` stub.
 
 ## Files
 
 | Path | Role |
 | --- | --- |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py` | Planner / implementer / reviewer |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\auth.py` | HS256 JWT from the last implementer run |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\test_auth.py` | Real pytest file from the last implementer run |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\telemetry.jsonl` | Append-only telemetry |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\output\run_evidence.json` | Last worktree path, branch, pytest output |
-| `C:\Users\kenhu\packt-harness\.claude\agents\spec-reviewer.md` | Real Claude Code subagent definition |
-| `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\RUN_RESULTS.md` | Last captured stdout |
+| [multi_agent_team_simulator.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py) | Planner / implementer / reviewer |
+| [auth.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/auth.py) | HS256 JWT from the last implementer run |
+| [test_auth.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/test_auth.py) | Real pytest file from the last implementer run |
+| [telemetry.jsonl](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/telemetry.jsonl) | Append-only telemetry |
+| [run_evidence.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/output/run_evidence.json) | Last worktree path, branch, pytest output |
+| [spec-reviewer.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/spec-reviewer.md) | Real Claude Code subagent definition |
+| [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/RUN_RESULTS.md) | Last captured stdout |
 
 ## How to run
 
@@ -41,7 +41,7 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 
 - **Stdout** (exit 0).
 - **Live telemetry (ephemeral):** `C:\Users\kenhu\AppData\Local\Temp\module_08_team_<random>\telemetry.jsonl`
-- **Recorded copy:** `C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\RUN_RESULTS.md`
+- **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/RUN_RESULTS.md)
 
 Captured on this machine, 2026-08-14:
 
