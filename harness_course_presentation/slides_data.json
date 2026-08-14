@@ -3,29 +3,28 @@
     "number": 1,
     "raw_lines": [
       "2026 MASTERCLASS: CLAUDE CODE HARNESS",
-      "Build Reliable Claude Code Workflows with Guardrails and Tests",
-      "Harness Engineering Masterclass: Scaffolding, Guardrails, MCP & Compound Workflows",
-      "Production AI Coding Agent Systems Architecture",
-      "GitHub Repository: https://github.com/kenhuangus/packt-harness",
-      "Course Website: https://kenhuangus.github.io/packt-harness/"
+      "Build Reliable Claude Code Workflows",
+      "Scaffolding, Guardrails, MCP, Compound Workflows",
+      "GitHub: https://github.com/kenhuangus/packt-harness",
+      "Site: https://kenhuangus.github.io/packt-harness/"
     ]
   },
   {
     "number": 2,
     "raw_lines": [
-      "COURSE MASTER MAP & GITHUB REPOSITORY",
+      "COURSE MASTER MAP",
       "PART 1: FOUNDATIONS & CONTROL",
-      "• Mod 1: Why Harness Engineering & Failure Modes",
-      "• Mod 2: Core Harness Stack & 5 System Pillars",
-      "• Mod 3: Spec-Driven Development (SDD) & Schemas",
-      "• Mod 4: Guardrails, AST Checks & Deterministic Hooks",
-      "• Mod 5: Break & Permission Gateways Q&A",
+      "• Mod 1: Why Harness Engineering",
+      "• Mod 2: Core Harness Stack",
+      "• Mod 3: Spec-Driven Development",
+      "• Mod 4: Guardrails & Hooks",
+      "• Mod 5: Break & Permission Gateways",
       "PART 2: RELIABILITY & TEAMS",
-      "• Mod 6: Tests as Reliability Layer & TDA Loop",
-      "• Mod 7: Skills, Plugins & Model Context Protocol (MCP)",
-      "• Mod 8: Compound Engineering & Multi-Agent Swarms",
-      "• Mod 9: 5-Step Practical Workflow SOP Pattern",
-      "• Mod 10: Core Principles, Audit Checklist & GitHub Code"
+      "• Mod 6: Tests as Reliability",
+      "• Mod 7: Skills, Plugins, MCP",
+      "• Mod 8: Compound Engineering",
+      "• Mod 9: Five-Step SOP",
+      "• Mod 10: Principles & Audit"
     ]
   },
   {
@@ -33,301 +32,281 @@
     "raw_lines": [
       "MODULE 1",
       "Why Harness Engineering",
-      "• Understand why AI model capability does not equal production reliability.",
-      "• Examine the 98% Harness Rule in 2026 agentic systems engineering.",
-      "• Analyze concrete failure modes: context drift, infinite loops, & unverified edits.",
+      "• Model skill ≠ production reliability",
+      "• Most reliability comes from the harness",
+      "• Failures: drift, loops, unverified edits",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
   },
   {
     "number": 4,
     "raw_lines": [
-      "Speed Without Structure Creates Risk: Harness Thesis",
-      "The Un-Harnessed Agent Problem",
-      "• AI coding agents move fast, but raw model capability without scaffolding creates risk.",
-      "• Symptom: Impressive single-turn generation, followed by context amnesia & unverified edits.",
-      "• Risk: Infinite execution loops, path traversal exploits, and broken builds.",
-      "The Deterministic Harness Solution",
-      "• The difference between a useful coding agent and an unreliable one isn't the model alone — it's the harness around it.",
-      "• Harness engineering builds surrounding systems that make agent behavior predictable, testable, and constrained.",
-      "• Optimizes for trust, correctness, and production readiness rather than raw speed."
+      "Speed Without Structure Creates Risk",
+      "The Thesis",
+      "• Fast generation, weak follow-through",
+      "• Loops, traversal, broken builds",
+      "• The harness, not the model, is the control system",
+      "• Optimize for trust, not raw speed"
     ]
   },
   {
     "number": 5,
     "raw_lines": [
-      "Model vs System Harness: The 2026 Paradigm",
-      "The Model (Probabilistic Reasoner)",
-      "• Generates code proposals based on next-token probability.",
-      "• Susceptible to hallucinations, context amnesia, and command retries.",
-      "• Requires external scaffolding to verify logic.",
-      "The Harness (Deterministic Scaffolding)",
-      "• Enforces execution boundaries, AST linting, and path sandboxing.",
-      "• Intercepts infinite retry loops automatically."
+      "Model vs Harness",
+      "Two Layers",
+      "• Model: probabilistic code proposals",
+      "• Model: hallucinates, forgets, retries",
+      "• Harness: sandbox, AST, loop stop",
+      "• Harness: verify before trust"
     ]
   },
   {
     "number": 6,
     "raw_lines": [
-      "Failure Mode 1: Context Decay & Amnesia",
-      "Symptoms of Context Failure",
-      "• Agent forgets initial constraints after 8+ conversation turns.",
-      "• Mutates unrelated files or reverses prior architecture decisions.",
-      "• Mitigation: Persistent memory files (CLAUDE.md / AGENTS.md)."
+      "Failure Mode 1: Context Decay",
+      "Amnesia",
+      "• Forgets constraints after long chats",
+      "• Edits the wrong files",
+      "• Fix: CLAUDE.md / AGENTS.md"
     ]
   },
   {
     "number": 7,
     "raw_lines": [
-      "Failure Mode 2: Infinite Execution Loops",
-      "Symptoms of Execution Traps",
-      "• Agent retries failing compiler command endlessly with minor tweaks.",
-      "• Burns tokens without making architectural progress.",
-      "• Mitigation: Harness loop detector in harness_vs_model_demo.py."
+      "Failure Mode 2: Execution Loops",
+      "Retry Traps",
+      "• Same failing command, small tweaks",
+      "• Burns tokens, no progress",
+      "• Fix: loop detector"
     ]
   },
   {
     "number": 8,
     "raw_lines": [
-      "Failure Mode 3: Unsanitized Mutations & Bad Tools",
-      "Symptoms of Dangerous Tool Actions",
-      "• Agent attempts rm -rf / or unauthorized shell commands.",
-      "• Overwrites production configuration files or drops database tables.",
-      "• Mitigation: Pre-action regex shell interceptors & path isolation."
+      "Failure Mode 3: Dangerous Tools",
+      "Unsanitized Actions",
+      "• rm -rf and other shell landmines",
+      "• Overwrites config, drops data",
+      "• Fix: PreToolUse guards + path sandbox"
     ]
   },
   {
     "number": 9,
     "raw_lines": [
       "MODULE 2",
-      "Core Harness Stack & Architecture",
-      "• Deconstruct the 5 core pillars of a production AI coding harness.",
-      "• Implement persistent memory standards (CLAUDE.md vs AGENTS.md).",
-      "• Build least-privilege permission models and pre/post hooks.",
+      "Core Harness Stack",
+      "• Five pillars of a production harness",
+      "• Memory files: CLAUDE.md / AGENTS.md",
+      "• Least privilege + pre/post hooks",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
   {
     "number": 10,
     "raw_lines": [
-      "System Architecture: The 5 Harness Pillars",
-      "Instructions & Repo Conventions",
-      "• CLAUDE.md / AGENTS.md specifying architecture & rules.",
-      "• Cascading lookup and symlink interoperability.",
-      "Scoped Tools & Permissions",
-      "• Least-privilege tool execution model.",
-      "• Path sandboxing blocking path traversal exploits.",
-      "Hooks & Policy Engine",
-      "• Pre-action security checks.",
-      "• Post-action AST linting and secret scanning.",
-      "Testing & Tracing",
-      "• Automated pytest runner feeding tracebacks back.",
-      "• JSONL audit event logging for full observability."
+      "The 5 Harness Pillars",
+      "Architecture",
+      "• Memory: CLAUDE.md / AGENTS.md",
+      "• Tools: least privilege + path sandbox",
+      "• Hooks: PreToolUse / PostToolUse",
+      "• Tests: pytest traceback loop",
+      "• Trace: events.jsonl audit log"
     ]
   },
   {
     "number": 11,
     "raw_lines": [
-      "Pillar 1: Memory Files (CLAUDE.md vs AGENTS.md)",
-      "CLAUDE.md (Anthropic Ecosystem)",
-      "• Dedicated standing brief for Claude Code agent sessions.",
-      "• Supports cascading subdirectory discovery.",
-      "AGENTS.md (Universal Open Standard)",
-      "• Cross-tool standard for Cursor, Copilot, and Aider.",
-      "• Symlink pattern: ln -s AGENTS.md CLAUDE.md"
+      "Pillar 1: Memory Files",
+      "CLAUDE.md vs AGENTS.md",
+      "• CLAUDE.md: Claude Code standing brief",
+      "• AGENTS.md: cross-tool standard",
+      "• Same rules, two filenames"
     ]
   },
   {
     "number": 12,
     "raw_lines": [
-      "Pillar 2: Scoped Tool & Permission Models",
-      "Principle of Least Privilege Execution",
-      "• Grant minimal required tools (read_file, write_file, run_test).",
-      "• Validate target path resides within workspace root.",
-      "• Codebase: core_harness_stack.py validate_tool_permission"
+      "Pillar 2: Scoped Tools",
+      "Least Privilege",
+      "• Allow only needed tools",
+      "• Keep writes inside the workspace",
+      "• Block path traversal"
     ]
   },
   {
     "number": 13,
     "raw_lines": [
-      "Pillar 3: Deterministic Hooks & Policy Engine",
-      "Pre-Execution & Post-Execution Interceptors",
-      "• Pre-Hooks: Inspect tool call arguments before execution.",
-      "• Post-Hooks: Trigger AST static analysis and secret scanners on edits."
+      "Pillar 3: Hooks",
+      "Inspect Before and After",
+      "• Pre-hook: deny dangerous commands",
+      "• Post-hook: AST + secret scan",
+      "• Policy is code, not a prompt"
     ]
   },
   {
     "number": 14,
     "raw_lines": [
-      "Pillars 4 & 5: Context Token Budgeting & Tracing",
-      "Context Window Compacting & Budgeting",
-      "• Allocate a token budget across memory, spec, edits, and output (illustrative split, e.g. 20/20/50/10).",
-      "• Truncate long compiler outputs while retaining core traceback.",
-      "JSONL Observability & Audit Tracing",
-      "• Log structured JSON entries for every tool call and error.",
-      "• Audit trail logged to events.jsonl for complete telemetry."
+      "Pillars 4 & 5: Tests and Trace",
+      "Budget and Audit",
+      "• Compact long compiler dumps",
+      "• Feed pytest failures back to the agent",
+      "• Log every tool event to JSONL"
     ]
   },
   {
     "number": 15,
     "raw_lines": [
       "MODULE 3",
-      "Spec-Driven Development (SDD)",
-      "• Master Spec-Driven Development to eliminate prompt ambiguity.",
-      "• Draft machine-verifiable acceptance criteria and scope boundaries.",
-      "• Implement upfront spec verification and anti-hallucination checks.",
+      "Spec-Driven Development",
+      "• Specs beat vague prompts",
+      "• Allowed files + explicit non-goals",
+      "• Machine-checkable acceptance tests",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
   {
     "number": 16,
     "raw_lines": [
-      "Why Prompts Fail & Specs Succeed",
-      "The Flaws of Natural Language Prompts",
-      "• Prompts are ambiguous, subjective, and context-dependent.",
-      "• Lead to feature creep and unrequested refactoring.",
-      "The Power of Executable Specifications",
-      "• Defines clear contracts, allowed files, and non-goals.",
-      "• Codebase: SPEC.md & spec_driven_verifier.py"
+      "Why Prompts Fail",
+      "Specs Succeed",
+      "• Prompts are ambiguous",
+      "• Specs name files, schemas, non-goals",
+      "• Verifier rejects out-of-scope diffs"
     ]
   },
   {
     "number": 17,
     "raw_lines": [
-      "Anatomy of a Production SPEC.md",
-      "Required SPEC.md Structure",
-      "• Executive Summary & Problem Context",
-      "• Allowed Modification Scope (Explicit file list)",
-      "• Explicit Non-Goals (Forbidden actions)",
-      "• Input/Output Data Schemas (JSON/TypeScript)",
-      "• Machine-Verifiable Acceptance Criteria"
+      "SPEC.md Anatomy",
+      "Required Sections",
+      "• Allowed file list",
+      "• Explicit non-goals",
+      "• I/O schema",
+      "• Acceptance criteria"
     ]
   },
   {
     "number": 18,
     "raw_lines": [
-      "Defining Scope Boundaries & Non-Goals",
-      "Hard Boundaries to Prevent Scope Creep",
-      "• Coding agents tend to refactor adjacent files needlessly.",
-      "• SPEC.md lists explicitly allowed files (e.g. auth_validator.py).",
-      "• Verifier rejects edits to database.py or config files."
+      "Scope and Non-Goals",
+      "Hard Boundaries",
+      "• Agents wander into adjacent files",
+      "• Only listed files may change",
+      "• database.py is rejected"
     ]
   },
   {
     "number": 19,
     "raw_lines": [
-      "Drafting Machine-Verifiable Acceptance Criteria",
-      "Vague vs Executable Criteria",
-      "• Vague: Make the API fast and handle errors gracefully.",
-      "• Executable: validate_jwt(token) returns {\"valid\": True} for valid tokens.",
-      "• Executable: 100% test coverage in tests/test_auth.py."
+      "Acceptance Criteria",
+      "Vague vs Executable",
+      "• Vague: make it fast and safe",
+      "• Executable: validate_jwt returns valid=true",
+      "• Executable: tests/test_auth.py covers cases"
     ]
   },
   {
     "number": 20,
     "raw_lines": [
-      "How Claude Code Processes Specs",
-      "Agent Execution Lifecycle under SDD",
-      "• Agent reads SPEC.md at session initialization.",
-      "• Agent generates implementation plan matching SPEC criteria.",
-      "• Spec verifier audits diff against allowed scope prior to merge."
+      "How Specs Are Used",
+      "SDD Lifecycle",
+      "• Read SPEC.md first",
+      "• Plan only against the spec",
+      "• Audit the diff before merge"
     ]
   },
   {
     "number": 21,
     "raw_lines": [
-      "Spec Verification & Anti-Hallucination Checks",
-      "Upfront Consistency Verification",
-      "• Run spec validation pass prior to code generation.",
-      "• Ensure proposed diff satisfies non-goals and schema constraints."
+      "Spec Verification",
+      "Before Code Ships",
+      "• Validate the spec itself first",
+      "• Check non-goals and schemas",
+      "• Reject hallucinated scope"
     ]
   },
   {
     "number": 22,
     "raw_lines": [
       "MODULE 4",
-      "Guardrails and Deterministic Hooks",
-      "• Enforce 4-layer defense-in-depth security boundaries.",
-      "• Build pre-action shell interceptors and post-action AST linters.",
-      "• Implement path isolation sandboxing and secret key scanning.",
+      "Guardrails and Hooks",
+      "• Four control layers, not one prompt",
+      "• Pre-hook shell deny-list",
+      "• Post-hook AST + secret scan",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
     ]
   },
   {
     "number": 23,
     "raw_lines": [
-      "The 4-Layer Control Architecture",
-      "Layer 1: System Rules (Prompt)",
-      "• Soft guidelines defined in CLAUDE.md / AGENTS.md.",
-      "Layer 2: Tool Schemas (JSON Schema)",
-      "• Strict argument type & payload shape enforcement.",
-      "Layer 3: Interceptors & Hooks (Process)",
-      "• Pre-action regex filters & post-action AST static analysis.",
-      "Layer 4: OS Sandboxing (System)",
-      "• Path traversal blocks & workspace root chroot isolation."
+      "4-Layer Control",
+      "Defense in Depth",
+      "• Prompt rules: CLAUDE.md / AGENTS.md",
+      "• Tool schemas: typed arguments",
+      "• Hooks: PreToolUse / PostToolUse",
+      "• OS sandbox: resolved-path isolation"
     ]
   },
   {
     "number": 24,
     "raw_lines": [
-      "Claude Code Native Hooks & Shell Interception",
-      "Hook Events (Exact PascalCase Names)",
-      "• Lifecycle: SessionStart, Setup, UserPromptSubmit, UserPromptExpansion, MessageDisplay, Stop, StopFailure, SessionEnd.",
-      "• Tools: PreToolUse, PermissionRequest, PermissionDenied, PostToolUse, PostToolUseFailure, PostToolBatch.",
-      "settings.json Matcher Shape",
-      "• {\"hooks\":{\"PreToolUse\":[{\"matcher\":\"Bash\",\"hooks\":[{\"type\":\"command\",\"command\":\"$CLAUDE_PROJECT_DIR/.claude/hooks/guard.py\",\"timeout\":10}]}]}}",
-      "• matcher targets tool names; use Edit | Write for alternation and * (or omit it) to match all."
+      "Claude Code Hooks",
+      "What Actually Fires",
+      "• Event names are PascalCase",
+      "• PreToolUse can allow, deny, ask, defer",
+      "• matcher is a tool name, e.g. Bash",
+      "• Exit 2 is the blocking error"
     ]
   },
   {
     "number": 25,
     "raw_lines": [
-      "Post-Action Checks: AST Parsers & Linters",
-      "AST Static Analysis & Secret Scanning",
-      "• Runs automatically whenever agent writes or updates a file.",
-      "• Executes ast.parse to catch syntax & structural errors.",
-      "• Scans for hardcoded secret API keys (sk-proj...)."
+      "Post-Action Checks",
+      "AST and Secrets",
+      "• Run after every file write",
+      "• ast.parse catches syntax errors",
+      "• Scan for sk-proj- and AKIA keys"
     ]
   },
   {
     "number": 26,
     "raw_lines": [
-      "Filesystem Sandboxing & Path Isolation",
-      "Workspace Boundary Enforcement",
-      "• Bind agent file operations strictly to project working directory.",
-      "• Block path traversal exploits (../../etc/passwd or C:\\Windows)."
+      "Path Sandbox",
+      "Stay in the Workspace",
+      "• Resolve the target path first",
+      "• Require is_relative_to(workspace)",
+      "• Sibling-prefix names still fail"
     ]
   },
   {
     "number": 27,
     "raw_lines": [
-      "Admin Escalation & Claude Code Permissions",
-      "Risk Tiers Mapped to Real Permission Modes",
-      "• Lowest mutation risk: plan is read-only exploration.",
-      "• Low risk: default runs reads and asks before other tools; add narrow allow rules for trusted reads.",
-      "• Reviewed edits: acceptEdits allows working-directory file edits and common filesystem commands; keep risky Bash actions in ask.",
-      "• Critical escape hatch: bypassPermissions skips the permission layer; use only inside an isolated container or VM.",
-      "settings.json Rules",
-      "• {\"permissions\":{\"defaultMode\":\"default\",\"allow\":[\"Read\",\"Grep\"],\"ask\":[\"Bash(git push *)\"],\"deny\":[\"Read(./.env)\"]}}",
-      "• Rules resolve deny → ask → allow; first matching rule wins."
+      "Permission Modes",
+      "Risk Tiers",
+      "• plan: read-only",
+      "• default: ask before mutations",
+      "• acceptEdits: files yes, risky Bash no",
+      "• bypassPermissions: isolated VM only"
     ]
   },
   {
     "number": 28,
     "raw_lines": [
-      "Evaluation Harnesses: Behavior, Not Just Test Outcomes",
-      "Reproducible Agent-Control Evaluation",
-      "• Replay fixed tasks from known repository states with explicit acceptance tests.",
-      "• Score test results plus scope adherence, denied tool calls, path boundaries, retry budgets, hook decisions, and audit completeness.",
-      "• Keep the evaluator independent from the agent and turn every discovered failure into a regression case."
+      "Evaluation Harnesses",
+      "Score Behavior",
+      "• Replay fixed tasks from a known repo",
+      "• Score tests, scope, denies, retries",
+      "• Keep the evaluator off the agent"
     ]
   },
   {
     "number": 29,
     "raw_lines": [
-      "Production Safety & Audit Matrix",
-      "Verification Checklist",
-      "• Three control checkpoints: audit logging (JSONL + timestamps), secret scanning via PostToolUse/FileChanged hooks, and path-traversal sandboxing on all file-write tools."
+      "Safety Checklist",
+      "Three Must-Haves",
+      "• JSONL audit with timestamps",
+      "• Secret scan on file writes",
+      "• Path sandbox on every write"
     ]
   },
   {
@@ -335,340 +314,343 @@
     "raw_lines": [
       "MODULE 5",
       "Break & Permission Gateways",
-      "• Take a break to refresh.",
-      "• Participate in open Q&A on Session 1: Harness Stack, SDD & Guardrails.",
-      "• Review Risk-Tiered Permission Gateway implementation.",
+      "• Pause and take questions",
+      "• Risk tiers: auto, log, or confirm",
+      "• git_push needs an approval record",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
   {
     "number": 31,
     "raw_lines": [
-      "Open Q&A & Group Discussion",
-      "Discussion Prompts",
-      "• How are you currently managing agent permissions in your organization?",
-      "• What failure modes have caused the most friction in your workflows?",
-      "• How can spec-driven development accelerate your team velocity?"
+      "Open Q&A",
+      "Discussion",
+      "• How do you gate agent permissions?",
+      "• Which failure mode hurts you most?",
+      "• Where would a spec save a week?"
     ]
   },
   {
     "number": 32,
     "raw_lines": [
       "MODULE 6",
-      "Tests as Reliability Layer",
-      "• Architect Test-Driven Agent (TDA) execution loops.",
-      "• Leverage multi-tier testing (Unit, Integration, E2E) for validation.",
-      "• Extract automated tracebacks and register anti-regression tests.",
+      "Tests as Reliability",
+      "• Test-driven agent loop",
+      "• Capture real pytest tracebacks",
+      "• Keep every bug as a regression test",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
     ]
   },
   {
     "number": 33,
     "raw_lines": [
-      "Test-Driven Agent (TDA) Loop Architecture",
-      "The TDA Execution Loop",
-      "• Write/Identify failing unit test based on SPEC.md.",
-      "• Agent generates implementation code to satisfy test.",
-      "• Run test runner; extract traceback on failure.",
-      "• Feed traceback back into agent repair prompt."
+      "TDA Loop",
+      "Red, Repair, Green",
+      "• Start from a failing test",
+      "• Generate code, run pytest",
+      "• Feed the traceback back",
+      "• Stop only when green"
     ]
   },
   {
     "number": 34,
     "raw_lines": [
-      "Multi-Tier Testing for Coding Agents",
-      "Testing Hierarchy",
-      "• Unit Tests: Fast isolation tests verifying individual functions.",
-      "• Integration Tests: Verifies multi-module interactions & APIs.",
-      "• E2E Tests: Full system workflow verification."
+      "Test Tiers",
+      "What to Run",
+      "• Unit: one function",
+      "• Integration: module boundaries",
+      "• E2E: the whole flow"
     ]
   },
   {
     "number": 35,
     "raw_lines": [
-      "Automated Error Traceback Feedback Loops",
-      "Zero-Touch Error Capture",
-      "• Eliminates manual copy-pasting of compiler/test errors by developer.",
-      "• Harness captures pytest/jest stdout and stderr automatically.",
-      "• Passes formatted traceback directly into LLM repair prompt."
+      "Traceback Feedback",
+      "No Copy-Paste",
+      "• Capture pytest stdout/stderr",
+      "• Put the real failure in the prompt",
+      "• Repair from evidence, not guesses"
     ]
   },
   {
     "number": 36,
     "raw_lines": [
-      "Turning Agent Failures into Permanent Tests",
-      "Anti-Regression Safeguards",
-      "• Every agent hallucination or bug must yield a new regression test.",
-      "• Add test case to project regression test suite permanently.",
-      "• Codebase: tda_reliability_pipeline.py register_anti_regression_test"
+      "Anti-Regression",
+      "Keep the Bug",
+      "• Every failure becomes a test",
+      "• Append it to the suite",
+      "• Rerun before you ship"
     ]
   },
   {
     "number": 37,
     "raw_lines": [
-      "Test Reliability Scorecard & Metrics",
-      "Key Performance Indicators (KPIs)",
-      "• First-Pass Pass Rate: % of agent edits passing tests on turn 1.",
-      "• Mean Iterations to Repair: Avg attempts to fix failing test (< 3).",
-      "• Regression Rate: % of edits breaking existing tests."
+      "Reliability Metrics",
+      "Watch These",
+      "• First-pass pass rate",
+      "• Mean repair iterations",
+      "• Regression rate"
     ]
   },
   {
     "number": 38,
     "raw_lines": [
       "MODULE 7",
-      "Skills, Plugins, and MCP Tools",
-      "• Master the Agent Skills open standard (SKILL.md).",
-      "• Package skills, agents, hooks, MCP/LSP servers, and monitors into modular plugins.",
-      "• Implement Model Context Protocol (MCP) servers over stdio and Streamable HTTP.",
+      "Skills, Plugins, MCP",
+      "• SKILL.md is description-driven",
+      "• Plugins bundle skills, agents, hooks",
+      "• MCP: tools and resources over stdio",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
     ]
   },
   {
     "number": 39,
     "raw_lines": [
-      "Agent Skills Open Standard (SKILL.md)",
-      "Folder-Based Skill Encapsulation",
-      "• Self-contained folder containing SKILL.md and reference assets.",
-      "• YAML frontmatter fields: name, description, allowed-tools, disable-model-invocation, context, agent, and model.",
-      "• There is no triggers field: description drives discovery and must say what the skill does and when to use it.",
-      "• Encapsulates domain expertise and repeatable workflows."
+      "Agent Skills",
+      "SKILL.md",
+      "• One folder, one SKILL.md",
+      "• description says what and when",
+      "• No triggers field"
     ]
   },
   {
     "number": 40,
     "raw_lines": [
-      "Structuring Skill Instructions & Resources",
-      "Skill Directory Anatomy",
-      "• SKILL.md: Frontmatter metadata + operational instructions.",
-      "• references/: Deep documentation, schema specs, and design rules.",
-      "• scripts/: Executable helper scripts and automation tools."
+      "Skill Layout",
+      "What Goes Where",
+      "• SKILL.md: metadata + steps",
+      "• references/: deeper docs",
+      "• scripts/: helpers"
     ]
   },
   {
     "number": 41,
     "raw_lines": [
-      "Plugin Bundles: Packaging Capabilities",
-      "Deployable Extension Packages",
-      "• Bundles skills, agents, hooks, MCP servers, LSP servers, and monitors.",
-      "• Manifest path: .claude-plugin/plugin.json (name is required; metadata can include description, version, author, and dependencies).",
-      "• Distribute through a marketplace.json catalog or load a plugin in place from a skills directory."
+      "Plugins",
+      "One Manifest",
+      "• Path: .claude-plugin/plugin.json",
+      "• Can bundle skills, agents, hooks, MCP",
+      "• Load in place or via marketplace"
     ]
   },
   {
     "number": 42,
     "raw_lines": [
-      "Model Context Protocol (MCP) Foundation",
-      "Open Standard by Anthropic",
-      "• Open standard created by Anthropic for AI-to-system connectivity.",
-      "• MCP protocol revisions are dated YYYY-MM-DD; there is no MCP protocol version \"2.0\".",
-      "• JSON-RPC 2.0 is the message framing, not the MCP protocol revision.",
-      "• The Python mcp SDK package installed here is 2.0.0; its package version is separate.",
-      "• Exposes Tools, Resources, and Prompts to LLMs."
+      "MCP Foundation",
+      "Three Different Numbers",
+      "• Protocol: dated revisions, not 2.0",
+      "• JSON-RPC 2.0 is only framing",
+      "• SDK 2.0.0 is the Python package",
+      "• Exposes tools, resources, prompts"
     ]
   },
   {
     "number": 43,
     "raw_lines": [
-      "MCP Transports: stdio vs Streamable HTTP",
-      "Transport Layer Comparison",
-      "• stdio: current transport for local subprocess servers and CLI integrations.",
-      "• Streamable HTTP: current remote transport since MCP revision 2025-03-26.",
-      "• HTTP+SSE is the deprecated predecessor, not the current remote choice."
+      "MCP Transports",
+      "Local vs Remote",
+      "• Local: stdio",
+      "• Remote: Streamable HTTP",
+      "• HTTP+SSE is legacy"
     ]
   },
   {
     "number": 44,
     "raw_lines": [
-      "MCP Python SDK 2.x vs 1.x",
-      "Version-Sensitive Server Class; Shared Authoring Shape",
-      "• SDK 2.x (installed mcp 2.0.0): from mcp.server.mcpserver import MCPServer",
-      "• SDK 2.x: mcp = MCPServer(\"harness-tools\")",
-      "• SDK 1.x: from mcp.server.fastmcp import FastMCP; mcp = FastMCP(\"harness-tools\")",
-      "• Same in both: @mcp.tool and @mcp.resource decorators.",
-      "• Same in both: mcp.run(transport=\"stdio\" | \"streamable-http\" | \"sse\"); SSE is legacy.",
-      "• Codebase: mcp_server_demo.py & mcp_client_runner.py"
+      "MCP Python SDK",
+      "2.x Authoring",
+      "• 2.x: MCPServer from mcp.server.mcpserver",
+      "• 1.x: FastMCP",
+      "• Same @mcp.tool / @mcp.resource",
+      "• mcp.run() defaults to stdio"
     ]
   },
   {
     "number": 45,
     "raw_lines": [
-      "MCP Governance & Security Controls",
-      "Enterprise Governance",
-      "• OAuth2 & API Key authentication for remote MCP servers.",
-      "• Granular tool-level permission gating (read vs write actions)."
+      "MCP Governance",
+      "Lock It Down",
+      "• Auth for remote servers",
+      "• Gate tools read vs write",
+      "• Least privilege still applies"
     ]
   },
   {
     "number": 46,
     "raw_lines": [
       "MODULE 8",
-      "Compound Engineering & Agent Teams",
-      "• Design multi-agent architectures for complex software projects.",
-      "• Implement specialized agent roles: Planner, Implementer, & Reviewer.",
-      "• Isolate agent workspaces using Git Worktrees.",
+      "Compound Engineering",
+      "• Split Planner / Implementer / Reviewer",
+      "• isolation: worktree",
+      "• Telemetry feeds the next run",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
     ]
   },
   {
     "number": 47,
     "raw_lines": [
-      "Multi-Agent Workflows vs Single Agents",
-      "Cognitive Specialization",
-      "• Single agents suffer cognitive overload as file count grows.",
-      "• Context window bloat reduces reasoning accuracy.",
-      "• Multi-agent teams partition responsibilities cleanly."
+      "Why Multi-Agent",
+      "One Brain Overloads",
+      "• One agent drowns in files",
+      "• Fat context hurts reasoning",
+      "• Roles keep work small"
     ]
   },
   {
     "number": 48,
     "raw_lines": [
-      "Role Specialization: Planner Agent",
-      "Architect & Requirement Analyst",
-      "• Read-only access to codebase; analyzes SPEC.md requirements.",
-      "• Drafts high-level architecture & file modification plan."
+      "Planner",
+      "Architect",
+      "• Read-only",
+      "• Reads SPEC.md",
+      "• Emits a file-scoped plan"
     ]
   },
   {
     "number": 49,
     "raw_lines": [
-      "Role Specialization: Implementer Agent",
-      "Constrained Coder Agent",
-      "• Receives focused subtask assignment from Planner.",
-      "• Executes file edits within strict workspace boundary or Git Worktree."
+      "Implementer",
+      "Constrained Coder",
+      "• One subtask at a time",
+      "• Writes only allowed files",
+      "• Isolated worktree"
     ]
   },
   {
     "number": 50,
     "raw_lines": [
-      "Role Specialization: Reviewer Agent",
-      "Independent Quality Auditor",
-      "• Independent agent inspecting Implementer output.",
-      "• Runs static analysis, AST linters, and secret scanners."
+      "Reviewer",
+      "Independent Audit",
+      "• Separate context window",
+      "• AST, scope, tests",
+      "• Does not implement"
     ]
   },
   {
     "number": 51,
     "raw_lines": [
-      "Subagent Workspace Isolation & Worktrees",
-      "First-Class Worktree Isolation",
-      "• Define project agents in .claude/agents/<name>.md or personal agents in ~/.claude/agents/<name>.md.",
-      "• Set isolation: worktree in the agent frontmatter.",
-      "• Claude Code gives that subagent its own git worktree, separating edits from the parent workspace."
+      "Worktree Isolation",
+      "isolation: worktree",
+      "• Agents live in .claude/agents/",
+      "• Frontmatter isolation: worktree",
+      "• Own git worktree, own edits"
     ]
   },
   {
     "number": 52,
     "raw_lines": [
-      "Subagent Context Windows & Agent Tool",
-      "Focused Context and Delegation",
-      "• Each subagent gets its own context window and receives the agent file body as its system prompt.",
-      "• Pass only the focused sub-spec and required evidence to the Implementer.",
-      "• The Task tool was renamed Agent in Claude Code v2.1.63; Task(...) remains an alias.",
-      "• Codebase: multi_agent_team_simulator.py"
+      "Subagent Context",
+      "Pass Less",
+      "• Each subagent has a clean window",
+      "• Hand only the focused spec",
+      "• Agent tool; Task is an alias"
     ]
   },
   {
     "number": 53,
     "raw_lines": [
-      "Building a Recursive Self-Improvement Loop",
-      "Telemetry-Driven Learning",
-      "• Collect execution logs, tracebacks, and developer edits in telemetry.jsonl.",
-      "• Automatically analyze recurring failure patterns.",
-      "• Feed learnings back into CLAUDE.md / AGENTS.md rules."
+      "Self-Improvement",
+      "Close the Loop",
+      "• Log runs to telemetry.jsonl",
+      "• Find repeating failures",
+      "• Write the lesson into AGENTS.md"
     ]
   },
   {
     "number": 54,
     "raw_lines": [
       "MODULE 9",
-      "Practical Workflow Pattern",
-      "• Master the 5-step standard operating procedure for AI coding agents.",
-      "• Combine Spec First, Sandboxing, Hooks, Tests, & Human Review.",
-      "• Execute production SOP pipeline end-to-end.",
+      "Practical SOP",
+      "• Five steps, one pipeline",
+      "• Spec, sandbox, hooks, tests, review",
+      "• Run it end to end",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
     ]
   },
   {
     "number": 55,
     "raw_lines": [
-      "The 5-Step Practical Workflow Overview",
-      "Standard Operating Procedure (SOP)",
-      "• Spec First (Draft & validate SPEC.md)",
-      "• Constrained Execution (Sandboxed agent runner)",
-      "• Deterministic Checks (Pre/post hooks & AST linters)",
-      "• Test Verification (Automated pytest suite)",
-      "• Human Review (Developer sanity check & PR merge)"
+      "Five-Step SOP",
+      "The Pipeline",
+      "• Spec first",
+      "• Constrained execution",
+      "• Deterministic checks",
+      "• Test verification",
+      "• Human review"
     ]
   },
   {
     "number": 56,
     "raw_lines": [
-      "Phases 1 & 2: Spec First & Constrained Exec",
-      "Alignment & Sandboxing",
-      "• Align human & AI on exact deliverables before writing code.",
-      "• Run agent with minimal tool permissions & strict file scopes."
+      "Steps 1 & 2",
+      "Spec and Sandbox",
+      "• Agree the spec before any code",
+      "• Minimal tools, listed files only",
+      "• Out-of-scope writes do not land"
     ]
   },
   {
     "number": 57,
     "raw_lines": [
-      "Phases 3 & 4: Deterministic Checks & Tests",
-      "Automated Verification Gating",
-      "• Automated AST parsers, linters, & security rule gates.",
-      "• Pass unit/integration test suite; feed back any errors."
+      "Steps 3 & 4",
+      "Check then Test",
+      "• Hooks, AST, secret scan",
+      "• Real pytest, not a slogan",
+      "• Failures go back into the loop"
     ]
   },
   {
     "number": 58,
     "raw_lines": [
-      "Phase 5: Human Review & Sanity Auditing",
-      "Developer Final Approval",
-      "• Developer reviews clean, pre-validated PR diff.",
-      "• Verifies business logic alignment and edge case handling."
+      "Step 5",
+      "Human Review",
+      "• Show the actual diff",
+      "• Check business logic",
+      "• Merge is out of band"
     ]
   },
   {
     "number": 59,
     "raw_lines": [
       "MODULE 10",
-      "Closing Principles & Production Audit",
-      "• Review the 4 core principles of Harness Engineering.",
-      "• Evaluate your team's readiness using the Production Readiness Audit Suite.",
-      "• Access full course implementations, multi-provider LLM client & repository.",
+      "Principles and Audit",
+      "• Four principles",
+      "• Five readiness checks",
+      "• Score the real repo",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md"
     ]
   },
   {
     "number": 60,
     "raw_lines": [
-      "The 4 Core Principles of Harness Engineering",
-      "Foundational Pillars",
-      "• Predictability Over Randomness: Standardize CLAUDE.md / AGENTS.md.",
-      "• Reduce Ambiguity: Use executable SPEC.md instead of prompts.",
-      "• Automate Checks: Replace human vigilance with deterministic hooks & tests.",
-      "• Optimize for Trust: Prioritize auditability and correctness."
+      "Four Principles",
+      "What to Optimize",
+      "• Predictability over randomness",
+      "• Specs over prompts",
+      "• Automated checks over vigilance",
+      "• Trust over raw speed"
     ]
   },
   {
     "number": 61,
     "raw_lines": [
-      "Production Readiness Audit Checklist",
-      "Audit Criteria (100% Score)",
-      "• [PASS] Is CLAUDE.md / AGENTS.md configured in project root?",
-      "• [PASS] Are pre-execution hooks active for dangerous shell commands?",
-      "• [PASS] Is automated test runner integrated into agent repair loop?",
-      "• [PASS] Are Model Context Protocol (MCP) tool permissions scoped appropriately?",
-      "• [PASS] Is multi-agent role division active for complex subtasks?"
+      "Readiness Scorecard",
+      "Five Checks",
+      "• Memory files present",
+      "• PreToolUse hook on disk",
+      "• Automated test runner",
+      "• MCP tools + resources declared",
+      "• Subagent definitions valid"
     ]
   },
   {
     "number": 62,
     "raw_lines": [
-      "Final Q&A, Wrap-Up & Course Links",
-      "Course Resources & Links",
-      "• Includes 10 Module Code Implementations, LLM Client, & Test Suite.",
-      "• Interactive Web Dashboard: course_implementation/dashboard/index.html"
+      "Wrap-Up",
+      "Where to Go Next",
+      "• 10 runnable modules in the repo",
+      "• Dashboard: course_implementation/dashboard/index.html",
+      "• Questions"
     ]
   }
 ]
