@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PresentationSlideDeckSchema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["number", "raw_lines"],
+    "properties": {
+      "number": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "slide_type": {
+        "type": "string",
+        "enum": ["concept", "code", "skill", "comparison", "reference_tables"]
+      },
+      "raw_lines": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "code_filename": {
+        "type": "string"
+      },
+      "code_language": {
+        "type": "string"
+      },
+      "highlight_lines": {
+        "type": "array",
+        "items": {
+          "type": "integer"
+        }
+      },
+      "skill_meta": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "tools": { "type": "string" },
+          "directory": { "type": "string" },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "body": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

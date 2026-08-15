@@ -691,15 +691,15 @@
     </div>
     <div class="controls">
       <a href="index.html" class="btn">🏠 Home Site</a>
-      <button class="btn" onclick="toggleMode()"><span id="mode-icon">📜</span> <span id="mode-text">Grid View</span></button>
-      <button class="btn" onclick="prevSlide()">❮ Prev</button>
+      <button id="btn-grid" class="btn" onclick="toggleMode()"><span id="mode-icon">📜</span> <span id="mode-text">Grid View</span></button>
+      <button id="btn-prev" class="btn" onclick="prevSlide()">❮ Prev</button>
       <select id="slide-select" class="slide-select" onchange="goToSlide(this.value)"></select>
       <div class="goto-group">
         <input type="number" id="goto-input" min="1" max="85" placeholder="#" class="goto-input" title="Enter slide number (1-85)" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
-        <button class="btn btn-goto" onclick="jumpToEnteredSlide()" title="Jump to entered slide number">Go ➔</button>
+        <button id="btn-goto" class="btn btn-goto" onclick="jumpToEnteredSlide()" title="Jump to entered slide number">Go ➔</button>
       </div>
-      <button class="btn" onclick="nextSlide()">Next ❯</button>
-      <button class="btn btn-primary" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+      <button id="btn-next" class="btn" onclick="nextSlide()">Next ❯</button>
+      <button id="btn-fullscreen" class="btn btn-primary" onclick="toggleFullscreen()">⛶ Fullscreen</button>
     </div>
   </header>
 

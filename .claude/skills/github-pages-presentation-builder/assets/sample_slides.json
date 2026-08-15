@@ -1,0 +1,52 @@
+[
+  {
+    "number": 1,
+    "slide_type": "concept",
+    "raw_lines": [
+      "Architecture Blueprint: Secure Control Plane",
+      "• Core Principle: Deterministic Harness Controls Probabilistic Models",
+      "• Pre-Hook Guardrails: Intercept dangerous commands before execution",
+      "• Post-Hook Validation: Verify code AST and scan for secrets before commit",
+      "• Dynamic Scaling: Eliminates empty space with zero vertical scrollbars"
+    ]
+  },
+  {
+    "number": 2,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+    "code_language": "python",
+    "highlight_lines": [3, 4, 8, 9],
+    "raw_lines": [
+      "Code Lab: Pre-Hook Interception Engine",
+      "• Intent Inspection: Intercepts raw tool call intents before runtime dispatch",
+      "• Deterministic Policy: Blocks unauthorized commands in pure code, not fuzzy prompts",
+      "• Zero-Trust Execution: Returns strict rejection payload directly to model context"
+    ]
+  },
+  {
+    "number": 3,
+    "slide_type": "comparison",
+    "raw_lines": [
+      "Comparison: Prompt Engineering vs Harness Engineering",
+      "| Engineering Dimension | Prompt-Only Approach | Secure Harness Control Plane |",
+      "|---|---|---|",
+      "| **Security Boundary** | Advisory system instructions | Strict kernel-level PreToolUse interceptors |",
+      "| **State & Scope** | Context window token soup | Explicit read/write file scoping & memory files |",
+      "| **Verification** | Fuzzy LLM self-evaluation | Deterministic Pytest & AST syntax verifiers |",
+      "| **Fail-Safe** | Model hallucination bypass | Hard fail-closed execution boundary |"
+    ]
+  },
+  {
+    "number": 4,
+    "slide_type": "reference_tables",
+    "raw_lines": [
+      "Advanced References & Core Resources",
+      "| Resource / Reference Title | Direct URL Link |",
+      "|---|---|",
+      "| OWASP Agentic Skills Top 10 Risks Video | https://www.youtube.com/watch?v=l-uwnCzRRE0 |",
+      "| Greenfield Software Factory Skill | https://github.com/kenhuangus/greenfield-software-factory |",
+      "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
+      "| Harness Engineering Book (Amazon) | https://www.amazon.com/dp/B0HF3F86YM |"
+    ]
+  }
+]
