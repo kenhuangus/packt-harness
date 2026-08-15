@@ -145,33 +145,41 @@ def generate_svg_for_slide(num, title):
 </svg>'''
     elif num == 1 or 'MASTERCLASS' in title_upper:
         return '''<svg viewBox="0 0 800 130" class="slide-svg">
-  <rect x="15" y="10" width="220" height="110" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
-  <text x="125" y="48" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
-  <text x="125" y="74" fill="#6B6B63" font-family="Inter" font-size="12" text-anchor="middle">Token Proposals &amp; Reasoner</text>
-  <text x="125" y="98" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">⚠ Hallucinations &amp; Loops</text>
-  <path d="M235 65 L335 65" stroke="#D97757" stroke-width="3.5" stroke-dasharray="6 4"/>
-  <text x="285" y="53" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Proposals</text>
-  <rect x="345" y="5" width="440" height="120" rx="14" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
-  <text x="565" y="34" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Deterministic Harness Control System</text>
-  <g transform="translate(360, 48)">
-    <rect x="0" y="0" width="95" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="47" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Memory</text>
-    <text x="47" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE.md</text>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#BD5D3A"/>
+    </marker>
+  </defs>
+  <rect x="15" y="10" width="210" height="110" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
+  <text x="120" y="45" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
+  <text x="120" y="70" fill="#6B6B63" font-family="Inter" font-size="12" text-anchor="middle">Reasoning &amp; Generation</text>
+  <text x="120" y="95" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">⚠ Non-Deterministic Output</text>
+  
+  <path d="M225 65 L340 65" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+  <rect x="233" y="38" width="104" height="24" rx="6" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1.5"/>
+  <text x="285" y="54" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">Action Intent ➔</text>
+  
+  <rect x="350" y="5" width="435" height="120" rx="14" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
+  <text x="567" y="34" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Deterministic Harness Control System</text>
+  <g transform="translate(365, 48)">
+    <rect x="0" y="0" width="92" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="46" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Memory</text>
+    <text x="46" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE.md</text>
   </g>
-  <g transform="translate(465, 48)">
-    <rect x="0" y="0" width="95" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="47" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Sandbox</text>
-    <text x="47" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Path Scoping</text>
+  <g transform="translate(467, 48)">
+    <rect x="0" y="0" width="92" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="46" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Sandbox</text>
+    <text x="46" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Path Scoping</text>
   </g>
-  <g transform="translate(570, 48)">
-    <rect x="0" y="0" width="95" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="47" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
-    <text x="47" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pre/Post Guards</text>
+  <g transform="translate(569, 48)">
+    <rect x="0" y="0" width="98" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="49" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
+    <text x="49" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pre/Post Guards</text>
   </g>
-  <g transform="translate(675, 48)">
-    <rect x="0" y="0" width="95" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="47" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Tests</text>
-    <text x="47" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Loop</text>
+  <g transform="translate(677, 48)">
+    <rect x="0" y="0" width="98" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="49" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Tests</text>
+    <text x="49" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Loop</text>
   </g>
 </svg>'''
     elif num == 2 or 'COURSE MASTER MAP' in title_upper:
