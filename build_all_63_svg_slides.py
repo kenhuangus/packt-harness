@@ -78,7 +78,28 @@ def highlight_python(code, highlight_lines=None):
 def generate_svg_for_slide(num, title):
     title_upper = title.upper()
     
-    if 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
+    if 'ADVANCED REFERENCES' in title_upper or 'GRAPH VS' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:95px; margin:0.2rem 0;">
+  <g transform="translate(15, 8)">
+    <rect x="0" y="0" width="235" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="117" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🔄 Loop Engineering</text>
+    <text x="117" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Recursive Feedback &amp; TDA</text>
+    <text x="117" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Sliding Window Circuit Breakers</text>
+  </g>
+  <g transform="translate(265, 8)">
+    <rect x="0" y="0" width="250" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="125" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic AI Top 10</text>
+    <text x="125" y="48" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Failure Modes</text>
+    <text x="125" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Excessive Agency &amp; Vulnerabilities</text>
+  </g>
+  <g transform="translate(530, 8)">
+    <rect x="0" y="0" width="255" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🌐 Graph Engineering</text>
+    <text x="127" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">DAGs &amp; Software Factories</text>
+    <text x="127" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Audited Skill-Graph Self-Improvement</text>
+  </g>
+</svg>'''
+    elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
         return '''<svg viewBox="0 0 800 110" style="width:100%; max-height:100px; margin:0.2rem 0;">
   <g transform="translate(15, 8)">
     <rect x="0" y="0" width="175" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
@@ -257,7 +278,7 @@ def generate_svg_for_slide(num, title):
   <path d="M380 42 L415 42" stroke="#D97757" stroke-width="3"/>
   <rect x="415" y="6" width="175" height="72" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
   <text x="502" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. Pytest Subprocess</text>
-  <text x="502" y="51" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Extract Real Traceback</text>
+  <text x="502" y="51" fill="#BD5D3A" font-family="Inter" font-size="9.5" text-anchor="middle">Extract Real Traceback</text>
   <path d="M590 42 L625 42" stroke="#BD5D3A" stroke-width="3"/>
   <rect x="625" y="6" width="160" height="72" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
   <text x="705" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. Anti-Regression</text>
@@ -320,7 +341,7 @@ html_template = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 83 Interactive Code, Architecture & Skill Slides</title>
+  <title>Packt Masterclass Presentation: 84 Interactive Code, Architecture & Skill Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -851,7 +872,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 83</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 84</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -890,8 +911,12 @@ html_template = '''<!DOCTYPE html>
       const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json', 'scripts/', 'references/', 'assets/'];
       
       text = text.replace(
-        /(https:\\/\\/[^\\s<,]+)/g,
-        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+        /(https?:\\/\\/[^\\s<>"']+)/g,
+        (match) => {
+          let url = match.replace(/[\\.\\,\\;\\:\\)]+$/, '');
+          let trailing = match.slice(url.length);
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${trailing}`;
+        }
       );
       
       keywords.forEach(kw => {
@@ -1221,4 +1246,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY REGENERATED {len(slides)} INTERACTIVE HTML SLIDES!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES!")
