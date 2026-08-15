@@ -114,7 +114,22 @@
     "number": 9
   },
   {
-    "number": 10,
+    "slide_type": "skill",
+    "skill_name": "harness-interception-loop-detector",
+    "skill_path": ".claude/skills/harness-interception-loop-detector/SKILL.md",
+    "allowed_tools": "Bash, Read, Grep",
+    "raw_lines": [
+      "Module 1 Skill: harness-interception-loop-detector",
+      "Skill Description: Intercepts destructive shell commands and breaks repeating execution retry loops before token waste or data loss occurs.",
+      "\u2022 When to Use: Running untrusted or automated agent command loops, auditing shell tool calls, or debugging stuck test-fix iterations.",
+      "\u2022 How to Use: pre_execution_hook(command) regex blocks rm -rf/sudo; loop_detector(command) halts identical retries >= max_retries.",
+      "\u2022 Key Files: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+      "\u2022 Skill Manifest: .claude/skills/harness-interception-loop-detector/SKILL.md"
+    ],
+    "number": 10
+  },
+  {
+    "number": 11,
     "raw_lines": [
       "MODULE 2",
       "Core Harness Stack",
@@ -124,7 +139,7 @@
     ]
   },
   {
-    "number": 11,
+    "number": 12,
     "raw_lines": [
       "The 5 Harness Pillars",
       "Architecture",
@@ -136,7 +151,7 @@
     ]
   },
   {
-    "number": 12,
+    "number": 13,
     "raw_lines": [
       "Pillar 1: Memory Files",
       "CLAUDE.md vs AGENTS.md",
@@ -146,7 +161,7 @@
     ]
   },
   {
-    "number": 13,
+    "number": 14,
     "raw_lines": [
       "Pillar 2: Scoped Tools",
       "Least Privilege",
@@ -156,7 +171,7 @@
     ]
   },
   {
-    "number": 14,
+    "number": 15,
     "raw_lines": [
       "Pillar 3: Hooks",
       "Inspect Before and After",
@@ -166,7 +181,7 @@
     ]
   },
   {
-    "number": 15,
+    "number": 16,
     "raw_lines": [
       "Pillars 4 & 5: Tests and Trace",
       "Budget and Audit",
@@ -198,10 +213,25 @@
       "\u2022 [Lines 19-20] Post-Edit Secret Scan: Inspects proposed code edits for hardcoded API keys (sk-proj-) before writing to disk.",
       "\u2022 Audit Observability: All tool requests and hook decisions are logged to events.jsonl with ISO timestamps."
     ],
-    "number": 16
+    "number": 17
   },
   {
-    "number": 17,
+    "slide_type": "skill",
+    "skill_name": "harness-core-stack-sandbox",
+    "skill_path": ".claude/skills/harness-core-stack-sandbox/SKILL.md",
+    "allowed_tools": "Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 2 Skill: harness-core-stack-sandbox",
+      "Skill Description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(), post-edit secret scanning, and append-only event tracing.",
+      "\u2022 When to Use: Sandboxing agent tool invocations, setting up file system isolation, or establishing audit trails in events.jsonl.",
+      "\u2022 How to Use: validate_tool_permission() checks allowlist & is_relative_to(); run_post_edit_hook() scans for sk-proj-/AKIA keys.",
+      "\u2022 Key Files: course_implementation/module_02_core_harness_stack/core_harness_stack.py, CLAUDE.md, AGENTS.md",
+      "\u2022 Skill Manifest: .claude/skills/harness-core-stack-sandbox/SKILL.md"
+    ],
+    "number": 18
+  },
+  {
+    "number": 19,
     "raw_lines": [
       "MODULE 3",
       "Spec-Driven Development",
@@ -211,7 +241,7 @@
     ]
   },
   {
-    "number": 18,
+    "number": 20,
     "raw_lines": [
       "Why Prompts Fail",
       "Specs Succeed",
@@ -221,7 +251,7 @@
     ]
   },
   {
-    "number": 19,
+    "number": 21,
     "raw_lines": [
       "SPEC.md Anatomy",
       "Required Sections",
@@ -232,7 +262,7 @@
     ]
   },
   {
-    "number": 20,
+    "number": 22,
     "raw_lines": [
       "Scope and Non-Goals",
       "Hard Boundaries",
@@ -242,7 +272,7 @@
     ]
   },
   {
-    "number": 21,
+    "number": 23,
     "raw_lines": [
       "Acceptance Criteria",
       "Vague vs Executable",
@@ -252,7 +282,7 @@
     ]
   },
   {
-    "number": 22,
+    "number": 24,
     "raw_lines": [
       "How Specs Are Used",
       "SDD Lifecycle",
@@ -262,7 +292,7 @@
     ]
   },
   {
-    "number": 23,
+    "number": 25,
     "raw_lines": [
       "Spec Verification",
       "Before Code Ships",
@@ -292,10 +322,25 @@
       "\u2022 [Lines 10-12] Non-Goal Filtering: Scans diff content against explicit non-goals to prevent scope creep (e.g. database logic in a JWT validator).",
       "\u2022 [Line 18] AST Parsing Gate: Runs ast.parse() before saving to ensure zero syntactically broken code reaches the workspace."
     ],
-    "number": 24
+    "number": 26
   },
   {
-    "number": 25,
+    "slide_type": "skill",
+    "skill_name": "harness-spec-driven-development",
+    "skill_path": ".claude/skills/harness-spec-driven-development/SKILL.md",
+    "allowed_tools": "Read, Write, Glob, Grep, Bash",
+    "raw_lines": [
+      "Module 3 Skill: harness-spec-driven-development",
+      "Skill Description: Parses and enforces immutable SPEC.md contracts, bounding agent writes strictly to allowed files, blocking non-goals, and validating AST syntax.",
+      "\u2022 When to Use: Scoping features, preventing architectural drift, or validating code proposals against specifications.",
+      "\u2022 How to Use: SpecVerifier.attempt_write(file, code) checks allowed_files & non-goal keywords; validates AST syntax before save.",
+      "\u2022 Key Files: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py, SPEC.md",
+      "\u2022 Skill Manifest: .claude/skills/harness-spec-driven-development/SKILL.md"
+    ],
+    "number": 27
+  },
+  {
+    "number": 28,
     "raw_lines": [
       "MODULE 4",
       "Guardrails and Hooks",
@@ -305,7 +350,7 @@
     ]
   },
   {
-    "number": 26,
+    "number": 29,
     "raw_lines": [
       "4-Layer Control",
       "Defense in Depth",
@@ -316,7 +361,7 @@
     ]
   },
   {
-    "number": 27,
+    "number": 30,
     "raw_lines": [
       "Claude Code Hooks",
       "What Actually Fires",
@@ -327,7 +372,7 @@
     ]
   },
   {
-    "number": 28,
+    "number": 31,
     "raw_lines": [
       "Post-Action Checks",
       "AST and Secrets",
@@ -337,7 +382,7 @@
     ]
   },
   {
-    "number": 29,
+    "number": 32,
     "raw_lines": [
       "Path Sandbox",
       "Stay in the Workspace",
@@ -347,7 +392,7 @@
     ]
   },
   {
-    "number": 30,
+    "number": 33,
     "raw_lines": [
       "Permission Modes",
       "Risk Tiers",
@@ -358,7 +403,7 @@
     ]
   },
   {
-    "number": 31,
+    "number": 34,
     "raw_lines": [
       "Evaluation Harnesses",
       "Score Behavior",
@@ -368,7 +413,7 @@
     ]
   },
   {
-    "number": 32,
+    "number": 35,
     "raw_lines": [
       "Safety Checklist",
       "Three Must-Haves",
@@ -400,10 +445,25 @@
       "\u2022 [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
       "\u2022 [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (sk-proj-, AKIA) before writing files."
     ],
-    "number": 33
+    "number": 36
   },
   {
-    "number": 34,
+    "slide_type": "skill",
+    "skill_name": "harness-guardrails-and-hooks",
+    "skill_path": ".claude/skills/harness-guardrails-and-hooks/SKILL.md",
+    "allowed_tools": "Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 4 Skill: harness-guardrails-and-hooks",
+      "Skill Description: Implements Claude Code PascalCase PreToolUse and PostToolUse deterministic hook interceptors to block dangerous CLI flags and secret leaks.",
+      "\u2022 When to Use: Configuring .claude/settings.json hooks or auditing pre/post tool execution policies.",
+      "\u2022 How to Use: ClaudeCodeHookInterceptor intercepts --dangerously-skip-permissions and returns permissionDecision JSON (allow, deny).",
+      "\u2022 Key Files: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py, .claude/settings.json",
+      "\u2022 Skill Manifest: .claude/skills/harness-guardrails-and-hooks/SKILL.md"
+    ],
+    "number": 37
+  },
+  {
+    "number": 38,
     "raw_lines": [
       "MODULE 5",
       "Break & Permission Gateways",
@@ -413,7 +473,7 @@
     ]
   },
   {
-    "number": 35,
+    "number": 39,
     "raw_lines": [
       "Open Q&A",
       "Discussion",
@@ -445,10 +505,25 @@
       "\u2022 [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
       "\u2022 [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
     ],
-    "number": 36
+    "number": 40
   },
   {
-    "number": 37,
+    "slide_type": "skill",
+    "skill_name": "harness-permission-escalation-gateway",
+    "skill_path": ".claude/skills/harness-permission-escalation-gateway/SKILL.md",
+    "allowed_tools": "Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 5 Skill: harness-permission-escalation-gateway",
+      "Skill Description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH, CRITICAL), auto-approving safe reads and requiring approvals.json for git_push.",
+      "\u2022 When to Use: Gating sensitive tools, establishing human-in-the-loop workflows, or generating pending action artifacts.",
+      "\u2022 How to Use: evaluate_request() auto-approves LOW reads, audits MEDIUM writes, and gates CRITICAL tools via approvals.json tokens.",
+      "\u2022 Key Files: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, approvals.json",
+      "\u2022 Skill Manifest: .claude/skills/harness-permission-escalation-gateway/SKILL.md"
+    ],
+    "number": 41
+  },
+  {
+    "number": 42,
     "raw_lines": [
       "MODULE 6",
       "Tests as Reliability",
@@ -458,7 +533,7 @@
     ]
   },
   {
-    "number": 38,
+    "number": 43,
     "raw_lines": [
       "TDA Loop",
       "Red, Repair, Green",
@@ -469,7 +544,7 @@
     ]
   },
   {
-    "number": 39,
+    "number": 44,
     "raw_lines": [
       "Test Tiers",
       "What to Run",
@@ -479,7 +554,7 @@
     ]
   },
   {
-    "number": 40,
+    "number": 45,
     "raw_lines": [
       "Traceback Feedback",
       "No Copy-Paste",
@@ -489,7 +564,7 @@
     ]
   },
   {
-    "number": 41,
+    "number": 46,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -499,7 +574,7 @@
     ]
   },
   {
-    "number": 42,
+    "number": 47,
     "raw_lines": [
       "Reliability Metrics",
       "Watch These",
@@ -531,10 +606,25 @@
       "\u2022 [Lines 12-13] Traceback Capture: Captures raw failure output (ZeroDivisionError) directly into the agent repair prompt.",
       "\u2022 [Lines 18-20] Anti-Regression Safeguard: Automatically appends new bug regression tests to prevent \"fix-and-break\" cycles."
     ],
-    "number": 43
+    "number": 48
   },
   {
-    "number": 44,
+    "slide_type": "skill",
+    "skill_name": "harness-tda-reliability-pipeline",
+    "skill_path": ".claude/skills/harness-tda-reliability-pipeline/SKILL.md",
+    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 6 Skill: harness-tda-reliability-pipeline",
+      "Skill Description: Executes deterministic test-driven agent (TDA) feedback loops via isolated pytest subprocesses, capturing tracebacks into repair prompts.",
+      "\u2022 When to Use: Running automated code repair, verifying test assertions, or preventing regressions.",
+      "\u2022 How to Use: run_test_suite() captures real pytest tracebacks for format_fix_prompt(); register_anti_regression_test() locks in bug tests.",
+      "\u2022 Key Files: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+      "\u2022 Skill Manifest: .claude/skills/harness-tda-reliability-pipeline/SKILL.md"
+    ],
+    "number": 49
+  },
+  {
+    "number": 50,
     "raw_lines": [
       "MODULE 7",
       "Skills, Plugins, MCP",
@@ -544,7 +634,7 @@
     ]
   },
   {
-    "number": 45,
+    "number": 51,
     "raw_lines": [
       "Agent Skills",
       "SKILL.md",
@@ -554,7 +644,7 @@
     ]
   },
   {
-    "number": 46,
+    "number": 52,
     "raw_lines": [
       "Skill Layout",
       "What Goes Where",
@@ -564,7 +654,7 @@
     ]
   },
   {
-    "number": 47,
+    "number": 53,
     "raw_lines": [
       "Plugins",
       "One Manifest",
@@ -574,7 +664,7 @@
     ]
   },
   {
-    "number": 48,
+    "number": 54,
     "raw_lines": [
       "MCP Foundation",
       "Three Different Numbers",
@@ -585,7 +675,7 @@
     ]
   },
   {
-    "number": 49,
+    "number": 55,
     "raw_lines": [
       "MCP Transports",
       "Local vs Remote",
@@ -595,7 +685,7 @@
     ]
   },
   {
-    "number": 50,
+    "number": 56,
     "raw_lines": [
       "MCP Python SDK",
       "2.x Authoring",
@@ -606,7 +696,7 @@
     ]
   },
   {
-    "number": 51,
+    "number": 57,
     "raw_lines": [
       "MCP Governance",
       "Lock It Down",
@@ -638,10 +728,25 @@
       "\u2022 [Line 9] @mcp.resource Decorator: Exposes read-only application state over standard URIs (config://).",
       "\u2022 [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls."
     ],
-    "number": 52
+    "number": 58
   },
   {
-    "number": 53,
+    "slide_type": "skill",
+    "skill_name": "harness-mcp-and-plugins",
+    "skill_path": ".claude/skills/harness-mcp-and-plugins/SKILL.md",
+    "allowed_tools": "Read, Write, Glob, Grep, Bash",
+    "raw_lines": [
+      "Module 7 Skill: harness-mcp-and-plugins",
+      "Skill Description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, exposing @mcp.tool() actions and @mcp.resource() URIs over stdio.",
+      "\u2022 When to Use: Extending agent capabilities with custom tools, reading application resources, or building plugins.",
+      "\u2022 How to Use: MCPServer exposes @mcp.tool() and @mcp.resource(); async ClientSession executes protocol handshake and tool calls over stdio.",
+      "\u2022 Key Files: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py, mcp_client_runner.py, .claude-plugin/plugin.json",
+      "\u2022 Skill Manifest: .claude/skills/harness-mcp-and-plugins/SKILL.md"
+    ],
+    "number": 59
+  },
+  {
+    "number": 60,
     "raw_lines": [
       "MODULE 8",
       "Compound Engineering",
@@ -651,7 +756,7 @@
     ]
   },
   {
-    "number": 54,
+    "number": 61,
     "raw_lines": [
       "Why Multi-Agent",
       "One Brain Overloads",
@@ -661,7 +766,7 @@
     ]
   },
   {
-    "number": 55,
+    "number": 62,
     "raw_lines": [
       "Planner",
       "Architect",
@@ -671,7 +776,7 @@
     ]
   },
   {
-    "number": 56,
+    "number": 63,
     "raw_lines": [
       "Implementer",
       "Constrained Coder",
@@ -681,7 +786,7 @@
     ]
   },
   {
-    "number": 57,
+    "number": 64,
     "raw_lines": [
       "Reviewer",
       "Independent Audit",
@@ -691,7 +796,7 @@
     ]
   },
   {
-    "number": 58,
+    "number": 65,
     "raw_lines": [
       "Worktree Isolation",
       "isolation: worktree",
@@ -701,7 +806,7 @@
     ]
   },
   {
-    "number": 59,
+    "number": 66,
     "raw_lines": [
       "Subagent Context",
       "Pass Less",
@@ -711,7 +816,7 @@
     ]
   },
   {
-    "number": 60,
+    "number": 67,
     "raw_lines": [
       "Self-Improvement",
       "Close the Loop",
@@ -742,10 +847,25 @@
       "\u2022 [Lines 11-12] Clean Workspace Teardown: Safely removes temporary worktrees and branches after testing.",
       "\u2022 [Lines 18-19] Sub-Spec Extraction: Delivers focused task slices to subagents, preventing context window fatigue."
     ],
-    "number": 61
+    "number": 68
   },
   {
-    "number": 62,
+    "slide_type": "skill",
+    "skill_name": "harness-compound-multi-agent-worktrees",
+    "skill_path": ".claude/skills/harness-compound-multi-agent-worktrees/SKILL.md",
+    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 8 Skill: harness-compound-multi-agent-worktrees",
+      "Skill Description: Orchestrates specialized Planner, Implementer, and Reviewer multi-agent teams, isolating coding execution in ephemeral Git worktrees.",
+      "\u2022 When to Use: Coordinating multi-agent workflows, isolating concurrent git workspaces, or recording runs to telemetry.jsonl.",
+      "\u2022 How to Use: WorktreeIsolation creates dedicated git worktree branches; sub-spec isolation delivers lean prompt contexts to subagents.",
+      "\u2022 Key Files: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py, .claude/agents/",
+      "\u2022 Skill Manifest: .claude/skills/harness-compound-multi-agent-worktrees/SKILL.md"
+    ],
+    "number": 69
+  },
+  {
+    "number": 70,
     "raw_lines": [
       "MODULE 9",
       "Practical SOP",
@@ -755,7 +875,7 @@
     ]
   },
   {
-    "number": 63,
+    "number": 71,
     "raw_lines": [
       "Five-Step SOP",
       "The Pipeline",
@@ -767,7 +887,7 @@
     ]
   },
   {
-    "number": 64,
+    "number": 72,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -777,7 +897,7 @@
     ]
   },
   {
-    "number": 65,
+    "number": 73,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -787,7 +907,7 @@
     ]
   },
   {
-    "number": 66,
+    "number": 74,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -822,10 +942,25 @@
       "\u2022 [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "\u2022 [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 67
+    "number": 75
   },
   {
-    "number": 68,
+    "slide_type": "skill",
+    "skill_name": "harness-five-step-sop-pipeline",
+    "skill_path": ".claude/skills/harness-five-step-sop-pipeline/SKILL.md",
+    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "raw_lines": [
+      "Module 9 Skill: harness-five-step-sop-pipeline",
+      "Skill Description: Runs an end-to-end 5-step SOP pipeline combining Spec First (1), Sandbox Execution (2), Guardrails (3), Pytest (4), and Unified Diff (5).",
+      "\u2022 When to Use: Executing end-to-end feature pipelines or auditing workflow rigor before PR submission.",
+      "\u2022 How to Use: FiveStepSOPPipeline executes all 5 gates sequentially, producing unified diffs (difflib.unified_diff) for human review.",
+      "\u2022 Key Files: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, SPEC.md",
+      "\u2022 Skill Manifest: .claude/skills/harness-five-step-sop-pipeline/SKILL.md"
+    ],
+    "number": 76
+  },
+  {
+    "number": 77,
     "raw_lines": [
       "MODULE 10",
       "Principles and Audit",
@@ -835,7 +970,7 @@
     ]
   },
   {
-    "number": 69,
+    "number": 78,
     "raw_lines": [
       "Four Principles",
       "What to Optimize",
@@ -846,7 +981,7 @@
     ]
   },
   {
-    "number": 70,
+    "number": 79,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -858,7 +993,7 @@
     ]
   },
   {
-    "number": 71,
+    "number": 80,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -893,6 +1028,21 @@
       "\u2022 [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "\u2022 Production Scorecard: Programmatically benchmarks repository readiness with 100% PASS."
     ],
-    "number": 72
+    "number": 81
+  },
+  {
+    "slide_type": "skill",
+    "skill_name": "harness-production-readiness-auditor",
+    "skill_path": ".claude/skills/harness-production-readiness-auditor/SKILL.md",
+    "allowed_tools": "Read, Glob, Grep, Bash",
+    "raw_lines": [
+      "Module 10 Skill: harness-production-readiness-auditor",
+      "Skill Description: Programmatically audits codebases across 5 objective readiness gates: Memory Files, PreToolUse Hooks, Test Runners, MCP, and Subagents.",
+      "\u2022 When to Use: Benchmarking repository harness readiness, scoring CI/CD pipelines, or verifying enterprise control compliance.",
+      "\u2022 How to Use: ProductionHarnessAuditor runs 5 programmatic checks across disk files, AST trees, and test runners for 100% readiness score.",
+      "\u2022 Key Files: course_implementation/module_10_closing_and_principles/production_harness_audit.py, run_all_modules.py",
+      "\u2022 Skill Manifest: .claude/skills/harness-production-readiness-auditor/SKILL.md"
+    ],
+    "number": 82
   }
 ]

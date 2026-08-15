@@ -200,7 +200,7 @@ def generate_svg_for_slide(num, title):
     <text x="87" y="66" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">✓ Auto-Approved</text>
   </g>
   <g transform="translate(205, 8)">
-    <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="175" height="80" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">MEDIUM RISK</text>
     <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">write_file, run_test</text>
     <text x="87" y="66" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">✓ Logged &amp; Approved</text>
@@ -293,7 +293,7 @@ html_template = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 72 Interactive Code & Architecture Slides</title>
+  <title>Packt Masterclass Presentation: 82 Interactive Code, Architecture & Skill Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -391,7 +391,7 @@ html_template = '''<!DOCTYPE html>
     }
     .slide-title-wrap { min-width: 0; }
     .slide-title {
-      font-family: var(--font-display); font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+      font-family: var(--font-display); font-size: clamp(1.35rem, 2.4vw, 1.9rem);
       font-weight: 650; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
     }
     .slide-num-badge {
@@ -614,6 +614,99 @@ html_template = '''<!DOCTYPE html>
       gap: 0.35rem;
     }
 
+    /* Dedicated Skill Slide Layout */
+    .skill-slide-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 1.2rem;
+      height: 100%;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .skill-slide-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+    .skill-meta-card {
+      background: var(--surface);
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      box-shadow: 0 4px 14px rgba(217, 119, 87, 0.08);
+    }
+    .skill-meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--accent-sf);
+      color: var(--accent-dk);
+      border: 1px solid var(--accent);
+      font-family: var(--font-code);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .skill-name-heading {
+      font-family: var(--font-code);
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--ink);
+      word-break: break-all;
+    }
+    .skill-desc-box {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .skill-tools-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .skill-details-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 170px);
+    }
+    .skill-detail-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid var(--accent-dk);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+    }
+    .skill-detail-title {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 750;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .skill-detail-body {
+      font-size: 0.86rem;
+      color: var(--ink);
+      line-height: 1.44;
+    }
+
     /* Visual Hierarchy: Parent vs Sub Bullets */
     .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.35rem; }
     .main-bullets.dense-columns {
@@ -706,7 +799,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 72</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 82</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -805,6 +898,63 @@ html_template = '''<!DOCTYPE html>
       return html;
     }
 
+    function renderSkillSlide(slide) {
+      const name = slide.skill_name || 'harness-skill';
+      const path = slide.skill_path || '.claude/skills/' + name + '/SKILL.md';
+      const tools = slide.allowed_tools || 'Read, Write, Bash';
+      
+      let desc = '';
+      let whenToUse = '';
+      let howToUse = '';
+      let keyFiles = '';
+      
+      slide.raw_lines.forEach(line => {
+        const trimmed = line.trim().replace(/^[•\\-\\ufffd]\\s*/, '');
+        if (trimmed.startsWith('Skill Description:')) {
+          desc = trimmed.replace('Skill Description:', '').trim();
+        } else if (trimmed.startsWith('When to Use:')) {
+          whenToUse = trimmed.replace('When to Use:', '').trim();
+        } else if (trimmed.startsWith('How to Use:')) {
+          howToUse = trimmed.replace('How to Use:', '').trim();
+        } else if (trimmed.startsWith('Key Files:')) {
+          keyFiles = trimmed.replace('Key Files:', '').trim();
+        }
+      });
+      
+      return `
+        <div class="skill-slide-layout">
+          <div class="skill-meta-card">
+            <div class="skill-meta-badge">🤖 CLAUDE CODE / AGENT SKILL</div>
+            <div class="skill-name-heading">${name}</div>
+            <div class="skill-desc-box">
+              <strong>Description:</strong> ${formatTextWithCode(desc)}
+            </div>
+            <div class="skill-tools-box">
+              <span>🛠️ Allowed Tools:</span> <code>${tools}</code>
+            </div>
+            <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.4rem;">
+              📄 Manifest: <code>${path}</code>
+            </div>
+          </div>
+          
+          <div class="skill-details-column">
+            <div class="skill-detail-card">
+              <div class="skill-detail-title">🎯 When to Use (Trigger Conditions)</div>
+              <div class="skill-detail-body">${formatTextWithCode(whenToUse)}</div>
+            </div>
+            <div class="skill-detail-card">
+              <div class="skill-detail-title">⚡ How to Use (Invocation Workflow)</div>
+              <div class="skill-detail-body">${formatTextWithCode(howToUse)}</div>
+            </div>
+            <div class="skill-detail-card">
+              <div class="skill-detail-title">📁 Key Implementation Files</div>
+              <div class="skill-detail-body">${formatTextWithCode(keyFiles)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function formatBullets(lines) {
       if (!lines || lines.length === 0) return '';
       const populatedLines = lines.filter(line => line.trim());
@@ -871,7 +1021,9 @@ html_template = '''<!DOCTYPE html>
         bodyHtml += svgMap[slide.number];
       }
 
-      if (slide.slide_type === 'code' && slide.highlighted_code) {
+      if (slide.slide_type === 'skill') {
+        bodyHtml += renderSkillSlide(slide);
+      } else if (slide.slide_type === 'code' && slide.highlighted_code) {
         const fileTag = slide.code_filename || 'source.py';
         const rawBullets = slide.raw_lines.slice(1);
         bodyHtml += `
@@ -976,4 +1128,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH ENHANCED CODE CONCEPTS & CLEAN SYNTAX HIGHLIGHTING!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES (WITH CODE BLOCKS & SKILLS FOR EACH MODULE)!")
