@@ -184,12 +184,17 @@ def generate_svg_for_slide(num, title):
 </svg>'''
     elif 'ABOUT THE INSTRUCTOR' in title_upper or 'ABOUT ME' in title_upper or 'KEN HUANG' in title_upper:
         return '''<svg viewBox="0 0 800 110" class="slide-svg">
+  <defs>
+    <clipPath id="headshot-circle">
+      <circle cx="65" cy="55" r="32"/>
+    </clipPath>
+  </defs>
   <rect x="15" y="6" width="770" height="98" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2.5"/>
-  <circle cx="65" cy="55" r="28" fill="#F5E6DF" stroke="#D97757" stroke-width="2.2"/>
-  <text x="65" y="64" fill="#BD5D3A" font-family="Inter" font-size="26" text-anchor="middle">👨‍🏫</text>
-  <text x="110" y="44" fill="#141413" font-family="Inter" font-size="16.5" font-weight="900">KEN HUANG, CISSP — INSTRUCTOR &amp; AI SAFETY RESEARCHER</text>
-  <text x="110" y="68" fill="#6B6B63" font-family="Inter" font-size="12" font-weight="600">Author, Harness Engineering &amp; MAESTRO | Adjunct Professor, University of San Francisco</text>
-  <text x="110" y="88" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="750">CSA Fellow &amp; Co-Chair | OWASP AIVSS Lead | AIUC-1 Consortium | Schmidt Sciences</text>
+  <circle cx="65" cy="55" r="34" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="2.5"/>
+  <image href="assets/images/ken-head-shot.png" x="31" y="21" width="68" height="68" clip-path="url(#headshot-circle)" preserveAspectRatio="xMidYMid slice"/>
+  <text x="115" y="44" fill="#141413" font-family="Inter" font-size="16.5" font-weight="900">KEN HUANG, CISSP — INSTRUCTOR &amp; AI SAFETY RESEARCHER</text>
+  <text x="115" y="68" fill="#6B6B63" font-family="Inter" font-size="12" font-weight="600">Author, Harness Engineering &amp; MAESTRO | Adjunct Professor, University of San Francisco</text>
+  <text x="115" y="88" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="750">CSA Fellow &amp; Co-Chair | OWASP AIVSS Lead | AIUC-1 Consortium | Schmidt Sciences</text>
 </svg>'''
     elif 'COURSE MASTER MAP' in title_upper:
         return '''<svg viewBox="0 0 800 110" class="slide-svg">
@@ -1019,8 +1024,8 @@ html_template = '''<!DOCTYPE html>
     /* Instructor Slide with 8-Book Gallery Grid */
     .instructor-slide-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.18fr);
-      gap: 1.10rem;
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.25fr);
+      gap: 1.25rem;
       height: 100%;
       align-items: start;
     }
@@ -1033,8 +1038,22 @@ html_template = '''<!DOCTYPE html>
     .instructor-info-col {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.60rem;
       min-width: 0;
+    }
+    .instructor-info-col .main-bullets,
+    .instructor-info-col .main-bullets.dense-columns,
+    .instructor-info-col .bullet-list {
+      columns: 1 !important;
+      column-gap: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.98rem;
+    }
+    .instructor-info-col .primary-bullet {
+      line-height: 1.50;
+      margin-bottom: 0.25rem;
     }
     .author-books-card {
       background: var(--surface);
@@ -1050,8 +1069,8 @@ html_template = '''<!DOCTYPE html>
       color: var(--ink);
       font-family: var(--font-display);
       font-weight: 750;
-      font-size: 0.94rem;
-      padding: 0.45rem 0.80rem;
+      font-size: 0.98rem;
+      padding: 0.50rem 0.85rem;
       border-bottom: 1.5px solid var(--rule);
       display: flex;
       justify-content: space-between;
@@ -1059,7 +1078,7 @@ html_template = '''<!DOCTYPE html>
     }
     .author-books-header a {
       font-family: var(--font-body);
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 750;
       color: var(--accent-dk);
       text-decoration: underline;
@@ -1067,8 +1086,8 @@ html_template = '''<!DOCTYPE html>
     .books-gallery-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.45rem;
-      padding: 0.55rem;
+      gap: 0.60rem;
+      padding: 0.70rem;
       background: #FAF8F2;
     }
     .book-item-card {
@@ -1078,7 +1097,7 @@ html_template = '''<!DOCTYPE html>
       background: var(--surface);
       border: 1px solid var(--rule);
       border-radius: 6px;
-      padding: 0.30rem;
+      padding: 0.40rem 0.30rem;
       text-decoration: none;
       box-shadow: 0 2px 6px rgba(0,0,0,0.04);
       transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s;
@@ -1090,23 +1109,23 @@ html_template = '''<!DOCTYPE html>
     }
     .book-cover-img {
       width: 100%;
-      height: clamp(75px, 10.5vh, 110px);
+      height: clamp(110px, 17vh, 180px);
       object-fit: contain;
       border-radius: 4px;
       border: 0.5px solid var(--rule);
     }
     .book-item-title {
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--ink);
       text-align: center;
-      line-height: 1.20;
-      margin-top: 0.22rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      line-height: 1.15;
+      margin-top: 0.28rem;
+      white-space: nowrap;
       overflow: hidden;
-      height: 1.6rem;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
     }
 
     .slide-body a {
@@ -1573,11 +1592,11 @@ html_template = '''<!DOCTYPE html>
                 </a>
                 <a href="https://www.amazon.com/dp/1807785017" target="_blank" rel="noopener noreferrer" class="book-item-card" title="OpenClaw AI in Production: Architecture, design patterns, and engineering practices for AI agent platforms">
                   <img src="assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI in Production" class="book-cover-img" />
-                  <div class="book-item-title">OpenClaw AI in Production</div>
+                  <div class="book-item-title">OpenClaw AI</div>
                 </a>
                 <a href="https://www.amazon.com/dp/B0H8JW9XFN" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Engineering Agentic AI with Claude Fable 5 and Mythos 5">
                   <img src="assets/images/books/engineering_agentic_ai_claude.jpg" alt="Engineering Agentic AI with Claude" class="book-cover-img" />
-                  <div class="book-item-title">Agentic AI with Claude</div>
+                  <div class="book-item-title">Agentic AI (Claude)</div>
                 </a>
                 <a href="https://www.amazon.com/dp/1836207034" target="_blank" rel="noopener noreferrer" class="book-item-card" title="LLM Design Patterns: A Practical Guide to Building Robust and Efficient AI Systems">
                   <img src="assets/images/books/llm_design_patterns.jpg" alt="LLM Design Patterns" class="book-cover-img" />
@@ -1585,11 +1604,11 @@ html_template = '''<!DOCTYPE html>
                 </a>
                 <a href="https://www.amazon.com/dp/B0H13XWS8W" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Agentic AI Harness Pattern: Top 15 Patterns">
                   <img src="assets/images/books/agentic_ai_harness_pattern.jpg" alt="Agentic AI Harness Pattern" class="book-cover-img" />
-                  <div class="book-item-title">Agentic AI Harness Pattern</div>
+                  <div class="book-item-title">AI Harness Pattern</div>
                 </a>
                 <a href="https://www.amazon.com/dp/3031542517" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Generative AI Security: Theories and Practices (Springer)">
                   <img src="assets/images/books/generative_ai_security.jpg" alt="Generative AI Security" class="book-cover-img" />
-                  <div class="book-item-title">Generative AI Security</div>
+                  <div class="book-item-title">GenAI Security</div>
                 </a>
                 <a href="https://www.amazon.com/dp/B0DCBDGNTN" target="_blank" rel="noopener noreferrer" class="book-item-card" title="The Layperson's Handbook to Generative AI">
                   <img src="assets/images/books/laypersons_handbook_genai.jpg" alt="Handbook to GenAI" class="book-cover-img" />
@@ -1597,7 +1616,7 @@ html_template = '''<!DOCTYPE html>
                 </a>
                 <a href="https://www.amazon.com/dp/B0D4L2XHL7" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Practical Guide for AI Engineers (Volume 1 & 2)">
                   <img src="assets/images/books/practical_guide_ai_engineers.jpg" alt="Practical Guide for AI Engineers" class="book-cover-img" />
-                  <div class="book-item-title">Guide for AI Engineers</div>
+                  <div class="book-item-title">Guide for AI Eng.</div>
                 </a>
               </div>
             </div>
