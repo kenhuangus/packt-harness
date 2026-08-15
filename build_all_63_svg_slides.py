@@ -253,7 +253,7 @@ def generate_svg_for_slide(num, title):
     <rect x="0" y="0" width="185" height="72" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="92" y="25" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
     <text x="92" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
-    <text x="92" y="60" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Process Isolation</text>
+    <text x="92" y="60" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
@@ -309,7 +309,7 @@ def generate_svg_for_slide(num, title):
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">parse_spec(SPEC.md)</text>
   </g>
   <g transform="translate(165, 5)">
-    <rect x="0" y="0" width="145" height="70" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="145" height="70" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="72" y="25" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">2. Sandbox</text>
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">ScopeEnforcer write</text>
   </g>
@@ -319,7 +319,7 @@ def generate_svg_for_slide(num, title):
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">AST &amp; Secret Scan</text>
   </g>
   <g transform="translate(475, 5)">
-    <rect x="0" y="0" width="145" height="70" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="145" height="70" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="72" y="25" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">4. Test Loop</text>
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Pytest Subprocess</text>
   </g>
@@ -399,12 +399,12 @@ html_template = '''<!DOCTYPE html>
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 1.2rem;
+      padding: 0 1.0rem;
       z-index: 50;
-      gap: 1rem;
+      gap: 0.75rem;
       overflow-x: auto;
     }
-    .header-left { display: flex; align-items: center; gap: 0.8rem; flex: 0 0 auto; }
+    .header-left { display: flex; align-items: center; gap: 0.7rem; flex: 0 0 auto; }
     .brand-logo {
       width: 30px; height: 30px;
       background: var(--accent-sf); color: var(--ink); border: 1px solid var(--rule);
@@ -413,23 +413,56 @@ html_template = '''<!DOCTYPE html>
     }
     .brand-title { font-weight: 650; font-size: 0.90rem; white-space: nowrap; }
 
-    .controls { display: flex; align-items: center; gap: 0.45rem; flex: 0 0 auto; }
+    .controls { display: flex; align-items: center; gap: 0.40rem; flex: 0 0 auto; }
     .btn {
       background: var(--surface); border: 1px solid var(--rule); color: var(--ink);
-      padding: 0.36rem 0.70rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem;
+      padding: 0.35rem 0.65rem; border-radius: 8px; font-weight: 600; font-size: 0.80rem;
       cursor: pointer; transition: background-color 0.16s, border-color 0.16s; text-decoration: none;
       white-space: nowrap;
     }
     .btn:hover { background: var(--accent-sf); border-color: var(--accent); }
-    .btn:focus-visible, .slide-select:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
+    .btn:focus-visible, .slide-select:focus-visible, .goto-input:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
     .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
     .btn-primary:hover { background: var(--accent-sf); border-color: var(--accent-dk); color: var(--ink); }
     
+    .goto-group {
+      display: flex;
+      align-items: center;
+      gap: 0.22rem;
+      background: var(--bg);
+      padding: 0.12rem 0.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--rule);
+    }
+    .goto-input {
+      width: 48px;
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      padding: 0.25rem 0.35rem;
+      border-radius: 6px;
+      font-family: var(--font-code);
+      font-size: 0.80rem;
+      font-weight: 750;
+      text-align: center;
+      -moz-appearance: textfield;
+    }
+    .goto-input::-webkit-outer-spin-button,
+    .goto-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .btn-goto {
+      padding: 0.26rem 0.50rem;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
     select.slide-select {
       background: var(--surface); color: var(--ink); border: 1px solid var(--rule);
-      padding: 0.36rem 0.58rem; border-radius: 8px; font-family: var(--font-body);
-      font-size: 0.8rem; font-weight: 600;
-      max-width: 320px;
+      padding: 0.35rem 0.55rem; border-radius: 8px; font-family: var(--font-body);
+      font-size: 0.80rem; font-weight: 600;
+      max-width: 290px;
     }
 
     main {
@@ -893,9 +926,9 @@ html_template = '''<!DOCTYPE html>
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
 
     @media (max-width: 980px) {
-      header { padding: 0 0.8rem; }
+      header { padding: 0 0.6rem; }
       .brand-title { display: none; }
-      select.slide-select { max-width: 210px; }
+      select.slide-select { max-width: 200px; }
     }
   </style>
 </head>
@@ -904,13 +937,17 @@ html_template = '''<!DOCTYPE html>
   <header>
     <div class="header-left">
       <div class="brand-logo">HE</div>
-      <div class="brand-title">Harness Engineering Masterclass Slides</div>
+      <div class="brand-title">Harness Engineering Masterclass</div>
     </div>
     <div class="controls">
       <a href="index.html" class="btn">🏠 Home Site</a>
       <button class="btn" onclick="toggleMode()"><span id="mode-icon">📜</span> <span id="mode-text">Grid View</span></button>
       <button class="btn" onclick="prevSlide()">❮ Prev</button>
       <select id="slide-select" class="slide-select" onchange="goToSlide(this.value)"></select>
+      <div class="goto-group">
+        <input type="number" id="goto-input" min="1" max="85" placeholder="#" class="goto-input" title="Enter slide number (1-85)" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
+        <button class="btn btn-goto" onclick="jumpToEnteredSlide()" title="Jump to entered slide number">Go ➔</button>
+      </div>
       <button class="btn" onclick="nextSlide()">Next ❯</button>
       <button class="btn btn-primary" onclick="toggleFullscreen()">⛶ Fullscreen</button>
     </div>
@@ -1237,6 +1274,11 @@ html_template = '''<!DOCTYPE html>
 
       const slide = slidesData[idx];
       selectEl.value = idx;
+      
+      const gotoInput = document.getElementById('goto-input');
+      if (gotoInput) {
+        gotoInput.placeholder = String(slide.number);
+      }
 
       const title = slide.raw_lines[0] || `Slide ${slide.number}`;
       document.getElementById('slide-title').innerText = title;
@@ -1316,6 +1358,18 @@ html_template = '''<!DOCTYPE html>
     function nextSlide() { renderSlide(currentIdx + 1); }
     function goToSlide(val) { renderSlide(parseInt(val)); }
 
+    function jumpToEnteredSlide() {
+      const input = document.getElementById('goto-input');
+      if (!input) return;
+      const val = parseInt(input.value, 10);
+      if (!isNaN(val) && val >= 1 && val <= slidesData.length) {
+        renderSlide(val - 1);
+        input.value = '';
+      } else {
+        alert(`Please enter a slide number between 1 and ${slidesData.length}.`);
+      }
+    }
+
     function toggleMode() {
       isGridMode = !isGridMode;
       document.getElementById('presentation-mode').style.display = isGridMode ? 'none' : 'flex';
@@ -1334,10 +1388,16 @@ html_template = '''<!DOCTYPE html>
     }
 
     document.addEventListener('keydown', (e) => {
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
       if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
       if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
       if (e.key === 'f' || e.key === 'F') toggleFullscreen();
       if (e.key === 'm' || e.key === 'M') toggleMode();
+      if (e.key === 'g' || e.key === 'G') {
+        e.preventDefault();
+        const gotoInp = document.getElementById('goto-input');
+        if (gotoInp) { gotoInp.focus(); gotoInp.select(); }
+      }
     });
 
     renderSlide(0);
@@ -1354,4 +1414,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH GO TO BUTTON!")
