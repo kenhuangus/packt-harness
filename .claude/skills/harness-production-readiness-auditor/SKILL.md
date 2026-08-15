@@ -33,6 +33,7 @@ This skill evaluates a repository against the 5 objective harness engineering re
    python course_implementation/module_10_closing_and_principles/production_harness_audit.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_10_closing_and_principles/production_harness_audit.py`
-- `run_all_modules.py`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py](https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md)

@@ -42,6 +42,7 @@ This skill executes the canonical end-to-end harness development workflow: Spec 
    python course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py`
-- `course_implementation/module_09_practical_workflow_pattern/SPEC.md`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md)

@@ -36,6 +36,7 @@ This skill coordinates specialized subagent teams (Planner, Implementer, Reviewe
    python course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py`
-- `.claude/agents/`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/](https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md)

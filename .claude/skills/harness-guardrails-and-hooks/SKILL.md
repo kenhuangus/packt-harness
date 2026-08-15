@@ -42,6 +42,7 @@ This skill implements enterprise defense-in-depth across the 4 control layers (S
    python course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py`
-- `.claude/settings.json`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json](https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md)

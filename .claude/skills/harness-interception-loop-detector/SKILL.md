@@ -44,6 +44,7 @@ This skill provides deterministic protection against common LLM execution failur
    python course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py`
-- `course_implementation/module_01_why_harness_engineering/README.md`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md)

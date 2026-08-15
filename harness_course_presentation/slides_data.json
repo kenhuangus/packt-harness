@@ -123,10 +123,15 @@
       "Skill Description: Intercepts destructive shell commands and breaks repeating execution retry loops before token waste or data loss occurs.",
       "\u2022 When to Use: Running untrusted or automated agent command loops, auditing shell tool calls, or debugging stuck test-fix iterations.",
       "\u2022 How to Use: pre_execution_hook(command) regex blocks rm -rf/sudo; loop_detector(command) halts identical retries >= max_retries.",
-      "\u2022 Key Files: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
-      "\u2022 Skill Manifest: .claude/skills/harness-interception-loop-detector/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md"
     ],
-    "number": 10
+    "number": 10,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md"
   },
   {
     "number": 11,
@@ -225,10 +230,16 @@
       "Skill Description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(), post-edit secret scanning, and append-only event tracing.",
       "\u2022 When to Use: Sandboxing agent tool invocations, setting up file system isolation, or establishing audit trails in events.jsonl.",
       "\u2022 How to Use: validate_tool_permission() checks allowlist & is_relative_to(); run_post_edit_hook() scans for sk-proj-/AKIA keys.",
-      "\u2022 Key Files: course_implementation/module_02_core_harness_stack/core_harness_stack.py, CLAUDE.md, AGENTS.md",
-      "\u2022 Skill Manifest: .claude/skills/harness-core-stack-sandbox/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py, https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md, https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md"
     ],
-    "number": 18
+    "number": 18,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md",
+      "https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md"
   },
   {
     "number": 19,
@@ -334,10 +345,15 @@
       "Skill Description: Parses and enforces immutable SPEC.md contracts, bounding agent writes strictly to allowed files, blocking non-goals, and validating AST syntax.",
       "\u2022 When to Use: Scoping features, preventing architectural drift, or validating code proposals against specifications.",
       "\u2022 How to Use: SpecVerifier.attempt_write(file, code) checks allowed_files & non-goal keywords; validates AST syntax before save.",
-      "\u2022 Key Files: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py, SPEC.md",
-      "\u2022 Skill Manifest: .claude/skills/harness-spec-driven-development/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md"
     ],
-    "number": 27
+    "number": 27,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md"
   },
   {
     "number": 28,
@@ -457,10 +473,15 @@
       "Skill Description: Implements Claude Code PascalCase PreToolUse and PostToolUse deterministic hook interceptors to block dangerous CLI flags and secret leaks.",
       "\u2022 When to Use: Configuring .claude/settings.json hooks or auditing pre/post tool execution policies.",
       "\u2022 How to Use: ClaudeCodeHookInterceptor intercepts --dangerously-skip-permissions and returns permissionDecision JSON (allow, deny).",
-      "\u2022 Key Files: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py, .claude/settings.json",
-      "\u2022 Skill Manifest: .claude/skills/harness-guardrails-and-hooks/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py, https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md"
     ],
-    "number": 37
+    "number": 37,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md"
   },
   {
     "number": 38,
@@ -517,10 +538,15 @@
       "Skill Description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH, CRITICAL), auto-approving safe reads and requiring approvals.json for git_push.",
       "\u2022 When to Use: Gating sensitive tools, establishing human-in-the-loop workflows, or generating pending action artifacts.",
       "\u2022 How to Use: evaluate_request() auto-approves LOW reads, audits MEDIUM writes, and gates CRITICAL tools via approvals.json tokens.",
-      "\u2022 Key Files: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, approvals.json",
-      "\u2022 Skill Manifest: .claude/skills/harness-permission-escalation-gateway/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md"
     ],
-    "number": 41
+    "number": 41,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md"
   },
   {
     "number": 42,
@@ -618,10 +644,14 @@
       "Skill Description: Executes deterministic test-driven agent (TDA) feedback loops via isolated pytest subprocesses, capturing tracebacks into repair prompts.",
       "\u2022 When to Use: Running automated code repair, verifying test assertions, or preventing regressions.",
       "\u2022 How to Use: run_test_suite() captures real pytest tracebacks for format_fix_prompt(); register_anti_regression_test() locks in bug tests.",
-      "\u2022 Key Files: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
-      "\u2022 Skill Manifest: .claude/skills/harness-tda-reliability-pipeline/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md"
     ],
-    "number": 49
+    "number": 49,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md"
   },
   {
     "number": 50,
@@ -740,10 +770,16 @@
       "Skill Description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, exposing @mcp.tool() actions and @mcp.resource() URIs over stdio.",
       "\u2022 When to Use: Extending agent capabilities with custom tools, reading application resources, or building plugins.",
       "\u2022 How to Use: MCPServer exposes @mcp.tool() and @mcp.resource(); async ClientSession executes protocol handshake and tool calls over stdio.",
-      "\u2022 Key Files: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py, mcp_client_runner.py, .claude-plugin/plugin.json",
-      "\u2022 Skill Manifest: .claude/skills/harness-mcp-and-plugins/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md"
     ],
-    "number": 59
+    "number": 59,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md"
   },
   {
     "number": 60,
@@ -859,10 +895,15 @@
       "Skill Description: Orchestrates specialized Planner, Implementer, and Reviewer multi-agent teams, isolating coding execution in ephemeral Git worktrees.",
       "\u2022 When to Use: Coordinating multi-agent workflows, isolating concurrent git workspaces, or recording runs to telemetry.jsonl.",
       "\u2022 How to Use: WorktreeIsolation creates dedicated git worktree branches; sub-spec isolation delivers lean prompt contexts to subagents.",
-      "\u2022 Key Files: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py, .claude/agents/",
-      "\u2022 Skill Manifest: .claude/skills/harness-compound-multi-agent-worktrees/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py, https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md"
     ],
-    "number": 69
+    "number": 69,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md"
   },
   {
     "number": 70,
@@ -954,10 +995,15 @@
       "Skill Description: Runs an end-to-end 5-step SOP pipeline combining Spec First (1), Sandbox Execution (2), Guardrails (3), Pytest (4), and Unified Diff (5).",
       "\u2022 When to Use: Executing end-to-end feature pipelines or auditing workflow rigor before PR submission.",
       "\u2022 How to Use: FiveStepSOPPipeline executes all 5 gates sequentially, producing unified diffs (difflib.unified_diff) for human review.",
-      "\u2022 Key Files: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, SPEC.md",
-      "\u2022 Skill Manifest: .claude/skills/harness-five-step-sop-pipeline/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md"
     ],
-    "number": 76
+    "number": 76,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md"
   },
   {
     "number": 77,
@@ -1040,9 +1086,14 @@
       "Skill Description: Programmatically audits codebases across 5 objective readiness gates: Memory Files, PreToolUse Hooks, Test Runners, MCP, and Subagents.",
       "\u2022 When to Use: Benchmarking repository harness readiness, scoring CI/CD pipelines, or verifying enterprise control compliance.",
       "\u2022 How to Use: ProductionHarnessAuditor runs 5 programmatic checks across disk files, AST trees, and test runners for 100% readiness score.",
-      "\u2022 Key Files: course_implementation/module_10_closing_and_principles/production_harness_audit.py, run_all_modules.py",
-      "\u2022 Skill Manifest: .claude/skills/harness-production-readiness-auditor/SKILL.md"
+      "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py, https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py",
+      "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md"
     ],
-    "number": 82
+    "number": 82,
+    "key_files_urls": [
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py",
+      "https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py"
+    ],
+    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md"
   }
 ]

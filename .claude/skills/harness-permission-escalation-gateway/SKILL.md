@@ -42,6 +42,7 @@ This skill provides risk-tiered execution control for autonomous agents, ensurin
    python course_implementation/module_05_break_and_qna/permission_escalation_gateway.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_05_break_and_qna/permission_escalation_gateway.py`
-- `course_implementation/module_05_break_and_qna/approvals.json`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md)

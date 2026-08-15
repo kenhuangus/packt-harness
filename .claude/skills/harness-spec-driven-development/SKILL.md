@@ -38,6 +38,7 @@ This skill replaces open-ended natural language prompt drift with deterministic 
    python course_implementation/module_03_spec_driven_development/spec_driven_verifier.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_03_spec_driven_development/spec_driven_verifier.py`
-- `course_implementation/module_03_spec_driven_development/SPEC.md`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md)

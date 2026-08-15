@@ -234,7 +234,7 @@ def generate_svg_for_slide(num, title):
   <path d="M590 50 L625 50" stroke="#BD5D3A" stroke-width="3"/>
   <rect x="625" y="10" width="160" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
   <text x="705" y="36" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. Anti-Regression</text>
-  <text x="705" y="58" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Lock Test in Suite</text>
+  <text x="705" y="58" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Lock Test in Suite</text>
 </svg>'''
     elif 'FIVE-STEP SOP' in title_upper:
         return '''<svg viewBox="0 0 800 95" style="width:100%; max-height:95px; margin:0.3rem 0;">
@@ -836,13 +836,17 @@ html_template = '''<!DOCTYPE html>
 
     function formatTextWithCode(text) {
       const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json'];
+      
+      // Replace URLs first with full markdown links
+      text = text.replace(
+        /(https:\\/\\/[^\\s<,]+)/g,
+        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+      );
+      
       keywords.forEach(kw => {
         text = text.replaceAll(kw, `<code>${kw}</code>`);
       });
-      return text.replace(
-        /(https:\\/\\/[^\\s<]+)/g,
-        '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-      );
+      return text;
     }
 
     function formatCodeConcepts(lines) {
@@ -900,13 +904,13 @@ html_template = '''<!DOCTYPE html>
 
     function renderSkillSlide(slide) {
       const name = slide.skill_name || 'harness-skill';
-      const path = slide.skill_path || '.claude/skills/' + name + '/SKILL.md';
       const tools = slide.allowed_tools || 'Read, Write, Bash';
+      const manifestUrl = slide.skill_manifest_url || `https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/${name}/SKILL.md`;
+      const keyFilesList = slide.key_files_urls || [];
       
       let desc = '';
       let whenToUse = '';
       let howToUse = '';
-      let keyFiles = '';
       
       slide.raw_lines.forEach(line => {
         const trimmed = line.trim().replace(/^[•\\-\\ufffd]\\s*/, '');
@@ -916,10 +920,17 @@ html_template = '''<!DOCTYPE html>
           whenToUse = trimmed.replace('When to Use:', '').trim();
         } else if (trimmed.startsWith('How to Use:')) {
           howToUse = trimmed.replace('How to Use:', '').trim();
-        } else if (trimmed.startsWith('Key Files:')) {
-          keyFiles = trimmed.replace('Key Files:', '').trim();
         }
       });
+
+      let keyFilesHtml = '';
+      if (keyFilesList.length > 0) {
+        keyFilesHtml = '<ul style="list-style:none; padding-left:0; display:flex; flex-direction:column; gap:0.38rem;">';
+        keyFilesList.forEach(url => {
+          keyFilesHtml += `<li>🔗 <a href="${url}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.80rem; word-break:break-all;">${url}</a></li>`;
+        });
+        keyFilesHtml += '</ul>';
+      }
       
       return `
         <div class="skill-slide-layout">
@@ -932,8 +943,9 @@ html_template = '''<!DOCTYPE html>
             <div class="skill-tools-box">
               <span>🛠️ Allowed Tools:</span> <code>${tools}</code>
             </div>
-            <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.4rem;">
-              📄 Manifest: <code>${path}</code>
+            <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.4rem; line-height:1.4;">
+              📄 <strong>Skill Manifest on GitHub:</strong><br>
+              <a href="${manifestUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${manifestUrl}</a>
             </div>
           </div>
           
@@ -947,8 +959,8 @@ html_template = '''<!DOCTYPE html>
               <div class="skill-detail-body">${formatTextWithCode(howToUse)}</div>
             </div>
             <div class="skill-detail-card">
-              <div class="skill-detail-title">📁 Key Implementation Files</div>
-              <div class="skill-detail-body">${formatTextWithCode(keyFiles)}</div>
+              <div class="skill-detail-title">📁 Key Implementation Files (GitHub Links)</div>
+              <div class="skill-detail-body">${keyFilesHtml}</div>
             </div>
           </div>
         </div>
@@ -1128,4 +1140,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES (WITH CODE BLOCKS & SKILLS FOR EACH MODULE)!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH FULL GITHUB URLS FOR ALL SKILLS!")

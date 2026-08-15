@@ -36,5 +36,6 @@ This skill replaces unverified agent claims with deterministic `pytest` subproce
    python course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md)

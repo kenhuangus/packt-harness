@@ -48,7 +48,8 @@ This skill provides patterns for authoring MCP 2.x SDK servers (`mcp.server.mcps
    python course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py`
-- `course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py`
-- `course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md)

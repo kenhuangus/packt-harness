@@ -44,6 +44,8 @@ This skill implements the 5 foundational pillars of an enterprise coding agent h
    python course_implementation/module_02_core_harness_stack/core_harness_stack.py
    ```
 
-## Key Files & Implementation
-- `course_implementation/module_02_core_harness_stack/core_harness_stack.py`
-- `CLAUDE.md`, `AGENTS.md`
+## Key Files & Implementation (GitHub Links)
+- [https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py)
+- [https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md](https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md)
+- [https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md](https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md)
+- [https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md](https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md)
