@@ -78,11 +78,28 @@ def highlight_python(code, highlight_lines=None):
 def generate_svg_for_slide(num, title):
     title_upper = title.upper()
     
-    if 'ADVANCED REFERENCES' in title_upper or 'OWASP TOP 10' in title_upper:
+    if 'GRAPH ENGINEERING VS. DYNAMIC WORKFLOWS' in title_upper or 'GRAPH ENGINEERING VS' in title_upper:
+        return '''<svg viewBox="0 0 800 95" style="width:100%; max-height:90px; margin:0.2rem 0;">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="355" height="76" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="177" y="26" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🌐 Graph Engineering (Blueprint Paradigm)</text>
+    <text x="177" y="46" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Directed Acyclic Graphs (DAGs) &amp; Multi-Agent Topologies</text>
+    <text x="177" y="63" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Human Architect Design: LangGraph, n8n, Custom Engines</text>
+  </g>
+  <path d="M375 44 L420 44" stroke="#D97757" stroke-width="3" stroke-dasharray="4 4"/>
+  <text x="397" y="36" fill="#BD5D3A" font-family="Inter" font-size="9" font-weight="800" text-anchor="middle">RUNTIME</text>
+  <g transform="translate(425, 6)">
+    <rect x="0" y="0" width="360" height="76" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="180" y="26" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">⚡ Dynamic Workflows (Claude Code Native)</text>
+    <text x="180" y="46" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Background JavaScript Orchestration</text>
+    <text x="180" y="63" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Fan-Out / Refute / Converge with Heavy Token Isolation</text>
+  </g>
+</svg>'''
+    elif 'ADVANCED REFERENCES' in title_upper or 'AGENTIC SKILLS TOP 10' in title_upper or 'OWASP TOP 10' in title_upper:
         return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:95px; margin:0.2rem 0;">
   <g transform="translate(40, 8)">
     <rect x="0" y="0" width="340" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic AI Top 10 Risks</text>
+    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic Skills Top 10 Risks</text>
     <text x="170" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Failure Modes &amp; Prompt Security</text>
     <text x="170" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Excessive Agency, Vulnerabilities &amp; Control Gaps</text>
   </g>
@@ -215,7 +232,7 @@ def generate_svg_for_slide(num, title):
     <text x="87" y="60" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">CLAUDE.md / AGENTS.md</text>
   </g>
   <g transform="translate(205, 6)">
-    <rect x="0" y="0" width="175" height="72" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="175" height="72" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="87" y="25" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. Tool Schemas</text>
     <text x="87" y="44" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schema Typing</text>
     <text x="87" y="60" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Strict Argument Checks</text>
@@ -254,7 +271,7 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="61" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">⚠ Intent Logged Alert</text>
   </g>
   <g transform="translate(595, 6)">
-    <rect x="0" y="0" width="185" height="72" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="185" height="72" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="92" y="25" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">CRITICAL RISK</text>
     <text x="92" y="44" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">git_push, db_drop</text>
     <text x="92" y="61" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">⛔ approvals.json Ledger</text>
@@ -272,7 +289,7 @@ def generate_svg_for_slide(num, title):
   <path d="M380 42 L415 42" stroke="#D97757" stroke-width="3"/>
   <rect x="415" y="6" width="175" height="72" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
   <text x="502" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. Pytest Subprocess</text>
-  <text x="502" y="51" fill="#BD5D3A" font-family="Inter" font-size="9.5" text-anchor="middle">Extract Real Traceback</text>
+  <text x="502" y="51" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Extract Real Traceback</text>
   <path d="M590 42 L625 42" stroke="#BD5D3A" stroke-width="3"/>
   <rect x="625" y="6" width="160" height="72" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
   <text x="705" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. Anti-Regression</text>
@@ -286,7 +303,7 @@ def generate_svg_for_slide(num, title):
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">parse_spec(SPEC.md)</text>
   </g>
   <g transform="translate(165, 5)">
-    <rect x="0" y="0" width="145" height="70" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="145" height="70" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="72" y="25" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">2. Sandbox</text>
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">ScopeEnforcer write</text>
   </g>
@@ -335,7 +352,7 @@ html_template = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 84 Interactive Code, Architecture & Skill Slides</title>
+  <title>Packt Masterclass Presentation: 85 Interactive Code, Architecture & Skill Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -451,6 +468,42 @@ html_template = '''<!DOCTYPE html>
     .slide-body > svg {
       display: block; width: 100% !important; height: auto; max-width: 100%;
       margin-bottom: 0.35rem;
+    }
+
+    /* Comparison Table Styling */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.30rem 0 0.50rem 0;
+      font-size: 0.86rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .slide-table th {
+      background: var(--accent-sf);
+      color: var(--ink);
+      font-weight: 750;
+      text-align: left;
+      padding: 0.40rem 0.65rem;
+      border-bottom: 1.5px solid var(--rule);
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+    }
+    .slide-table td {
+      padding: 0.35rem 0.65rem;
+      border-bottom: 1px solid var(--rule);
+      color: var(--ink);
+      line-height: 1.36;
+      vertical-align: middle;
+    }
+    .slide-table tr:last-child td {
+      border-bottom: none;
+    }
+    .slide-table tr:nth-child(even) td {
+      background: rgba(245, 230, 223, 0.25);
     }
 
     /* Enhanced Code Slide Layout with Line-Level Highlights */
@@ -656,7 +709,7 @@ html_template = '''<!DOCTYPE html>
       gap: 0.35rem;
     }
 
-    /* Dedicated Skill Slide Layout (Maximized typography, clean layout) */
+    /* Dedicated Skill Slide Layout */
     .skill-slide-layout {
       display: grid;
       grid-template-columns: minmax(0, 1.0fr) minmax(0, 1.15fr);
@@ -783,18 +836,18 @@ html_template = '''<!DOCTYPE html>
       break-inside: avoid; page-break-inside: avoid;
     }
     .primary-bullet {
-      font-family: var(--font-display); font-size: 1.16em; font-weight: 700; color: var(--ink);
-      margin-top: 0.50em; margin-bottom: 0.20em; display: flex; align-items: center; gap: 0.5em;
+      font-family: var(--font-display); font-size: 1.14em; font-weight: 700; color: var(--ink);
+      margin-top: 0.45em; margin-bottom: 0.18em; display: flex; align-items: center; gap: 0.5em;
     }
     .primary-bullet::before {
       content: "◆"; color: var(--accent); font-size: 0.65rem;
     }
     .sub-bullets {
       list-style-type: none; padding-left: 1.25em; border-left: 1px solid var(--rule);
-      margin-left: 0.3em; margin-bottom: 0.50em;
+      margin-left: 0.3em; margin-bottom: 0.45em;
     }
     .sub-bullet {
-      font-size: 0.98em; color: var(--ink); margin-bottom: 0.25em; position: relative; padding-left: 0.9em;
+      font-size: 0.98em; color: var(--ink); margin-bottom: 0.22em; position: relative; padding-left: 0.9em;
     }
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.05rem; line-height: 1;
@@ -866,7 +919,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 84</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 85</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -902,7 +955,7 @@ html_template = '''<!DOCTYPE html>
     }
 
     function formatTextWithCode(text) {
-      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json', 'scripts/', 'references/', 'assets/'];
+      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json', 'scripts/', 'references/', 'assets/', '.claude/workflows/'];
       
       text = text.replace(
         /(https?:\\/\\/[^\\s<>"']+)/g,
@@ -1036,10 +1089,39 @@ html_template = '''<!DOCTYPE html>
       `;
     }
 
+    function renderMarkdownTable(tableLines) {
+      if (!tableLines || tableLines.length < 2) return '';
+      const rows = tableLines.map(l => l.split('|').map(c => c.trim()).filter((c, idx, arr) => idx > 0 && idx < arr.length - 1));
+      if (rows.length < 2) return '';
+      
+      const header = rows[0];
+      const dataRows = rows.slice(2); // skip separator row
+      
+      let html = '<table class="slide-table"><thead><tr>';
+      header.forEach(h => {
+        html += `<th>${formatTextWithCode(h)}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+      
+      dataRows.forEach(r => {
+        html += '<tr>';
+        r.forEach((cell, idx) => {
+          const isFirstCol = idx === 0;
+          const formattedCell = formatTextWithCode(cell);
+          html += `<td>${isFirstCol ? '<strong>' + formattedCell + '</strong>' : formattedCell}</td>`;
+        });
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table>';
+      return html;
+    }
+
     function formatBullets(lines) {
       if (!lines || lines.length === 0) return '';
       
       const hasTree = lines.some(l => l.includes('├──') || l.includes('└──') || l.includes('custom-agent-skill/'));
+      const hasTable = lines.some(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
       
       if (hasTree) {
         let beforeTree = [];
@@ -1066,6 +1148,32 @@ html_template = '''<!DOCTYPE html>
           html += `<pre class="tree-block"><code>${treeLines.join('\\n')}</code></pre>`;
         }
         if (afterTree.length > 0) html += formatBullets(afterTree);
+        return html;
+      }
+
+      if (hasTable) {
+        let beforeTable = [];
+        let tableLines = [];
+        let afterTable = [];
+        let state = 'before';
+        
+        lines.forEach(l => {
+          const trimmed = l.trim();
+          if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+            state = 'table';
+            tableLines.push(trimmed);
+          } else if (state === 'table') {
+            state = 'after';
+            afterTable.push(l);
+          } else {
+            beforeTable.push(l);
+          }
+        });
+        
+        let html = '';
+        if (beforeTable.length > 0) html += formatBullets(beforeTable);
+        if (tableLines.length > 0) html += renderMarkdownTable(tableLines);
+        if (afterTable.length > 0) html += formatBullets(afterTable);
         return html;
       }
 
@@ -1240,4 +1348,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES (INCLUDING GRAPH VS DYNAMIC WORKFLOWS)!")

@@ -1151,12 +1151,31 @@
   {
     "slide_type": "concept",
     "raw_lines": [
-      "Advanced References: OWASP Top 10 & Software Factory Skill",
-      "\u2022 OWASP Agentic AI Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
+      "Advanced References: Agentic Skills Top 10 & Software Factory Skill",
+      "\u2022 OWASP Agentic Skills Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
       "  - Video Masterclass: https://www.youtube.com/watch?v=l-uwnCzRRE0",
       "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
       "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates."
     ],
     "number": 84
+  },
+  {
+    "slide_type": "comparison",
+    "raw_lines": [
+      "Graph Engineering vs. Dynamic Workflows in Claude Code",
+      "\u2022 Paradigm vs. Runtime: Graph Engineering is the broad architectural blueprint design paradigm for structuring AI into multi-agent networks; Dynamic Workflows is Anthropic\u2019s native runtime JavaScript orchestration executing that design.",
+      "| Feature | Graph Engineering | Dynamic Workflows (Claude Code Native) |",
+      "|---|---|---|",
+      "| What it is | A structural philosophy for designing multi-agent workflows. | Anthropic\u2019s native runtime orchestration feature. |",
+      "| Who builds it | Human architect using LangGraph, n8n, or custom DAGs. | Claude Code builds & writes it autonomously via prompt. |",
+      "| How it runs | Explicitly defined nodes, edges, state machines & code loops. | Background JavaScript script running outside active chat. |",
+      "| Context Window | Shared or scoped across custom orchestrators. | Heavily isolated; only final results return to chat window. |",
+      "| Reusability | Pre-baked pipelines optimized for predictable recurring jobs. | Saved to .claude/workflows/ as custom slash commands. |",
+      "\u2022 1. Graph Engineering (The Blueprint): Maps out Directed Acyclic Graphs (DAGs) with isolated nodes (sub-agents) and explicit edges/checkpoints to prevent infinite looping and token flooding.",
+      "\u2022 2. Dynamic Workflows (Claude Code Runtime): Translates high-level prompts into real-time JS orchestration using a Fan-Out / Refute / Converge topology with background token isolation.",
+      "\u2022 Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
+      "\u2022 Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
+    ],
+    "number": 85
   }
 ]
