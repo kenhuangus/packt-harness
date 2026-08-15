@@ -904,45 +904,81 @@ html_template = '''<!DOCTYPE html>
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.05rem; line-height: 1;
     }
-    /* Reference Slide with Book Screenshot Card */
-    .reference-slide-grid {
+    /* Reference Slide with Two-Table Layout (Links Table + Screenshot Table) */
+    .reference-tables-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.05fr);
+      grid-template-columns: minmax(0, 1.28fr) minmax(0, 1.02fr);
       gap: 1.10rem;
       height: 100%;
       align-items: start;
     }
-    @media (max-width: 1020px) {
-      .reference-slide-grid {
+    @media (max-width: 1040px) {
+      .reference-tables-grid {
         grid-template-columns: 1fr;
         height: auto;
       }
     }
-    .reference-text-col {
+    .ref-table-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      min-width: 0;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
     }
-    .book-screenshot-col {
+    .ref-table-card-header {
+      background: var(--accent-sf);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 750;
+      font-size: 1.02rem;
+      padding: 0.50rem 0.85rem;
+      border-bottom: 1.5px solid var(--rule);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      height: 100%;
+      gap: 0.40rem;
+    }
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 !important;
+      background: var(--surface);
+    }
+    .ref-table th {
+      background: #F0EEE6;
+      color: var(--ink);
+      font-weight: 750;
+      text-align: left;
+      padding: 0.45rem 0.70rem;
+      border-bottom: 1.5px solid var(--rule);
+      font-size: 0.88rem;
+    }
+    .ref-table td {
+      padding: 0.45rem 0.70rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.86rem;
+      line-height: 1.38;
+      vertical-align: middle;
+    }
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+    .ref-table tr:nth-child(even) td {
+      background: rgba(245, 230, 223, 0.22);
     }
     .book-screenshot-link {
       display: flex;
       flex-direction: column;
       align-items: center;
       background: var(--surface);
-      border: 1.5px solid var(--rule);
-      border-radius: 10px;
-      padding: 0.50rem;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.45rem;
       text-decoration: none;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
       transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
-      max-height: calc(100vh - 135px);
+      max-height: calc(100vh - 170px);
     }
     .book-screenshot-link:hover {
       transform: translateY(-2px);
@@ -951,7 +987,7 @@ html_template = '''<!DOCTYPE html>
     }
     .book-screenshot-img {
       max-width: 100%;
-      max-height: calc(100vh - 190px);
+      max-height: calc(100vh - 220px);
       height: auto;
       border-radius: 6px;
       border: 1px solid var(--rule);
@@ -1400,16 +1436,56 @@ html_template = '''<!DOCTYPE html>
         `;
       } else if (slide.number === 85) {
         bodyHtml += `
-          <div id="slide-content-wrap" class="reference-slide-grid">
-            <div class="reference-text-col">
-              ${svgMap[slide.number] || ''}
-              ${restLines.length > 0 ? formatBullets(restLines) : ''}
+          <div id="slide-content-wrap" class="reference-tables-grid">
+            <div class="ref-table-card">
+              <div class="ref-table-card-header">📚 Core Resource &amp; Reference Links</div>
+              <table class="ref-table">
+                <thead>
+                  <tr>
+                    <th style="width: 44%;">Resource Title</th>
+                    <th style="width: 56%;">Direct Access Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🛡️ OWASP Agentic Skills Top 10 Risks Video</strong></td>
+                    <td><a href="https://www.youtube.com/watch?v=l-uwnCzRRE0" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=l-uwnCzRRE0</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏭 Greenfield Software Factory Skill</strong></td>
+                    <td><a href="https://github.com/kenhuangus/greenfield-software-factory" target="_blank" rel="noopener noreferrer">https://github.com/kenhuangus/greenfield-software-factory</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>✍️ Agentic AI Substack (Ken Huang)</strong></td>
+                    <td><a href="https://kenhuangus.substack.com/" target="_blank" rel="noopener noreferrer">https://kenhuangus.substack.com/</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>📖 Harness Engineering (Amazon Book)</strong></td>
+                    <td><a href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener noreferrer">https://www.amazon.com/dp/B0HF3F86YM</a></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="book-screenshot-col">
-              <a href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener noreferrer" class="book-screenshot-link" title="Open Harness Engineering Book on Amazon">
-                <img src="assets/images/harness_engineering_book.png" alt="Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems by Ken Huang" class="book-screenshot-img" />
-                <div class="book-screenshot-badge">📖 Amazon Kindle &amp; Paperback ➔</div>
-              </a>
+            
+            <div class="ref-table-card">
+              <div class="ref-table-card-header">🏆 Official Amazon Publication (#1 Best Seller)</div>
+              <table class="ref-table">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;">Book Cover &amp; Kindle / Paperback Listing</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: center; padding: 0.50rem; background: #FAF8F2;">
+                      <a href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener noreferrer" class="book-screenshot-link" title="Open Harness Engineering Book on Amazon">
+                        <img src="assets/images/harness_engineering_book.png" alt="Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems by Ken Huang" class="book-screenshot-img" />
+                        <div class="book-screenshot-badge">📖 Amazon Kindle &amp; Paperback ➔</div>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         `;

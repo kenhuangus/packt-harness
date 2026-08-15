@@ -1168,13 +1168,15 @@
     "number": 84
   },
   {
-    "slide_type": "concept",
+    "slide_type": "reference_tables",
     "raw_lines": [
       "Advanced References: Agentic Skills Top 10, Software Factory & Resources",
-      "\u2022 OWASP Agentic Skills Top 10 Risks Video: https://www.youtube.com/watch?v=l-uwnCzRRE0",
-      "\u2022 Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory",
-      "\u2022 Agentic AI Substack (Ken Huang): https://kenhuangus.substack.com/",
-      "\u2022 Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems: https://www.amazon.com/dp/B0HF3F86YM"
+      "| Resource / Reference Title | Direct URL Link |",
+      "|---|---|",
+      "| OWASP Agentic Skills Top 10 Risks Video | https://www.youtube.com/watch?v=l-uwnCzRRE0 |",
+      "| Greenfield Software Factory Skill | https://github.com/kenhuangus/greenfield-software-factory |",
+      "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
+      "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
     "number": 85
   }
