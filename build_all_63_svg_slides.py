@@ -1,210 +1,284 @@
 import json
 import re
 import os
+import html
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(ROOT_DIR, 'harness_course_presentation', 'slides_data.json')
 with open(data_path, 'r', encoding='utf-8') as f:
     slides = json.load(f)
 
-# Helper function to generate dynamic themed SVGs for any slide number
+def highlight_python(code):
+    """Convert raw Python code into syntax-highlighted HTML span tokens."""
+    lines = code.splitlines()
+    highlighted_lines = []
+    
+    keywords = r'\b(class|def|return|if|elif|else|for|in|raise|import|from|as|None|True|False|not|and|or|async|with|await|try|except|finally|pass|while|break|continue)\b'
+    types_and_builtins = r'\b(str|dict|int|list|tuple|bool|set|bytes|Path|subprocess|re|json|ast|sys|os|datetime|timezone|tempfile|shutil|difflib|MCPServer|ClientSession|StdioServerParameters|CourseLLMClient|PermissionError|RuntimeError|ValueError|SyntaxError)\b'
+    
+    for line in lines:
+        comment_idx = -1
+        in_str = False
+        quote_char = None
+        for i, ch in enumerate(line):
+            if ch in ('"', "'"):
+                if not in_str:
+                    in_str = True
+                    quote_char = ch
+                elif ch == quote_char and (i == 0 or line[i-1] != '\\'):
+                    in_str = False
+                    quote_char = None
+            elif ch == '#' and not in_str:
+                comment_idx = i
+                break
+        
+        if comment_idx != -1:
+            code_part = line[:comment_idx]
+            comment_part = line[comment_idx:]
+        else:
+            code_part = line
+            comment_part = ''
+            
+        code_esc = html.escape(code_part)
+        comment_esc = html.escape(comment_part)
+        
+        def repl_str(m):
+            return f'<span class="tok-str">{m.group(0)}</span>'
+        code_esc = re.sub(r'(&quot;.*?&quot;|&#x27;.*?&#x27;|\'.*?\'|".*?")', repl_str, code_esc)
+        code_esc = re.sub(r'(@[A-Za-z0-9_\.]+(?:\(.*?\))?)', r'<span class="tok-dec">\1</span>', code_esc)
+        code_esc = re.sub(keywords, r'<span class="tok-kw">\1</span>', code_esc)
+        code_esc = re.sub(types_and_builtins, r'<span class="tok-typ">\1</span>', code_esc)
+        code_esc = re.sub(r'(def\s+)([A-Za-z0-9_]+)', r'\1<span class="tok-fn">\2</span>', code_esc)
+        code_esc = re.sub(r'(class\s+)([A-Za-z0-9_]+)', r'\1<span class="tok-cls">\2</span>', code_esc)
+        
+        if comment_part:
+            line_html = f'{code_esc}<span class="tok-com">{comment_esc}</span>'
+        else:
+            line_html = code_esc
+            
+        highlighted_lines.append(line_html)
+        
+    return '\n'.join(highlighted_lines)
+
+# Generate dynamic themed SVGs for concept and architecture slides
 def generate_svg_for_slide(num, title):
-    if num == 1:
-        return '''<svg viewBox="0 0 800 180" style="width:100%; max-height:180px; margin:0.75rem 0;">
-  <rect x="20" y="30" width="220" height="130" rx="16" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <text x="130" y="75" fill="#141413" font-family="Inter" font-size="16" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
-  <text x="130" y="100" fill="#6B6B63" font-family="Inter" font-size="12" text-anchor="middle">Token Proposals &amp; Reasoner</text>
-  <text x="130" y="125" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">⚠ Hallucination Traps</text>
-  <path d="M240 95 L340 95" stroke="#D97757" stroke-width="4" stroke-dasharray="6 4"/>
-  <text x="290" y="85" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Proposals</text>
-  <rect x="350" y="15" width="430" height="160" rx="16" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
-  <text x="565" y="45" fill="#141413" font-family="Inter" font-size="16" font-weight="800" text-anchor="middle">Deterministic Harness Scaffolding</text>
-  <rect x="370" y="65" width="115" height="45" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-  <text x="427" y="87" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Memory</text>
-  <rect x="500" y="65" width="115" height="45" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-  <text x="557" y="87" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Sandbox</text>
-  <rect x="630" y="65" width="135" height="45" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-  <text x="697" y="87" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
-  <rect x="435" y="120" width="120" height="40" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-  <text x="495" y="145" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">TDA Pytest</text>
-  <rect x="570" y="120" width="120" height="40" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-  <text x="630" y="145" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">JSONL Logs</text>
+    title_upper = title.upper()
+    
+    if num == 1 or 'MASTERCLASS' in title_upper:
+        return '''<svg viewBox="0 0 800 130" style="width:100%; max-height:130px; margin:0.4rem 0;">
+  <rect x="15" y="15" width="220" height="100" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <text x="125" y="50" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
+  <text x="125" y="72" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Token Proposals &amp; Reasoner</text>
+  <text x="125" y="94" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">⚠ Hallucinations &amp; Loops</text>
+  <path d="M235 65 L335 65" stroke="#D97757" stroke-width="3" stroke-dasharray="6 4"/>
+  <text x="285" y="55" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Proposals</text>
+  <rect x="345" y="10" width="440" height="110" rx="14" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
+  <text x="565" y="35" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">Deterministic Harness Control System</text>
+  <g transform="translate(360, 48)">
+    <rect x="0" y="0" width="95" height="55" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="47" y="24" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Memory</text>
+    <text x="47" y="42" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">CLAUDE.md</text>
+  </g>
+  <g transform="translate(465, 48)">
+    <rect x="0" y="0" width="95" height="55" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="47" y="24" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Sandbox</text>
+    <text x="47" y="42" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Path Scoping</text>
+  </g>
+  <g transform="translate(570, 48)">
+    <rect x="0" y="0" width="95" height="55" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="47" y="24" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
+    <text x="47" y="42" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Pre/Post Guards</text>
+  </g>
+  <g transform="translate(675, 48)">
+    <rect x="0" y="0" width="95" height="55" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
+    <text x="47" y="24" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Tests</text>
+    <text x="47" y="42" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Pytest Loop</text>
+  </g>
 </svg>'''
-    elif num in [3, 9, 15, 22, 30, 32, 38, 46, 54, 59]:
-        mod_map = {3:1, 9:2, 15:3, 22:4, 30:5, 32:6, 38:7, 46:8, 54:9, 59:10}
-        m_num = mod_map.get(num, 1)
-        return f'''<svg viewBox="0 0 800 110" style="width:100%; max-height:110px; margin:0.5rem 0;">
-  <rect x="20" y="10" width="760" height="90" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <circle cx="70" cy="55" r="26" fill="#F5E6DF" stroke="#D97757" stroke-width="2"/>
-  <text x="70" y="63" fill="#141413" font-family="Inter" font-size="17" font-weight="900" text-anchor="middle">M{m_num}</text>
-  <text x="120" y="48" fill="#141413" font-family="Inter" font-size="16" font-weight="800">MODULE {m_num} OBJECTIVES &amp; SPECIFICATION</text>
-  <text x="120" y="74" fill="#6B6B63" font-family="Inter" font-size="12">Verified Production Implementation in course_implementation/ | Harness Systems Architecture</text>
+    elif num == 2 or 'COURSE MASTER MAP' in title_upper:
+        return '''<svg viewBox="0 0 800 110" style="width:100%; max-height:110px; margin:0.4rem 0;">
+  <rect x="20" y="10" width="365" height="90" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <text x="202" y="38" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">PART 1: FOUNDATIONS &amp; CONTROL</text>
+  <text x="202" y="60" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Modules 1–5: Core Scaffolding, SDD &amp; Gateways</text>
+  <text x="202" y="82" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Deterministic Execution &amp; Interception</text>
+  <path d="M385 55 L415 55" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="4 4"/>
+  <rect x="415" y="10" width="365" height="90" rx="12" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+  <text x="597" y="38" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">PART 2: RELIABILITY &amp; TEAMS</text>
+  <text x="597" y="60" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Modules 6–10: TDA, MCP, Multi-Agent &amp; Audit</text>
+  <text x="597" y="82" fill="#D97757" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">100% Production Readiness Scorecard</text>
 </svg>'''
-    elif num == 2:
-        return '''<svg viewBox="0 0 800 130" style="width:100%; max-height:130px; margin:0.5rem 0;">
-  <rect x="20" y="10" width="360" height="110" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <text x="200" y="42" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">PART 1: FOUNDATIONS &amp; CONTROL</text>
-  <text x="200" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 1–5</text>
-  <text x="200" y="92" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">Modules 1–5: Foundations, Control &amp; Break</text>
-  <path d="M380 65 L420 65" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="4 4"/>
-  <rect x="420" y="10" width="360" height="110" rx="12" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-  <text x="600" y="42" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">PART 2: RELIABILITY &amp; TEAMS</text>
-  <text x="600" y="67" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10</text>
-  <text x="600" y="95" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10: TDA, MCP &amp; Multi-Agent Teams</text>
+    elif re.match(r'^MODULE\s+\d+$', title.strip()):
+        mod_match = re.search(r'\d+', title)
+        m_num = int(mod_match.group(0)) if mod_match else 1
+        return f'''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
+  <rect x="20" y="10" width="760" height="80" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <circle cx="65" cy="50" r="24" fill="#F5E6DF" stroke="#D97757" stroke-width="2"/>
+  <text x="65" y="57" fill="#141413" font-family="Inter" font-size="16" font-weight="900" text-anchor="middle">M{m_num}</text>
+  <text x="110" y="44" fill="#141413" font-family="Inter" font-size="15" font-weight="800">MODULE {m_num} SPECIFICATION &amp; PRODUCTION BLUEPRINT</text>
+  <text x="110" y="68" fill="#6B6B63" font-family="Inter" font-size="11">Verified Implementation in course_implementation/ | Deterministic Control Architecture</text>
 </svg>'''
-    elif num == 10:
-        return '''<svg viewBox="0 0 800 120" style="width:100%; max-height:120px; margin:0.5rem 0;">
+    elif '5 HARNESS PILLARS' in title_upper or '5 PILLARS' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
   <g transform="translate(10, 5)">
-    <rect x="0" y="0" width="140" height="105" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <circle cx="70" cy="30" r="16" fill="#F5E6DF" stroke="#D97757"/>
-    <text x="70" y="35" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">P1</text>
-    <text x="70" y="65" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Memory Files</text>
-    <text x="70" y="85" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE/AGENTS</text>
+    <rect x="0" y="0" width="140" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="70" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Pillar 1: Memory</text>
+    <text x="70" y="52" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">CLAUDE.md</text>
+    <text x="70" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">AGENTS.md Rules</text>
   </g>
-  <g transform="translate(170, 5)">
-    <rect x="0" y="0" width="140" height="105" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <circle cx="70" cy="30" r="16" fill="#F5E6DF" stroke="#BD5D3A"/>
-    <text x="70" y="35" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">P2</text>
-    <text x="70" y="65" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Scoped Tools</text>
-    <text x="70" y="85" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Path Sandbox</text>
+  <g transform="translate(165, 5)">
+    <rect x="0" y="0" width="140" height="85" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="70" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Pillar 2: Sandbox</text>
+    <text x="70" y="52" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Least Privilege</text>
+    <text x="70" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Path is_relative_to</text>
   </g>
-  <g transform="translate(330, 5)">
-    <rect x="0" y="0" width="140" height="105" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <circle cx="70" cy="30" r="16" fill="#F5E6DF" stroke="#BD5D3A"/>
-    <text x="70" y="35" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">P3</text>
-    <text x="70" y="65" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
-    <text x="70" y="85" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pre/Post Tool Hooks</text>
+  <g transform="translate(320, 5)">
+    <rect x="0" y="0" width="140" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="70" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Pillar 3: Hooks</text>
+    <text x="70" y="52" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Secret Filtering</text>
+    <text x="70" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">AST Syntax Check</text>
   </g>
-  <g transform="translate(490, 5)">
-    <rect x="0" y="0" width="140" height="105" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <circle cx="70" cy="30" r="16" fill="#F5E6DF" stroke="#BD5D3A"/>
-    <text x="70" y="35" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">P4</text>
-    <text x="70" y="65" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Testing Loop</text>
-    <text x="70" y="85" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Traceback</text>
+  <g transform="translate(475, 5)">
+    <rect x="0" y="0" width="140" height="85" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="70" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Pillar 4: Budget</text>
+    <text x="70" y="52" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Head/Tail Compacting</text>
+    <text x="70" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Context Window Cap</text>
   </g>
-  <g transform="translate(650, 5)">
-    <rect x="0" y="0" width="140" height="105" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <circle cx="70" cy="30" r="16" fill="#F5E6DF" stroke="#BD5D3A"/>
-    <text x="70" y="35" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">P5</text>
-    <text x="70" y="65" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">JSONL Tracing</text>
-    <text x="70" y="85" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Audit Logs</text>
+  <g transform="translate(630, 5)">
+    <rect x="0" y="0" width="155" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="77" y="30" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Pillar 5: Tracing</text>
+    <text x="77" y="52" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">events.jsonl Audit</text>
+    <text x="77" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">ISO UTC Timestamps</text>
   </g>
 </svg>'''
-    elif num == 23:
-        return '''<svg viewBox="0 0 800 150" style="width:100%; max-height:150px; margin:0.5rem 0;">
-  <rect x="40" y="5" width="720" height="26" rx="6" fill="#F0EEE6" stroke="#D97757" stroke-width="2"/>
-  <text x="60" y="22" fill="#141413" font-family="Inter" font-size="11" font-weight="800">System Prompt Rules</text>
-  <text x="340" y="22" fill="#6B6B63" font-family="Inter" font-size="10">CLAUDE.md / AGENTS.md Guidelines</text>
-  <rect x="40" y="36" width="720" height="26" rx="6" fill="#F0EEE6" stroke="#BD5D3A" stroke-width="2"/>
-  <text x="60" y="53" fill="#141413" font-family="Inter" font-size="11" font-weight="800">Tool Schemas</text>
-  <text x="340" y="53" fill="#6B6B63" font-family="Inter" font-size="10">JSON Schema Validation &amp; Argument Typing</text>
-  <rect x="40" y="67" width="720" height="26" rx="6" fill="#F0EEE6" stroke="#D97757" stroke-width="2"/>
-  <text x="60" y="84" fill="#141413" font-family="Inter" font-size="11" font-weight="800">Interceptors &amp; Hooks</text>
-  <text x="340" y="84" fill="#6B6B63" font-family="Inter" font-size="10">PreToolUse shell guard &amp; PostToolUse AST linters</text>
-  <rect x="40" y="98" width="720" height="26" rx="6" fill="#F0EEE6" stroke="#D97757" stroke-width="2"/>
-  <text x="60" y="115" fill="#141413" font-family="Inter" font-size="11" font-weight="800">OS Sandboxing</text>
-  <text x="340" y="115" fill="#6B6B63" font-family="Inter" font-size="10">Path Isolation &amp; Chroot Workspace Boundary</text>
-</svg>'''
-    elif num == 27:
-        return '''<svg viewBox="0 0 800 120" style="width:100%; max-height:120px; margin:0.5rem 0;">
-  <g transform="translate(20, 10)">
-    <rect x="0" y="0" width="170" height="95" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="85" y="35" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">READ ONLY</text>
-    <text x="85" y="57" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">plan</text>
-    <text x="85" y="77" fill="#6B6B63" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">NO MUTATIONS</text>
+    elif '4-LAYER' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
+  <g transform="translate(15, 8)">
+    <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">1. System Prompt</text>
+    <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Standing Guidelines</text>
+    <text x="87" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">CLAUDE.md / AGENTS.md</text>
   </g>
-  <g transform="translate(210, 10)">
-    <rect x="0" y="0" width="170" height="95" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="85" y="35" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">REVIEWED</text>
-    <text x="85" y="57" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">default / acceptEdits</text>
-    <text x="85" y="77" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">ALLOW · ASK · DENY</text>
+  <g transform="translate(205, 8)">
+    <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. Tool Schemas</text>
+    <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schema Typing</text>
+    <text x="87" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Strict Argument Checks</text>
   </g>
-  <g transform="translate(400, 10)">
-    <rect x="0" y="0" width="170" height="95" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="85" y="35" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">AUTOMATION</text>
-    <text x="85" y="57" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">auto / dontAsk</text>
-    <text x="85" y="77" fill="#141413" font-family="Inter" font-size="9" font-weight="700" text-anchor="middle">SAFETY OR ALLOWLIST</text>
+  <g transform="translate(395, 8)">
+    <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. Pre/Post Hooks</text>
+    <text x="92" y="48" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">PreToolUse Shell Deny</text>
+    <text x="92" y="65" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">PostToolUse AST / Secrets</text>
   </g>
-  <g transform="translate(590, 10)">
-    <rect x="0" y="0" width="190" height="95" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="95" y="35" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">ISOLATED ONLY</text>
-    <text x="95" y="57" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">bypassPermissions</text>
-    <text x="95" y="77" fill="#141413" font-family="Inter" font-size="9" font-weight="700" text-anchor="middle">SKIPS PERMISSION LAYER</text>
+  <g transform="translate(595, 8)">
+    <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
+    <text x="92" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
+    <text x="92" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
-    elif num == 33:
-        return '''<svg viewBox="0 0 800 120" style="width:100%; max-height:120px; margin:0.5rem 0;">
-  <rect x="30" y="10" width="160" height="90" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <text x="110" y="40" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Failing Test</text>
-  <text x="110" y="65" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">From SPEC.md</text>
-  <path d="M190 55 L230 55" stroke="#BD5D3A" stroke-width="3"/>
-  <rect x="230" y="10" width="160" height="90" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-  <text x="310" y="40" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Agent Edit</text>
-  <text x="310" y="65" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Code Proposal</text>
-  <path d="M390 55 L430 55" stroke="#D97757" stroke-width="3"/>
-  <rect x="430" y="10" width="160" height="90" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <text x="510" y="40" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Pytest Runner</text>
-  <text x="510" y="65" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Capture Traceback</text>
-  <path d="M590 55 L630 55" stroke="#BD5D3A" stroke-width="3"/>
-  <rect x="630" y="10" width="140" height="90" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-  <text x="700" y="40" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Repair Prompt</text>
-  <text x="700" y="65" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Auto Feedback</text>
-</svg>'''
-    elif num == 55:
-        return '''<svg viewBox="0 0 800 110" style="width:100%; max-height:110px; margin:0.5rem 0;">
-  <g transform="translate(15, 10)">
-    <rect x="0" y="0" width="140" height="85" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="70" y="38" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Spec First</text>
-    <text x="70" y="58" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Validate SPEC.md</text>
+    elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
+  <g transform="translate(15, 8)">
+    <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">LOW RISK</text>
+    <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">read_file, list_dir, grep</text>
+    <text x="87" y="66" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">✓ Auto-Approved</text>
   </g>
-  <g transform="translate(170, 10)">
-    <rect x="0" y="0" width="140" height="85" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="70" y="38" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Sandbox</text>
-    <text x="70" y="58" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Scoped Execution</text>
+  <g transform="translate(205, 8)">
+    <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">MEDIUM RISK</text>
+    <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">write_file, run_test</text>
+    <text x="87" y="66" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">✓ Logged &amp; Approved</text>
   </g>
-  <g transform="translate(325, 10)">
-    <rect x="0" y="0" width="140" height="85" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="70" y="38" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Hooks</text>
-    <text x="70" y="58" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pre/Post Hooks</text>
+  <g transform="translate(395, 8)">
+    <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">HIGH RISK</text>
+    <text x="92" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">pip_install</text>
+    <text x="92" y="66" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">⚠ Intent Logged Alert</text>
   </g>
-  <g transform="translate(480, 10)">
-    <rect x="0" y="0" width="140" height="85" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="70" y="38" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Tests</text>
-    <text x="70" y="58" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Runner</text>
-  </g>
-  <g transform="translate(635, 10)">
-    <rect x="0" y="0" width="150" height="85" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="75" y="38" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Human Review</text>
-    <text x="75" y="58" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">PR Sanity Merge</text>
+  <g transform="translate(595, 8)">
+    <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">CRITICAL RISK</text>
+    <text x="92" y="48" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">git_push, db_drop</text>
+    <text x="92" y="66" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">⛔ approvals.json Ledger</text>
   </g>
 </svg>'''
-    elif num == 61:
-        return '''<svg viewBox="0 0 800 110" style="width:100%; max-height:110px; margin:0.5rem 0;">
-  <rect x="40" y="10" width="720" height="90" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2.5"/>
-  <text x="400" y="38" fill="#141413" font-family="Inter" font-size="15" font-weight="900" text-anchor="middle">PRODUCTION READINESS SCORECARD: 100% PASS</text>
-  <text x="400" y="60" fill="#141413" font-family="Inter" font-size="11" text-anchor="middle">✓ Memory (AGENTS.md)  ✓ Sandboxing  ✓ PreToolUse  ✓ TDA Loop  ✓ MCP Governance</text>
-  <text x="400" y="80" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Verified Harness Engineering Control &amp; Reliability Framework</text>
+    elif 'TDA LOOP' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
+  <rect x="15" y="10" width="165" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <text x="97" y="36" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">1. RED: Failing Test</text>
+  <text x="97" y="58" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">From SPEC.md Criteria</text>
+  <path d="M180 50 L215 50" stroke="#BD5D3A" stroke-width="3"/>
+  <rect x="215" y="10" width="165" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+  <text x="297" y="36" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. Agent Edit</text>
+  <text x="297" y="58" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Code Implementation</text>
+  <path d="M380 50 L415 50" stroke="#D97757" stroke-width="3"/>
+  <rect x="415" y="10" width="175" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <text x="502" y="36" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. Pytest Subprocess</text>
+  <text x="502" y="58" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Extract Real Traceback</text>
+  <path d="M590 50 L625 50" stroke="#BD5D3A" stroke-width="3"/>
+  <rect x="625" y="10" width="160" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+  <text x="705" y="36" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. Anti-Regression</text>
+  <text x="705" y="58" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Lock Test in Suite</text>
+</svg>'''
+    elif 'FIVE-STEP SOP' in title_upper:
+        return '''<svg viewBox="0 0 800 95" style="width:100%; max-height:95px; margin:0.3rem 0;">
+  <g transform="translate(10, 8)">
+    <rect x="0" y="0" width="145" height="75" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="72" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">1. Spec First</text>
+    <text x="72" y="48" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">parse_spec(SPEC.md)</text>
+  </g>
+  <g transform="translate(165, 8)">
+    <rect x="0" y="0" width="145" height="75" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="72" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">2. Sandbox</text>
+    <text x="72" y="48" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">ScopeEnforcer write</text>
+  </g>
+  <g transform="translate(320, 8)">
+    <rect x="0" y="0" width="145" height="75" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="72" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">3. Guardrails</text>
+    <text x="72" y="48" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">AST &amp; Secret Scan</text>
+  </g>
+  <g transform="translate(475, 8)">
+    <rect x="0" y="0" width="145" height="75" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="72" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">4. Test Loop</text>
+    <text x="72" y="48" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Pytest Subprocess</text>
+  </g>
+  <g transform="translate(630, 8)">
+    <rect x="0" y="0" width="155" height="75" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
+    <text x="77" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">5. Human Review</text>
+    <text x="77" y="48" fill="#141413" font-family="Inter" font-size="9" font-weight="700" text-anchor="middle">Diff &amp; PR Merge</text>
+  </g>
+</svg>'''
+    elif 'SCORECARD' in title_upper or 'WRAP-UP' in title_upper or 'READINESS' in title_upper:
+        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:100px; margin:0.3rem 0;">
+  <rect x="20" y="10" width="760" height="80" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+  <text x="400" y="38" fill="#141413" font-family="Inter" font-size="14" font-weight="900" text-anchor="middle">PRODUCTION READINESS SCORECARD: 100% PASS</text>
+  <text x="400" y="60" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">✓ Memory (AGENTS.md)  ✓ Sandboxing  ✓ PreToolUse Hooks  ✓ TDA Pytest  ✓ MCP Tools</text>
+  <text x="400" y="78" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Verified Harness Engineering Control &amp; Reliability Framework (10 Modules)</text>
 </svg>'''
     else:
-        # ponytail: no generic placeholder diagram. Slides without a bespoke
-        # SVG render as clean text-only; the old scaffold repeated the same
-        # "INPUT CONTEXT / VERIFIED / 100% Pass Rate" graphic on ~44 slides.
         return ''
 
-svg_all_63 = {}
+# Pre-render syntax highlighted code for all slides that have code_block
+for s in slides:
+    if s.get('code_block'):
+        s['highlighted_code'] = highlight_python(s['code_block'])
+
+svg_all = {}
 for s in slides:
     num = s['number']
-    title = s['raw_lines'][0] if s['raw_lines'] else f'Slide {num}'
-    svg_all_63[num] = generate_svg_for_slide(num, title)
+    title = s['raw_lines'][0] if s.get('raw_lines') else f'Slide {num}'
+    svg_all[num] = generate_svg_for_slide(num, title)
 
-svg_json = json.dumps(svg_all_63)
+svg_json = json.dumps(svg_all)
 
 html_template = '''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 63 Interactive HTML Slides</title>
+  <title>Packt Masterclass Presentation: 82 Interactive Code & Architecture Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -212,12 +286,15 @@ html_template = '''<!DOCTYPE html>
     :root {
       --bg: #F0EEE6;
       --surface: #FAF9F5;
+      --surface-alt: #F5E6DF;
       --ink: #141413;
       --ink-muted: #6B6B63;
       --rule: #E3E0D6;
       --accent: #D97757;
       --accent-dk: #BD5D3A;
       --accent-sf: #F5E6DF;
+      --code-bg: #1A1A18;
+      --code-rule: #333330;
       --font-display: ui-serif, Georgia, "Times New Roman", serif;
       --font-body: -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
       --font-code: ui-monospace, "JetBrains Mono", Menlo, monospace;
@@ -235,43 +312,44 @@ html_template = '''<!DOCTYPE html>
     }
 
     header {
-      height: 54px;
-      flex: 0 0 54px;
+      height: 52px;
+      flex: 0 0 52px;
       background: var(--surface);
       border-bottom: 1px solid var(--rule);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 1.5rem;
+      padding: 0 1.2rem;
       z-index: 50;
       gap: 1rem;
       overflow-x: auto;
     }
     .header-left { display: flex; align-items: center; gap: 0.8rem; flex: 0 0 auto; }
     .brand-logo {
-      width: 36px; height: 36px;
+      width: 34px; height: 34px;
       background: var(--accent-sf); color: var(--ink); border: 1px solid var(--rule);
-      border-radius: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
     }
-    .brand-title { font-weight: 650; font-size: 1rem; white-space: nowrap; }
+    .brand-title { font-weight: 650; font-size: 0.95rem; white-space: nowrap; }
 
-    .controls { display: flex; align-items: center; gap: 0.55rem; flex: 0 0 auto; }
+    .controls { display: flex; align-items: center; gap: 0.5rem; flex: 0 0 auto; }
     .btn {
       background: var(--surface); border: 1px solid var(--rule); color: var(--ink);
-      padding: 0.46rem 0.82rem; border-radius: 10px; font-weight: 600; font-size: 0.82rem;
+      padding: 0.42rem 0.75rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem;
       cursor: pointer; transition: background-color 0.16s, border-color 0.16s; text-decoration: none;
       white-space: nowrap;
     }
     .btn:hover { background: var(--accent-sf); border-color: var(--accent); }
     .btn:focus-visible, .slide-select:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
-    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
     .btn-primary:hover { background: var(--accent-sf); border-color: var(--accent-dk); color: var(--ink); }
     
     select.slide-select {
       background: var(--surface); color: var(--ink); border: 1px solid var(--rule);
-      padding: 0.45rem 0.7rem; border-radius: 10px; font-family: var(--font-body);
-      font-size: 0.82rem; font-weight: 600;
-      max-width: 320px;
+      padding: 0.42rem 0.65rem; border-radius: 8px; font-family: var(--font-body);
+      font-size: 0.8rem; font-weight: 600;
+      max-width: 340px;
     }
 
     main {
@@ -283,62 +361,181 @@ html_template = '''<!DOCTYPE html>
     .slide-viewport {
       width: 100%; height: 100%;
       display: flex; justify-content: center; align-items: center;
-      padding: clamp(0.45rem, 1.2vw, 0.9rem);
+      padding: clamp(0.4rem, 1vw, 0.8rem);
     }
     .slide-card {
-      width: 100%; max-width: 1360px; height: 100%; max-height: none;
+      width: 100%; max-width: 1360px; height: 100%;
       background: var(--surface); border: 1px solid var(--rule);
-      border-radius: 12px; padding: clamp(1.1rem, 2.2vw, 1.8rem); display: flex; flex-direction: column;
-      position: relative;
+      border-radius: 12px; padding: clamp(1rem, 2vw, 1.6rem); display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
     }
     .slide-header {
       display: flex; justify-content: space-between; align-items: center;
-      gap: 1.25rem; margin-bottom: 0.7rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.7rem;
+      gap: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.5rem;
+      flex: 0 0 auto;
     }
+    .slide-title-wrap { min-width: 0; }
     .slide-title {
-      min-width: 0; font-family: var(--font-display); font-size: clamp(1.85rem, 3.4vw, 2.55rem);
-      font-weight: 650; line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+      font-family: var(--font-display); font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+      font-weight: 650; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
     }
     .slide-num-badge {
       background: var(--accent-sf); color: var(--ink); border: 1px solid var(--rule);
-      padding: 0.32rem 0.78rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 750; white-space: nowrap;
+      padding: 0.28rem 0.7rem; border-radius: 9999px; font-size: 0.78rem; font-weight: 750; white-space: nowrap;
+      flex: 0 0 auto;
     }
     .slide-body {
       --fit-scale: 1;
-      --slide-body-base-size: 1.42rem;
-      flex: 1; min-height: 0; overflow: hidden; padding-right: 0.35rem;
+      --slide-body-base-size: 1.15rem;
+      flex: 1; min-height: 0; overflow-y: auto; padding-right: 0.35rem;
       font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
-      color: var(--ink); line-height: 1.38;
+      color: var(--ink); line-height: 1.45;
     }
     .slide-body > svg {
       display: block; width: 100% !important; height: auto; max-width: 100%;
-      max-height: min(12vh, 110px) !important;
+      margin-bottom: 0.5rem;
     }
 
-    /* Visual Hierarchy: Parent vs Sub Bullets (NO NUMBERS) */
+    /* Code View Slide Layout */
+    .code-slide-container {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap: 1.1rem;
+      height: 100%;
+      align-items: start;
+    }
+    @media (max-width: 1020px) {
+      .code-slide-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    .code-editor-window {
+      background: var(--code-bg);
+      border: 1px solid var(--code-rule);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      max-height: calc(100vh - 170px);
+    }
+    .code-editor-header {
+      background: #242320;
+      border-bottom: 1px solid var(--code-rule);
+      padding: 0.45rem 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .code-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .code-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .dot-red { background: #E06C75; }
+    .dot-yellow { background: #E5C07B; }
+    .dot-green { background: #98C379; }
+    .code-file-tag {
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      color: #A0A09A;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .code-lang-tag {
+      background: #333330;
+      color: #D97757;
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    pre.code-block {
+      background: var(--code-bg);
+      color: #FAF9F5;
+      font-family: var(--font-code);
+      font-size: 0.84rem;
+      line-height: 1.48;
+      padding: 0.85rem 1rem;
+      margin: 0;
+      overflow-x: auto;
+      overflow-y: auto;
+      tab-size: 4;
+    }
+
+    /* Syntax Highlighting Colors */
+    .tok-kw { color: #E58A6D; font-weight: 600; }
+    .tok-str { color: #89CA78; }
+    .tok-com { color: #7F7F78; font-style: italic; }
+    .tok-dec { color: #E5C07B; font-weight: 600; }
+    .tok-typ { color: #61AFEF; font-weight: 600; }
+    .tok-fn { color: #61AFEF; font-weight: 600; }
+    .tok-cls { color: #E5C07B; font-weight: 700; }
+
+    /* Code Slide Highlights Column */
+    .code-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .highlight-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.75rem 0.95rem;
+    }
+    .highlight-card-title {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .highlight-card-body {
+      font-size: 0.88rem;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* Visual Hierarchy: Parent vs Sub Bullets */
     .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.35rem; }
     .main-bullets.dense-columns {
-      column-count: 2; column-gap: clamp(1.5rem, 4vw, 3rem); column-fill: balance;
+      column-count: 2; column-gap: clamp(1.2rem, 3vw, 2.5rem); column-fill: balance;
     }
     .bullet-group, .primary-bullet, .sub-bullets, .sub-bullet {
       break-inside: avoid; page-break-inside: avoid;
     }
     .primary-bullet {
-      font-family: var(--font-display); font-size: 1.18em; font-weight: 700; color: var(--ink);
-      margin-top: 0.62em; margin-bottom: 0.22em; display: flex; align-items: center; gap: 0.55em;
+      font-family: var(--font-display); font-size: 1.12em; font-weight: 700; color: var(--ink);
+      margin-top: 0.55em; margin-bottom: 0.2em; display: flex; align-items: center; gap: 0.5em;
     }
     .primary-bullet::before {
-      content: "◆"; color: var(--accent); font-size: 0.68rem;
+      content: "◆"; color: var(--accent); font-size: 0.65rem;
     }
     .sub-bullets {
-      list-style-type: none; padding-left: 1.35em; border-left: 1px solid var(--rule);
-      margin-left: 0.32em; margin-bottom: 0.7em;
+      list-style-type: none; padding-left: 1.25em; border-left: 1px solid var(--rule);
+      margin-left: 0.3em; margin-bottom: 0.55em;
     }
     .sub-bullet {
-      font-size: 1.02em; color: var(--ink); margin-bottom: 0.28em; position: relative; padding-left: 1em;
+      font-size: 0.96em; color: var(--ink); margin-bottom: 0.24em; position: relative; padding-left: 0.9em;
     }
     .sub-bullet::before {
-      content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.1rem; line-height: 1;
+      content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.05rem; line-height: 1;
     }
     .slide-body a {
       color: var(--accent-dk);
@@ -350,26 +547,26 @@ html_template = '''<!DOCTYPE html>
 
     code {
       background: var(--accent-sf); border: 1px solid var(--rule);
-      color: var(--ink); padding: 0.12rem 0.38rem; border-radius: 6px;
+      color: var(--ink); padding: 0.1rem 0.35rem; border-radius: 5px;
       font-family: var(--font-code); font-size: 0.86em; font-weight: 600;
       overflow-wrap: anywhere;
     }
 
     .grid-viewport {
-      width: 100%; height: 100%; overflow-y: auto; padding: clamp(1rem, 3vw, 2rem);
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1rem;
+      width: 100%; height: 100%; overflow-y: auto; padding: clamp(1rem, 2.5vw, 1.8rem);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem;
     }
     .grid-slide-card {
       background: var(--surface); border: 1px solid var(--rule);
-      border-radius: 12px; padding: 1.35rem; height: 290px; display: flex; flex-direction: column;
+      border-radius: 10px; padding: 1.15rem; height: 260px; display: flex; flex-direction: column;
       cursor: pointer; transition: border-color 0.16s, background-color 0.16s;
     }
     .grid-slide-card:hover { background: var(--accent-sf); border-color: var(--accent); }
     .grid-slide-title {
-      font-family: var(--font-display); font-size: 1.2rem; line-height: 1.15;
-      font-weight: 650; margin-bottom: 0.6rem; color: var(--ink);
+      font-family: var(--font-display); font-size: 1.1rem; line-height: 1.15;
+      font-weight: 650; margin-bottom: 0.45rem; color: var(--ink);
     }
-    .grid-slide-body { flex: 1; overflow: hidden; font-size: 0.85rem; line-height: 1.5; color: var(--ink-muted); }
+    .grid-slide-body { flex: 1; overflow: hidden; font-size: 0.8rem; line-height: 1.45; color: var(--ink-muted); }
 
     .progress-bar { height: 3px; background: var(--rule); width: 100%; }
     .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
@@ -379,11 +576,6 @@ html_template = '''<!DOCTYPE html>
       .brand-title { display: none; }
       select.slide-select { max-width: 210px; }
     }
-    @media (max-height: 760px) {
-      .slide-card { padding: 0.95rem 1.2rem; }
-      .primary-bullet { margin-top: 0.48rem; }
-      .slide-body { --slide-body-base-size: 1.28rem; line-height: 1.34; }
-    }
   </style>
 </head>
 <body>
@@ -391,7 +583,7 @@ html_template = '''<!DOCTYPE html>
   <header>
     <div class="header-left">
       <div class="brand-logo">HE</div>
-      <div class="brand-title">Harness Engineering Presentation Slides</div>
+      <div class="brand-title">Harness Engineering Masterclass Slides</div>
     </div>
     <div class="controls">
       <a href="index.html" class="btn">🏠 Home Site</a>
@@ -409,8 +601,10 @@ html_template = '''<!DOCTYPE html>
     <div id="presentation-mode" class="slide-viewport">
       <div class="slide-card">
         <div class="slide-header">
-          <div id="slide-title" class="slide-title">Slide Title</div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 63</div>
+          <div class="slide-title-wrap">
+            <div id="slide-title" class="slide-title">Slide Title</div>
+          </div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 82</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -425,25 +619,20 @@ html_template = '''<!DOCTYPE html>
 
     let currentIdx = 0;
     let isGridMode = false;
-    let fitSequence = 0;
-    let resizeTimer = null;
 
-    const DENSE_BULLET_MIN_LINES = 10;
-    const FIT_MIN = 0.90;
-    const FIT_STEP = 0.02;
-    const FIT_MAX_ITERATIONS = 10;
+    const DENSE_BULLET_MIN_LINES = 9;
     const bodyEl = document.getElementById('slide-body');
 
     const selectEl = document.getElementById('slide-select');
     slidesData.forEach((s, idx) => {
       const opt = document.createElement('option');
       opt.value = idx;
-      opt.innerText = `Slide ${s.number}: ${s.raw_lines[0] || 'Slide'}`;
+      const title = s.raw_lines && s.raw_lines[0] ? s.raw_lines[0] : `Slide ${s.number}`;
+      opt.innerText = `Slide ${s.number}: ${title}`;
       selectEl.appendChild(opt);
     });
 
     function cleanNumbers(text) {
-      // A leading HH:MM clock is not list numbering.
       if (/^\\d{1,2}:\\d{2}/.test(text.trim())) return text.trim();
       text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s*/, '');
       text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s*/i, '');
@@ -451,7 +640,7 @@ html_template = '''<!DOCTYPE html>
     }
 
     function formatTextWithCode(text) {
-      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py'];
+      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json'];
       keywords.forEach(kw => {
         text = text.replaceAll(kw, `<code>${kw}</code>`);
       });
@@ -472,11 +661,11 @@ html_template = '''<!DOCTYPE html>
       populatedLines.forEach(line => {
         const trimmed = line.trim();
         const isSub = trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd');
-        let cleanText = trimmed.replace(/^[•\-\ufffd]\s*/, '').trim();
+        let cleanText = trimmed.replace(/^[•\\-\\ufffd]\\s*/, '').trim();
         cleanText = cleanNumbers(cleanText);
         const labUrl = cleanText.match(/^Lab demo:\\s*(https:\\/\\/[^\\s]+)/i);
         if (labUrl) {
-          cleanText = `<a href="${labUrl[1]}" target="_blank" rel="noopener noreferrer">Lab demo: open this module README</a>`;
+          cleanText = `<a href="${labUrl[1]}" target="_blank" rel="noopener noreferrer">🔗 Lab demo: open this module in GitHub</a>`;
         } else {
           cleanText = formatTextWithCode(cleanText);
         }
@@ -510,51 +699,6 @@ html_template = '''<!DOCTYPE html>
       return html;
     }
 
-    function bodyOverflows() {
-      return bodyEl.scrollHeight > bodyEl.clientHeight + 1 ||
-             bodyEl.scrollWidth > bodyEl.clientWidth + 1;
-    }
-
-    function fitSlideBody() {
-      if (isGridMode || bodyEl.clientHeight === 0) return;
-
-      let scale = 1;
-      let iterations = 0;
-      bodyEl.style.setProperty('--fit-scale', '1');
-      bodyEl.dataset.fitScale = '1.00';
-      bodyEl.dataset.fitOverflow = 'false';
-
-      while (bodyOverflows() && scale > FIT_MIN && iterations < FIT_MAX_ITERATIONS) {
-        scale = Math.max(FIT_MIN, scale - FIT_STEP);
-        bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
-        bodyEl.dataset.fitScale = scale.toFixed(2);
-        iterations += 1;
-      }
-
-      const stillOverflows = bodyOverflows();
-      bodyEl.dataset.fitOverflow = String(stillOverflows);
-      if (stillOverflows) {
-        console.warn(
-          `[slide-fit] Slide ${slidesData[currentIdx].number} still overflows at scale ${scale.toFixed(2)}`
-        );
-      }
-    }
-
-    function scheduleFit() {
-      const sequence = ++fitSequence;
-      const fontsReady = document.fonts && document.fonts.ready
-        ? document.fonts.ready.catch(() => {})
-        : Promise.resolve();
-
-      fontsReady.then(() => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            if (sequence === fitSequence) fitSlideBody();
-          });
-        });
-      });
-    }
-
     function renderSlide(idx) {
       if (idx < 0) idx = 0;
       if (idx >= slidesData.length) idx = slidesData.length - 1;
@@ -572,20 +716,50 @@ html_template = '''<!DOCTYPE html>
         bodyHtml += svgMap[slide.number];
       }
 
-      const restLines = slide.raw_lines.slice(1);
-      if (restLines.length > 0) {
-        bodyHtml += formatBullets(restLines);
+      if (slide.slide_type === 'code' && slide.highlighted_code) {
+        const fileTag = slide.code_filename || 'source.py';
+        const rawBullets = slide.raw_lines.slice(1);
+        bodyHtml += `
+          <div class="code-slide-container">
+            <div class="code-editor-window">
+              <div class="code-editor-header">
+                <div class="code-dots">
+                  <div class="code-dot dot-red"></div>
+                  <div class="code-dot dot-yellow"></div>
+                  <div class="code-dot dot-green"></div>
+                </div>
+                <div class="code-file-tag">📄 ${fileTag}</div>
+                <div class="code-lang-tag">${slide.code_language || 'PYTHON'}</div>
+              </div>
+              <pre class="code-block"><code>${slide.highlighted_code}</code></pre>
+            </div>
+            <div class="code-highlights">
+              <div class="highlight-card">
+                <div class="highlight-card-title">💡 Core Code Implementation</div>
+                <div class="highlight-card-body">
+                  ${formatBullets(rawBullets)}
+                </div>
+              </div>
+              <div class="highlight-card" style="border-left-color: var(--accent-dk);">
+                <div class="highlight-card-title">🛡️ Execution &amp; Control Invariant</div>
+                <div class="highlight-card-body" style="font-size:0.84rem; color:var(--ink-muted);">
+                  Verified directly against tests in <code>${fileTag.split('/')[1] || 'course_implementation'}</code>.
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        const restLines = slide.raw_lines.slice(1);
+        if (restLines.length > 0) {
+          bodyHtml += formatBullets(restLines);
+        }
       }
 
-      bodyEl.style.setProperty('--fit-scale', '1');
-      bodyEl.dataset.fitScale = '1.00';
-      bodyEl.dataset.fitOverflow = 'pending';
       bodyEl.innerHTML = bodyHtml;
-      bodyEl.dataset.columns = bodyEl.querySelector('.dense-columns') ? '2' : '1';
       
       const pct = ((idx + 1) / slidesData.length) * 100;
       document.getElementById('progress-fill').style.width = pct + '%';
-      scheduleFit();
     }
 
     function renderGrid() {
@@ -597,11 +771,13 @@ html_template = '''<!DOCTYPE html>
         card.onclick = () => { isGridMode = true; toggleMode(); renderSlide(idx); };
         
         let title = slide.raw_lines[0] || `Slide ${slide.number}`;
-        let body = slide.raw_lines.slice(1, 5).join(' ');
+        let body = (slide.raw_lines.slice(1, 4).join(' ') || (slide.code_block ? slide.code_block.slice(0, 120) : '')).replace(/[•\\-#]/g, '');
+        let typeBadge = slide.slide_type ? `<span style="background:var(--accent-sf); color:var(--accent-dk); font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:4px;">${slide.slide_type.toUpperCase()}</span>` : '';
         
         card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-            <span style="font-size:0.8rem; color:var(--ink); font-weight:800;">SLIDE ${slide.number}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+            <span style="font-size:0.75rem; color:var(--ink); font-weight:800;">SLIDE ${slide.number}</span>
+            ${typeBadge}
           </div>
           <div class="grid-slide-title">${title}</div>
           <div class="grid-slide-body">${body}...</div>
@@ -621,7 +797,6 @@ html_template = '''<!DOCTYPE html>
       document.getElementById('mode-text').innerText = isGridMode ? 'Presentation Mode' : 'Grid View';
       document.getElementById('mode-icon').innerText = isGridMode ? '📺' : '📜';
       if (isGridMode) renderGrid();
-      else scheduleFit();
     }
 
     function toggleFullscreen() {
@@ -638,11 +813,6 @@ html_template = '''<!DOCTYPE html>
       if (e.key === 'f' || e.key === 'F') toggleFullscreen();
       if (e.key === 'm' || e.key === 'M') toggleMode();
     });
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(scheduleFit, 150);
-    });
-    document.addEventListener('fullscreenchange', scheduleFit);
 
     renderSlide(0);
   </script>
@@ -658,4 +828,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED HTML SLIDES WITHOUT AISUITE / QWEN REFERENCES!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH CODE BLOCKS AND EXPLANATIONS INSERTED BEFORE LAST SLIDE OF EACH MODULE!")

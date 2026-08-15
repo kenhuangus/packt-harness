@@ -14,17 +14,17 @@
     "raw_lines": [
       "COURSE MASTER MAP",
       "PART 1: FOUNDATIONS & CONTROL",
-      "• Mod 1: Why Harness Engineering",
-      "• Mod 2: Core Harness Stack",
-      "• Mod 3: Spec-Driven Development",
-      "• Mod 4: Guardrails & Hooks",
-      "• Mod 5: Break & Permission Gateways",
+      "\u2022 Mod 1: Why Harness Engineering",
+      "\u2022 Mod 2: Core Harness Stack",
+      "\u2022 Mod 3: Spec-Driven Development",
+      "\u2022 Mod 4: Guardrails & Hooks",
+      "\u2022 Mod 5: Break & Permission Gateways",
       "PART 2: RELIABILITY & TEAMS",
-      "• Mod 6: Tests as Reliability",
-      "• Mod 7: Skills, Plugins, MCP",
-      "• Mod 8: Compound Engineering",
-      "• Mod 9: Five-Step SOP",
-      "• Mod 10: Principles & Audit"
+      "\u2022 Mod 6: Tests as Reliability",
+      "\u2022 Mod 7: Skills, Plugins, MCP",
+      "\u2022 Mod 8: Compound Engineering",
+      "\u2022 Mod 9: Five-Step SOP",
+      "\u2022 Mod 10: Principles & Audit"
     ]
   },
   {
@@ -32,9 +32,9 @@
     "raw_lines": [
       "MODULE 1",
       "Why Harness Engineering",
-      "• Model skill ≠ production reliability",
-      "• Most reliability comes from the harness",
-      "• Failures: drift, loops, unverified edits"
+      "\u2022 Model skill \u2260 production reliability",
+      "\u2022 Most reliability comes from the harness",
+      "\u2022 Failures: drift, loops, unverified edits"
     ]
   },
   {
@@ -42,10 +42,10 @@
     "raw_lines": [
       "Speed Without Structure Creates Risk",
       "The Thesis",
-      "• Fast generation, weak follow-through",
-      "• Loops, traversal, broken builds",
-      "• The harness, not the model, is the control system",
-      "• Optimize for trust, not raw speed"
+      "\u2022 Fast generation, weak follow-through",
+      "\u2022 Loops, traversal, broken builds",
+      "\u2022 The harness, not the model, is the control system",
+      "\u2022 Optimize for trust, not raw speed"
     ]
   },
   {
@@ -53,10 +53,10 @@
     "raw_lines": [
       "Model vs Harness",
       "Two Layers",
-      "• Model: probabilistic code proposals",
-      "• Model: hallucinates, forgets, retries",
-      "• Harness: sandbox, AST, loop stop",
-      "• Harness: verify before trust"
+      "\u2022 Model: probabilistic code proposals",
+      "\u2022 Model: hallucinates, forgets, retries",
+      "\u2022 Harness: sandbox, AST, loop stop",
+      "\u2022 Harness: verify before trust"
     ]
   },
   {
@@ -64,9 +64,9 @@
     "raw_lines": [
       "Failure Mode 1: Context Decay",
       "Amnesia",
-      "• Forgets constraints after long chats",
-      "• Edits the wrong files",
-      "• Fix: CLAUDE.md / AGENTS.md"
+      "\u2022 Forgets constraints after long chats",
+      "\u2022 Edits the wrong files",
+      "\u2022 Fix: CLAUDE.md / AGENTS.md"
     ]
   },
   {
@@ -74,583 +74,853 @@
     "raw_lines": [
       "Failure Mode 2: Execution Loops",
       "Retry Traps",
-      "• Same failing command, small tweaks",
-      "• Burns tokens, no progress",
-      "• Fix: loop detector"
+      "\u2022 Same failing command, small tweaks",
+      "\u2022 Burns tokens, no progress",
+      "\u2022 Fix: loop detector"
     ]
   },
   {
-    "number": 8,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+    "code_language": "python",
+    "code_block": "class HarnessedAgent:\n    def __init__(self, max_retries: int = 2) -> None:\n        self.max_retries = max_retries\n        self.command_history: list[str] = []\n\n    def pre_execution_hook(self, command: str) -> None:\n        for pattern in FORBIDDEN_PATTERNS:  # ['rm -rf', 'sudo', 'chmod 777', ...]\n            if re.search(pattern, command):\n                raise PermissionError(\n                    f\"BLOCKED BY PRE-HOOK: Dangerous command '{pattern}' detected.\"\n                )\n\n    def loop_detector(self, command: str) -> None:\n        self.command_history.append(command)\n        if len(self.command_history) >= self.max_retries:\n            recent = self.command_history[-self.max_retries:]\n            if len(set(recent)) == 1:\n                raise RuntimeError(\n                    f\"BLOCKED BY HARNESS LOOP DETECTOR: Command '{command}' repeated \"\n                    f\"{self.max_retries} times without progress.\"\n                )",
     "raw_lines": [
-      "Failure Mode 3: Dangerous Tools",
-      "Unsanitized Actions",
-      "• rm -rf and other shell landmines",
-      "• Overwrites config, drops data",
-      "• Fix: PreToolUse guards + path sandbox",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
-    ]
+      "Module 1 Code: Pre-Hook Interception & Loop Detection",
+      "File: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+      "\u2022 pre_execution_hook(command): regex inspection blocks destructive commands (rm -rf, sudo) before subprocess spawn.",
+      "\u2022 loop_detector(command): sliding-window history halts repeated identical failing commands when retries >= max_retries.",
+      "\u2022 Execution Safety: guarantees dangerous proposals never touch the filesystem or consume unlimited tokens."
+    ],
+    "number": 8
   },
   {
-    "number": 9,
+    "slide_type": "explanation",
     "raw_lines": [
-      "MODULE 2",
-      "Core Harness Stack",
-      "• Five pillars of a production harness",
-      "• Memory files: CLAUDE.md / AGENTS.md",
-      "• Least privilege + pre/post hooks"
-    ]
+      "Module 1 Mechanics: Deterministic Execution Safety",
+      "Key Architectural Insights",
+      "\u2022 Pre-Action Interception: regex matching against dangerous patterns stops rm -rf before execution.",
+      "\u2022 Loop Breaking: tracking recent commands breaks retry traps and prevents infinite token burn.",
+      "Verifiable Execution Evidence",
+      "\u2022 Un-harnessed run: deletes var/log/app.log and loops on failing pytest 3 times without recovery.",
+      "\u2022 Harnessed run: pytest runs once, 2nd attempt halted with LOOP_HALTED, rm -rf blocked with BLOCKED, sandbox logs preserved (log_survived=True)."
+    ],
+    "number": 9
   },
   {
     "number": 10,
     "raw_lines": [
-      "The 5 Harness Pillars",
-      "Architecture",
-      "• Memory: CLAUDE.md / AGENTS.md",
-      "• Tools: least privilege + path sandbox",
-      "• Hooks: PreToolUse / PostToolUse",
-      "• Tests: pytest traceback loop",
-      "• Trace: events.jsonl audit log"
+      "Failure Mode 3: Dangerous Tools",
+      "Unsanitized Actions",
+      "\u2022 rm -rf and other shell landmines",
+      "\u2022 Overwrites config, drops data",
+      "\u2022 Fix: PreToolUse guards + path sandbox",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
   },
   {
     "number": 11,
     "raw_lines": [
-      "Pillar 1: Memory Files",
-      "CLAUDE.md vs AGENTS.md",
-      "• CLAUDE.md: Claude Code standing brief",
-      "• AGENTS.md: cross-tool standard",
-      "• Same rules, two filenames"
+      "MODULE 2",
+      "Core Harness Stack",
+      "\u2022 Five pillars of a production harness",
+      "\u2022 Memory files: CLAUDE.md / AGENTS.md",
+      "\u2022 Least privilege + pre/post hooks"
     ]
   },
   {
     "number": 12,
     "raw_lines": [
-      "Pillar 2: Scoped Tools",
-      "Least Privilege",
-      "• Allow only needed tools",
-      "• Keep writes inside the workspace",
-      "• Block path traversal"
+      "The 5 Harness Pillars",
+      "Architecture",
+      "\u2022 Memory: CLAUDE.md / AGENTS.md",
+      "\u2022 Tools: least privilege + path sandbox",
+      "\u2022 Hooks: PreToolUse / PostToolUse",
+      "\u2022 Tests: pytest traceback loop",
+      "\u2022 Trace: events.jsonl audit log"
     ]
   },
   {
     "number": 13,
     "raw_lines": [
-      "Pillar 3: Hooks",
-      "Inspect Before and After",
-      "• Pre-hook: deny dangerous commands",
-      "• Post-hook: AST + secret scan",
-      "• Policy is code, not a prompt"
+      "Pillar 1: Memory Files",
+      "CLAUDE.md vs AGENTS.md",
+      "\u2022 CLAUDE.md: Claude Code standing brief",
+      "\u2022 AGENTS.md: cross-tool standard",
+      "\u2022 Same rules, two filenames"
     ]
   },
   {
     "number": 14,
     "raw_lines": [
-      "Pillars 4 & 5: Tests and Trace",
-      "Budget and Audit",
-      "• Compact long compiler dumps",
-      "• Feed pytest failures back to the agent",
-      "• Log every tool event to JSONL",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
+      "Pillar 2: Scoped Tools",
+      "Least Privilege",
+      "\u2022 Allow only needed tools",
+      "\u2022 Keep writes inside the workspace",
+      "\u2022 Block path traversal"
     ]
   },
   {
     "number": 15,
     "raw_lines": [
-      "MODULE 3",
-      "Spec-Driven Development",
-      "• Specs beat vague prompts",
-      "• Allowed files + explicit non-goals",
-      "• Machine-checkable acceptance tests"
+      "Pillar 3: Hooks",
+      "Inspect Before and After",
+      "\u2022 Pre-hook: deny dangerous commands",
+      "\u2022 Post-hook: AST + secret scan",
+      "\u2022 Policy is code, not a prompt"
     ]
   },
   {
-    "number": 16,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_02_core_harness_stack/core_harness_stack.py",
+    "code_language": "python",
+    "code_block": "class CoreHarnessStack:\n    def validate_tool_permission(self, tool_name: str, target_path: str = None) -> bool:\n        allowed_tools = [\"read_file\", \"write_file\", \"run_test\", \"list_dir\"]\n        if tool_name not in allowed_tools:\n            self.log_event(\"PERMISSION_DENIED\", {\"reason\": f\"Tool '{tool_name}' not in allowed tool set.\"})\n            return False\n\n        if target_path:\n            workspace = Path(self.workspace_root).resolve()\n            abs_target = Path(target_path).resolve()\n            if not abs_target.is_relative_to(workspace):\n                self.log_event(\"PATH_TRAVERSAL_BLOCKED\", {\"path\": str(abs_target), \"workspace\": str(workspace)})\n                return False\n\n        self.log_event(\"PERMISSION_GRANTED\", {\"tool\": tool_name, \"path\": target_path})\n        return True\n\n    def run_post_edit_hook(self, file_path: str, code_content: str) -> bool:\n        if \"sk-proj-\" in code_content:\n            self.log_event(\"SECURITY_VIOLATION\", {\"file\": file_path, \"issue\": \"Hardcoded secret key!\"})\n            return False\n        if not code_content.strip():\n            self.log_event(\"QUALITY_VIOLATION\", {\"file\": file_path, \"issue\": \"Empty code edit proposal.\"})\n            return False\n        return True",
     "raw_lines": [
-      "Why Prompts Fail",
-      "Specs Succeed",
-      "• Prompts are ambiguous",
-      "• Specs name files, schemas, non-goals",
-      "• Verifier rejects out-of-scope diffs"
-    ]
+      "Module 2 Code: Tool Permissions & Post-Edit Audit",
+      "File: course_implementation/module_02_core_harness_stack/core_harness_stack.py",
+      "\u2022 validate_tool_permission(): enforces tool allowlist and blocks path traversal using is_relative_to().",
+      "\u2022 run_post_edit_hook(): inspects code proposals for API secrets (sk-proj-) and empty edits before writing.",
+      "\u2022 log_event(): records every check and decision to events.jsonl with ISO timestamps."
+    ],
+    "number": 16
   },
   {
-    "number": 17,
+    "slide_type": "explanation",
     "raw_lines": [
-      "SPEC.md Anatomy",
-      "Required Sections",
-      "• Allowed file list",
-      "• Explicit non-goals",
-      "• I/O schema",
-      "• Acceptance criteria"
-    ]
+      "Module 2 Mechanics: Path Isolation & JSONL Audit",
+      "Key Architectural Insights",
+      "\u2022 Scoped Privilege: only allow registered tool set; deny unlisted tool requests before invocation.",
+      "\u2022 Path Sandboxing: Path.resolve().is_relative_to() prevents ../ escapes and sibling directory bypasses.",
+      "Token Budgeting & Observability",
+      "\u2022 ContextTokenBudgeter.compact_output() keeps 5 head and 15 tail lines, preventing compiler logs from swamping context.",
+      "\u2022 All operations are logged to events.jsonl as structured audit records."
+    ],
+    "number": 17
   },
   {
     "number": 18,
     "raw_lines": [
-      "Scope and Non-Goals",
-      "Hard Boundaries",
-      "• Agents wander into adjacent files",
-      "• Only listed files may change",
-      "• database.py is rejected"
+      "Pillars 4 & 5: Tests and Trace",
+      "Budget and Audit",
+      "\u2022 Compact long compiler dumps",
+      "\u2022 Feed pytest failures back to the agent",
+      "\u2022 Log every tool event to JSONL",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
   {
     "number": 19,
     "raw_lines": [
-      "Acceptance Criteria",
-      "Vague vs Executable",
-      "• Vague: make it fast and safe",
-      "• Executable: validate_jwt returns valid=true",
-      "• Executable: tests/test_auth.py covers cases"
+      "MODULE 3",
+      "Spec-Driven Development",
+      "\u2022 Specs beat vague prompts",
+      "\u2022 Allowed files + explicit non-goals",
+      "\u2022 Machine-checkable acceptance tests"
     ]
   },
   {
     "number": 20,
     "raw_lines": [
-      "How Specs Are Used",
-      "SDD Lifecycle",
-      "• Read SPEC.md first",
-      "• Plan only against the spec",
-      "• Audit the diff before merge"
+      "Why Prompts Fail",
+      "Specs Succeed",
+      "\u2022 Prompts are ambiguous",
+      "\u2022 Specs name files, schemas, non-goals",
+      "\u2022 Verifier rejects out-of-scope diffs"
     ]
   },
   {
     "number": 21,
     "raw_lines": [
-      "Spec Verification",
-      "Before Code Ships",
-      "• Validate the spec itself first",
-      "• Check non-goals and schemas",
-      "• Reject hallucinated scope",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
+      "SPEC.md Anatomy",
+      "Required Sections",
+      "\u2022 Allowed file list",
+      "\u2022 Explicit non-goals",
+      "\u2022 I/O schema",
+      "\u2022 Acceptance criteria"
     ]
   },
   {
     "number": 22,
     "raw_lines": [
-      "MODULE 4",
-      "Guardrails and Hooks",
-      "• Four control layers, not one prompt",
-      "• Pre-hook shell deny-list",
-      "• Post-hook AST + secret scan"
+      "Scope and Non-Goals",
+      "Hard Boundaries",
+      "\u2022 Agents wander into adjacent files",
+      "\u2022 Only listed files may change",
+      "\u2022 database.py is rejected"
     ]
   },
   {
     "number": 23,
     "raw_lines": [
-      "4-Layer Control",
-      "Defense in Depth",
-      "• Prompt rules: CLAUDE.md / AGENTS.md",
-      "• Tool schemas: typed arguments",
-      "• Hooks: PreToolUse / PostToolUse",
-      "• OS sandbox: resolved-path isolation"
+      "Acceptance Criteria",
+      "Vague vs Executable",
+      "\u2022 Vague: make it fast and safe",
+      "\u2022 Executable: validate_jwt returns valid=true",
+      "\u2022 Executable: tests/test_auth.py covers cases"
     ]
   },
   {
     "number": 24,
     "raw_lines": [
-      "Claude Code Hooks",
-      "What Actually Fires",
-      "• Event names are PascalCase",
-      "• PreToolUse can allow, deny, ask, defer",
-      "• matcher is a tool name, e.g. Bash",
-      "• Exit 2 is the blocking error"
+      "How Specs Are Used",
+      "SDD Lifecycle",
+      "\u2022 Read SPEC.md first",
+      "\u2022 Plan only against the spec",
+      "\u2022 Audit the diff before merge"
     ]
   },
   {
-    "number": 25,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+    "code_language": "python",
+    "code_block": "class SpecVerifier:\n    def attempt_write(self, target_file: str, code: str) -> tuple[bool, str]:\n        relative = self._normalized(target_file)\n        dest = (self.workspace / relative).resolve()\n\n        if relative not in self.allowed_files or relative in self.forbidden_files:\n            print(f\"  [BLOCKED] SCOPE VIOLATION: '{relative}' outside allowed scope {self.allowed_files}.\")\n            return False, \"SCOPE_VIOLATION\"\n\n        if not dest.is_relative_to(self.workspace.resolve()):\n            print(f\"  [BLOCKED] PATH VIOLATION: '{dest}' escapes workspace.\")\n            return False, \"PATH_VIOLATION\"\n\n        lowered = code.lower()\n        if \"database\" in lowered or \"connect_db\" in lowered or \"oauth2\" in lowered:\n            print(\"  [BLOCKED] NON-GOAL VIOLATION: diff mentions database or OAuth2 refresh.\")\n            return False, \"NON_GOAL_VIOLATION\"\n\n        dest.parent.mkdir(parents=True, exist_ok=True)\n        dest.write_text(code, encoding=\"utf-8\")\n        ast.parse(code, filename=str(dest))\n        return True, str(dest)",
     "raw_lines": [
-      "Post-Action Checks",
-      "AST and Secrets",
-      "• Run after every file write",
-      "• ast.parse catches syntax errors",
-      "• Scan for sk-proj- and AKIA keys"
-    ]
+      "Module 3 Code: Scope & Non-Goal Spec Verifier",
+      "File: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+      "\u2022 Scope Verification: blocks edits to files outside the spec (e.g. database.py rejected).",
+      "\u2022 Non-Goal Enforcement: rejects diffs containing non-goal keywords (database, oauth2).",
+      "\u2022 AST Verification: ast.parse() ensures syntactically valid Python before acceptance."
+    ],
+    "number": 25
   },
   {
-    "number": 26,
+    "slide_type": "explanation",
     "raw_lines": [
-      "Path Sandbox",
-      "Stay in the Workspace",
-      "• Resolve the target path first",
-      "• Require is_relative_to(workspace)",
-      "• Sibling-prefix names still fail"
-    ]
+      "Module 3 Mechanics: Scope Enforcement & AST Check",
+      "Key Architectural Insights",
+      "\u2022 Strict Scope Enforcement: attempt_write() verifies normalized paths against parsed SPEC.md allowed list.",
+      "\u2022 Non-Goal Filtering: prevents unrequested architectural shifts (e.g. adding database layers to a stateless JWT validator).",
+      "Syntactic Correctness Guarantee",
+      "\u2022 ast.parse() validates syntax on all generated files before test execution, preventing broken builds.",
+      "\u2022 Acceptance criteria are verified against live pytest runs over the generated modules."
+    ],
+    "number": 26
   },
   {
     "number": 27,
     "raw_lines": [
-      "Permission Modes",
-      "Risk Tiers",
-      "• plan: read-only",
-      "• default: ask before mutations",
-      "• acceptEdits: files yes, risky Bash no",
-      "• bypassPermissions: isolated VM only"
+      "Spec Verification",
+      "Before Code Ships",
+      "\u2022 Validate the spec itself first",
+      "\u2022 Check non-goals and schemas",
+      "\u2022 Reject hallucinated scope",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
   {
     "number": 28,
     "raw_lines": [
-      "Evaluation Harnesses",
-      "Score Behavior",
-      "• Replay fixed tasks from a known repo",
-      "• Score tests, scope, denies, retries",
-      "• Keep the evaluator off the agent"
+      "MODULE 4",
+      "Guardrails and Hooks",
+      "\u2022 Four control layers, not one prompt",
+      "\u2022 Pre-hook shell deny-list",
+      "\u2022 Post-hook AST + secret scan"
     ]
   },
   {
     "number": 29,
     "raw_lines": [
-      "Safety Checklist",
-      "Three Must-Haves",
-      "• JSONL audit with timestamps",
-      "• Secret scan on file writes",
-      "• Path sandbox on every write",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
+      "4-Layer Control",
+      "Defense in Depth",
+      "\u2022 Prompt rules: CLAUDE.md / AGENTS.md",
+      "\u2022 Tool schemas: typed arguments",
+      "\u2022 Hooks: PreToolUse / PostToolUse",
+      "\u2022 OS sandbox: resolved-path isolation"
     ]
   },
   {
     "number": 30,
     "raw_lines": [
-      "MODULE 5",
-      "Break & Permission Gateways",
-      "• Pause and take questions",
-      "• Risk tiers: auto, log, or confirm",
-      "• git_push needs an approval record"
+      "Claude Code Hooks",
+      "What Actually Fires",
+      "\u2022 Event names are PascalCase",
+      "\u2022 PreToolUse can allow, deny, ask, defer",
+      "\u2022 matcher is a tool name, e.g. Bash",
+      "\u2022 Exit 2 is the blocking error"
     ]
   },
   {
     "number": 31,
     "raw_lines": [
-      "Open Q&A",
-      "Discussion",
-      "• How do you gate agent permissions?",
-      "• Which failure mode hurts you most?",
-      "• Where would a spec save a week?",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
+      "Post-Action Checks",
+      "AST and Secrets",
+      "\u2022 Run after every file write",
+      "\u2022 ast.parse catches syntax errors",
+      "\u2022 Scan for sk-proj- and AKIA keys"
     ]
   },
   {
     "number": 32,
     "raw_lines": [
-      "MODULE 6",
-      "Tests as Reliability",
-      "• Test-driven agent loop",
-      "• Capture real pytest tracebacks",
-      "• Keep every bug as a regression test"
+      "Path Sandbox",
+      "Stay in the Workspace",
+      "\u2022 Resolve the target path first",
+      "\u2022 Require is_relative_to(workspace)",
+      "\u2022 Sibling-prefix names still fail"
     ]
   },
   {
     "number": 33,
     "raw_lines": [
-      "TDA Loop",
-      "Red, Repair, Green",
-      "• Start from a failing test",
-      "• Generate code, run pytest",
-      "• Feed the traceback back",
-      "• Stop only when green"
+      "Permission Modes",
+      "Risk Tiers",
+      "\u2022 plan: read-only",
+      "\u2022 default: ask before mutations",
+      "\u2022 acceptEdits: files yes, risky Bash no",
+      "\u2022 bypassPermissions: isolated VM only"
     ]
   },
   {
     "number": 34,
     "raw_lines": [
-      "Test Tiers",
-      "What to Run",
-      "• Unit: one function",
-      "• Integration: module boundaries",
-      "• E2E: the whole flow"
+      "Evaluation Harnesses",
+      "Score Behavior",
+      "\u2022 Replay fixed tasks from a known repo",
+      "\u2022 Score tests, scope, denies, retries",
+      "\u2022 Keep the evaluator off the agent"
     ]
   },
   {
-    "number": 35,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
+    "code_language": "python",
+    "code_block": "class ClaudeCodeHookInterceptor:\n    def intercept_pre_tool_use(self, tool_name: str, tool_input: dict) -> tuple[bool, str]:\n        command = tool_input.get(\"command\", \"\")\n        if tool_name == \"Bash\":\n            for flag in [\"--dangerously-skip-permissions\", \"-y\", \"--force-all\"]:\n                if flag in command:\n                    return False, f\"CLI flag '{flag}' is prohibited by enterprise policy.\"\n        return True, \"PreToolUse check passed.\"\n\n    @classmethod\n    def permission_output(cls, decision: str, reason: str) -> dict:\n        return {\"hookSpecificOutput\": {\n            \"hookEventName\": \"PreToolUse\",\n            \"permissionDecision\": decision,  # allow | deny | ask | defer\n            \"permissionDecisionReason\": reason,\n        }}\n\nclass GuardrailsEngine:\n    def audit_ast_and_secrets(self, file_path: str, code_content: str) -> tuple[bool, list[str]]:\n        try:\n            ast.parse(code_content, filename=file_path)\n        except SyntaxError as exc:\n            return False, [f\"AST Syntax Error on line {exc.lineno}: {exc.msg}\"]\n        if re.search(r\"(sk-proj-[A-Za-z0-9_\\-]{20,}|AKIA[0-9A-Z]{16})\", code_content):\n            return False, [\"SECURITY CRITICAL: Hardcoded API secret key detected!\"]\n        return True, [\"AST syntax valid. Zero secret leaks detected.\"]",
     "raw_lines": [
-      "Traceback Feedback",
-      "No Copy-Paste",
-      "• Capture pytest stdout/stderr",
-      "• Put the real failure in the prompt",
-      "• Repair from evidence, not guesses"
-    ]
+      "Module 4 Code: PreToolUse Interceptor & AST Audit",
+      "File: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
+      "\u2022 intercept_pre_tool_use(): blocks unsafe flags like --dangerously-skip-permissions.",
+      "\u2022 permission_output(): emits structured JSON for Claude Code's PreToolUse protocol.",
+      "\u2022 audit_ast_and_secrets(): parses AST syntax and scans for hardcoded API keys (sk-proj-, AKIA)."
+    ],
+    "number": 35
   },
   {
-    "number": 36,
+    "slide_type": "explanation",
     "raw_lines": [
-      "Anti-Regression",
-      "Keep the Bug",
-      "• Every failure becomes a test",
-      "• Append it to the suite",
-      "• Rerun before you ship"
-    ]
+      "Module 4 Mechanics: Hook Protocol & Secret Scanning",
+      "Key Architectural Insights",
+      "\u2022 Programmatic Enforcement: hooks run as external processes; LLM prompts cannot bypass an exit-code 2 hook or deny response.",
+      "\u2022 PreToolUse Interception: dangerous flags (--dangerously-skip-permissions) are intercepted and rejected at the gateway.",
+      "Post-Tool Static Guardrails",
+      "\u2022 audit_ast_and_secrets() performs AST compilation before saving to disk to prevent syntax errors.",
+      "\u2022 Scans code proposals for secret patterns (OpenAI sk-proj-, AWS AKIA), preventing token leaks before commits."
+    ],
+    "number": 36
   },
   {
     "number": 37,
     "raw_lines": [
-      "Reliability Metrics",
-      "Watch These",
-      "• First-pass pass rate",
-      "• Mean repair iterations",
-      "• Regression rate",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
+      "Safety Checklist",
+      "Three Must-Haves",
+      "\u2022 JSONL audit with timestamps",
+      "\u2022 Secret scan on file writes",
+      "\u2022 Path sandbox on every write",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
     ]
   },
   {
     "number": 38,
     "raw_lines": [
-      "MODULE 7",
-      "Skills, Plugins, MCP",
-      "• SKILL.md is description-driven",
-      "• Plugins bundle skills, agents, hooks",
-      "• MCP: tools and resources over stdio"
+      "MODULE 5",
+      "Break & Permission Gateways",
+      "\u2022 Pause and take questions",
+      "\u2022 Risk tiers: auto, log, or confirm",
+      "\u2022 git_push needs an approval record"
     ]
   },
   {
-    "number": 39,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
+    "code_language": "python",
+    "code_block": "class PermissionEscalationGateway:\n    def evaluate_request(self, tool_name: str, params: dict, request_id: str) -> dict:\n        risk = self.risk_matrix.get(tool_name, \"HIGH\")\n        if risk == \"LOW\":\n            text = (self.workspace / params[\"path\"]).read_text(encoding=\"utf-8\")\n            self._log({\"event\": \"AUTO_APPROVED\", \"tool\": tool_name, \"path\": params[\"path\"]})\n            return {\"allowed\": True, \"content\": text}\n        if risk == \"MEDIUM\":\n            (self.workspace / params[\"path\"]).write_text(params[\"content\"], encoding=\"utf-8\")\n            self._log({\"event\": \"LOGGED_AND_APPROVED\", \"tool\": tool_name, \"path\": params[\"path\"]})\n            return {\"allowed\": True, \"path\": str(self.workspace / params[\"path\"])}\n        if risk == \"CRITICAL\":\n            approvals = self._approvals()\n            if request_id not in approvals:\n                self._log({\"event\": \"ESCALATION_BLOCKED\", \"tool\": tool_name, \"request_id\": request_id})\n                return {\"allowed\": False, \"reason\": \"missing_approval\"}\n            pending = {\"request_id\": request_id, \"tool\": tool_name, \"approved_by\": approvals[request_id]}\n            (self.workspace / \"pending_push.json\").write_text(json.dumps(pending, indent=2), encoding=\"utf-8\")\n            self._log({\"event\": \"CRITICAL_APPROVED_RECORDED\", \"tool\": tool_name, \"request_id\": request_id})\n            return {\"allowed\": True, \"pending_push\": str(self.workspace / \"pending_push.json\")}",
     "raw_lines": [
-      "Agent Skills",
-      "SKILL.md",
-      "• One folder, one SKILL.md",
-      "• description says what and when",
-      "• No triggers field"
-    ]
+      "Module 5 Code: Permission Escalation Gateway",
+      "File: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
+      "\u2022 evaluate_request(): classifies requests by risk level (LOW, MEDIUM, HIGH, CRITICAL).",
+      "\u2022 Low-risk reads are auto-approved; medium-risk writes are audited.",
+      "\u2022 Critical tools (git_push) strictly require an approval entry in approvals.json."
+    ],
+    "number": 39
   },
   {
-    "number": 40,
+    "slide_type": "explanation",
     "raw_lines": [
-      "Skill Layout",
-      "What Goes Where",
-      "• SKILL.md: metadata + steps",
-      "• references/: deeper docs",
-      "• scripts/: helpers"
-    ]
+      "Module 5 Mechanics: Approval Ledger & Audit Trail",
+      "Key Architectural Insights",
+      "\u2022 Human-in-the-Loop Safeguards: autonomous agents cannot unilaterally execute destructive or remote actions.",
+      "\u2022 Out-of-Band Approvals: critical requests look up a pre-approved request_id in approvals.json.",
+      "Pending Artifacts Over Direct Mutation",
+      "\u2022 Critical operations produce signed pending artifacts (pending_push.json) rather than invoking remote network calls directly.",
+      "\u2022 All permission evaluations and executions are recorded to audit.jsonl with UTC timestamps."
+    ],
+    "number": 40
   },
   {
     "number": 41,
     "raw_lines": [
-      "Plugins",
-      "One Manifest",
-      "• Path: .claude-plugin/plugin.json",
-      "• Can bundle skills, agents, hooks, MCP",
-      "• Load in place or via marketplace"
+      "Open Q&A",
+      "Discussion",
+      "\u2022 How do you gate agent permissions?",
+      "\u2022 Which failure mode hurts you most?",
+      "\u2022 Where would a spec save a week?",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
   {
     "number": 42,
     "raw_lines": [
-      "MCP Foundation",
-      "Three Different Numbers",
-      "• Protocol: dated revisions, not 2.0",
-      "• JSON-RPC 2.0 is only framing",
-      "• SDK 2.0.0 is the Python package",
-      "• Exposes tools, resources, prompts"
+      "MODULE 6",
+      "Tests as Reliability",
+      "\u2022 Test-driven agent loop",
+      "\u2022 Capture real pytest tracebacks",
+      "\u2022 Keep every bug as a regression test"
     ]
   },
   {
     "number": 43,
     "raw_lines": [
-      "MCP Transports",
-      "Local vs Remote",
-      "• Local: stdio",
-      "• Remote: Streamable HTTP",
-      "• HTTP+SSE is legacy"
+      "TDA Loop",
+      "Red, Repair, Green",
+      "\u2022 Start from a failing test",
+      "\u2022 Generate code, run pytest",
+      "\u2022 Feed the traceback back",
+      "\u2022 Stop only when green"
     ]
   },
   {
     "number": 44,
     "raw_lines": [
-      "MCP Python SDK",
-      "2.x Authoring",
-      "• 2.x: MCPServer from mcp.server.mcpserver",
-      "• 1.x: FastMCP",
-      "• Same @mcp.tool / @mcp.resource",
-      "• mcp.run() defaults to stdio"
+      "Test Tiers",
+      "What to Run",
+      "\u2022 Unit: one function",
+      "\u2022 Integration: module boundaries",
+      "\u2022 E2E: the whole flow"
     ]
   },
   {
     "number": 45,
     "raw_lines": [
-      "MCP Governance",
-      "Lock It Down",
-      "• Auth for remote servers",
-      "• Gate tools read vs write",
-      "• Least privilege still applies",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
+      "Traceback Feedback",
+      "No Copy-Paste",
+      "\u2022 Capture pytest stdout/stderr",
+      "\u2022 Put the real failure in the prompt",
+      "\u2022 Repair from evidence, not guesses"
     ]
   },
   {
     "number": 46,
     "raw_lines": [
-      "MODULE 8",
-      "Compound Engineering",
-      "• Split Planner / Implementer / Reviewer",
-      "• isolation: worktree",
-      "• Telemetry feeds the next run"
+      "Anti-Regression",
+      "Keep the Bug",
+      "\u2022 Every failure becomes a test",
+      "\u2022 Append it to the suite",
+      "\u2022 Rerun before you ship"
     ]
   },
   {
-    "number": 47,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+    "code_language": "python",
+    "code_block": "class TDAReliabilityPipeline:\n    def run_test_suite(self, code_under_test: str) -> dict:\n        self.code_file.write_text(code_under_test, encoding=\"utf-8\")\n        result = subprocess.run(\n            [sys.executable, \"-m\", \"pytest\", self.test_file.name, \"-q\", \"--tb=short\", \"-p\", \"no:cacheprovider\"],\n            cwd=self.scratch_dir, capture_output=True, text=True, encoding=\"utf-8\",\n            env={**os.environ, \"PYTHONDONTWRITEBYTECODE\": \"1\"}\n        )\n        output = result.stdout + (result.stderr or \"\")\n        summary = self._summary_line(output)\n        if result.returncode != 0:\n            return {\"passed\": False, \"traceback\": output, \"returncode\": result.returncode}\n        return {\"passed\": True, \"summary\": summary}\n\n    def format_fix_prompt(self, traceback_str: str) -> str:\n        return f\"System Instruction: Fix the following pytest failure output:\\n```\\n{traceback_str}\\n```\"\n\n    def register_anti_regression_test(self, bug_name: str, test_code: str) -> dict:\n        with self.test_file.open(\"a\", encoding=\"utf-8\") as handle:\n            handle.write(f\"\\n\\n{test_code.rstrip()}\\n\")\n        return self.run_test_suite(self.code_file.read_text(encoding=\"utf-8\"))",
     "raw_lines": [
-      "Why Multi-Agent",
-      "One Brain Overloads",
-      "• One agent drowns in files",
-      "• Fat context hurts reasoning",
-      "• Roles keep work small"
-    ]
+      "Module 6 Code: TDA Pipeline & Traceback Feedback",
+      "File: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+      "\u2022 run_test_suite(): executes real pytest subprocess and captures stdout/stderr.",
+      "\u2022 format_fix_prompt(): formats raw pytest tracebacks directly into agent repair prompts.",
+      "\u2022 register_anti_regression_test(): permanently appends bug test cases to prevent regressions."
+    ],
+    "number": 47
   },
   {
-    "number": 48,
+    "slide_type": "explanation",
     "raw_lines": [
-      "Planner",
-      "Architect",
-      "• Read-only",
-      "• Reads SPEC.md",
-      "• Emits a file-scoped plan"
-    ]
+      "Module 6 Mechanics: Subprocess Pytest & Anti-Regression",
+      "Key Architectural Insights",
+      "\u2022 Deterministic Ground Truth: subprocess execution ensures pytest runs against the real Python environment.",
+      "\u2022 Automated Feedback Loop: captures exact traceback (e.g. ZeroDivisionError) without human copy-paste.",
+      "Anti-Regression Safeguard Ratchet",
+      "\u2022 register_anti_regression_test() permanently appends every discovered edge-case to the test suite.",
+      "\u2022 Prevents 'fix-and-break' regressions where newer agent edits silently break existing features."
+    ],
+    "number": 48
   },
   {
     "number": 49,
     "raw_lines": [
-      "Implementer",
-      "Constrained Coder",
-      "• One subtask at a time",
-      "• Writes only allowed files",
-      "• Isolated worktree"
+      "Reliability Metrics",
+      "Watch These",
+      "\u2022 First-pass pass rate",
+      "\u2022 Mean repair iterations",
+      "\u2022 Regression rate",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
     ]
   },
   {
     "number": 50,
     "raw_lines": [
-      "Reviewer",
-      "Independent Audit",
-      "• Separate context window",
-      "• AST, scope, tests",
-      "• Does not implement"
+      "MODULE 7",
+      "Skills, Plugins, MCP",
+      "\u2022 SKILL.md is description-driven",
+      "\u2022 Plugins bundle skills, agents, hooks",
+      "\u2022 MCP: tools and resources over stdio"
     ]
   },
   {
     "number": 51,
     "raw_lines": [
-      "Worktree Isolation",
-      "isolation: worktree",
-      "• Agents live in .claude/agents/",
-      "• Frontmatter isolation: worktree",
-      "• Own git worktree, own edits"
+      "Agent Skills",
+      "SKILL.md",
+      "\u2022 One folder, one SKILL.md",
+      "\u2022 description says what and when",
+      "\u2022 No triggers field"
     ]
   },
   {
     "number": 52,
     "raw_lines": [
-      "Subagent Context",
-      "Pass Less",
-      "• Each subagent has a clean window",
-      "• Hand only the focused spec",
-      "• Agent tool; Task is an alias"
+      "Skill Layout",
+      "What Goes Where",
+      "\u2022 SKILL.md: metadata + steps",
+      "\u2022 references/: deeper docs",
+      "\u2022 scripts/: helpers"
     ]
   },
   {
     "number": 53,
     "raw_lines": [
-      "Self-Improvement",
-      "Close the Loop",
-      "• Log runs to telemetry.jsonl",
-      "• Find repeating failures",
-      "• Write the lesson into AGENTS.md",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
+      "Plugins",
+      "One Manifest",
+      "\u2022 Path: .claude-plugin/plugin.json",
+      "\u2022 Can bundle skills, agents, hooks, MCP",
+      "\u2022 Load in place or via marketplace"
     ]
   },
   {
     "number": 54,
     "raw_lines": [
-      "MODULE 9",
-      "Practical SOP",
-      "• Five steps, one pipeline",
-      "• Spec, sandbox, hooks, tests, review",
-      "• Run it end to end"
+      "MCP Foundation",
+      "Three Different Numbers",
+      "\u2022 Protocol: dated revisions, not 2.0",
+      "\u2022 JSON-RPC 2.0 is only framing",
+      "\u2022 SDK 2.0.0 is the Python package",
+      "\u2022 Exposes tools, resources, prompts"
     ]
   },
   {
     "number": 55,
     "raw_lines": [
-      "Five-Step SOP",
-      "The Pipeline",
-      "• Spec first",
-      "• Constrained execution",
-      "• Deterministic checks",
-      "• Test verification",
-      "• Human review"
+      "MCP Transports",
+      "Local vs Remote",
+      "\u2022 Local: stdio",
+      "\u2022 Remote: Streamable HTTP",
+      "\u2022 HTTP+SSE is legacy"
     ]
   },
   {
     "number": 56,
     "raw_lines": [
-      "Steps 1 & 2",
-      "Spec and Sandbox",
-      "• Agree the spec before any code",
-      "• Minimal tools, listed files only",
-      "• Out-of-scope writes do not land"
+      "MCP Python SDK",
+      "2.x Authoring",
+      "\u2022 2.x: MCPServer from mcp.server.mcpserver",
+      "\u2022 1.x: FastMCP",
+      "\u2022 Same @mcp.tool / @mcp.resource",
+      "\u2022 mcp.run() defaults to stdio"
     ]
   },
   {
-    "number": 57,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py",
+    "code_language": "python",
+    "code_block": "# MCP Server 2.x Authoring (mcp_server_demo.py)\nfrom mcp.server.mcpserver import MCPServer\nmcp = MCPServer(\"Harness-Enterprise-Tools\")\n\n@mcp.tool()\ndef query_database_record(record_id: int) -> str:\n    return f\"DB_RECORD #{record_id}: status=ACTIVE, owner=admin, env=production\"\n\n@mcp.resource(\"config://app-settings\")\ndef app_settings() -> str:\n    return json.dumps({\"application\": \"harness-enterprise\", \"record_access\": \"read-only\"})\n\nif __name__ == \"__main__\":\n    mcp.run()  # JSON-RPC over stdio\n\n# Async Client Test Runner (mcp_client_runner.py)\nserver_params = StdioServerParameters(command=sys.executable, args=[\"mcp_server_demo.py\"])\nasync with stdio_client(server_params) as (read_stream, write_stream):\n    async with ClientSession(read_stream, write_stream) as session:\n        await session.initialize()\n        tools = await session.list_tools()\n        result = await session.call_tool(\"query_database_record\", arguments={\"record_id\": 4092})\n        resource = await session.read_resource(\"config://app-settings\")",
     "raw_lines": [
-      "Steps 3 & 4",
-      "Check then Test",
-      "• Hooks, AST, secret scan",
-      "• Real pytest, not a slogan",
-      "• Failures go back into the loop"
-    ]
+      "Module 7 Code: MCP Server & Client Runner",
+      "File: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py",
+      "\u2022 MCPServer: exposes @mcp.tool() callable actions and @mcp.resource() read-only data URIs.",
+      "\u2022 StdioServerParameters: launches server subprocess communicating via JSON-RPC stdio streams.",
+      "\u2022 ClientSession: handles initialize handshake, tool discovery, tool calls, and resource reads."
+    ],
+    "number": 57
   },
   {
-    "number": 58,
+    "slide_type": "explanation",
     "raw_lines": [
-      "Step 5",
-      "Human Review",
-      "• Show the actual diff",
-      "• Check business logic",
-      "• Merge is out of band",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
-    ]
+      "Module 7 Mechanics: Stdio Protocol & Capability Discovery",
+      "Key Architectural Insights",
+      "\u2022 Tools vs. Resources: tools represent callable actions with side effects; resources represent read-only URI data.",
+      "\u2022 SDK 2.x Authoring: uses MCPServer rather than legacy FastMCP wrappers.",
+      "Stdio Protocol Wire Flow",
+      "\u2022 ClientSession initializes session -> calls tools/list to inspect schemas -> executes tools/call with typed arguments.",
+      "\u2022 Resources are read-only documents queried via standard URIs (config://app-settings)."
+    ],
+    "number": 58
   },
   {
     "number": 59,
     "raw_lines": [
-      "MODULE 10",
-      "Principles and Audit",
-      "• Four principles",
-      "• Five readiness checks",
-      "• Score the real repo"
+      "MCP Governance",
+      "Lock It Down",
+      "\u2022 Auth for remote servers",
+      "\u2022 Gate tools read vs write",
+      "\u2022 Least privilege still applies",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
     ]
   },
   {
     "number": 60,
     "raw_lines": [
-      "Four Principles",
-      "What to Optimize",
-      "• Predictability over randomness",
-      "• Specs over prompts",
-      "• Automated checks over vigilance",
-      "• Trust over raw speed"
+      "MODULE 8",
+      "Compound Engineering",
+      "\u2022 Split Planner / Implementer / Reviewer",
+      "\u2022 isolation: worktree",
+      "\u2022 Telemetry feeds the next run"
     ]
   },
   {
     "number": 61,
     "raw_lines": [
-      "Readiness Scorecard",
-      "Five Checks",
-      "• Memory files present",
-      "• PreToolUse hook on disk",
-      "• Automated test runner",
-      "• MCP tools + resources declared",
-      "• Subagent definitions valid"
+      "Why Multi-Agent",
+      "One Brain Overloads",
+      "\u2022 One agent drowns in files",
+      "\u2022 Fat context hurts reasoning",
+      "\u2022 Roles keep work small"
     ]
   },
   {
     "number": 62,
     "raw_lines": [
+      "Planner",
+      "Architect",
+      "\u2022 Read-only",
+      "\u2022 Reads SPEC.md",
+      "\u2022 Emits a file-scoped plan"
+    ]
+  },
+  {
+    "number": 63,
+    "raw_lines": [
+      "Implementer",
+      "Constrained Coder",
+      "\u2022 One subtask at a time",
+      "\u2022 Writes only allowed files",
+      "\u2022 Isolated worktree"
+    ]
+  },
+  {
+    "number": 64,
+    "raw_lines": [
+      "Reviewer",
+      "Independent Audit",
+      "\u2022 Separate context window",
+      "\u2022 AST, scope, tests",
+      "\u2022 Does not implement"
+    ]
+  },
+  {
+    "number": 65,
+    "raw_lines": [
+      "Worktree Isolation",
+      "isolation: worktree",
+      "\u2022 Agents live in .claude/agents/",
+      "\u2022 Frontmatter isolation: worktree",
+      "\u2022 Own git worktree, own edits"
+    ]
+  },
+  {
+    "number": 66,
+    "raw_lines": [
+      "Subagent Context",
+      "Pass Less",
+      "\u2022 Each subagent has a clean window",
+      "\u2022 Hand only the focused spec",
+      "\u2022 Agent tool; Task is an alias"
+    ]
+  },
+  {
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
+    "code_language": "python",
+    "code_block": "class WorktreeIsolation:\n    def add(self) -> Path:\n        stamp = datetime.now(timezone.utc).strftime(\"%Y%m%d%H%M%S%f\")\n        self.branch = f\"module08-agent-{os.getpid()}-{stamp}\"\n        self.path = Path(os.environ.get(\"TEMP\", str(MODULE_DIR))) / self.branch\n        subprocess.run([\"git\", \"worktree\", \"add\", \"-b\", self.branch, str(self.path), \"HEAD\"], cwd=self.repo_root)\n        return self.path\n\n    def remove(self) -> None:\n        if self.path and self.branch:\n            subprocess.run([\"git\", \"worktree\", \"remove\", \"--force\", str(self.path)], cwd=self.repo_root)\n            subprocess.run([\"git\", \"branch\", \"-D\", self.branch], cwd=self.repo_root)\n\nclass MultiAgentTeam:\n    def run_implementer(self, subtask: dict, master_spec: str) -> Path:\n        focused = self.isolator.extract_sub_spec(master_spec, subtask[\"name\"])\n        target = self.workspace_root / subtask[\"target_file\"]\n        target.write_text(auth_validator_source(), encoding=\"utf-8\")\n        return target\n\n    def run_reviewer(self, target_file: str) -> dict:\n        target = self.workspace_root / target_file\n        ast.parse(target.read_text(encoding=\"utf-8\"))  # Independent audit",
+    "raw_lines": [
+      "Module 8 Code: Git Worktree Isolation & Sub-Spec Extractor",
+      "File: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
+      "\u2022 WorktreeIsolation: creates dedicated git worktrees and branches for isolated implementer workspaces.",
+      "\u2022 SubagentPromptIsolator: filters master spec to pass only task-relevant lines, preventing context bloat.",
+      "\u2022 MultiAgentTeam: coordinates Planner (design), Implementer (isolated write), and Reviewer (AST/tests)."
+    ],
+    "number": 67
+  },
+  {
+    "slide_type": "explanation",
+    "raw_lines": [
+      "Module 8 Mechanics: Isolated Worktrees & Telemetry Loop",
+      "Key Architectural Insights",
+      "\u2022 True Git Sandboxing: WorktreeIsolation isolates edits to dedicated branches, preventing main branch pollution.",
+      "\u2022 Focused Subagent Contexts: passing only sub-spec slices keeps subagent context windows lean and focused.",
+      "Independent Review & Telemetry",
+      "\u2022 The Reviewer audits code in a clean context window, eliminating confirmation bias.",
+      "\u2022 Telemetry logging (telemetry.jsonl) records error patterns to guide ongoing AGENTS.md refinements."
+    ],
+    "number": 68
+  },
+  {
+    "number": 69,
+    "raw_lines": [
+      "Self-Improvement",
+      "Close the Loop",
+      "\u2022 Log runs to telemetry.jsonl",
+      "\u2022 Find repeating failures",
+      "\u2022 Write the lesson into AGENTS.md",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
+    ]
+  },
+  {
+    "number": 70,
+    "raw_lines": [
+      "MODULE 9",
+      "Practical SOP",
+      "\u2022 Five steps, one pipeline",
+      "\u2022 Spec, sandbox, hooks, tests, review",
+      "\u2022 Run it end to end"
+    ]
+  },
+  {
+    "number": 71,
+    "raw_lines": [
+      "Five-Step SOP",
+      "The Pipeline",
+      "\u2022 Spec first",
+      "\u2022 Constrained execution",
+      "\u2022 Deterministic checks",
+      "\u2022 Test verification",
+      "\u2022 Human review"
+    ]
+  },
+  {
+    "number": 72,
+    "raw_lines": [
+      "Steps 1 & 2",
+      "Spec and Sandbox",
+      "\u2022 Agree the spec before any code",
+      "\u2022 Minimal tools, listed files only",
+      "\u2022 Out-of-scope writes do not land"
+    ]
+  },
+  {
+    "number": 73,
+    "raw_lines": [
+      "Steps 3 & 4",
+      "Check then Test",
+      "\u2022 Hooks, AST, secret scan",
+      "\u2022 Real pytest, not a slogan",
+      "\u2022 Failures go back into the loop"
+    ]
+  },
+  {
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+    "code_language": "python",
+    "code_block": "class FiveStepSOPPipeline:\n    def run_pipeline(self, feature_name: str) -> int:\n        # Step 1: Spec First\n        allowed_files, non_goals = parse_spec(self.spec_path)\n\n        with tempfile.TemporaryDirectory(prefix=\"module09_pipeline_\") as temp:\n            workspace = Path(temp)\n            # Step 2: Constrained Execution\n            enforcer = ScopeEnforcer(workspace, allowed_files)\n            enforcer.attempt_write(\"auth_validator.py\", implementation)\n            enforcer.attempt_write(\"database.py\", \"...\")  # BLOCKED: Out-of-scope\n\n            # Step 3: Deterministic Checks\n            engine = GuardrailsEngine(workspace)\n            engine.audit_ast_and_secrets(\"auth_validator.py\", implementation)\n            engine.intercept_shell_command(\"sudo rm -rf /var/config\")  # BLOCKED\n\n            # Step 4: Test Verification\n            subprocess.run([sys.executable, \"-m\", \"pytest\", \"tests/test_auth.py\", \"-q\"], cwd=workspace)\n\n            # Step 5: Human Review & Diff\n            diff = difflib.unified_diff(original.splitlines(), implementation.splitlines())",
+    "raw_lines": [
+      "Module 9 Code: End-to-End 5-Step SOP Pipeline",
+      "File: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+      "\u2022 Orchestrates all 5 steps into a single verifiable execution pipeline.",
+      "\u2022 Rejects out-of-scope files, blocks dangerous shell commands, and verifies AST syntax.",
+      "\u2022 Runs real pytest subprocesses and renders clean unified diffs for human review."
+    ],
+    "number": 74
+  },
+  {
+    "slide_type": "explanation",
+    "raw_lines": [
+      "Module 9 Mechanics: Pipeline Orchestration & PR Review",
+      "Key Architectural Insights",
+      "\u2022 Sequential Gate Verification: no code lands without passing every gate (Spec -> Scope -> Hooks -> Tests -> Review).",
+      "\u2022 Objective Pass/Fail Evidence: all checks are backed by real subprocess exits and AST inspections.",
+      "Human Review as the Final Barrier",
+      "\u2022 Step 5 generates unified diffs (difflib.unified_diff) for human review before any merge.",
+      "\u2022 PR merges remain strictly out-of-band to preserve engineer accountability."
+    ],
+    "number": 75
+  },
+  {
+    "number": 76,
+    "raw_lines": [
+      "Step 5",
+      "Human Review",
+      "\u2022 Show the actual diff",
+      "\u2022 Check business logic",
+      "\u2022 Merge is out of band",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
+    ]
+  },
+  {
+    "number": 77,
+    "raw_lines": [
+      "MODULE 10",
+      "Principles and Audit",
+      "\u2022 Four principles",
+      "\u2022 Five readiness checks",
+      "\u2022 Score the real repo"
+    ]
+  },
+  {
+    "number": 78,
+    "raw_lines": [
+      "Four Principles",
+      "What to Optimize",
+      "\u2022 Predictability over randomness",
+      "\u2022 Specs over prompts",
+      "\u2022 Automated checks over vigilance",
+      "\u2022 Trust over raw speed"
+    ]
+  },
+  {
+    "number": 79,
+    "raw_lines": [
+      "Readiness Scorecard",
+      "Five Checks",
+      "\u2022 Memory files present",
+      "\u2022 PreToolUse hook on disk",
+      "\u2022 Automated test runner",
+      "\u2022 MCP tools + resources declared",
+      "\u2022 Subagent definitions valid"
+    ]
+  },
+  {
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_10_closing_and_principles/production_harness_audit.py",
+    "code_language": "python",
+    "code_block": "class ProductionHarnessAuditor:\n    def check_memory_files(self) -> tuple[bool, str]:\n        found = [n for n in (\"CLAUDE.md\", \"AGENTS.md\") if (self.target_dir / n).is_file()]\n        return bool(found), f\"found regular file(s): {', '.join(found)}\"\n\n    def check_pre_execution_hooks(self) -> tuple[bool, str]:\n        settings = json.loads((self.target_dir / \".claude\" / \"settings.json\").read_text(encoding=\"utf-8\"))\n        registrations = settings.get(\"hooks\", {}).get(\"PreToolUse\", [])\n        return bool(registrations), \"PreToolUse hook registered with valid matcher\"\n\n    def check_test_runner(self) -> tuple[bool, str]:\n        runner = self.target_dir / \"run_all_modules.py\"\n        res = subprocess.run([sys.executable, \"-m\", \"pytest\", \"--version\"], capture_output=True)\n        return (runner.is_file() and res.returncode == 0), f\"Runner valid & {res.stdout.strip()}\"\n\n    def check_mcp_scoped_tools(self) -> tuple[bool, str]:\n        # AST-walks python files to verify @mcp.tool and @mcp.resource declarations\n        return True, \"Found @mcp.tool and @mcp.resource declarations\"",
+    "raw_lines": [
+      "Module 10 Code: Production Harness Auditor",
+      "File: course_implementation/module_10_closing_and_principles/production_harness_audit.py",
+      "\u2022 ProductionHarnessAuditor: evaluates 5 objective readiness gates across the codebase.",
+      "\u2022 Audits memory files, PreToolUse settings, test runner validity, MCP tool declarations, and subagents.",
+      "\u2022 Replaces subjective assertions with evidence-backed inspection."
+    ],
+    "number": 80
+  },
+  {
+    "slide_type": "explanation",
+    "raw_lines": [
+      "Module 10 Mechanics: Readiness Scorecard & Audit Gates",
+      "Key Architectural Insights",
+      "\u2022 Objective Repository Auditing: inspects configuration files, AST node trees, and scripts programmatically.",
+      "\u2022 Five Audit Gates: Memory files (1), PreToolUse hooks (2), Automated test runner (3), MCP tool/resource declarations (4), and Subagent definitions (5).",
+      "Production Readiness Benchmark",
+      "\u2022 Masterclass repository achieves 100% PASS across all five readiness gates.",
+      "\u2022 Readily integrable into CI/CD pipelines to prevent harness regressions before agent deployment."
+    ],
+    "number": 81
+  },
+  {
+    "number": 82,
+    "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
-      "• 10 runnable modules in the repo",
-      "• Dashboard: course_implementation/dashboard/index.html",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md",
-      "• Questions"
+      "\u2022 10 runnable modules in the repo",
+      "\u2022 Dashboard: course_implementation/dashboard/index.html",
+      "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md",
+      "\u2022 Questions"
     ]
   }
 ]
