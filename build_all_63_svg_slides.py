@@ -1412,6 +1412,14 @@ html_template = '''<!DOCTYPE html>
       } else if (isCode && slide.highlighted_code) {
         const fileTag = slide.code_filename || 'source.py';
         const rawBullets = slide.raw_lines.slice(1);
+        
+        const primaryFile = fileTag.split(' & ')[0].trim();
+        const pathParts = primaryFile.split('/');
+        const moduleFolder = pathParts.length >= 2 ? `${pathParts[0]}/${pathParts[1]}` : 'course_implementation';
+        
+        const fileGithubUrl = `https://github.com/kenhuangus/packt-harness/blob/main/${primaryFile}`;
+        const testsGithubUrl = `https://github.com/kenhuangus/packt-harness/tree/main/${moduleFolder}/tests`;
+        
         bodyHtml += `
           <div class="code-slide-container">
             <div class="code-editor-window">
@@ -1421,7 +1429,9 @@ html_template = '''<!DOCTYPE html>
                   <div class="code-dot dot-yellow"></div>
                   <div class="code-dot dot-green"></div>
                 </div>
-                <div class="code-file-tag">📄 ${fileTag}</div>
+                <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer" class="code-file-tag" title="Open ${primaryFile} on GitHub" style="color:#A0A09A; text-decoration:none;">
+                  📄 ${fileTag} ↗
+                </a>
                 <div class="code-lang-tag">${slide.code_language || 'PYTHON'}</div>
               </div>
               <div class="code-block">${slide.highlighted_code}</div>
@@ -1430,7 +1440,11 @@ html_template = '''<!DOCTYPE html>
               ${formatCodeConcepts(rawBullets)}
               <div class="invariant-card">
                 <div class="invariant-title">🛡️ Execution &amp; Control Invariant</div>
-                Verified directly against tests in <code>${fileTag.split('/')[1] || 'course_implementation'}</code>.
+                <div style="margin-bottom:0.35rem; color:var(--ink); font-size:0.86rem;">Verified directly against runnable tests in GitHub:</div>
+                <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.84rem;">
+                  <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
+                  <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${moduleFolder}/tests/</code> ↗</a></div>
+                </div>
               </div>
             </div>
           </div>
