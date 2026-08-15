@@ -644,6 +644,99 @@
       gap: 0.30rem;
     }
 
+    /* Instructor Slide with 8-Book Gallery Grid */
+    .instructor-slide-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.18fr);
+      gap: 1.10rem;
+      height: 100%;
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .instructor-slide-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+    .instructor-info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+    .author-books-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    }
+    .author-books-header {
+      background: var(--accent-sf);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 750;
+      font-size: 0.94rem;
+      padding: 0.45rem 0.80rem;
+      border-bottom: 1.5px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .author-books-header a {
+      font-family: var(--font-body);
+      font-size: 0.76rem;
+      font-weight: 750;
+      color: var(--accent-dk);
+      text-decoration: underline;
+    }
+    .books-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+      padding: 0.55rem;
+      background: #FAF8F2;
+    }
+    .book-item-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 0.30rem;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s;
+    }
+    .book-item-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(217, 119, 87, 0.18);
+    }
+    .book-cover-img {
+      width: 100%;
+      height: clamp(75px, 10.5vh, 110px);
+      object-fit: contain;
+      border-radius: 4px;
+      border: 0.5px solid var(--rule);
+    }
+    .book-item-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.20;
+      margin-top: 0.22rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 1.6rem;
+    }
+
     .slide-body a {
       color: var(--accent-dk);
       font-weight: 650;
@@ -1085,6 +1178,55 @@
                   <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
                   <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${moduleFolder}/tests/</code> ↗</a></div>
                 </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (slide.number === 2) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="instructor-slide-grid">
+            <div class="instructor-info-col">
+              ${svgMap[slide.number] || ''}
+              ${restLines.length > 0 ? formatBullets(restLines) : ''}
+            </div>
+            <div class="author-books-card">
+              <div class="author-books-header">
+                <span>📚 AI Books &amp; Publications by Ken Huang</span>
+                <a href="https://www.amazon.com/stores/author/B0D3J7L7GN" target="_blank" rel="noopener noreferrer">Amazon Author Page ➔</a>
+              </div>
+              <div class="books-gallery-grid">
+                <a href="https://www.amazon.com/dp/B0HF3F86YM" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems">
+                  <img src="assets/images/books/harness_engineering.jpg" alt="Harness Engineering" class="book-cover-img" />
+                  <div class="book-item-title">Harness Engineering</div>
+                </a>
+                <a href="https://www.amazon.com/dp/1807785017" target="_blank" rel="noopener noreferrer" class="book-item-card" title="OpenClaw AI in Production: Architecture, design patterns, and engineering practices for AI agent platforms">
+                  <img src="assets/images/books/openclaw_ai_in_production.jpg" alt="OpenClaw AI in Production" class="book-cover-img" />
+                  <div class="book-item-title">OpenClaw AI in Production</div>
+                </a>
+                <a href="https://www.amazon.com/dp/B0H8JW9XFN" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Engineering Agentic AI with Claude Fable 5 and Mythos 5">
+                  <img src="assets/images/books/engineering_agentic_ai_claude.jpg" alt="Engineering Agentic AI with Claude" class="book-cover-img" />
+                  <div class="book-item-title">Agentic AI with Claude</div>
+                </a>
+                <a href="https://www.amazon.com/dp/1836207034" target="_blank" rel="noopener noreferrer" class="book-item-card" title="LLM Design Patterns: A Practical Guide to Building Robust and Efficient AI Systems">
+                  <img src="assets/images/books/llm_design_patterns.jpg" alt="LLM Design Patterns" class="book-cover-img" />
+                  <div class="book-item-title">LLM Design Patterns</div>
+                </a>
+                <a href="https://www.amazon.com/dp/B0H13XWS8W" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Agentic AI Harness Pattern: Top 15 Patterns">
+                  <img src="assets/images/books/agentic_ai_harness_pattern.jpg" alt="Agentic AI Harness Pattern" class="book-cover-img" />
+                  <div class="book-item-title">Agentic AI Harness Pattern</div>
+                </a>
+                <a href="https://www.amazon.com/dp/3031542517" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Generative AI Security: Theories and Practices (Springer)">
+                  <img src="assets/images/books/generative_ai_security.jpg" alt="Generative AI Security" class="book-cover-img" />
+                  <div class="book-item-title">Generative AI Security</div>
+                </a>
+                <a href="https://www.amazon.com/dp/B0DCBDGNTN" target="_blank" rel="noopener noreferrer" class="book-item-card" title="The Layperson's Handbook to Generative AI">
+                  <img src="assets/images/books/laypersons_handbook_genai.jpg" alt="Handbook to GenAI" class="book-cover-img" />
+                  <div class="book-item-title">Handbook to GenAI</div>
+                </a>
+                <a href="https://www.amazon.com/dp/B0D4L2XHL7" target="_blank" rel="noopener noreferrer" class="book-item-card" title="Practical Guide for AI Engineers (Volume 1 & 2)">
+                  <img src="assets/images/books/practical_guide_ai_engineers.jpg" alt="Practical Guide for AI Engineers" class="book-cover-img" />
+                  <div class="book-item-title">Guide for AI Engineers</div>
+                </a>
               </div>
             </div>
           </div>
