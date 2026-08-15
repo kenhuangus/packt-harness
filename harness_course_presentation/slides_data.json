@@ -1149,17 +1149,6 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_10_closing_and_principles/skills/harness-production-readiness-auditor/"
   },
   {
-    "slide_type": "concept",
-    "raw_lines": [
-      "Advanced References: Agentic Skills Top 10 & Software Factory Skill",
-      "\u2022 OWASP Agentic Skills Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
-      "  - Video Masterclass: https://www.youtube.com/watch?v=l-uwnCzRRE0",
-      "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
-      "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates."
-    ],
-    "number": 84
-  },
-  {
     "slide_type": "comparison",
     "raw_lines": [
       "Graph Engineering vs. Dynamic Workflows in Claude Code",
@@ -1175,6 +1164,20 @@
       "\u2022 2. Dynamic Workflows (Claude Code Runtime): Translates high-level prompts into real-time JS orchestration using a Fan-Out / Refute / Converge topology with background token isolation.",
       "\u2022 Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "\u2022 Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
+    ],
+    "number": 84
+  },
+  {
+    "slide_type": "concept",
+    "raw_lines": [
+      "Advanced References: Agentic Skills Top 10, Software Factory & Resources",
+      "\u2022 OWASP Agentic Skills Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
+      "  - Video Masterclass: https://www.youtube.com/watch?v=l-uwnCzRRE0",
+      "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
+      "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates.",
+      "\u2022 Author Publications & Community Insights (Ken Huang):",
+      "  - Agentic AI Substack: https://kenhuangus.substack.com/ \u2014 In-depth architectural analysis, harness engineering guides, and production agent patterns.",
+      "  - Agentic AI Book: https://www.amazon.com/dp/B0HF3F86YM \u2014 Comprehensive guide to designing, architecting, and securing enterprise AI agents and harnesses."
     ],
     "number": 85
   }

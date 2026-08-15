@@ -95,19 +95,25 @@ def generate_svg_for_slide(num, title):
     <text x="180" y="63" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Fan-Out / Refute / Converge with Heavy Token Isolation</text>
   </g>
 </svg>'''
-    elif 'ADVANCED REFERENCES' in title_upper or 'AGENTIC SKILLS TOP 10' in title_upper or 'OWASP TOP 10' in title_upper:
-        return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:95px; margin:0.2rem 0;">
-  <g transform="translate(40, 8)">
-    <rect x="0" y="0" width="340" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic Skills Top 10 Risks</text>
-    <text x="170" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Failure Modes &amp; Prompt Security</text>
-    <text x="170" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Excessive Agency, Vulnerabilities &amp; Control Gaps</text>
+    elif 'ADVANCED REFERENCES' in title_upper or 'AGENTIC SKILLS TOP 10' in title_upper or 'RESOURCES' in title_upper or 'OWASP TOP 10' in title_upper:
+        return '''<svg viewBox="0 0 800 95" style="width:100%; max-height:90px; margin:0.2rem 0;">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="240" height="76" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="120" y="26" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🛡️ OWASP Skills Top 10</text>
+    <text x="120" y="45" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Agent Failure Modes</text>
+    <text x="120" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Prompt Injection &amp; Loop Risks</text>
   </g>
-  <g transform="translate(420, 8)">
-    <rect x="0" y="0" width="340" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🏭 Greenfield Software Factory Skill</text>
-    <text x="170" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Greenfield Software Delivery</text>
-    <text x="170" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Slice Dependency Graphs &amp; Release Gateways</text>
+  <g transform="translate(270, 6)">
+    <rect x="0" y="0" width="245" height="76" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="122" y="26" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🏭 Software Factory</text>
+    <text x="122" y="45" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Greenfield Skill Delivery</text>
+    <text x="122" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Slice DAGs &amp; Release Gates</text>
+  </g>
+  <g transform="translate(530, 6)">
+    <rect x="0" y="0" width="255" height="76" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="127" y="26" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">📚 Substack &amp; Book</text>
+    <text x="127" y="45" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Ken Huang Publications</text>
+    <text x="127" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Production Guides &amp; Insights</text>
   </g>
 </svg>'''
     elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
@@ -247,7 +253,7 @@ def generate_svg_for_slide(num, title):
     <rect x="0" y="0" width="185" height="72" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
     <text x="92" y="25" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
     <text x="92" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
-    <text x="92" y="60" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Process Isolation</text>
+    <text x="92" y="60" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
@@ -303,7 +309,7 @@ def generate_svg_for_slide(num, title):
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">parse_spec(SPEC.md)</text>
   </g>
   <g transform="translate(165, 5)">
-    <rect x="0" y="0" width="145" height="70" rx="8" fill="#BD5D3A" stroke-width="1.8"/>
+    <rect x="0" y="0" width="145" height="70" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
     <text x="72" y="25" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">2. Sandbox</text>
     <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">ScopeEnforcer write</text>
   </g>
@@ -315,7 +321,7 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(475, 5)">
     <rect x="0" y="0" width="145" height="70" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
     <text x="72" y="25" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">4. Test Loop</text>
-    <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Pytest Subprocess</text>
+    <text x="72" y="44" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Pytest Subprocess</text>
   </g>
   <g transform="translate(630, 5)">
     <rect x="0" y="0" width="155" height="70" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
@@ -1348,4 +1354,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES (INCLUDING GRAPH VS DYNAMIC WORKFLOWS)!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES!")
