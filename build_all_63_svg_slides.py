@@ -78,7 +78,34 @@ def highlight_python(code, highlight_lines=None):
 def generate_svg_for_slide(num, title):
     title_upper = title.upper()
     
-    if num == 1 or 'MASTERCLASS' in title_upper:
+    if 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
+        return '''<svg viewBox="0 0 800 110" style="width:100%; max-height:110px; margin:0.3rem 0;">
+  <g transform="translate(15, 8)">
+    <rect x="0" y="0" width="175" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">1. SKILL.md (Entry)</text>
+    <text x="87" y="48" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">YAML Frontmatter</text>
+    <text x="87" y="66" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Prompt Trigger Rules</text>
+  </g>
+  <g transform="translate(205, 8)">
+    <rect x="0" y="0" width="175" height="85" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. scripts/ (Tools)</text>
+    <text x="87" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Executable Helpers</text>
+    <text x="87" y="66" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">CLI &amp; Validation Python</text>
+  </g>
+  <g transform="translate(395, 8)">
+    <rect x="0" y="0" width="185" height="85" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. references/ (Docs)</text>
+    <text x="92" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Domain Knowledge</text>
+    <text x="92" y="66" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Progressive Disclosure</text>
+  </g>
+  <g transform="translate(595, 8)">
+    <rect x="0" y="0" width="185" height="85" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. assets/ (Schemas)</text>
+    <text x="92" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Templates &amp; Configs</text>
+    <text x="92" y="66" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">JSON Schemas &amp; State</text>
+  </g>
+</svg>'''
+    elif num == 1 or 'MASTERCLASS' in title_upper:
         return '''<svg viewBox="0 0 800 130" style="width:100%; max-height:130px; margin:0.4rem 0;">
   <rect x="15" y="15" width="220" height="100" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
   <text x="125" y="50" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
@@ -188,7 +215,7 @@ def generate_svg_for_slide(num, title):
     <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
     <text x="92" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
-    <text x="92" y="65" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Process Isolation</text>
+    <text x="92" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
@@ -293,7 +320,7 @@ html_template = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 82 Interactive Code, Architecture & Skill Slides</title>
+  <title>Packt Masterclass Presentation: 83 Interactive Code, Architecture & Skill Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -707,6 +734,20 @@ html_template = '''<!DOCTYPE html>
       line-height: 1.42;
     }
 
+    /* Monospace Tree Display for Structure Slides */
+    .tree-block {
+      background: var(--code-bg);
+      color: #FAF9F5;
+      font-family: var(--font-code);
+      font-size: 0.82rem;
+      line-height: 1.42;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--code-rule);
+      margin: 0.45rem 0;
+      overflow-x: auto;
+    }
+
     /* Visual Hierarchy: Parent vs Sub Bullets */
     .main-bullets { list-style-type: none; padding-left: 0; margin-top: 0.35rem; }
     .main-bullets.dense-columns {
@@ -799,7 +840,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 82</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 83</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -976,6 +1017,38 @@ html_template = '''<!DOCTYPE html>
 
     function formatBullets(lines) {
       if (!lines || lines.length === 0) return '';
+      
+      // Check if lines contain a directory tree
+      const hasTree = lines.some(l => l.includes('├──') || l.includes('└──') || l.includes('custom-agent-skill/'));
+      
+      if (hasTree) {
+        let beforeTree = [];
+        let treeLines = [];
+        let afterTree = [];
+        let state = 'before';
+        
+        lines.forEach(l => {
+          const trimmed = l.trim();
+          if (trimmed.startsWith('custom-agent-skill/') || trimmed.startsWith('├──') || trimmed.startsWith('│') || trimmed.startsWith('└──')) {
+            state = 'tree';
+            treeLines.push(l);
+          } else if (state === 'tree') {
+            state = 'after';
+            afterTree.push(l);
+          } else {
+            beforeTree.push(l);
+          }
+        });
+        
+        let html = '';
+        if (beforeTree.length > 0) html += formatBullets(beforeTree);
+        if (treeLines.length > 0) {
+          html += `<pre class="tree-block"><code>${treeLines.join('\\n')}</code></pre>`;
+        }
+        if (afterTree.length > 0) html += formatBullets(afterTree);
+        return html;
+      }
+
       const populatedLines = lines.filter(line => line.trim());
       const denseClass = populatedLines.length >= DENSE_BULLET_MIN_LINES ? ' dense-columns' : '';
       let html = `<ul class="main-bullets${denseClass}">`;
@@ -1147,4 +1220,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY REGENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH DEDICATED SKILL FOLDER & REPO URLS!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES INCLUDING 'WHAT IS AN AGENT SKILL?' SLIDE!")
