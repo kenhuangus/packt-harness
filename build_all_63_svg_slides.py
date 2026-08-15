@@ -184,7 +184,7 @@ def generate_svg_for_slide(num, title):
   <rect x="415" y="8" width="365" height="78" rx="12" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
   <text x="597" y="33" fill="#141413" font-family="Inter" font-size="13" font-weight="800" text-anchor="middle">PART 2: RELIABILITY &amp; TEAMS</text>
   <text x="597" y="53" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Modules 6–10: TDA, MCP, Multi-Agent &amp; Audit</text>
-  <text x="597" y="71" fill="#D97757" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">100% Production Readiness Scorecard</text>
+  <text x="597" y="71" fill="#D97757" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">5-Gate Production Readiness Scorecard</text>
 </svg>'''
     elif re.match(r'^MODULE\s+\d+$', title.strip()):
         mod_match = re.search(r'\d+', title)
@@ -332,7 +332,7 @@ def generate_svg_for_slide(num, title):
     elif 'SCORECARD' in title_upper or 'WRAP-UP' in title_upper or 'READINESS' in title_upper:
         return '''<svg viewBox="0 0 800 85" style="width:100%; max-height:85px; margin:0.2rem 0;">
   <rect x="20" y="6" width="760" height="72" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-  <text x="400" y="32" fill="#141413" font-family="Inter" font-size="13.5" font-weight="900" text-anchor="middle">PRODUCTION READINESS SCORECARD: 100% PASS</text>
+  <text x="400" y="32" fill="#141413" font-family="Inter" font-size="13.5" font-weight="900" text-anchor="middle">PRODUCTION READINESS SCORECARD: ALL 5 GATES PASS</text>
   <text x="400" y="52" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">✓ Memory (AGENTS.md)  ✓ Sandboxing  ✓ PreToolUse Hooks  ✓ TDA Pytest  ✓ MCP Tools</text>
   <text x="400" y="68" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Verified Harness Engineering Control &amp; Reliability Framework (10 Modules)</text>
 </svg>'''

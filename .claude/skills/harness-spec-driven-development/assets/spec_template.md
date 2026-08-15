@@ -16,5 +16,5 @@
 - No heavy third-party libraries.
 
 ## Acceptance Criteria
-- [ ] Pytest passes 100%
+- [ ] Pytest passes all test suites
 - [ ] Valid AST syntax

@@ -18,7 +18,7 @@ Target Project Path: C:\Users\kenhu\packt-harness
   [PASS] Check 5: Multi-agent role definitions -> validated 1 subagent definition(s): spec-reviewer.md
 
 ============================================================
-AUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)
+AUDIT SUMMARY: 5/5 Checks Passed (5-Gate Production Readiness Score)
 STATUS: ALL AUDITED READINESS CHECKS PASSED.
 ============================================================
 ```

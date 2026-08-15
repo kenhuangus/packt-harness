@@ -335,8 +335,8 @@
       10: {
         time: "",
         title: "Module 10: Closing Principles & Production Readiness Audit",
-        status: "AUDIT 100%",
-        output: `============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\nTarget Project Path: C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\n\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars\n\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (100% Production Readiness Score)\nSTATUS: PRODUCTION READY FOR DEPLOYMENT!\n============================================================`
+        status: "5/5 GATES PASS",
+        output: `============================================================\nMODULE 10 DEMO: PRODUCTION HARNESS READINESS AUDIT \n============================================================\nTarget Project Path: C:\\Users\\kenhu\\packt\\harness\\course_implementation\\module_02_core_harness_stack\n\n  [PASS] Check 1: Memory Files (CLAUDE.md / AGENTS.md) -> PASSED\n  [PASS] Check 2: Pre-Execution Shell Command Hooks -> PASSED\n  [PASS] Check 3: Automated Test Runner Feedback Loop -> PASSED\n  [PASS] Check 4: Model Context Protocol (MCP) Scoped Tools -> PASSED\n  [PASS] Check 5: Multi-Agent Planner/Implementer/Reviewer Swarm -> PASSED\n\n[LLM Client Call] Model='openai:nvidia/Qwen3.6-35B-A3B-NVFP4' | Endpoint='http://127.0.0.1:8000/v1' | Prompt Length=66 chars\n\n============================================================\nAUDIT SUMMARY: 5/5 Checks Passed (5-Gate Production Readiness Score)\nSTATUS: PRODUCTION READY FOR DEPLOYMENT!\n============================================================`
       }
     };
 
@@ -356,7 +356,7 @@
       document.querySelectorAll('.module-nav-item')[10].classList.add('active');
       document.getElementById('module-time').innerText = "All 10 modules";
       document.getElementById('module-title').innerText = "ALL 10 MODULE TEST RESULTS (COMBINED VIEW)";
-      document.getElementById('stat-status').innerText = "ALL 10 PASSED (100%)";
+      document.getElementById('stat-status').innerText = "ALL 10 PASSED";
       
       let allOut = "=== MASTER VERIFICATION TRACE: ALL 10 COURSE MODULES ===\n\n";
       for (let i = 1; i <= 10; i++) {

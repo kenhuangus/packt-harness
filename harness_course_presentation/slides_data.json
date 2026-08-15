@@ -1121,7 +1121,7 @@
       "\u2022 [Lines 8-10] Gate 2 PreToolUse Hooks: Verifies hook configuration in .claude/settings.json.",
       "\u2022 [Lines 14-16] Gate 3 Test Runner: Validates executable pytest runner and test infrastructure.",
       "\u2022 [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
-      "\u2022 Production Scorecard: Programmatically benchmarks repository readiness with 100% PASS."
+      "\u2022 Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
     "number": 82
   },
@@ -1134,7 +1134,7 @@
       "Module 10 Skill: harness-production-readiness-auditor",
       "Skill Description: Programmatically audits codebases across 5 objective readiness gates: Memory Files, PreToolUse Hooks, Test Runners, MCP, and Subagents.",
       "\u2022 When to Use: Benchmarking repository harness readiness, scoring CI/CD pipelines, or verifying enterprise control compliance.",
-      "\u2022 How to Use: ProductionHarnessAuditor runs 5 programmatic checks across disk files, AST trees, and test runners for 100% readiness score.",
+      "\u2022 How to Use: ProductionHarnessAuditor runs 5 programmatic checks across disk files, AST trees, and test runners for comprehensive readiness score.",
       "\u2022 Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py, https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py",
       "\u2022 Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md"
     ],

@@ -27,4 +27,4 @@ Implement a lightweight JWT token validation module for user authentication.
 - [ ] AC-01: `auth_validator.py` exports `validate_jwt(token: str) -> dict`.
 - [ ] AC-02: Returns `{"valid": True, "user_id": "123"}` for valid tokens.
 - [ ] AC-03: Returns `{"valid": False, "error": "EXPIRED"}` for expired tokens.
-- [ ] AC-04: Test coverage must be 100% in `tests/test_auth.py`.
+- [ ] AC-04: Test coverage must pass all test cases in `tests/test_auth.py`.
