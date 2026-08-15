@@ -889,20 +889,21 @@ html_template = '''<!DOCTYPE html>
     }
     .primary-bullet {
       font-family: var(--font-display); font-size: 1.14em; font-weight: 700; color: var(--ink);
-      margin-top: 0.45em; margin-bottom: 0.18em; display: flex; align-items: center; gap: 0.5em;
+      margin-top: 0.45em; margin-bottom: 0.18em; display: flex; align-items: baseline; gap: 0.5em;
     }
     .primary-bullet::before {
-      content: "◆"; color: var(--accent); font-size: 0.65rem;
+      content: "◆"; color: var(--accent); font-size: 0.72em; line-height: 1; flex-shrink: 0;
     }
     .sub-bullets {
-      list-style-type: none; padding-left: 1.25em; border-left: 1px solid var(--rule);
-      margin-left: 0.3em; margin-bottom: 0.45em;
+      list-style-type: none; padding-left: 1.35em; border-left: 2px solid var(--rule);
+      margin-left: 0.35em; margin-bottom: 0.45em;
     }
     .sub-bullet {
-      font-size: 0.98em; color: var(--ink); margin-bottom: 0.22em; position: relative; padding-left: 0.9em;
+      font-size: 0.98em; color: var(--ink); margin-bottom: 0.22em; position: relative; padding-left: 1.15em;
+      line-height: 1.45;
     }
     .sub-bullet::before {
-      content: "›"; position: absolute; left: 0; color: var(--accent-dk); font-weight: 800; font-size: 1.05rem; line-height: 1;
+      content: "›"; position: absolute; left: 0; top: -0.05em; color: var(--accent-dk); font-weight: 900; font-size: 1.25em; line-height: 1;
     }
     /* Reference Slide with Two-Table Layout (Links Table + Screenshot Table) */
     .reference-tables-grid {
