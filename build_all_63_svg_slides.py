@@ -137,7 +137,7 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="74" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Progressive Disclosure</text>
   </g>
   <g transform="translate(595, 8)">
-    <rect x="0" y="0" width="185" height="92" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="185" height="92" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="92" y="30" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. assets/ (Schemas)</text>
     <text x="92" y="54" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Templates &amp; Configs</text>
     <text x="92" y="74" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schemas &amp; State</text>
@@ -503,6 +503,10 @@ html_template = '''<!DOCTYPE html>
       flex: 1; min-height: 0; overflow-y: auto; padding-right: 0.20rem;
       font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
       color: var(--ink); line-height: 1.48;
+      display: block;
+    }
+    .slide-content-wrapper {
+      width: 100%;
       display: block;
     }
     .slide-body > svg, .slide-svg {
@@ -981,7 +985,6 @@ html_template = '''<!DOCTYPE html>
 
     const DENSE_BULLET_MIN_LINES = 9;
     const bodyEl = document.getElementById('slide-body');
-    const cardEl = document.querySelector('.slide-card');
 
     const selectEl = document.getElementById('slide-select');
     slidesData.forEach((s, idx) => {
@@ -1321,36 +1324,38 @@ html_template = '''<!DOCTYPE html>
           </div>
         `;
       } else {
+        bodyHtml += '<div id="slide-content-wrap" class="slide-content-wrapper">';
         if (svgMap[slide.number]) {
           bodyHtml += svgMap[slide.number];
         }
         if (restLines.length > 0) {
           bodyHtml += formatBullets(restLines);
         }
+        bodyHtml += '</div>';
       }
 
       bodyEl.innerHTML = bodyHtml;
       
       // Dynamic Text-Sizing Engine:
-      // 1. Natural top-to-bottom flow without artificial vertical gaps
-      // 2. Expand text size so content occupies >= 80% to 92% of the card height (less than 20% empty space)
-      // 3. Prevent any overflow or scrollbars
+      // Maximize font size so text and graphics fill >= 82% to 92% of the card height
+      // while guaranteeing ZERO overflow and ZERO scrollbars
       if (!isCode && !isSkill) {
         bodyEl.style.setProperty('--fit-scale', '1.0');
-        let scale = 1.0;
+        const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
+        const targetH = clientH * 0.90;
         
-        // Target content height: at least 82% of slide card height
+        let scale = 1.0;
         let growIter = 0;
-        while (bodyEl.scrollHeight < (clientH * 0.82) && scale < 2.5 && growIter < 25) {
+        while (wrapper.offsetHeight < targetH && bodyEl.scrollHeight <= clientH && scale < 3.25 && growIter < 45) {
           scale += 0.05;
           bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
           growIter++;
         }
         
-        // If scaled slightly over client height, scale down to fit with 0 overflow
+        // If scaled over client height or causing scroll, scale down until it fits with zero scroll
         let shrinkIter = 0;
-        while (bodyEl.scrollHeight > clientH && scale > 0.60 && shrinkIter < 30) {
+        while ((bodyEl.scrollHeight > clientH || wrapper.offsetHeight > (clientH - 6)) && scale > 0.50 && shrinkIter < 60) {
           scale -= 0.02;
           bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
           shrinkIter++;
@@ -1451,4 +1456,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} SLIDES WITH NATURAL TOP-FLOW DYNAMIC TEXT SIZING!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} SLIDES WITH WRAPPER DYNAMIC TEXT SIZING!")
