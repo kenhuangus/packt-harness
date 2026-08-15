@@ -234,26 +234,26 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">1. System Prompt</text>
-    <text x="87" y="50" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">Standing Guidelines</text>
-    <text x="87" y="70" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE.md / AGENTS.md</text>
+    <text x="87" y="50" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">Standing Guidelines</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE.md / AGENTS.md</text>
   </g>
   <g transform="translate(205, 6)">
-    <rect x="0" y="0" width="175" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">2. Tool Schemas</text>
-    <text x="87" y="50" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">JSON Schema Typing</text>
-    <text x="87" y="70" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">Strict Argument Checks</text>
+    <text x="87" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">JSON Schema Typing</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Strict Argument Checks</text>
   </g>
   <g transform="translate(395, 6)">
     <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">3. Pre/Post Hooks</text>
     <text x="92" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">PreToolUse Shell Deny</text>
-    <text x="92" y="70" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">PostToolUse AST / Secrets</text>
+    <text x="92" y="70" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">PostToolUse AST / Secrets</text>
   </g>
   <g transform="translate(595, 6)">
-    <rect x="0" y="0" width="185" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
     <text x="92" y="50" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
-    <text x="92" y="70" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Process Isolation</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
@@ -261,23 +261,23 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">LOW RISK</text>
-    <text x="87" y="50" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">read_file, list_dir, grep</text>
+    <text x="87" y="50" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">read_file, list_dir, grep</text>
     <text x="87" y="70" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">✓ Auto-Approved</text>
   </g>
   <g transform="translate(205, 6)">
-    <rect x="0" y="0" width="175" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">MEDIUM RISK</text>
-    <text x="87" y="50" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">write_file, run_test</text>
+    <text x="87" y="50" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">write_file, run_test</text>
     <text x="87" y="70" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">✓ Logged &amp; Approved</text>
   </g>
   <g transform="translate(395, 6)">
     <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">HIGH RISK</text>
-    <text x="92" y="50" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">pip_install</text>
+    <text x="92" y="50" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">pip_install</text>
     <text x="92" y="70" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">⚠ Intent Logged Alert</text>
   </g>
   <g transform="translate(595, 6)">
-    <rect x="0" y="0" width="185" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">CRITICAL RISK</text>
     <text x="92" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">git_push, db_drop</text>
     <text x="92" y="70" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">⛔ approvals.json Ledger</text>
@@ -306,22 +306,22 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(10, 5)">
     <rect x="0" y="0" width="145" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="72" y="28" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">1. Spec First</text>
-    <text x="72" y="52" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">parse_spec(SPEC.md)</text>
+    <text x="72" y="52" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">parse_spec(SPEC.md)</text>
   </g>
   <g transform="translate(165, 5)">
-    <rect x="0" y="0" width="145" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="145" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="72" y="28" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">2. Sandbox</text>
-    <text x="72" y="52" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">ScopeEnforcer write</text>
+    <text x="72" y="52" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">ScopeEnforcer write</text>
   </g>
   <g transform="translate(320, 5)">
     <rect x="0" y="0" width="145" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="72" y="28" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">3. Guardrails</text>
-    <text x="72" y="52" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">AST &amp; Secret Scan</text>
+    <text x="72" y="52" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">AST &amp; Secret Scan</text>
   </g>
   <g transform="translate(475, 5)">
-    <rect x="0" y="0" width="145" height="86" rx="8" fill="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="145" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
     <text x="72" y="28" fill="#141413" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">4. Test Loop</text>
-    <text x="72" y="52" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">Pytest Subprocess</text>
+    <text x="72" y="52" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">Pytest Subprocess</text>
   </g>
   <g transform="translate(630, 5)">
     <rect x="0" y="0" width="155" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
