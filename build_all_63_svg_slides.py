@@ -288,7 +288,7 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(630, 8)">
     <rect x="0" y="0" width="155" height="75" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
     <text x="77" y="28" fill="#141413" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">5. Human Review</text>
-    <text x="77" y="48" fill="#141413" font-family="Inter" font-size="9" font-weight="700" text-anchor="middle">Diff &amp; PR Merge</text>
+    <text x="77" y="48" fill="#141413" font-family="Inter" font-size="9" text-anchor="middle">Diff &amp; PR Merge</text>
   </g>
 </svg>'''
     elif 'SCORECARD' in title_upper or 'WRAP-UP' in title_upper or 'READINESS' in title_upper:
@@ -946,6 +946,7 @@ html_template = '''<!DOCTYPE html>
       const name = slide.skill_name || 'harness-skill';
       const tools = slide.allowed_tools || 'Read, Write, Bash';
       const skillFolderUrl = slide.skill_folder_url || `https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/${name}/`;
+      const modSkillFolderUrl = slide.module_skill_folder_url || '';
       const manifestUrl = slide.skill_manifest_url || `https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/${name}/SKILL.md`;
       const moduleFolderUrl = slide.module_folder_url || '';
       const keyFilesList = slide.key_files_urls || [];
@@ -967,7 +968,7 @@ html_template = '''<!DOCTYPE html>
 
       let keyFilesHtml = '<ul style="list-style:none; padding-left:0; display:flex; flex-direction:column; gap:0.42rem;">';
       if (moduleFolderUrl) {
-        keyFilesHtml += `<li>📂 <strong>Module Folder:</strong> <a href="${moduleFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.80rem; word-break:break-all;">${moduleFolderUrl}</a></li>`;
+        keyFilesHtml += `<li>📂 <strong>Module Codebase Folder:</strong> <a href="${moduleFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.80rem; word-break:break-all;">${moduleFolderUrl}</a></li>`;
       }
       if (keyFilesList.length > 0) {
         keyFilesList.forEach(url => {
@@ -988,9 +989,10 @@ html_template = '''<!DOCTYPE html>
               <span>🛠️ Allowed Tools:</span> <code>${tools}</code>
             </div>
             <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.3rem; line-height:1.45; display:flex; flex-direction:column; gap:0.35rem;">
-              <div>📂 <strong>Skill Folder on GitHub:</strong><br>
+              <div>📂 <strong>Skill Folder on GitHub (Root):</strong><br>
                 <a href="${skillFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${skillFolderUrl}</a>
               </div>
+              ${modSkillFolderUrl ? `<div>📂 <strong>Skill Folder in Module:</strong><br><a href="${modSkillFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${modSkillFolderUrl}</a></div>` : ''}
               <div>📄 <strong>Skill Manifest (SKILL.md):</strong><br>
                 <a href="${manifestUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${manifestUrl}</a>
               </div>
@@ -1018,7 +1020,6 @@ html_template = '''<!DOCTYPE html>
     function formatBullets(lines) {
       if (!lines || lines.length === 0) return '';
       
-      // Check if lines contain a directory tree
       const hasTree = lines.some(l => l.includes('├──') || l.includes('└──') || l.includes('custom-agent-skill/'));
       
       if (hasTree) {
@@ -1220,4 +1221,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES INCLUDING 'WHAT IS AN AGENT SKILL?' SLIDE!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH DEDICATED SKILL FOLDER & REPO URLS!")

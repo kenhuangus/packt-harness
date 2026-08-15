@@ -155,7 +155,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-interception-loop-detector/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/skills/harness-interception-loop-detector/"
   },
   {
     "number": 12,
@@ -265,7 +266,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-core-stack-sandbox/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_02_core_harness_stack/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_02_core_harness_stack/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_02_core_harness_stack/skills/harness-core-stack-sandbox/"
   },
   {
     "number": 20,
@@ -381,7 +383,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-spec-driven-development/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_03_spec_driven_development/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_03_spec_driven_development/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_03_spec_driven_development/skills/harness-spec-driven-development/"
   },
   {
     "number": 29,
@@ -511,7 +514,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-guardrails-and-hooks/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_04_guardrails_and_hooks/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_04_guardrails_and_hooks/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_04_guardrails_and_hooks/skills/harness-guardrails-and-hooks/"
   },
   {
     "number": 39,
@@ -578,7 +582,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-permission-escalation-gateway/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_05_break_and_qna/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_05_break_and_qna/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_05_break_and_qna/skills/harness-permission-escalation-gateway/"
   },
   {
     "number": 43,
@@ -685,7 +690,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-tda-reliability-pipeline/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_06_tests_as_reliability_layer/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_06_tests_as_reliability_layer/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_06_tests_as_reliability_layer/skills/harness-tda-reliability-pipeline/"
   },
   {
     "number": 51,
@@ -815,7 +821,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-mcp-and-plugins/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_07_skills_plugins_mcp/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_07_skills_plugins_mcp/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_07_skills_plugins_mcp/skills/harness-mcp-and-plugins/"
   },
   {
     "number": 61,
@@ -941,7 +948,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-compound-multi-agent-worktrees/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_08_compound_engineering/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_08_compound_engineering/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_08_compound_engineering/skills/harness-compound-multi-agent-worktrees/"
   },
   {
     "number": 71,
@@ -1043,7 +1051,8 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-five-step-sop-pipeline/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/skills/harness-five-step-sop-pipeline/"
   },
   {
     "number": 78,
@@ -1136,6 +1145,7 @@
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-production-readiness-auditor/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_10_closing_and_principles/"
+    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_10_closing_and_principles/",
+    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_10_closing_and_principles/skills/harness-production-readiness-auditor/"
   }
 ]
