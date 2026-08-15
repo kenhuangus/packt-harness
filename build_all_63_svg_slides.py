@@ -1105,8 +1105,8 @@ html_template = '''<!DOCTYPE html>
 
     function cleanNumbers(text) {
       if (/^\\d{1,2}:\\d{2}/.test(text.trim())) return text.trim();
-      text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s*/, '');
-      text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s*/i, '');
+      text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s+/, '');
+      text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s+/i, '');
       return text.trim();
     }
 

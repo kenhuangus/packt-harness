@@ -758,11 +758,11 @@
     "number": 57,
     "raw_lines": [
       "MCP Python SDK",
-      "2.x Authoring",
-      "\u2022 2.x: MCPServer from mcp.server.mcpserver",
-      "\u2022 1.x: FastMCP",
-      "\u2022 Same @mcp.tool / @mcp.resource",
-      "\u2022 mcp.run() defaults to stdio"
+      "Modern SDK Authoring",
+      "\u2022 Modern Server: MCPServer from mcp.server.mcpserver",
+      "\u2022 Lightweight Alternative: FastMCP",
+      "\u2022 Standard Decorators: @mcp.tool / @mcp.resource",
+      "\u2022 Stdio Execution: mcp.run() defaults to stdio"
     ]
   },
   {
