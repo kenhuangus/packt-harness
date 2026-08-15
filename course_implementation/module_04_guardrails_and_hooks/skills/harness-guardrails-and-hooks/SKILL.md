@@ -1,6 +1,6 @@
 ---
 name: harness-guardrails-and-hooks
-description: Implements Claude Code PascalCase PreToolUse and PostToolUse deterministic hook interceptors to block dangerous CLI flags, parse AST syntax, and prevent multi-vendor credential leaks. Use when configuring .claude/settings.json hooks or auditing pre/post tool execution policies.
+description: Implements Claude Code PascalCase PreToolUse and PostToolUse deterministic
 allowed-tools: Read, Write, Glob, Grep
 ---
 

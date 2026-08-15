@@ -1,6 +1,6 @@
 ---
 name: harness-production-readiness-auditor
-description: Programmatically audits codebases across 5 objective readiness gates: Memory Files (CLAUDE.md, AGENTS.md), PreToolUse Hook Registrations (.claude/settings.json), Automated Test Runners, MCP Tool/Resource AST Declarations, and Subagent Definitions. Use when benchmarking repository harness readiness, scoring CI/CD pipelines, or verifying enterprise control compliance.
+description: 'Programmatically audits codebases across 5 objective readiness gates:'
 allowed-tools: Read, Glob, Grep, Bash
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: harness-core-stack-sandbox
-description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(), post-edit secret scanning, context token budgeting, and append-only event tracing. Use when sandboxing agent tool invocations, setting up file system isolation, or establishing audit trails in events.jsonl.
+description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(),
 allowed-tools: Read, Write, Glob, Grep
 ---
 

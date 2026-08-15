@@ -1,6 +1,6 @@
 ---
 name: harness-spec-driven-development
-description: Parses and enforces immutable SPEC.md contracts, bounding agent writes strictly to allowed files, blocking non-goals, and validating AST syntax before accepting code changes. Use when scoping features, preventing architectural drift, or validating code proposals against specifications.
+description: Parses and enforces immutable SPEC.md contracts, bounding agent writes
 allowed-tools: Read, Write, Glob, Grep, Bash
 ---
 

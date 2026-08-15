@@ -1,6 +1,6 @@
 ---
 name: harness-permission-escalation-gateway
-description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH, CRITICAL), auto-approving safe reads, auditing sandboxed writes, and strictly requiring signed approvals.json tokens for critical operations (git_push). Use when gating sensitive tools, establishing human-in-the-loop workflows, or generating pending action artifacts.
+description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH,
 allowed-tools: Read, Write, Glob, Grep
 ---
 

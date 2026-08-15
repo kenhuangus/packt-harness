@@ -1,6 +1,6 @@
 ---
 name: harness-interception-loop-detector
-description: Intercepts destructive shell commands and breaks repeating execution retry loops before token waste or data loss occurs. Use when running untrusted or automated agent command loops, auditing shell tool calls, or debugging stuck test-fix iterations.
+description: Intercepts destructive shell commands and breaks repeating execution
 allowed-tools: Bash, Read, Grep
 ---
 

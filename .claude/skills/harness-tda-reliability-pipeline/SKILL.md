@@ -1,6 +1,6 @@
 ---
 name: harness-tda-reliability-pipeline
-description: Executes deterministic test-driven agent (TDA) feedback loops via isolated pytest subprocesses, captures exact failure tracebacks into repair prompts, and appends anti-regression tests to prevent feature breakage. Use when running automated code repair, verifying test assertions, or preventing regressions.
+description: Executes deterministic test-driven agent (TDA) feedback loops via isolated
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 

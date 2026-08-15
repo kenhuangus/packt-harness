@@ -1,6 +1,6 @@
 ---
 name: harness-mcp-and-plugins
-description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, exposing @mcp.tool() actions and @mcp.resource() URIs over stdio JSON-RPC, and bundles agent skills into .claude-plugin/plugin.json manifests. Use when extending agent capabilities with custom tools, reading application resources, or building plugins.
+description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, exposing
 allowed-tools: Read, Write, Glob, Grep, Bash
 ---
 

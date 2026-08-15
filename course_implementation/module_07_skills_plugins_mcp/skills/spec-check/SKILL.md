@@ -1,6 +1,6 @@
 ---
 name: spec-check
-description: Checks code and documentation against an authoritative specification. Use when reviewing protocol, SDK, hook, skill, subagent, or plugin claims for factual accuracy.
+description: Checks code and documentation against an authoritative specification.
 allowed-tools: Read, Glob, Grep
 ---
 

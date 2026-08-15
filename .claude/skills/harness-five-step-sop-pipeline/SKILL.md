@@ -1,6 +1,6 @@
 ---
 name: harness-five-step-sop-pipeline
-description: Runs an end-to-end 5-step Standard Operating Procedure (SOP) pipeline combining Spec First (1), Constrained Sandbox Execution (2), Deterministic AST/Secret Guardrails (3), Subprocess Pytest Verification (4), and Unified Diff Human Review (5). Use when executing end-to-end feature pipelines or auditing workflow rigor before PR submission.
+description: Runs an end-to-end 5-step Standard Operating Procedure (SOP) pipeline
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 

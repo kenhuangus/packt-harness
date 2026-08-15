@@ -1,6 +1,6 @@
 ---
 name: harness-compound-multi-agent-worktrees
-description: Orchestrates specialized Planner, Implementer, and Reviewer multi-agent teams, isolating coding execution in ephemeral Git worktrees (isolation: worktree) and slicing sub-specs to minimize context windows. Use when coordinating multi-agent workflows, isolating concurrent git workspaces, or recording runs to telemetry.jsonl.
+description: Orchestrates specialized Planner, Implementer, and Reviewer multi-agent
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 
