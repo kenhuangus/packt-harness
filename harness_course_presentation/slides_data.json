@@ -1171,8 +1171,7 @@
     "slide_type": "concept",
     "raw_lines": [
       "Advanced References: Agentic Skills Top 10, Software Factory & Resources",
-      "\u2022 OWASP Agentic Skills Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
-      "  - Video Masterclass: https://www.youtube.com/watch?v=l-uwnCzRRE0",
+      "\u2022 OWASP Agentic Skills Top 10 Risks Video: https://www.youtube.com/watch?v=l-uwnCzRRE0",
       "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
       "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates.",
       "\u2022 Author Publications & Community Insights (Ken Huang):",
