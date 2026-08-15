@@ -1172,11 +1172,9 @@
     "raw_lines": [
       "Advanced References: Agentic Skills Top 10, Software Factory & Resources",
       "\u2022 OWASP Agentic Skills Top 10 Risks Video: https://www.youtube.com/watch?v=l-uwnCzRRE0",
-      "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
-      "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates.",
-      "\u2022 Author Publications & Community Insights (Ken Huang):",
-      "  - Agentic AI Substack: https://kenhuangus.substack.com/ \u2014 In-depth architectural analysis, harness engineering guides, and production agent patterns.",
-      "  - Agentic AI Book: https://www.amazon.com/dp/B0HF3F86YM \u2014 Comprehensive guide to designing, architecting, and securing enterprise AI agents and harnesses."
+      "\u2022 Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory",
+      "\u2022 Agentic AI Substack (Ken Huang): https://kenhuangus.substack.com/",
+      "\u2022 Agentic AI Book (Amazon): https://www.amazon.com/dp/B0HF3F86YM"
     ],
     "number": 85
   }

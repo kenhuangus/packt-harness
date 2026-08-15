@@ -1234,6 +1234,10 @@ html_template = '''<!DOCTYPE html>
       }
 
       const populatedLines = lines.filter(line => line.trim());
+      const hasParent = populatedLines.some(line => {
+        const t = line.trim();
+        return !t.startsWith('•') && !t.startsWith('-') && !t.startsWith('\ufffd');
+      });
       const denseClass = populatedLines.length >= DENSE_BULLET_MIN_LINES ? ' dense-columns' : '';
       let html = `<ul class="main-bullets${denseClass}">`;
       let groupOpen = false;
@@ -1241,7 +1245,7 @@ html_template = '''<!DOCTYPE html>
 
       populatedLines.forEach(line => {
         const trimmed = line.trim();
-        const isSub = trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd');
+        const isSub = hasParent && (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd'));
         let cleanText = trimmed.replace(/^[•\\-\\ufffd]\\s*/, '').trim();
         cleanText = cleanNumbers(cleanText);
         const labUrl = cleanText.match(/^Lab demo:\\s*(https:\\/\\/[^\\s]+)/i);
