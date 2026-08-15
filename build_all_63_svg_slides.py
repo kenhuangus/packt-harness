@@ -78,25 +78,19 @@ def highlight_python(code, highlight_lines=None):
 def generate_svg_for_slide(num, title):
     title_upper = title.upper()
     
-    if 'ADVANCED REFERENCES' in title_upper or 'GRAPH VS' in title_upper:
+    if 'ADVANCED REFERENCES' in title_upper or 'OWASP TOP 10' in title_upper:
         return '''<svg viewBox="0 0 800 100" style="width:100%; max-height:95px; margin:0.2rem 0;">
-  <g transform="translate(15, 8)">
-    <rect x="0" y="0" width="235" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="117" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🔄 Loop Engineering</text>
-    <text x="117" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Recursive Feedback &amp; TDA</text>
-    <text x="117" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Sliding Window Circuit Breakers</text>
+  <g transform="translate(40, 8)">
+    <rect x="0" y="0" width="340" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic AI Top 10 Risks</text>
+    <text x="170" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Failure Modes &amp; Prompt Security</text>
+    <text x="170" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Excessive Agency, Vulnerabilities &amp; Control Gaps</text>
   </g>
-  <g transform="translate(265, 8)">
-    <rect x="0" y="0" width="250" height="80" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
-    <text x="125" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🛡️ OWASP Agentic AI Top 10</text>
-    <text x="125" y="48" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Failure Modes</text>
-    <text x="125" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Excessive Agency &amp; Vulnerabilities</text>
-  </g>
-  <g transform="translate(530, 8)">
-    <rect x="0" y="0" width="255" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
-    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🌐 Graph Engineering</text>
-    <text x="127" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">DAGs &amp; Software Factories</text>
-    <text x="127" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Audited Skill-Graph Self-Improvement</text>
+  <g transform="translate(420, 8)">
+    <rect x="0" y="0" width="340" height="80" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="170" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🏭 Greenfield Software Factory Skill</text>
+    <text x="170" y="48" fill="#BD5D3A" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Autonomous Greenfield Software Delivery</text>
+    <text x="170" y="66" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Slice Dependency Graphs &amp; Release Gateways</text>
   </g>
 </svg>'''
     elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:

@@ -1151,16 +1151,11 @@
   {
     "slide_type": "concept",
     "raw_lines": [
-      "Advanced References: OWASP Top 10, Graph vs. Loop Engineering & Skills",
-      "\u2022 OWASP Agentic AI Top 10 Risks Video: Deep dive into autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
+      "Advanced References: OWASP Top 10 & Software Factory Skill",
+      "\u2022 OWASP Agentic AI Top 10 Risks Video: Comprehensive analysis of autonomous agent failure modes, prompt injection, excessive agency, and loop vulnerabilities.",
       "  - Video Masterclass: https://www.youtube.com/watch?v=l-uwnCzRRE0",
       "\u2022 Autonomous Software Factory Skills (Ken Huang GitHub):",
-      "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery with slice dependency graphs and release gates.",
-      "  - Brownfield Governance & Causal Gates: https://github.com/kenhuangus/causal-gate \u2014 Production intent-based access control & safety release gates for existing codebases.",
-      "  - Audited Skill-Graph AI (ASG-SI): https://github.com/kenhuangus/ASG-SI \u2014 Audited skill-graph self-improvement with inspectable DAG capabilities.",
-      "\u2022 Graph Engineering vs. Loop Engineering Paradigms:",
-      "  - Loop Engineering: Recursive execution, test-driven agent feedback loops (TDA), sliding-window retry circuit breakers, and bounded memory controls: https://github.com/kenhuangus/packt-harness and https://github.com/kenhuangus/fable5",
-      "  - Graph Engineering: Directed acyclic graphs (DAGs), slice dependencies, multi-agent role topologies, and non-linear deterministic task orchestration: https://github.com/kenhuangus/ASG-SI and https://github.com/kenhuangus/greenfield-software-factory"
+      "  - Greenfield Software Factory Skill: https://github.com/kenhuangus/greenfield-software-factory \u2014 Autonomous greenfield software delivery framework with slice dependency graphs, deterministic verification, and safety release gates."
     ],
     "number": 84
   }
