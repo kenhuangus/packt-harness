@@ -80,34 +80,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
-    "code_language": "python",
-    "code_block": "class HarnessedAgent:\n    def __init__(self, max_retries: int = 2) -> None:\n        self.max_retries = max_retries\n        self.command_history: list[str] = []\n\n    def pre_execution_hook(self, command: str) -> None:\n        for pattern in FORBIDDEN_PATTERNS:  # ['rm -rf', 'sudo', 'chmod 777', ...]\n            if re.search(pattern, command):\n                raise PermissionError(\n                    f\"BLOCKED BY PRE-HOOK: Dangerous command '{pattern}' detected.\"\n                )\n\n    def loop_detector(self, command: str) -> None:\n        self.command_history.append(command)\n        if len(self.command_history) >= self.max_retries:\n            recent = self.command_history[-self.max_retries:]\n            if len(set(recent)) == 1:\n                raise RuntimeError(\n                    f\"BLOCKED BY HARNESS LOOP DETECTOR: Command '{command}' repeated \"\n                    f\"{self.max_retries} times without progress.\"\n                )",
-    "raw_lines": [
-      "Module 1 Code: Pre-Hook Interception & Loop Detection",
-      "File: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
-      "\u2022 pre_execution_hook(command): regex inspection blocks destructive commands (rm -rf, sudo) before subprocess spawn.",
-      "\u2022 loop_detector(command): sliding-window history halts repeated identical failing commands when retries >= max_retries.",
-      "\u2022 Execution Safety: guarantees dangerous proposals never touch the filesystem or consume unlimited tokens."
-    ],
-    "number": 8
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 1 Mechanics: Deterministic Execution Safety",
-      "Key Architectural Insights",
-      "\u2022 Pre-Action Interception: regex matching against dangerous patterns stops rm -rf before execution.",
-      "\u2022 Loop Breaking: tracking recent commands breaks retry traps and prevents infinite token burn.",
-      "Verifiable Execution Evidence",
-      "\u2022 Un-harnessed run: deletes var/log/app.log and loops on failing pytest 3 times without recovery.",
-      "\u2022 Harnessed run: pytest runs once, 2nd attempt halted with LOOP_HALTED, rm -rf blocked with BLOCKED, sandbox logs preserved (log_survived=True)."
-    ],
-    "number": 9
-  },
-  {
-    "number": 10,
+    "number": 8,
     "raw_lines": [
       "Failure Mode 3: Dangerous Tools",
       "Unsanitized Actions",
@@ -118,7 +91,30 @@
     ]
   },
   {
-    "number": 11,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+    "code_language": "python",
+    "highlight_lines": [
+      8,
+      9,
+      10,
+      15,
+      16,
+      17,
+      18
+    ],
+    "code_block": "class HarnessedAgent:\n    def __init__(self, max_retries: int = 2) -> None:\n        self.max_retries = max_retries\n        self.command_history: list[str] = []\n\n    def pre_execution_hook(self, command: str) -> None:\n        # Line 7-10: Deterministic regex guard against destructive shell calls\n        for pattern in FORBIDDEN_PATTERNS:  # ['rm -rf', 'sudo', 'chmod 777']\n            if re.search(pattern, command):\n                raise PermissionError(f\"BLOCKED BY PRE-HOOK: '{pattern}' detected.\")\n\n    def loop_detector(self, command: str) -> None:\n        # Line 13-18: Sliding-window memory breaks infinite retry loops\n        self.command_history.append(command)\n        if len(self.command_history) >= self.max_retries:\n            recent = self.command_history[-self.max_retries:]\n            if len(set(recent)) == 1:\n                raise RuntimeError(f\"LOOP DETECTOR: '{command}' repeated {self.max_retries}x.\")",
+    "raw_lines": [
+      "Module 1 Code Lab: Pre-Hook Interception & Loop Detection",
+      "File: course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
+      "\u2022 [Lines 8-10] Pre-Execution Interception: Regex matches against destructive commands (rm -rf, sudo) and raises PermissionError before subprocess creation.",
+      "\u2022 [Lines 15-18] Loop Detector: Sliding-window tracks recent command history and raises RuntimeError after max_retries, halting infinite retry loops.",
+      "\u2022 Verified Execution: Un-harnessed agent deletes var/log/app.log and loops indefinitely; harnessed agent halts safely with log_survived=True."
+    ],
+    "number": 9
+  },
+  {
+    "number": 10,
     "raw_lines": [
       "MODULE 2",
       "Core Harness Stack",
@@ -128,7 +124,7 @@
     ]
   },
   {
-    "number": 12,
+    "number": 11,
     "raw_lines": [
       "The 5 Harness Pillars",
       "Architecture",
@@ -140,7 +136,7 @@
     ]
   },
   {
-    "number": 13,
+    "number": 12,
     "raw_lines": [
       "Pillar 1: Memory Files",
       "CLAUDE.md vs AGENTS.md",
@@ -150,7 +146,7 @@
     ]
   },
   {
-    "number": 14,
+    "number": 13,
     "raw_lines": [
       "Pillar 2: Scoped Tools",
       "Least Privilege",
@@ -160,7 +156,7 @@
     ]
   },
   {
-    "number": 15,
+    "number": 14,
     "raw_lines": [
       "Pillar 3: Hooks",
       "Inspect Before and After",
@@ -170,34 +166,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_02_core_harness_stack/core_harness_stack.py",
-    "code_language": "python",
-    "code_block": "class CoreHarnessStack:\n    def validate_tool_permission(self, tool_name: str, target_path: str = None) -> bool:\n        allowed_tools = [\"read_file\", \"write_file\", \"run_test\", \"list_dir\"]\n        if tool_name not in allowed_tools:\n            self.log_event(\"PERMISSION_DENIED\", {\"reason\": f\"Tool '{tool_name}' not in allowed tool set.\"})\n            return False\n\n        if target_path:\n            workspace = Path(self.workspace_root).resolve()\n            abs_target = Path(target_path).resolve()\n            if not abs_target.is_relative_to(workspace):\n                self.log_event(\"PATH_TRAVERSAL_BLOCKED\", {\"path\": str(abs_target), \"workspace\": str(workspace)})\n                return False\n\n        self.log_event(\"PERMISSION_GRANTED\", {\"tool\": tool_name, \"path\": target_path})\n        return True\n\n    def run_post_edit_hook(self, file_path: str, code_content: str) -> bool:\n        if \"sk-proj-\" in code_content:\n            self.log_event(\"SECURITY_VIOLATION\", {\"file\": file_path, \"issue\": \"Hardcoded secret key!\"})\n            return False\n        if not code_content.strip():\n            self.log_event(\"QUALITY_VIOLATION\", {\"file\": file_path, \"issue\": \"Empty code edit proposal.\"})\n            return False\n        return True",
-    "raw_lines": [
-      "Module 2 Code: Tool Permissions & Post-Edit Audit",
-      "File: course_implementation/module_02_core_harness_stack/core_harness_stack.py",
-      "\u2022 validate_tool_permission(): enforces tool allowlist and blocks path traversal using is_relative_to().",
-      "\u2022 run_post_edit_hook(): inspects code proposals for API secrets (sk-proj-) and empty edits before writing.",
-      "\u2022 log_event(): records every check and decision to events.jsonl with ISO timestamps."
-    ],
-    "number": 16
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 2 Mechanics: Path Isolation & JSONL Audit",
-      "Key Architectural Insights",
-      "\u2022 Scoped Privilege: only allow registered tool set; deny unlisted tool requests before invocation.",
-      "\u2022 Path Sandboxing: Path.resolve().is_relative_to() prevents ../ escapes and sibling directory bypasses.",
-      "Token Budgeting & Observability",
-      "\u2022 ContextTokenBudgeter.compact_output() keeps 5 head and 15 tail lines, preventing compiler logs from swamping context.",
-      "\u2022 All operations are logged to events.jsonl as structured audit records."
-    ],
-    "number": 17
-  },
-  {
-    "number": 18,
+    "number": 15,
     "raw_lines": [
       "Pillars 4 & 5: Tests and Trace",
       "Budget and Audit",
@@ -208,7 +177,31 @@
     ]
   },
   {
-    "number": 19,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_02_core_harness_stack/core_harness_stack.py",
+    "code_language": "python",
+    "highlight_lines": [
+      4,
+      5,
+      11,
+      12,
+      13,
+      19,
+      20
+    ],
+    "code_block": "class CoreHarnessStack:\n    def validate_tool_permission(self, tool_name: str, target_path: str = None) -> bool:\n        # Line 3-6: Least-privilege tool allowlist\n        allowed_tools = [\"read_file\", \"write_file\", \"run_test\", \"list_dir\"]\n        if tool_name not in allowed_tools:\n            self.log_event(\"PERMISSION_DENIED\", {\"tool\": tool_name})\n            return False\n\n        # Line 9-14: Path sandboxing blocks directory traversal (../)\n        if target_path:\n            workspace = Path(self.workspace_root).resolve()\n            abs_target = Path(target_path).resolve()\n            if not abs_target.is_relative_to(workspace):\n                self.log_event(\"PATH_TRAVERSAL_BLOCKED\", {\"path\": str(abs_target)})\n                return False\n        return True\n\n    def run_post_edit_hook(self, file_path: str, code_content: str) -> bool:\n        # Line 19-21: Secret leak scanner blocks hardcoded credentials\n        if \"sk-proj-\" in code_content:\n            self.log_event(\"SECURITY_VIOLATION\", {\"file\": file_path, \"issue\": \"Secret key\"})\n            return False\n        return True",
+    "raw_lines": [
+      "Module 2 Code Lab: Tool Scoping, Path Sandboxing & Post-Edit Hook",
+      "File: course_implementation/module_02_core_harness_stack/core_harness_stack.py",
+      "\u2022 [Lines 4-5] Tool Permission Allowlist: Replaces unconstrained agent capabilities with an explicit allowed tool registry.",
+      "\u2022 [Lines 11-13] Path Sandboxing: Uses Path.resolve().is_relative_to() to prevent directory traversal (../) and external access.",
+      "\u2022 [Lines 19-20] Post-Edit Secret Scan: Inspects proposed code edits for hardcoded API keys (sk-proj-) before writing to disk.",
+      "\u2022 Audit Observability: All tool requests and hook decisions are logged to events.jsonl with ISO timestamps."
+    ],
+    "number": 16
+  },
+  {
+    "number": 17,
     "raw_lines": [
       "MODULE 3",
       "Spec-Driven Development",
@@ -218,7 +211,7 @@
     ]
   },
   {
-    "number": 20,
+    "number": 18,
     "raw_lines": [
       "Why Prompts Fail",
       "Specs Succeed",
@@ -228,7 +221,7 @@
     ]
   },
   {
-    "number": 21,
+    "number": 19,
     "raw_lines": [
       "SPEC.md Anatomy",
       "Required Sections",
@@ -239,7 +232,7 @@
     ]
   },
   {
-    "number": 22,
+    "number": 20,
     "raw_lines": [
       "Scope and Non-Goals",
       "Hard Boundaries",
@@ -249,7 +242,7 @@
     ]
   },
   {
-    "number": 23,
+    "number": 21,
     "raw_lines": [
       "Acceptance Criteria",
       "Vague vs Executable",
@@ -259,7 +252,7 @@
     ]
   },
   {
-    "number": 24,
+    "number": 22,
     "raw_lines": [
       "How Specs Are Used",
       "SDD Lifecycle",
@@ -269,34 +262,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
-    "code_language": "python",
-    "code_block": "class SpecVerifier:\n    def attempt_write(self, target_file: str, code: str) -> tuple[bool, str]:\n        relative = self._normalized(target_file)\n        dest = (self.workspace / relative).resolve()\n\n        if relative not in self.allowed_files or relative in self.forbidden_files:\n            print(f\"  [BLOCKED] SCOPE VIOLATION: '{relative}' outside allowed scope {self.allowed_files}.\")\n            return False, \"SCOPE_VIOLATION\"\n\n        if not dest.is_relative_to(self.workspace.resolve()):\n            print(f\"  [BLOCKED] PATH VIOLATION: '{dest}' escapes workspace.\")\n            return False, \"PATH_VIOLATION\"\n\n        lowered = code.lower()\n        if \"database\" in lowered or \"connect_db\" in lowered or \"oauth2\" in lowered:\n            print(\"  [BLOCKED] NON-GOAL VIOLATION: diff mentions database or OAuth2 refresh.\")\n            return False, \"NON_GOAL_VIOLATION\"\n\n        dest.parent.mkdir(parents=True, exist_ok=True)\n        dest.write_text(code, encoding=\"utf-8\")\n        ast.parse(code, filename=str(dest))\n        return True, str(dest)",
-    "raw_lines": [
-      "Module 3 Code: Scope & Non-Goal Spec Verifier",
-      "File: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
-      "\u2022 Scope Verification: blocks edits to files outside the spec (e.g. database.py rejected).",
-      "\u2022 Non-Goal Enforcement: rejects diffs containing non-goal keywords (database, oauth2).",
-      "\u2022 AST Verification: ast.parse() ensures syntactically valid Python before acceptance."
-    ],
-    "number": 25
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 3 Mechanics: Scope Enforcement & AST Check",
-      "Key Architectural Insights",
-      "\u2022 Strict Scope Enforcement: attempt_write() verifies normalized paths against parsed SPEC.md allowed list.",
-      "\u2022 Non-Goal Filtering: prevents unrequested architectural shifts (e.g. adding database layers to a stateless JWT validator).",
-      "Syntactic Correctness Guarantee",
-      "\u2022 ast.parse() validates syntax on all generated files before test execution, preventing broken builds.",
-      "\u2022 Acceptance criteria are verified against live pytest runs over the generated modules."
-    ],
-    "number": 26
-  },
-  {
-    "number": 27,
+    "number": 23,
     "raw_lines": [
       "Spec Verification",
       "Before Code Ships",
@@ -307,7 +273,29 @@
     ]
   },
   {
-    "number": 28,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+    "code_language": "python",
+    "highlight_lines": [
+      6,
+      7,
+      10,
+      11,
+      12,
+      18
+    ],
+    "code_block": "class SpecVerifier:\n    def attempt_write(self, target_file: str, code: str) -> tuple[bool, str]:\n        relative = self._normalized(target_file)\n        dest = (self.workspace / relative).resolve()\n\n        # Line 6-8: Strict scope boundary - only files listed in SPEC.md allowed\n        if relative not in self.allowed_files or relative in self.forbidden_files:\n            return False, \"SCOPE_VIOLATION\"  # Blocks database.py\n\n        # Line 10-13: Non-goals filter blocks unrequested architectural sprawl\n        lowered = code.lower()\n        if \"database\" in lowered or \"connect_db\" in lowered or \"oauth2\" in lowered:\n            return False, \"NON_GOAL_VIOLATION\"  # Blocks database connections\n\n        # Line 16-19: Syntax validation guarantees code compiles before save\n        dest.parent.mkdir(parents=True, exist_ok=True)\n        dest.write_text(code, encoding=\"utf-8\")\n        ast.parse(code, filename=str(dest))\n        return True, str(dest)",
+    "raw_lines": [
+      "Module 3 Code Lab: Spec Scope Enforcement & AST Validation",
+      "File: course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+      "\u2022 [Lines 6-7] Scope Whitelist: Enforces that file writes strictly match allowed_files in SPEC.md; rejects unapproved files (e.g. database.py).",
+      "\u2022 [Lines 10-12] Non-Goal Filtering: Scans diff content against explicit non-goals to prevent scope creep (e.g. database logic in a JWT validator).",
+      "\u2022 [Line 18] AST Parsing Gate: Runs ast.parse() before saving to ensure zero syntactically broken code reaches the workspace."
+    ],
+    "number": 24
+  },
+  {
+    "number": 25,
     "raw_lines": [
       "MODULE 4",
       "Guardrails and Hooks",
@@ -317,7 +305,7 @@
     ]
   },
   {
-    "number": 29,
+    "number": 26,
     "raw_lines": [
       "4-Layer Control",
       "Defense in Depth",
@@ -328,7 +316,7 @@
     ]
   },
   {
-    "number": 30,
+    "number": 27,
     "raw_lines": [
       "Claude Code Hooks",
       "What Actually Fires",
@@ -339,7 +327,7 @@
     ]
   },
   {
-    "number": 31,
+    "number": 28,
     "raw_lines": [
       "Post-Action Checks",
       "AST and Secrets",
@@ -349,7 +337,7 @@
     ]
   },
   {
-    "number": 32,
+    "number": 29,
     "raw_lines": [
       "Path Sandbox",
       "Stay in the Workspace",
@@ -359,7 +347,7 @@
     ]
   },
   {
-    "number": 33,
+    "number": 30,
     "raw_lines": [
       "Permission Modes",
       "Risk Tiers",
@@ -370,7 +358,7 @@
     ]
   },
   {
-    "number": 34,
+    "number": 31,
     "raw_lines": [
       "Evaluation Harnesses",
       "Score Behavior",
@@ -380,34 +368,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
-    "code_language": "python",
-    "code_block": "class ClaudeCodeHookInterceptor:\n    def intercept_pre_tool_use(self, tool_name: str, tool_input: dict) -> tuple[bool, str]:\n        command = tool_input.get(\"command\", \"\")\n        if tool_name == \"Bash\":\n            for flag in [\"--dangerously-skip-permissions\", \"-y\", \"--force-all\"]:\n                if flag in command:\n                    return False, f\"CLI flag '{flag}' is prohibited by enterprise policy.\"\n        return True, \"PreToolUse check passed.\"\n\n    @classmethod\n    def permission_output(cls, decision: str, reason: str) -> dict:\n        return {\"hookSpecificOutput\": {\n            \"hookEventName\": \"PreToolUse\",\n            \"permissionDecision\": decision,  # allow | deny | ask | defer\n            \"permissionDecisionReason\": reason,\n        }}\n\nclass GuardrailsEngine:\n    def audit_ast_and_secrets(self, file_path: str, code_content: str) -> tuple[bool, list[str]]:\n        try:\n            ast.parse(code_content, filename=file_path)\n        except SyntaxError as exc:\n            return False, [f\"AST Syntax Error on line {exc.lineno}: {exc.msg}\"]\n        if re.search(r\"(sk-proj-[A-Za-z0-9_\\-]{20,}|AKIA[0-9A-Z]{16})\", code_content):\n            return False, [\"SECURITY CRITICAL: Hardcoded API secret key detected!\"]\n        return True, [\"AST syntax valid. Zero secret leaks detected.\"]",
-    "raw_lines": [
-      "Module 4 Code: PreToolUse Interceptor & AST Audit",
-      "File: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
-      "\u2022 intercept_pre_tool_use(): blocks unsafe flags like --dangerously-skip-permissions.",
-      "\u2022 permission_output(): emits structured JSON for Claude Code's PreToolUse protocol.",
-      "\u2022 audit_ast_and_secrets(): parses AST syntax and scans for hardcoded API keys (sk-proj-, AKIA)."
-    ],
-    "number": 35
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 4 Mechanics: Hook Protocol & Secret Scanning",
-      "Key Architectural Insights",
-      "\u2022 Programmatic Enforcement: hooks run as external processes; LLM prompts cannot bypass an exit-code 2 hook or deny response.",
-      "\u2022 PreToolUse Interception: dangerous flags (--dangerously-skip-permissions) are intercepted and rejected at the gateway.",
-      "Post-Tool Static Guardrails",
-      "\u2022 audit_ast_and_secrets() performs AST compilation before saving to disk to prevent syntax errors.",
-      "\u2022 Scans code proposals for secret patterns (OpenAI sk-proj-, AWS AKIA), preventing token leaks before commits."
-    ],
-    "number": 36
-  },
-  {
-    "number": 37,
+    "number": 32,
     "raw_lines": [
       "Safety Checklist",
       "Three Must-Haves",
@@ -418,7 +379,31 @@
     ]
   },
   {
-    "number": 38,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
+    "code_language": "python",
+    "highlight_lines": [
+      5,
+      6,
+      12,
+      13,
+      14,
+      15,
+      22,
+      23
+    ],
+    "code_block": "class ClaudeCodeHookInterceptor:\n    def intercept_pre_tool_use(self, tool_name: str, tool_input: dict) -> tuple[bool, str]:\n        # Line 3-7: Intercepts dangerous CLI flags that attempt to bypass permissions\n        command = tool_input.get(\"command\", \"\")\n        if tool_name == \"Bash\":\n            for flag in [\"--dangerously-skip-permissions\", \"-y\", \"--force-all\"]:\n                if flag in command:\n                    return False, f\"CLI flag '{flag}' prohibited by policy.\"\n        return True, \"PreToolUse check passed.\"\n\n    @classmethod\n    def permission_output(cls, decision: str, reason: str) -> dict:\n        # Line 12-16: Emits standard Claude Code PreToolUse JSON schema\n        return {\"hookSpecificOutput\": {\n            \"hookEventName\": \"PreToolUse\",\n            \"permissionDecision\": decision,  # 'allow' | 'deny' | 'ask' | 'defer'\n            \"permissionDecisionReason\": reason,\n        }}\n\nclass GuardrailsEngine:\n    def audit_ast_and_secrets(self, file_path: str, code_content: str) -> tuple[bool, list[str]]:\n        # Line 21-25: Multi-vendor credential scan + AST syntax parser\n        ast.parse(code_content, filename=file_path)\n        if re.search(r\"(sk-proj-[A-Za-z0-9_\\-]{20,}|AKIA[0-9A-Z]{16})\", code_content):\n            return False, [\"CRITICAL: Hardcoded API secret key detected!\"]\n        return True, [\"AST syntax valid. Zero secrets.\"]",
+    "raw_lines": [
+      "Module 4 Code Lab: PreToolUse Interceptor & AST Secret Guardrails",
+      "File: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
+      "\u2022 [Lines 5-6] Flag Circumvention Blocking: Intercepts flags like --dangerously-skip-permissions before shell invocation.",
+      "\u2022 [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
+      "\u2022 [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (sk-proj-, AKIA) before writing files."
+    ],
+    "number": 33
+  },
+  {
+    "number": 34,
     "raw_lines": [
       "MODULE 5",
       "Break & Permission Gateways",
@@ -428,34 +413,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
-    "code_language": "python",
-    "code_block": "class PermissionEscalationGateway:\n    def evaluate_request(self, tool_name: str, params: dict, request_id: str) -> dict:\n        risk = self.risk_matrix.get(tool_name, \"HIGH\")\n        if risk == \"LOW\":\n            text = (self.workspace / params[\"path\"]).read_text(encoding=\"utf-8\")\n            self._log({\"event\": \"AUTO_APPROVED\", \"tool\": tool_name, \"path\": params[\"path\"]})\n            return {\"allowed\": True, \"content\": text}\n        if risk == \"MEDIUM\":\n            (self.workspace / params[\"path\"]).write_text(params[\"content\"], encoding=\"utf-8\")\n            self._log({\"event\": \"LOGGED_AND_APPROVED\", \"tool\": tool_name, \"path\": params[\"path\"]})\n            return {\"allowed\": True, \"path\": str(self.workspace / params[\"path\"])}\n        if risk == \"CRITICAL\":\n            approvals = self._approvals()\n            if request_id not in approvals:\n                self._log({\"event\": \"ESCALATION_BLOCKED\", \"tool\": tool_name, \"request_id\": request_id})\n                return {\"allowed\": False, \"reason\": \"missing_approval\"}\n            pending = {\"request_id\": request_id, \"tool\": tool_name, \"approved_by\": approvals[request_id]}\n            (self.workspace / \"pending_push.json\").write_text(json.dumps(pending, indent=2), encoding=\"utf-8\")\n            self._log({\"event\": \"CRITICAL_APPROVED_RECORDED\", \"tool\": tool_name, \"request_id\": request_id})\n            return {\"allowed\": True, \"pending_push\": str(self.workspace / \"pending_push.json\")}",
-    "raw_lines": [
-      "Module 5 Code: Permission Escalation Gateway",
-      "File: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
-      "\u2022 evaluate_request(): classifies requests by risk level (LOW, MEDIUM, HIGH, CRITICAL).",
-      "\u2022 Low-risk reads are auto-approved; medium-risk writes are audited.",
-      "\u2022 Critical tools (git_push) strictly require an approval entry in approvals.json."
-    ],
-    "number": 39
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 5 Mechanics: Approval Ledger & Audit Trail",
-      "Key Architectural Insights",
-      "\u2022 Human-in-the-Loop Safeguards: autonomous agents cannot unilaterally execute destructive or remote actions.",
-      "\u2022 Out-of-Band Approvals: critical requests look up a pre-approved request_id in approvals.json.",
-      "Pending Artifacts Over Direct Mutation",
-      "\u2022 Critical operations produce signed pending artifacts (pending_push.json) rather than invoking remote network calls directly.",
-      "\u2022 All permission evaluations and executions are recorded to audit.jsonl with UTC timestamps."
-    ],
-    "number": 40
-  },
-  {
-    "number": 41,
+    "number": 35,
     "raw_lines": [
       "Open Q&A",
       "Discussion",
@@ -466,7 +424,31 @@
     ]
   },
   {
-    "number": 42,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
+    "code_language": "python",
+    "highlight_lines": [
+      5,
+      9,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "code_block": "class PermissionEscalationGateway:\n    def evaluate_request(self, tool_name: str, params: dict, request_id: str) -> dict:\n        risk = self.risk_matrix.get(tool_name, \"HIGH\")\n\n        # Line 5-7: LOW risk (reads) -> Auto-approved\n        if risk == \"LOW\":\n            return {\"allowed\": True, \"content\": (self.workspace / params[\"path\"]).read_text(\"utf-8\")}\n\n        # Line 9-11: MEDIUM risk (writes) -> Logged and executed in sandbox\n        if risk == \"MEDIUM\":\n            (self.workspace / params[\"path\"]).write_text(params[\"content\"], encoding=\"utf-8\")\n            return {\"allowed\": True, \"path\": str(self.workspace / params[\"path\"])}\n\n        # Line 13-20: CRITICAL risk (git_push) -> Strictly gated by approvals.json\n        if risk == \"CRITICAL\":\n            approvals = self._approvals()  # reads approvals.json\n            if request_id not in approvals:\n                self._log({\"event\": \"ESCALATION_BLOCKED\", \"request_id\": request_id})\n                return {\"allowed\": False, \"reason\": \"missing_approval\"}\n            pending = {\"request_id\": request_id, \"approved_by\": approvals[request_id]}\n            (self.workspace / \"pending_push.json\").write_text(json.dumps(pending, indent=2), encoding=\"utf-8\")\n            return {\"allowed\": True, \"pending_push\": str(self.workspace / \"pending_push.json\")}",
+    "raw_lines": [
+      "Module 5 Code Lab: Permission Escalation Gateway & Ledger",
+      "File: course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
+      "\u2022 [Line 5] Risk Classification: Auto-approves safe read-only operations (LOW risk) without slowing down the agent.",
+      "\u2022 [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
+      "\u2022 [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
+    ],
+    "number": 36
+  },
+  {
+    "number": 37,
     "raw_lines": [
       "MODULE 6",
       "Tests as Reliability",
@@ -476,7 +458,7 @@
     ]
   },
   {
-    "number": 43,
+    "number": 38,
     "raw_lines": [
       "TDA Loop",
       "Red, Repair, Green",
@@ -487,7 +469,7 @@
     ]
   },
   {
-    "number": 44,
+    "number": 39,
     "raw_lines": [
       "Test Tiers",
       "What to Run",
@@ -497,7 +479,7 @@
     ]
   },
   {
-    "number": 45,
+    "number": 40,
     "raw_lines": [
       "Traceback Feedback",
       "No Copy-Paste",
@@ -507,7 +489,7 @@
     ]
   },
   {
-    "number": 46,
+    "number": 41,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -517,34 +499,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
-    "code_language": "python",
-    "code_block": "class TDAReliabilityPipeline:\n    def run_test_suite(self, code_under_test: str) -> dict:\n        self.code_file.write_text(code_under_test, encoding=\"utf-8\")\n        result = subprocess.run(\n            [sys.executable, \"-m\", \"pytest\", self.test_file.name, \"-q\", \"--tb=short\", \"-p\", \"no:cacheprovider\"],\n            cwd=self.scratch_dir, capture_output=True, text=True, encoding=\"utf-8\",\n            env={**os.environ, \"PYTHONDONTWRITEBYTECODE\": \"1\"}\n        )\n        output = result.stdout + (result.stderr or \"\")\n        summary = self._summary_line(output)\n        if result.returncode != 0:\n            return {\"passed\": False, \"traceback\": output, \"returncode\": result.returncode}\n        return {\"passed\": True, \"summary\": summary}\n\n    def format_fix_prompt(self, traceback_str: str) -> str:\n        return f\"System Instruction: Fix the following pytest failure output:\\n```\\n{traceback_str}\\n```\"\n\n    def register_anti_regression_test(self, bug_name: str, test_code: str) -> dict:\n        with self.test_file.open(\"a\", encoding=\"utf-8\") as handle:\n            handle.write(f\"\\n\\n{test_code.rstrip()}\\n\")\n        return self.run_test_suite(self.code_file.read_text(encoding=\"utf-8\"))",
-    "raw_lines": [
-      "Module 6 Code: TDA Pipeline & Traceback Feedback",
-      "File: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
-      "\u2022 run_test_suite(): executes real pytest subprocess and captures stdout/stderr.",
-      "\u2022 format_fix_prompt(): formats raw pytest tracebacks directly into agent repair prompts.",
-      "\u2022 register_anti_regression_test(): permanently appends bug test cases to prevent regressions."
-    ],
-    "number": 47
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 6 Mechanics: Subprocess Pytest & Anti-Regression",
-      "Key Architectural Insights",
-      "\u2022 Deterministic Ground Truth: subprocess execution ensures pytest runs against the real Python environment.",
-      "\u2022 Automated Feedback Loop: captures exact traceback (e.g. ZeroDivisionError) without human copy-paste.",
-      "Anti-Regression Safeguard Ratchet",
-      "\u2022 register_anti_regression_test() permanently appends every discovered edge-case to the test suite.",
-      "\u2022 Prevents 'fix-and-break' regressions where newer agent edits silently break existing features."
-    ],
-    "number": 48
-  },
-  {
-    "number": 49,
+    "number": 42,
     "raw_lines": [
       "Reliability Metrics",
       "Watch These",
@@ -555,7 +510,31 @@
     ]
   },
   {
-    "number": 50,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+    "code_language": "python",
+    "highlight_lines": [
+      4,
+      5,
+      6,
+      12,
+      13,
+      18,
+      19,
+      20
+    ],
+    "code_block": "class TDAReliabilityPipeline:\n    def run_test_suite(self, code_under_test: str) -> dict:\n        self.code_file.write_text(code_under_test, encoding=\"utf-8\")\n        # Line 4-9: Real pytest subprocess with isolated environment\n        result = subprocess.run(\n            [sys.executable, \"-m\", \"pytest\", self.test_file.name, \"-q\", \"--tb=short\", \"-p\", \"no:cacheprovider\"],\n            cwd=self.scratch_dir, capture_output=True, text=True, encoding=\"utf-8\",\n            env={**os.environ, \"PYTHONDONTWRITEBYTECODE\": \"1\"}\n        )\n        output = result.stdout + (result.stderr or \"\")\n        # Line 12-14: Non-zero exit code captures traceback for prompt feedback\n        if result.returncode != 0:\n            return {\"passed\": False, \"traceback\": output, \"returncode\": result.returncode}\n        return {\"passed\": True, \"summary\": self._summary_line(output)}\n\n    def register_anti_regression_test(self, bug_name: str, test_code: str) -> dict:\n        # Line 18-20: Discovered bugs permanently append to test suite\n        with self.test_file.open(\"a\", encoding=\"utf-8\") as handle:\n            handle.write(f\"\\n\\n{test_code.rstrip()}\\n\")\n        return self.run_test_suite(self.code_file.read_text(encoding=\"utf-8\"))",
+    "raw_lines": [
+      "Module 6 Code Lab: TDA Pytest Subprocess & Anti-Regression Suite",
+      "File: course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
+      "\u2022 [Lines 4-6] Real Pytest Subprocess: Replaces unverified agent claims with deterministic subprocess exit codes.",
+      "\u2022 [Lines 12-13] Traceback Capture: Captures raw failure output (ZeroDivisionError) directly into the agent repair prompt.",
+      "\u2022 [Lines 18-20] Anti-Regression Safeguard: Automatically appends new bug regression tests to prevent \"fix-and-break\" cycles."
+    ],
+    "number": 43
+  },
+  {
+    "number": 44,
     "raw_lines": [
       "MODULE 7",
       "Skills, Plugins, MCP",
@@ -565,7 +544,7 @@
     ]
   },
   {
-    "number": 51,
+    "number": 45,
     "raw_lines": [
       "Agent Skills",
       "SKILL.md",
@@ -575,7 +554,7 @@
     ]
   },
   {
-    "number": 52,
+    "number": 46,
     "raw_lines": [
       "Skill Layout",
       "What Goes Where",
@@ -585,7 +564,7 @@
     ]
   },
   {
-    "number": 53,
+    "number": 47,
     "raw_lines": [
       "Plugins",
       "One Manifest",
@@ -595,7 +574,7 @@
     ]
   },
   {
-    "number": 54,
+    "number": 48,
     "raw_lines": [
       "MCP Foundation",
       "Three Different Numbers",
@@ -606,7 +585,7 @@
     ]
   },
   {
-    "number": 55,
+    "number": 49,
     "raw_lines": [
       "MCP Transports",
       "Local vs Remote",
@@ -616,7 +595,7 @@
     ]
   },
   {
-    "number": 56,
+    "number": 50,
     "raw_lines": [
       "MCP Python SDK",
       "2.x Authoring",
@@ -627,34 +606,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py",
-    "code_language": "python",
-    "code_block": "# MCP Server 2.x Authoring (mcp_server_demo.py)\nfrom mcp.server.mcpserver import MCPServer\nmcp = MCPServer(\"Harness-Enterprise-Tools\")\n\n@mcp.tool()\ndef query_database_record(record_id: int) -> str:\n    return f\"DB_RECORD #{record_id}: status=ACTIVE, owner=admin, env=production\"\n\n@mcp.resource(\"config://app-settings\")\ndef app_settings() -> str:\n    return json.dumps({\"application\": \"harness-enterprise\", \"record_access\": \"read-only\"})\n\nif __name__ == \"__main__\":\n    mcp.run()  # JSON-RPC over stdio\n\n# Async Client Test Runner (mcp_client_runner.py)\nserver_params = StdioServerParameters(command=sys.executable, args=[\"mcp_server_demo.py\"])\nasync with stdio_client(server_params) as (read_stream, write_stream):\n    async with ClientSession(read_stream, write_stream) as session:\n        await session.initialize()\n        tools = await session.list_tools()\n        result = await session.call_tool(\"query_database_record\", arguments={\"record_id\": 4092})\n        resource = await session.read_resource(\"config://app-settings\")",
-    "raw_lines": [
-      "Module 7 Code: MCP Server & Client Runner",
-      "File: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py",
-      "\u2022 MCPServer: exposes @mcp.tool() callable actions and @mcp.resource() read-only data URIs.",
-      "\u2022 StdioServerParameters: launches server subprocess communicating via JSON-RPC stdio streams.",
-      "\u2022 ClientSession: handles initialize handshake, tool discovery, tool calls, and resource reads."
-    ],
-    "number": 57
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 7 Mechanics: Stdio Protocol & Capability Discovery",
-      "Key Architectural Insights",
-      "\u2022 Tools vs. Resources: tools represent callable actions with side effects; resources represent read-only URI data.",
-      "\u2022 SDK 2.x Authoring: uses MCPServer rather than legacy FastMCP wrappers.",
-      "Stdio Protocol Wire Flow",
-      "\u2022 ClientSession initializes session -> calls tools/list to inspect schemas -> executes tools/call with typed arguments.",
-      "\u2022 Resources are read-only documents queried via standard URIs (config://app-settings)."
-    ],
-    "number": 58
-  },
-  {
-    "number": 59,
+    "number": 51,
     "raw_lines": [
       "MCP Governance",
       "Lock It Down",
@@ -665,7 +617,31 @@
     ]
   },
   {
-    "number": 60,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py",
+    "code_language": "python",
+    "highlight_lines": [
+      5,
+      6,
+      9,
+      10,
+      18,
+      19,
+      20,
+      21
+    ],
+    "code_block": "# MCP Server 2.x SDK (mcp_server_demo.py)\nfrom mcp.server.mcpserver import MCPServer\nmcp = MCPServer(\"Harness-Enterprise-Tools\")\n\n# Line 5-7: Callable tool with arguments and execution side-effects\n@mcp.tool()\ndef query_database_record(record_id: int) -> str:\n    return f\"DB_RECORD #{record_id}: status=ACTIVE, owner=admin, env=production\"\n\n# Line 9-11: Read-only resource URI schema\n@mcp.resource(\"config://app-settings\")\ndef app_settings() -> str:\n    return json.dumps({\"application\": \"harness-enterprise\", \"record_access\": \"read-only\"})\n\n# Client Session Runner (mcp_client_runner.py)\nserver_params = StdioServerParameters(command=sys.executable, args=[\"mcp_server_demo.py\"])\nasync with stdio_client(server_params) as (read_stream, write_stream):\n    async with ClientSession(read_stream, write_stream) as session:\n        # Line 18-21: Handshake, dynamic discovery & execution over stdio\n        await session.initialize()\n        tools = await session.list_tools()\n        result = await session.call_tool(\"query_database_record\", arguments={\"record_id\": 4092})\n        resource = await session.read_resource(\"config://app-settings\")",
+    "raw_lines": [
+      "Module 7 Code Lab: MCP Server & Async Client stdio Protocol",
+      "File: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py",
+      "\u2022 [Line 5] @mcp.tool Decorator: Defines callable actions with parameters and execution capabilities.",
+      "\u2022 [Line 9] @mcp.resource Decorator: Exposes read-only application state over standard URIs (config://).",
+      "\u2022 [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls."
+    ],
+    "number": 52
+  },
+  {
+    "number": 53,
     "raw_lines": [
       "MODULE 8",
       "Compound Engineering",
@@ -675,7 +651,7 @@
     ]
   },
   {
-    "number": 61,
+    "number": 54,
     "raw_lines": [
       "Why Multi-Agent",
       "One Brain Overloads",
@@ -685,7 +661,7 @@
     ]
   },
   {
-    "number": 62,
+    "number": 55,
     "raw_lines": [
       "Planner",
       "Architect",
@@ -695,7 +671,7 @@
     ]
   },
   {
-    "number": 63,
+    "number": 56,
     "raw_lines": [
       "Implementer",
       "Constrained Coder",
@@ -705,7 +681,7 @@
     ]
   },
   {
-    "number": 64,
+    "number": 57,
     "raw_lines": [
       "Reviewer",
       "Independent Audit",
@@ -715,7 +691,7 @@
     ]
   },
   {
-    "number": 65,
+    "number": 58,
     "raw_lines": [
       "Worktree Isolation",
       "isolation: worktree",
@@ -725,7 +701,7 @@
     ]
   },
   {
-    "number": 66,
+    "number": 59,
     "raw_lines": [
       "Subagent Context",
       "Pass Less",
@@ -735,34 +711,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
-    "code_language": "python",
-    "code_block": "class WorktreeIsolation:\n    def add(self) -> Path:\n        stamp = datetime.now(timezone.utc).strftime(\"%Y%m%d%H%M%S%f\")\n        self.branch = f\"module08-agent-{os.getpid()}-{stamp}\"\n        self.path = Path(os.environ.get(\"TEMP\", str(MODULE_DIR))) / self.branch\n        subprocess.run([\"git\", \"worktree\", \"add\", \"-b\", self.branch, str(self.path), \"HEAD\"], cwd=self.repo_root)\n        return self.path\n\n    def remove(self) -> None:\n        if self.path and self.branch:\n            subprocess.run([\"git\", \"worktree\", \"remove\", \"--force\", str(self.path)], cwd=self.repo_root)\n            subprocess.run([\"git\", \"branch\", \"-D\", self.branch], cwd=self.repo_root)\n\nclass MultiAgentTeam:\n    def run_implementer(self, subtask: dict, master_spec: str) -> Path:\n        focused = self.isolator.extract_sub_spec(master_spec, subtask[\"name\"])\n        target = self.workspace_root / subtask[\"target_file\"]\n        target.write_text(auth_validator_source(), encoding=\"utf-8\")\n        return target\n\n    def run_reviewer(self, target_file: str) -> dict:\n        target = self.workspace_root / target_file\n        ast.parse(target.read_text(encoding=\"utf-8\"))  # Independent audit",
-    "raw_lines": [
-      "Module 8 Code: Git Worktree Isolation & Sub-Spec Extractor",
-      "File: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
-      "\u2022 WorktreeIsolation: creates dedicated git worktrees and branches for isolated implementer workspaces.",
-      "\u2022 SubagentPromptIsolator: filters master spec to pass only task-relevant lines, preventing context bloat.",
-      "\u2022 MultiAgentTeam: coordinates Planner (design), Implementer (isolated write), and Reviewer (AST/tests)."
-    ],
-    "number": 67
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 8 Mechanics: Isolated Worktrees & Telemetry Loop",
-      "Key Architectural Insights",
-      "\u2022 True Git Sandboxing: WorktreeIsolation isolates edits to dedicated branches, preventing main branch pollution.",
-      "\u2022 Focused Subagent Contexts: passing only sub-spec slices keeps subagent context windows lean and focused.",
-      "Independent Review & Telemetry",
-      "\u2022 The Reviewer audits code in a clean context window, eliminating confirmation bias.",
-      "\u2022 Telemetry logging (telemetry.jsonl) records error patterns to guide ongoing AGENTS.md refinements."
-    ],
-    "number": 68
-  },
-  {
-    "number": 69,
+    "number": 60,
     "raw_lines": [
       "Self-Improvement",
       "Close the Loop",
@@ -773,7 +722,30 @@
     ]
   },
   {
-    "number": 70,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
+    "code_language": "python",
+    "highlight_lines": [
+      4,
+      5,
+      6,
+      11,
+      12,
+      18,
+      19
+    ],
+    "code_block": "class WorktreeIsolation:\n    def add(self) -> Path:\n        # Line 3-7: Creates ephemeral git worktree branch for isolated implementer\n        stamp = datetime.now(timezone.utc).strftime(\"%Y%m%d%H%M%S%f\")\n        self.branch = f\"module08-agent-{os.getpid()}-{stamp}\"\n        self.path = Path(os.environ.get(\"TEMP\", str(MODULE_DIR))) / self.branch\n        subprocess.run([\"git\", \"worktree\", \"add\", \"-b\", self.branch, str(self.path), \"HEAD\"], cwd=self.repo_root)\n        return self.path\n\n    def remove(self) -> None:\n        # Line 10-13: Cleans up worktree and temporary branch after completion\n        if self.path and self.branch:\n            subprocess.run([\"git\", \"worktree\", \"remove\", \"--force\", str(self.path)], cwd=self.repo_root)\n            subprocess.run([\"git\", \"branch\", \"-D\", self.branch], cwd=self.repo_root)\n\nclass MultiAgentTeam:\n    def run_implementer(self, subtask: dict, master_spec: str) -> Path:\n        # Line 18-20: Sub-spec isolation minimizes token context window\n        focused = self.isolator.extract_sub_spec(master_spec, subtask[\"name\"])\n        target = self.workspace_root / subtask[\"target_file\"]\n        target.write_text(auth_validator_source(), encoding=\"utf-8\")\n        return target",
+    "raw_lines": [
+      "Module 8 Code Lab: Git Worktree Isolation & Multi-Agent Team",
+      "File: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
+      "\u2022 [Lines 4-6] Git Worktree Isolation: Creates ephemeral git worktree branches so implementer edits never dirty main.",
+      "\u2022 [Lines 11-12] Clean Workspace Teardown: Safely removes temporary worktrees and branches after testing.",
+      "\u2022 [Lines 18-19] Sub-Spec Extraction: Delivers focused task slices to subagents, preventing context window fatigue."
+    ],
+    "number": 61
+  },
+  {
+    "number": 62,
     "raw_lines": [
       "MODULE 9",
       "Practical SOP",
@@ -783,7 +755,7 @@
     ]
   },
   {
-    "number": 71,
+    "number": 63,
     "raw_lines": [
       "Five-Step SOP",
       "The Pipeline",
@@ -795,7 +767,7 @@
     ]
   },
   {
-    "number": 72,
+    "number": 64,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -805,7 +777,7 @@
     ]
   },
   {
-    "number": 73,
+    "number": 65,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -815,34 +787,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
-    "code_language": "python",
-    "code_block": "class FiveStepSOPPipeline:\n    def run_pipeline(self, feature_name: str) -> int:\n        # Step 1: Spec First\n        allowed_files, non_goals = parse_spec(self.spec_path)\n\n        with tempfile.TemporaryDirectory(prefix=\"module09_pipeline_\") as temp:\n            workspace = Path(temp)\n            # Step 2: Constrained Execution\n            enforcer = ScopeEnforcer(workspace, allowed_files)\n            enforcer.attempt_write(\"auth_validator.py\", implementation)\n            enforcer.attempt_write(\"database.py\", \"...\")  # BLOCKED: Out-of-scope\n\n            # Step 3: Deterministic Checks\n            engine = GuardrailsEngine(workspace)\n            engine.audit_ast_and_secrets(\"auth_validator.py\", implementation)\n            engine.intercept_shell_command(\"sudo rm -rf /var/config\")  # BLOCKED\n\n            # Step 4: Test Verification\n            subprocess.run([sys.executable, \"-m\", \"pytest\", \"tests/test_auth.py\", \"-q\"], cwd=workspace)\n\n            # Step 5: Human Review & Diff\n            diff = difflib.unified_diff(original.splitlines(), implementation.splitlines())",
-    "raw_lines": [
-      "Module 9 Code: End-to-End 5-Step SOP Pipeline",
-      "File: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
-      "\u2022 Orchestrates all 5 steps into a single verifiable execution pipeline.",
-      "\u2022 Rejects out-of-scope files, blocks dangerous shell commands, and verifies AST syntax.",
-      "\u2022 Runs real pytest subprocesses and renders clean unified diffs for human review."
-    ],
-    "number": 74
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 9 Mechanics: Pipeline Orchestration & PR Review",
-      "Key Architectural Insights",
-      "\u2022 Sequential Gate Verification: no code lands without passing every gate (Spec -> Scope -> Hooks -> Tests -> Review).",
-      "\u2022 Objective Pass/Fail Evidence: all checks are backed by real subprocess exits and AST inspections.",
-      "Human Review as the Final Barrier",
-      "\u2022 Step 5 generates unified diffs (difflib.unified_diff) for human review before any merge.",
-      "\u2022 PR merges remain strictly out-of-band to preserve engineer accountability."
-    ],
-    "number": 75
-  },
-  {
-    "number": 76,
+    "number": 66,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -853,7 +798,34 @@
     ]
   },
   {
-    "number": 77,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+    "code_language": "python",
+    "highlight_lines": [
+      4,
+      9,
+      10,
+      11,
+      14,
+      15,
+      16,
+      19,
+      22
+    ],
+    "code_block": "class FiveStepSOPPipeline:\n    def run_pipeline(self, feature_name: str) -> int:\n        # Step 1 (Line 4): Spec First - Parse allowed files and non-goals\n        allowed_files, non_goals = parse_spec(self.spec_path)\n\n        with tempfile.TemporaryDirectory(prefix=\"module09_pipeline_\") as temp:\n            workspace = Path(temp)\n            # Step 2 (Line 9-11): Constrained Execution - Scope enforcer blocks unlisted files\n            enforcer = ScopeEnforcer(workspace, allowed_files)\n            enforcer.attempt_write(\"auth_validator.py\", implementation)\n            enforcer.attempt_write(\"database.py\", \"...\")  # BLOCKED: Out-of-scope\n\n            # Step 3 (Line 14-16): Deterministic Checks - AST syntax & shell guardrails\n            engine = GuardrailsEngine(workspace)\n            engine.audit_ast_and_secrets(\"auth_validator.py\", implementation)\n            engine.intercept_shell_command(\"sudo rm -rf /var/config\")  # BLOCKED\n\n            # Step 4 (Line 19): Test Verification - Pytest subprocess gate\n            subprocess.run([sys.executable, \"-m\", \"pytest\", \"tests/test_auth.py\", \"-q\"], cwd=workspace)\n\n            # Step 5 (Line 22): Human Review - Unified diff generation for PR\n            diff = difflib.unified_diff(original.splitlines(), implementation.splitlines())",
+    "raw_lines": [
+      "Module 9 Code Lab: End-to-End Five-Step SOP Pipeline",
+      "File: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+      "\u2022 [Line 4] Step 1 Spec First: Parses immutable contracts and non-goals before code generation.",
+      "\u2022 [Lines 9-11] Step 2 Sandbox Execution: Blocks out-of-scope file modifications (database.py).",
+      "\u2022 [Lines 14-16] Step 3 Deterministic Checks: Verifies AST syntax and blocks dangerous shell commands.",
+      "\u2022 [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
+      "\u2022 [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
+    ],
+    "number": 67
+  },
+  {
+    "number": 68,
     "raw_lines": [
       "MODULE 10",
       "Principles and Audit",
@@ -863,7 +835,7 @@
     ]
   },
   {
-    "number": 78,
+    "number": 69,
     "raw_lines": [
       "Four Principles",
       "What to Optimize",
@@ -874,7 +846,7 @@
     ]
   },
   {
-    "number": 79,
+    "number": 70,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -886,34 +858,7 @@
     ]
   },
   {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_10_closing_and_principles/production_harness_audit.py",
-    "code_language": "python",
-    "code_block": "class ProductionHarnessAuditor:\n    def check_memory_files(self) -> tuple[bool, str]:\n        found = [n for n in (\"CLAUDE.md\", \"AGENTS.md\") if (self.target_dir / n).is_file()]\n        return bool(found), f\"found regular file(s): {', '.join(found)}\"\n\n    def check_pre_execution_hooks(self) -> tuple[bool, str]:\n        settings = json.loads((self.target_dir / \".claude\" / \"settings.json\").read_text(encoding=\"utf-8\"))\n        registrations = settings.get(\"hooks\", {}).get(\"PreToolUse\", [])\n        return bool(registrations), \"PreToolUse hook registered with valid matcher\"\n\n    def check_test_runner(self) -> tuple[bool, str]:\n        runner = self.target_dir / \"run_all_modules.py\"\n        res = subprocess.run([sys.executable, \"-m\", \"pytest\", \"--version\"], capture_output=True)\n        return (runner.is_file() and res.returncode == 0), f\"Runner valid & {res.stdout.strip()}\"\n\n    def check_mcp_scoped_tools(self) -> tuple[bool, str]:\n        # AST-walks python files to verify @mcp.tool and @mcp.resource declarations\n        return True, \"Found @mcp.tool and @mcp.resource declarations\"",
-    "raw_lines": [
-      "Module 10 Code: Production Harness Auditor",
-      "File: course_implementation/module_10_closing_and_principles/production_harness_audit.py",
-      "\u2022 ProductionHarnessAuditor: evaluates 5 objective readiness gates across the codebase.",
-      "\u2022 Audits memory files, PreToolUse settings, test runner validity, MCP tool declarations, and subagents.",
-      "\u2022 Replaces subjective assertions with evidence-backed inspection."
-    ],
-    "number": 80
-  },
-  {
-    "slide_type": "explanation",
-    "raw_lines": [
-      "Module 10 Mechanics: Readiness Scorecard & Audit Gates",
-      "Key Architectural Insights",
-      "\u2022 Objective Repository Auditing: inspects configuration files, AST node trees, and scripts programmatically.",
-      "\u2022 Five Audit Gates: Memory files (1), PreToolUse hooks (2), Automated test runner (3), MCP tool/resource declarations (4), and Subagent definitions (5).",
-      "Production Readiness Benchmark",
-      "\u2022 Masterclass repository achieves 100% PASS across all five readiness gates.",
-      "\u2022 Readily integrable into CI/CD pipelines to prevent harness regressions before agent deployment."
-    ],
-    "number": 81
-  },
-  {
-    "number": 82,
+    "number": 71,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -922,5 +867,32 @@
       "\u2022 Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md",
       "\u2022 Questions"
     ]
+  },
+  {
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_10_closing_and_principles/production_harness_audit.py",
+    "code_language": "python",
+    "highlight_lines": [
+      3,
+      4,
+      8,
+      9,
+      10,
+      14,
+      15,
+      16,
+      20
+    ],
+    "code_block": "class ProductionHarnessAuditor:\n    def check_memory_files(self) -> tuple[bool, str]:\n        # Gate 1 (Line 3-4): Inspects project memory files (CLAUDE.md, AGENTS.md)\n        found = [n for n in (\"CLAUDE.md\", \"AGENTS.md\") if (self.target_dir / n).is_file()]\n        return bool(found), f\"found memory files: {', '.join(found)}\"\n\n    def check_pre_execution_hooks(self) -> tuple[bool, str]:\n        # Gate 2 (Line 8-10): Programmatically parses .claude/settings.json PreToolUse hooks\n        settings = json.loads((self.target_dir / \".claude\" / \"settings.json\").read_text(\"utf-8\"))\n        registrations = settings.get(\"hooks\", {}).get(\"PreToolUse\", [])\n        return bool(registrations), \"PreToolUse hook registered with valid matcher\"\n\n    def check_test_runner(self) -> tuple[bool, str]:\n        # Gate 3 (Line 14-16): Verifies test runner and pytest subprocess exit code\n        runner = self.target_dir / \"run_all_modules.py\"\n        res = subprocess.run([sys.executable, \"-m\", \"pytest\", \"--version\"], capture_output=True)\n        return (runner.is_file() and res.returncode == 0), f\"Runner valid & {res.stdout.strip()}\"\n\n    def check_mcp_scoped_tools(self) -> tuple[bool, str]:\n        # Gate 4 (Line 20): AST-walks python code to verify @mcp.tool and @mcp.resource\n        return True, \"Found @mcp.tool and @mcp.resource declarations\"",
+    "raw_lines": [
+      "Module 10 Code Lab: Production Harness 5-Gate Auditor",
+      "File: course_implementation/module_10_closing_and_principles/production_harness_audit.py",
+      "\u2022 [Lines 3-4] Gate 1 Memory Files: Validates presence of persistent guidance (CLAUDE.md, AGENTS.md).",
+      "\u2022 [Lines 8-10] Gate 2 PreToolUse Hooks: Verifies hook configuration in .claude/settings.json.",
+      "\u2022 [Lines 14-16] Gate 3 Test Runner: Validates executable pytest runner and test infrastructure.",
+      "\u2022 [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
+      "\u2022 Production Scorecard: Programmatically benchmarks repository readiness with 100% PASS."
+    ],
+    "number": 72
   }
 ]

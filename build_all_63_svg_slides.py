@@ -8,54 +8,68 @@ data_path = os.path.join(ROOT_DIR, 'harness_course_presentation', 'slides_data.j
 with open(data_path, 'r', encoding='utf-8') as f:
     slides = json.load(f)
 
-def highlight_python(code):
-    """Convert raw Python code into syntax-highlighted HTML span tokens."""
+def highlight_python(code, highlight_lines=None):
+    """Convert raw Python code into syntax-highlighted HTML lines with line numbers and key-line badges using single-pass tokenization."""
+    if highlight_lines is None:
+        highlight_lines = []
+    
+    kw_list = r'(?:class|def|return|if|elif|else|for|in|raise|import|from|as|None|True|False|not|and|or|async|with|await|try|except|finally|pass|while|break|continue)'
+    type_list = r'(?:str|dict|int|list|tuple|bool|set|bytes|Path|subprocess|re|json|ast|sys|os|datetime|timezone|tempfile|shutil|difflib|MCPServer|ClientSession|StdioServerParameters|CourseLLMClient|PermissionError|RuntimeError|ValueError|SyntaxError)'
+    
+    token_spec = [
+        ('COMMENT',   r'#[^\n]*'),
+        ('STRING',    r'"""[\s\S]*?"""|\'\'\'[\s\S]*?\'\'\'|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\''),
+        ('DECORATOR', r'@[A-Za-z0-9_\.]+(?:\([^\)]*\))?'),
+        ('DEF_FUNC',  r'\bdef\s+[A-Za-z0-9_]+'),
+        ('CLASS_NAME',r'\bclass\s+[A-Za-z0-9_]+'),
+        ('KEYWORD',   r'\b' + kw_list + r'\b'),
+        ('TYPE',      r'\b' + type_list + r'\b'),
+    ]
+    
+    master_pattern = re.compile('|'.join(f'(?P<{name}>{pattern})' for name, pattern in token_spec))
+    
     lines = code.splitlines()
     highlighted_lines = []
     
-    keywords = r'\b(class|def|return|if|elif|else|for|in|raise|import|from|as|None|True|False|not|and|or|async|with|await|try|except|finally|pass|while|break|continue)\b'
-    types_and_builtins = r'\b(str|dict|int|list|tuple|bool|set|bytes|Path|subprocess|re|json|ast|sys|os|datetime|timezone|tempfile|shutil|difflib|MCPServer|ClientSession|StdioServerParameters|CourseLLMClient|PermissionError|RuntimeError|ValueError|SyntaxError)\b'
-    
-    for line in lines:
-        comment_idx = -1
-        in_str = False
-        quote_char = None
-        for i, ch in enumerate(line):
-            if ch in ('"', "'"):
-                if not in_str:
-                    in_str = True
-                    quote_char = ch
-                elif ch == quote_char and (i == 0 or line[i-1] != '\\'):
-                    in_str = False
-                    quote_char = None
-            elif ch == '#' and not in_str:
-                comment_idx = i
-                break
+    for i, line in enumerate(lines, start=1):
+        is_highlighted = i in highlight_lines
+        last_idx = 0
+        line_html_parts = []
         
-        if comment_idx != -1:
-            code_part = line[:comment_idx]
-            comment_part = line[comment_idx:]
-        else:
-            code_part = line
-            comment_part = ''
+        for match in master_pattern.finditer(line):
+            start, end = match.span()
+            if start > last_idx:
+                line_html_parts.append(html.escape(line[last_idx:start]))
             
-        code_esc = html.escape(code_part)
-        comment_esc = html.escape(comment_part)
-        
-        def repl_str(m):
-            return f'<span class="tok-str">{m.group(0)}</span>'
-        code_esc = re.sub(r'(&quot;.*?&quot;|&#x27;.*?&#x27;|\'.*?\'|".*?")', repl_str, code_esc)
-        code_esc = re.sub(r'(@[A-Za-z0-9_\.]+(?:\(.*?\))?)', r'<span class="tok-dec">\1</span>', code_esc)
-        code_esc = re.sub(keywords, r'<span class="tok-kw">\1</span>', code_esc)
-        code_esc = re.sub(types_and_builtins, r'<span class="tok-typ">\1</span>', code_esc)
-        code_esc = re.sub(r'(def\s+)([A-Za-z0-9_]+)', r'\1<span class="tok-fn">\2</span>', code_esc)
-        code_esc = re.sub(r'(class\s+)([A-Za-z0-9_]+)', r'\1<span class="tok-cls">\2</span>', code_esc)
-        
-        if comment_part:
-            line_html = f'{code_esc}<span class="tok-com">{comment_esc}</span>'
-        else:
-            line_html = code_esc
+            kind = match.lastgroup
+            val = match.group()
             
+            if kind == 'COMMENT':
+                line_html_parts.append(f'<span class="tok-com">{html.escape(val)}</span>')
+            elif kind == 'STRING':
+                line_html_parts.append(f'<span class="tok-str">{html.escape(val)}</span>')
+            elif kind == 'DECORATOR':
+                line_html_parts.append(f'<span class="tok-dec">{html.escape(val)}</span>')
+            elif kind == 'DEF_FUNC':
+                fn_name = val.split(None, 1)[1]
+                line_html_parts.append(f'<span class="tok-kw">def</span> <span class="tok-fn">{html.escape(fn_name)}</span>')
+            elif kind == 'CLASS_NAME':
+                cls_name = val.split(None, 1)[1]
+                line_html_parts.append(f'<span class="tok-kw">class</span> <span class="tok-cls">{html.escape(cls_name)}</span>')
+            elif kind == 'KEYWORD':
+                line_html_parts.append(f'<span class="tok-kw">{html.escape(val)}</span>')
+            elif kind == 'TYPE':
+                line_html_parts.append(f'<span class="tok-typ">{html.escape(val)}</span>')
+                
+            last_idx = end
+            
+        if last_idx < len(line):
+            line_html_parts.append(html.escape(line[last_idx:]))
+            
+        content_html = ''.join(line_html_parts)
+        hl_class = ' code-line-hl' if is_highlighted else ''
+        key_badge = '<span class="key-badge">KEY</span>' if is_highlighted else ''
+        line_html = f'<div class="code-line{hl_class}"><span class="line-num">{i:2d}</span>{key_badge}<span class="line-code">{content_html}</span></div>'
         highlighted_lines.append(line_html)
         
     return '\n'.join(highlighted_lines)
@@ -162,7 +176,7 @@ def generate_svg_for_slide(num, title):
     <rect x="0" y="0" width="175" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
     <text x="87" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. Tool Schemas</text>
     <text x="87" y="48" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schema Typing</text>
-    <text x="87" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Strict Argument Checks</text>
+    <text x="87" y="65" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Strict Argument Checks</text>
   </g>
   <g transform="translate(395, 8)">
     <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="1.8"/>
@@ -260,10 +274,11 @@ def generate_svg_for_slide(num, title):
     else:
         return ''
 
-# Pre-render syntax highlighted code for all slides that have code_block
+# Pre-render syntax highlighted code with line numbers and key highlights for all slides that have code_block
 for s in slides:
     if s.get('code_block'):
-        s['highlighted_code'] = highlight_python(s['code_block'])
+        hl_lines = s.get('highlight_lines', [])
+        s['highlighted_code'] = highlight_python(s['code_block'], hl_lines)
 
 svg_all = {}
 for s in slides:
@@ -278,7 +293,7 @@ html_template = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Packt Masterclass Presentation: 82 Interactive Code & Architecture Slides</title>
+  <title>Packt Masterclass Presentation: 72 Interactive Code & Architecture Slides</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -396,11 +411,11 @@ html_template = '''<!DOCTYPE html>
       margin-bottom: 0.5rem;
     }
 
-    /* Code View Slide Layout */
+    /* Enhanced Code Slide Layout with Line-Level Highlights */
     .code-slide-container {
       display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-      gap: 1.1rem;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.05fr);
+      gap: 1.15rem;
       height: 100%;
       align-items: start;
     }
@@ -418,7 +433,7 @@ html_template = '''<!DOCTYPE html>
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
       max-height: calc(100vh - 170px);
     }
     .code-editor-header {
@@ -461,17 +476,60 @@ html_template = '''<!DOCTYPE html>
       text-transform: uppercase;
     }
 
-    pre.code-block {
+    .code-block {
       background: var(--code-bg);
       color: #FAF9F5;
       font-family: var(--font-code);
-      font-size: 0.84rem;
-      line-height: 1.48;
-      padding: 0.85rem 1rem;
+      font-size: 0.80rem;
+      line-height: 1.44;
+      padding: 0.5rem 0;
       margin: 0;
       overflow-x: auto;
       overflow-y: auto;
-      tab-size: 4;
+    }
+
+    .code-line {
+      display: flex;
+      align-items: baseline;
+      padding: 0.08rem 0.6rem;
+      transition: background-color 0.15s;
+    }
+    .code-line:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .code-line-hl {
+      background: rgba(217, 119, 87, 0.22);
+      border-left: 3.5px solid var(--accent);
+      padding-left: calc(0.6rem - 3.5px);
+    }
+    .line-num {
+      color: #5C5C56;
+      width: 24px;
+      flex: 0 0 24px;
+      text-align: right;
+      margin-right: 8px;
+      font-size: 0.75rem;
+      user-select: none;
+    }
+    .code-line-hl .line-num {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .key-badge {
+      background: var(--accent);
+      color: #FAF9F5;
+      font-size: 0.60rem;
+      font-weight: 800;
+      padding: 0.05rem 0.35rem;
+      border-radius: 3px;
+      margin-right: 8px;
+      letter-spacing: 0.03em;
+      user-select: none;
+      flex: 0 0 auto;
+    }
+    .line-code {
+      flex: 1;
+      white-space: pre;
     }
 
     /* Syntax Highlighting Colors */
@@ -483,33 +541,77 @@ html_template = '''<!DOCTYPE html>
     .tok-fn { color: #61AFEF; font-weight: 600; }
     .tok-cls { color: #E5C07B; font-weight: 700; }
 
-    /* Code Slide Highlights Column */
-    .code-highlights {
+    /* Code Slide Dedicated Concepts Column */
+    .code-concepts-column {
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 170px);
+      padding-right: 0.25rem;
     }
-    .highlight-card {
+    .code-concepts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .code-concept-card {
       background: var(--surface);
       border: 1px solid var(--rule);
       border-left: 3.5px solid var(--accent);
       border-radius: 8px;
-      padding: 0.75rem 0.95rem;
+      padding: 0.65rem 0.85rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
     }
-    .highlight-card-title {
-      font-family: var(--font-display);
-      font-size: 1.02rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 0.3rem;
+    .concept-card-head {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+      flex-wrap: wrap;
     }
-    .highlight-card-body {
-      font-size: 0.88rem;
+    .concept-tag {
+      background: var(--accent);
+      color: #FAF9F5;
+      font-size: 0.68rem;
+      font-weight: 750;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      font-family: var(--font-code);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .concept-name {
+      font-family: var(--font-display);
+      font-size: 0.96rem;
+      font-weight: 700;
       color: var(--ink);
+    }
+    .concept-card-text {
+      font-size: 0.84rem;
+      color: var(--ink);
+      line-height: 1.42;
+    }
+
+    .invariant-card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid var(--accent-dk);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
       line-height: 1.4;
+    }
+    .invariant-title {
+      font-family: var(--font-display);
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     /* Visual Hierarchy: Parent vs Sub Bullets */
@@ -604,7 +706,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 82</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 72</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -640,7 +742,7 @@ html_template = '''<!DOCTYPE html>
     }
 
     function formatTextWithCode(text) {
-      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json'];
+      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json'];
       keywords.forEach(kw => {
         text = text.replaceAll(kw, `<code>${kw}</code>`);
       });
@@ -648,6 +750,59 @@ html_template = '''<!DOCTYPE html>
         /(https:\\/\\/[^\\s<]+)/g,
         '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
       );
+    }
+
+    function formatCodeConcepts(lines) {
+      if (!lines || lines.length === 0) return '';
+      let html = '<div class="code-concepts-list">';
+      
+      lines.forEach(line => {
+        let trimmed = line.trim();
+        if (!trimmed) return;
+        if (trimmed.startsWith('File:')) return;
+        
+        trimmed = trimmed.replace(/^[•\\-\\ufffd]\\s*/, '').trim();
+        
+        const lineMatch = trimmed.match(/^\\[(Lines?\\s+[\\d\\-,\\s]+)\\]\\s*([^:]+):\\s*(.*)$/i);
+        if (lineMatch) {
+          const lineTag = lineMatch[1];
+          const title = lineMatch[2];
+          const desc = formatTextWithCode(lineMatch[3]);
+          html += `
+            <div class="code-concept-card">
+              <div class="concept-card-head">
+                <span class="concept-tag">📌 ${lineTag}</span>
+                <span class="concept-name">${formatTextWithCode(title)}</span>
+              </div>
+              <div class="concept-card-text">${desc}</div>
+            </div>
+          `;
+        } else {
+          const colonIdx = trimmed.indexOf(':');
+          if (colonIdx !== -1 && colonIdx < 40) {
+            const title = trimmed.slice(0, colonIdx);
+            const desc = formatTextWithCode(trimmed.slice(colonIdx + 1));
+            html += `
+              <div class="code-concept-card">
+                <div class="concept-card-head">
+                  <span class="concept-tag" style="background:var(--accent-sf); color:var(--accent-dk); border:1px solid var(--accent-dk);">🛡️ GUARANTEE</span>
+                  <span class="concept-name">${formatTextWithCode(title)}</span>
+                </div>
+                <div class="concept-card-text">${desc}</div>
+              </div>
+            `;
+          } else {
+            html += `
+              <div class="code-concept-card">
+                <div class="concept-card-text">${formatTextWithCode(trimmed)}</div>
+              </div>
+            `;
+          }
+        }
+      });
+      
+      html += '</div>';
+      return html;
     }
 
     function formatBullets(lines) {
@@ -731,20 +886,13 @@ html_template = '''<!DOCTYPE html>
                 <div class="code-file-tag">📄 ${fileTag}</div>
                 <div class="code-lang-tag">${slide.code_language || 'PYTHON'}</div>
               </div>
-              <pre class="code-block"><code>${slide.highlighted_code}</code></pre>
+              <div class="code-block">${slide.highlighted_code}</div>
             </div>
-            <div class="code-highlights">
-              <div class="highlight-card">
-                <div class="highlight-card-title">💡 Core Code Implementation</div>
-                <div class="highlight-card-body">
-                  ${formatBullets(rawBullets)}
-                </div>
-              </div>
-              <div class="highlight-card" style="border-left-color: var(--accent-dk);">
-                <div class="highlight-card-title">🛡️ Execution &amp; Control Invariant</div>
-                <div class="highlight-card-body" style="font-size:0.84rem; color:var(--ink-muted);">
-                  Verified directly against tests in <code>${fileTag.split('/')[1] || 'course_implementation'}</code>.
-                </div>
+            <div class="code-concepts-column">
+              ${formatCodeConcepts(rawBullets)}
+              <div class="invariant-card">
+                <div class="invariant-title">🛡️ Execution &amp; Control Invariant</div>
+                Verified directly against tests in <code>${fileTag.split('/')[1] || 'course_implementation'}</code>.
               </div>
             </div>
           </div>
@@ -828,4 +976,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH CODE BLOCKS AND EXPLANATIONS INSERTED BEFORE LAST SLIDE OF EACH MODULE!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH ENHANCED CODE CONCEPTS & CLEAN SYNTAX HIGHLIGHTING!")
