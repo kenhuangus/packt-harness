@@ -182,7 +182,16 @@ def generate_svg_for_slide(num, title):
     <text x="49" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Loop</text>
   </g>
 </svg>'''
-    elif num == 2 or 'COURSE MASTER MAP' in title_upper:
+    elif 'ABOUT THE INSTRUCTOR' in title_upper or 'ABOUT ME' in title_upper or 'KEN HUANG' in title_upper:
+        return '''<svg viewBox="0 0 800 110" class="slide-svg">
+  <rect x="15" y="6" width="770" height="98" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2.5"/>
+  <circle cx="65" cy="55" r="28" fill="#F5E6DF" stroke="#D97757" stroke-width="2.2"/>
+  <text x="65" y="64" fill="#BD5D3A" font-family="Inter" font-size="26" text-anchor="middle">👨‍🏫</text>
+  <text x="110" y="44" fill="#141413" font-family="Inter" font-size="16.5" font-weight="900">KEN HUANG, CISSP — INSTRUCTOR &amp; AI SAFETY RESEARCHER</text>
+  <text x="110" y="68" fill="#6B6B63" font-family="Inter" font-size="12" font-weight="600">Author, Harness Engineering &amp; MAESTRO | Adjunct Professor, University of San Francisco</text>
+  <text x="110" y="88" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="750">CSA Fellow &amp; Co-Chair | OWASP AIVSS Lead | AIUC-1 Consortium | Schmidt Sciences</text>
+</svg>'''
+    elif 'COURSE MASTER MAP' in title_upper:
         return '''<svg viewBox="0 0 800 110" class="slide-svg">
   <rect x="20" y="8" width="365" height="92" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
   <text x="202" y="36" fill="#141413" font-family="Inter" font-size="14" font-weight="800" text-anchor="middle">PART 1: FOUNDATIONS &amp; CONTROL</text>
@@ -1061,7 +1070,7 @@ html_template = '''<!DOCTYPE html>
       <button id="btn-prev" class="btn" onclick="prevSlide()">❮ Prev</button>
       <select id="slide-select" class="slide-select" onchange="goToSlide(this.value)"></select>
       <div class="goto-group">
-        <input type="number" id="goto-input" min="1" max="85" placeholder="#" class="goto-input" title="Enter slide number (1-85)" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
+        <input type="number" id="goto-input" min="1" max="86" placeholder="#" class="goto-input" title="Enter slide number (1-86)" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
         <button id="btn-goto" class="btn btn-goto" onclick="jumpToEnteredSlide()" title="Jump to entered slide number">Go ➔</button>
       </div>
       <button id="btn-next" class="btn" onclick="nextSlide()">Next ❯</button>
@@ -1452,7 +1461,7 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 85) {
+      } else if (slide.slide_type === 'reference_tables' || slide.number === slidesData.length) {
         bodyHtml += `
           <div id="slide-content-wrap" class="reference-tables-grid">
             <div class="ref-table-card">
