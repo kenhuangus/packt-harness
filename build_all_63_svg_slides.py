@@ -188,7 +188,7 @@ def generate_svg_for_slide(num, title):
     <rect x="0" y="0" width="185" height="80" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
     <text x="92" y="28" fill="#141413" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. OS Sandboxing</text>
     <text x="92" y="48" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Path is_relative_to</text>
-    <text x="92" y="65" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Process Isolation</text>
+    <text x="92" y="65" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
@@ -617,7 +617,7 @@ html_template = '''<!DOCTYPE html>
     /* Dedicated Skill Slide Layout */
     .skill-slide-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
       gap: 1.2rem;
       height: 100%;
       align-items: start;
@@ -635,7 +635,7 @@ html_template = '''<!DOCTYPE html>
       padding: 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 0.75rem;
       box-shadow: 0 4px 14px rgba(217, 119, 87, 0.08);
     }
     .skill-meta-badge {
@@ -654,7 +654,7 @@ html_template = '''<!DOCTYPE html>
     }
     .skill-name-heading {
       font-family: var(--font-code);
-      font-size: 1.22rem;
+      font-size: 1.20rem;
       font-weight: 800;
       color: var(--ink);
       word-break: break-all;
@@ -664,9 +664,9 @@ html_template = '''<!DOCTYPE html>
       border: 1px solid var(--rule);
       border-left: 3.5px solid var(--accent);
       border-radius: 6px;
-      padding: 0.75rem 0.9rem;
-      font-size: 0.88rem;
-      line-height: 1.45;
+      padding: 0.7rem 0.85rem;
+      font-size: 0.86rem;
+      line-height: 1.44;
       color: var(--ink);
     }
     .skill-tools-box {
@@ -680,7 +680,7 @@ html_template = '''<!DOCTYPE html>
     .skill-details-column {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.7rem;
       overflow-y: auto;
       max-height: calc(100vh - 170px);
     }
@@ -689,22 +689,22 @@ html_template = '''<!DOCTYPE html>
       border: 1px solid var(--rule);
       border-left: 3.5px solid var(--accent-dk);
       border-radius: 8px;
-      padding: 0.8rem 1rem;
+      padding: 0.75rem 0.95rem;
     }
     .skill-detail-title {
       font-family: var(--font-display);
-      font-size: 1.02rem;
+      font-size: 1.0rem;
       font-weight: 750;
       color: var(--ink);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.32rem;
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
     .skill-detail-body {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--ink);
-      line-height: 1.44;
+      line-height: 1.42;
     }
 
     /* Visual Hierarchy: Parent vs Sub Bullets */
@@ -837,7 +837,6 @@ html_template = '''<!DOCTYPE html>
     function formatTextWithCode(text) {
       const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json'];
       
-      // Replace URLs first with full markdown links
       text = text.replace(
         /(https:\\/\\/[^\\s<,]+)/g,
         '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
@@ -905,7 +904,9 @@ html_template = '''<!DOCTYPE html>
     function renderSkillSlide(slide) {
       const name = slide.skill_name || 'harness-skill';
       const tools = slide.allowed_tools || 'Read, Write, Bash';
+      const skillFolderUrl = slide.skill_folder_url || `https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/${name}/`;
       const manifestUrl = slide.skill_manifest_url || `https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/${name}/SKILL.md`;
+      const moduleFolderUrl = slide.module_folder_url || '';
       const keyFilesList = slide.key_files_urls || [];
       
       let desc = '';
@@ -923,14 +924,16 @@ html_template = '''<!DOCTYPE html>
         }
       });
 
-      let keyFilesHtml = '';
+      let keyFilesHtml = '<ul style="list-style:none; padding-left:0; display:flex; flex-direction:column; gap:0.42rem;">';
+      if (moduleFolderUrl) {
+        keyFilesHtml += `<li>📂 <strong>Module Folder:</strong> <a href="${moduleFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.80rem; word-break:break-all;">${moduleFolderUrl}</a></li>`;
+      }
       if (keyFilesList.length > 0) {
-        keyFilesHtml = '<ul style="list-style:none; padding-left:0; display:flex; flex-direction:column; gap:0.38rem;">';
         keyFilesList.forEach(url => {
           keyFilesHtml += `<li>🔗 <a href="${url}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.80rem; word-break:break-all;">${url}</a></li>`;
         });
-        keyFilesHtml += '</ul>';
       }
+      keyFilesHtml += '</ul>';
       
       return `
         <div class="skill-slide-layout">
@@ -943,9 +946,13 @@ html_template = '''<!DOCTYPE html>
             <div class="skill-tools-box">
               <span>🛠️ Allowed Tools:</span> <code>${tools}</code>
             </div>
-            <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.4rem; line-height:1.4;">
-              📄 <strong>Skill Manifest on GitHub:</strong><br>
-              <a href="${manifestUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${manifestUrl}</a>
+            <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:0.3rem; line-height:1.45; display:flex; flex-direction:column; gap:0.35rem;">
+              <div>📂 <strong>Skill Folder on GitHub:</strong><br>
+                <a href="${skillFolderUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${skillFolderUrl}</a>
+              </div>
+              <div>📄 <strong>Skill Manifest (SKILL.md):</strong><br>
+                <a href="${manifestUrl}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-code); font-size:0.77rem; word-break:break-all;">${manifestUrl}</a>
+              </div>
             </div>
           </div>
           
@@ -959,7 +966,7 @@ html_template = '''<!DOCTYPE html>
               <div class="skill-detail-body">${formatTextWithCode(howToUse)}</div>
             </div>
             <div class="skill-detail-card">
-              <div class="skill-detail-title">📁 Key Implementation Files (GitHub Links)</div>
+              <div class="skill-detail-title">📁 Key Implementation Files &amp; Folder (GitHub Links)</div>
               <div class="skill-detail-body">${keyFilesHtml}</div>
             </div>
           </div>
@@ -1140,4 +1147,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY GENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH FULL GITHUB URLS FOR ALL SKILLS!")
+print(f"SUCCESSFULLY REGENERATED {len(slides)} INTERACTIVE HTML SLIDES WITH DEDICATED SKILL FOLDER & REPO URLS!")
