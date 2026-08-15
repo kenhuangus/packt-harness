@@ -137,7 +137,7 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="74" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Progressive Disclosure</text>
   </g>
   <g transform="translate(595, 8)">
-    <rect x="0" y="0" width="185" height="92" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <rect x="0" y="0" width="185" height="92" rx="8" fill="#BD5D3A" stroke-width="2"/>
     <text x="92" y="30" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. assets/ (Schemas)</text>
     <text x="92" y="54" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Templates &amp; Configs</text>
     <text x="92" y="74" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schemas &amp; State</text>
@@ -479,7 +479,7 @@ html_template = '''<!DOCTYPE html>
     .slide-card {
       width: 100%; max-width: 1380px; height: 100%;
       background: var(--surface); border: 1px solid var(--rule);
-      border-radius: 12px; padding: clamp(0.75rem, 1.4vw, 1.35rem); display: flex; flex-direction: column;
+      border-radius: 12px; padding: clamp(0.80rem, 1.5vw, 1.40rem); display: flex; flex-direction: column;
       position: relative; overflow: hidden;
     }
     .slide-header {
@@ -489,7 +489,7 @@ html_template = '''<!DOCTYPE html>
     }
     .slide-title-wrap { min-width: 0; }
     .slide-title {
-      font-family: var(--font-display); font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+      font-family: var(--font-display); font-size: clamp(1.40rem, 2.2vw, 1.95rem);
       font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
     }
     .slide-num-badge {
@@ -499,115 +499,22 @@ html_template = '''<!DOCTYPE html>
     }
     .slide-body {
       --fit-scale: 1;
-      --slide-body-base-size: 1.25rem;
+      --slide-body-base-size: 1.30rem;
       flex: 1; min-height: 0; overflow-y: auto; padding-right: 0.20rem;
       font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
-      color: var(--ink); line-height: 1.45;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+      color: var(--ink); line-height: 1.48;
+      display: block;
     }
     .slide-body > svg, .slide-svg {
       display: block; width: 100% !important; height: auto; max-width: 100%;
-      margin: 0.35rem 0 0.55rem 0;
-      flex: 0 0 auto;
-    }
-
-    /* Density Tiers: Dynamically maximize text and visuals on spacious slides */
-    .density-hero .slide-title {
-      font-size: clamp(1.75rem, 2.6vw, 2.35rem);
-      margin-bottom: 0.45rem;
-    }
-    .density-hero .slide-body {
-      --slide-body-base-size: 1.80rem;
-      line-height: 1.55;
-      justify-content: space-evenly;
-    }
-    .density-hero .slide-body > svg {
-      max-height: 180px !important;
-      margin: 0.60rem 0 0.95rem 0;
-    }
-    .density-hero .primary-bullet {
-      font-size: 1.22em;
-      margin-top: 0.75em;
-      margin-bottom: 0.30em;
-    }
-    .density-hero .sub-bullet {
-      font-size: 1.05em;
-      margin-bottom: 0.40em;
-      line-height: 1.50;
-    }
-    .density-hero .sub-bullets {
-      padding-left: 1.6em;
-      margin-left: 0.45em;
-      margin-bottom: 0.75em;
-    }
-
-    .density-spacious .slide-title {
-      font-size: clamp(1.55rem, 2.3vw, 2.05rem);
-      margin-bottom: 0.35rem;
-    }
-    .density-spacious .slide-body {
-      --slide-body-base-size: 1.48rem;
-      line-height: 1.50;
-      justify-content: space-around;
-    }
-    .density-spacious .slide-body > svg {
-      max-height: 145px !important;
-      margin: 0.45rem 0 0.75rem 0;
-    }
-    .density-spacious .primary-bullet {
-      font-size: 1.18em;
-      margin-top: 0.60em;
-      margin-bottom: 0.25em;
-    }
-    .density-spacious .sub-bullet {
-      font-size: 1.02em;
-      margin-bottom: 0.32em;
-      line-height: 1.46;
-    }
-
-    .density-comfortable .slide-title {
-      font-size: clamp(1.40rem, 2.0vw, 1.80rem);
-      margin-bottom: 0.30rem;
-    }
-    .density-comfortable .slide-body {
-      --slide-body-base-size: 1.30rem;
-      line-height: 1.45;
-    }
-    .density-comfortable .slide-body > svg {
-      max-height: 120px !important;
-      margin: 0.30rem 0 0.55rem 0;
-    }
-    .density-comfortable .primary-bullet {
-      font-size: 1.14em;
-      margin-top: 0.48em;
-      margin-bottom: 0.18em;
-    }
-    .density-comfortable .sub-bullet {
-      font-size: 0.98em;
-      margin-bottom: 0.22em;
-      line-height: 1.42;
-    }
-
-    .density-compact .slide-title {
-      font-size: clamp(1.25rem, 1.85vw, 1.60rem);
-      margin-bottom: 0.20rem;
-    }
-    .density-compact .slide-body {
-      --slide-body-base-size: 1.10rem;
-      line-height: 1.36;
-    }
-    .density-compact .slide-body > svg {
-      max-height: 90px !important;
-      margin: 0.20rem 0 0.35rem 0;
+      margin: 0.35rem 0 0.65rem 0;
     }
 
     /* Comparison Table Styling */
     .slide-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0.30rem 0 0.50rem 0;
+      margin: 0.35rem 0 0.60rem 0;
       font-size: 0.88rem;
       background: var(--surface);
       border: 1px solid var(--rule);
@@ -1379,29 +1286,9 @@ html_template = '''<!DOCTYPE html>
       document.getElementById('slide-title').innerText = title;
       document.getElementById('slide-num-badge').innerText = `Slide ${slide.number} of ${slidesData.length}`;
 
-      cardEl.className = 'slide-card';
-
       const restLines = slide.raw_lines ? slide.raw_lines.slice(1) : [];
-      const lineCount = restLines.length;
-      const hasSvg = Boolean(svgMap[slide.number]);
       const isSkill = slide.slide_type === 'skill';
       const isCode = slide.slide_type === 'code';
-      const hasTable = restLines.some(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
-      const hasTree = restLines.some(l => l.includes('├──') || l.includes('custom-agent-skill/'));
-
-      if (isSkill) {
-        cardEl.classList.add('density-skill');
-      } else if (isCode) {
-        cardEl.classList.add('density-code');
-      } else if (hasTable || hasTree || lineCount >= 8) {
-        cardEl.classList.add('density-compact');
-      } else if (lineCount <= 3) {
-        cardEl.classList.add('density-hero');
-      } else if (lineCount <= 5) {
-        cardEl.classList.add('density-spacious');
-      } else {
-        cardEl.classList.add('density-comfortable');
-      }
 
       let bodyHtml = '';
 
@@ -1444,14 +1331,32 @@ html_template = '''<!DOCTYPE html>
 
       bodyEl.innerHTML = bodyHtml;
       
-      // Auto-fit safety tuner to dynamically adapt to any viewport and avoid overflow
-      bodyEl.style.setProperty('--fit-scale', '1');
-      let scale = 1.0;
-      let iterations = 0;
-      while (bodyEl.scrollHeight > (bodyEl.clientHeight + 4) && scale > 0.65 && iterations < 20) {
-        scale -= 0.04;
-        bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
-        iterations++;
+      // Dynamic Text-Sizing Engine:
+      // 1. Natural top-to-bottom flow without artificial vertical gaps
+      // 2. Expand text size so content occupies >= 80% to 92% of the card height (less than 20% empty space)
+      // 3. Prevent any overflow or scrollbars
+      if (!isCode && !isSkill) {
+        bodyEl.style.setProperty('--fit-scale', '1.0');
+        let scale = 1.0;
+        const clientH = bodyEl.clientHeight;
+        
+        // Target content height: at least 82% of slide card height
+        let growIter = 0;
+        while (bodyEl.scrollHeight < (clientH * 0.82) && scale < 2.5 && growIter < 25) {
+          scale += 0.05;
+          bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
+          growIter++;
+        }
+        
+        // If scaled slightly over client height, scale down to fit with 0 overflow
+        let shrinkIter = 0;
+        while (bodyEl.scrollHeight > clientH && scale > 0.60 && shrinkIter < 30) {
+          scale -= 0.02;
+          bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
+          shrinkIter++;
+        }
+      } else {
+        bodyEl.style.setProperty('--fit-scale', '1.0');
       }
 
       const pct = ((idx + 1) / slidesData.length) * 100;
@@ -1546,4 +1451,4 @@ with open(out_docs, 'w', encoding='utf-8') as f:
 with open(out_root, 'w', encoding='utf-8') as f:
     f.write(html_template)
 
-print(f"SUCCESSFULLY REGENERATED {len(slides)} SLIDES WITH DYNAMIC OCCUPANCY SCALING!")
+print(f"SUCCESSFULLY GENERATED {len(slides)} SLIDES WITH NATURAL TOP-FLOW DYNAMIC TEXT SIZING!")
