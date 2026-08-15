@@ -1475,8 +1475,16 @@ html_template = '''<!DOCTYPE html>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>🛡️ OWASP Agentic Skills Top 10 Risks Video</strong></td>
+                    <td><strong>🛡️ OWASP Agentic Skills Top 10 Risks</strong></td>
                     <td><a href="https://www.youtube.com/watch?v=l-uwnCzRRE0" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=l-uwnCzRRE0</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🎯 MAESTRO Threat Modeling Framework</strong></td>
+                    <td><a href="https://kenhuangus.github.io/maestro-site/#1" target="_blank" rel="noopener noreferrer">https://kenhuangus.github.io/maestro-site/#1</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>🚀 DistributedApps.ai Consulting Company</strong></td>
+                    <td><a href="https://distributedapps.ai/" target="_blank" rel="noopener noreferrer">https://distributedapps.ai/</a></td>
                   </tr>
                   <tr>
                     <td><strong>🏭 Greenfield Software Factory Skill</strong></td>
