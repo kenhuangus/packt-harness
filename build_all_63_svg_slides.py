@@ -1052,7 +1052,7 @@ html_template = '''<!DOCTYPE html>
 
   <header>
     <div class="header-left">
-      <div class="brand-logo">HE</div>
+      <img src="assets/images/harness_app_icon.png" alt="Harness Engineering Logo" style="width:28px; height:28px; border-radius:6px; object-fit:cover; display:inline-block;" />
       <div class="brand-title">Harness Engineering Masterclass</div>
     </div>
     <div class="controls">
