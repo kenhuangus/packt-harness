@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "name": "harness-enterprise-plugin",
+  "version": "1.0.0",
+  "description": "Enterprise harness controls and tools",
+  "skills": [
+    "harness-mcp-and-plugins"
+  ],
+  "mcp_servers": [
+    "mcp_server_demo.py"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": [
+    "goal",
+    "allowed_files",
+    "non_goals",
+    "acceptance_criteria"
+  ]
+}

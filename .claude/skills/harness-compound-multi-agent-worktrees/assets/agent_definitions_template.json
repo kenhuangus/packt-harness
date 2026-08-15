@@ -1,0 +1,28 @@
+{
+  "agents": [
+    {
+      "role": "planner",
+      "tools": [
+        "read_file",
+        "list_dir"
+      ],
+      "context": "high"
+    },
+    {
+      "role": "implementer",
+      "tools": [
+        "read_file",
+        "write_file"
+      ],
+      "isolation": "worktree"
+    },
+    {
+      "role": "reviewer",
+      "tools": [
+        "read_file",
+        "run_test"
+      ],
+      "fresh_context": true
+    }
+  ]
+}

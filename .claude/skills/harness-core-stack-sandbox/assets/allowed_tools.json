@@ -1,0 +1,10 @@
+{
+  "tools": [
+    "read_file",
+    "write_file",
+    "run_test",
+    "list_dir",
+    "grep_search"
+  ],
+  "default_policy": "DENY_ALL_UNLISTED"
+}

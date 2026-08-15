@@ -1,0 +1,6 @@
+{
+  "spec_file": "SPEC.md",
+  "test_command": "pytest tests/ -q",
+  "timeout_seconds": 60,
+  "diff_format": "unified"
+}

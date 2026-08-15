@@ -1,0 +1,21 @@
+{
+  "LOW": [
+    "read_file",
+    "list_dir",
+    "grep_search"
+  ],
+  "MEDIUM": [
+    "write_file",
+    "edit_file",
+    "run_test"
+  ],
+  "HIGH": [
+    "pip_install",
+    "npm_install"
+  ],
+  "CRITICAL": [
+    "git_push",
+    "deploy",
+    "drop_db"
+  ]
+}

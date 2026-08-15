@@ -1,0 +1,24 @@
+{
+  "patterns": [
+    {
+      "regex": "\\brm\\s+-[rR][fF]\\b",
+      "severity": "CRITICAL",
+      "action": "BLOCK"
+    },
+    {
+      "regex": "\\bsudo\\b",
+      "severity": "CRITICAL",
+      "action": "BLOCK"
+    },
+    {
+      "regex": "\\bchmod\\s+777\\b",
+      "severity": "HIGH",
+      "action": "BLOCK"
+    },
+    {
+      "regex": "\\bdrop\\s+database\\b",
+      "severity": "CRITICAL",
+      "action": "BLOCK"
+    }
+  ]
+}
