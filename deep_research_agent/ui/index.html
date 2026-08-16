@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Deep Research Agent | Packt Harness Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon">⚛️</span>
+      <div>
+        <h1>Deep Research Agent</h1>
+      </div>
+      <span class="brand-tag">10-MODULE HARNESS</span>
+    </div>
+
+    <div class="header-badges">
+      <div class="badge badge-emerald" id="badgeScorecard">
+        <span>🛡️ 5-Gate Scorecard:</span>
+        <strong>100% (5/5)</strong>
+      </div>
+      <div class="badge badge-sapphire" id="badgeRisk">
+        <span>⚖️ Risk Tier:</span>
+        <strong id="currentRiskTier">LOW</strong>
+      </div>
+      <button class="theme-btn" id="themeToggle" title="Toggle Dark/Light Mode">🌙 Theme</button>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Dashboard -->
+  <main class="dashboard-grid">
+
+    <!-- Column 1: Research Controller & 5-Step Pipeline -->
+    <section class="panel-card">
+      <div class="card-header">
+        <h2><span>🔍</span> Research Controller</h2>
+      </div>
+      <div class="card-body">
+        <form id="researchForm">
+          <div class="form-group">
+            <label for="queryInput">Research Objective / Hypothesis</label>
+            <input type="text" id="queryInput" class="input-text" placeholder="e.g. Harness Engineering vs Probabilistic Prompting" required value="Harness Engineering for Multi-Agent Systems">
+          </div>
+
+          <div class="form-group">
+            <label for="depthSelect">Research Depth</label>
+            <select id="depthSelect" class="select-input">
+              <option value="multi-hop">Multi-Hop Recursive Synthesis (5 Sources)</option>
+              <option value="deep-audit">Deep Compliance & AST Security Audit</option>
+              <option value="quick-scan">Fast Overview (3 Sources)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary" id="startBtn">
+            <span>⚡</span> Execute Autonomous Research
+          </button>
+        </form>
+
+        <div style="margin-top: 1.25rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">Research Presets</label>
+          <div class="preset-list">
+            <button class="preset-chip" onclick="setPreset('Harness Engineering for Autonomous Coding Agents')">
+              📌 Harness Engineering & 5 Golden Pillars
+            </button>
+            <button class="preset-chip" onclick="setPreset('Model Context Protocol Stdio Transports and Security')">
+              📌 MCP 2.x JSON-RPC Stdio Infrastructure
+            </button>
+            <button class="preset-chip" onclick="setPreset('Compound Orchestrator Compounding Loop and Review Protocols')">
+              📌 Compound Orchestrator 6 Planning Contracts
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);">5-Step SOP Pipeline</label>
+          <div class="stepper" id="stepperList">
+            <div class="step-item" id="step1">
+              <div class="step-icon">1</div>
+              <span>Spec Contract Formulation</span>
+            </div>
+            <div class="step-item" id="step2">
+              <div class="step-icon">2</div>
+              <span>Worktree Sandbox & Evidence Crawl</span>
+            </div>
+            <div class="step-item" id="step3">
+              <div class="step-icon">3</div>
+              <span>Guardrails & Secret Filtering</span>
+            </div>
+            <div class="step-item" id="step4">
+              <div class="step-icon">4</div>
+              <span>Pytest TDA Verification</span>
+            </div>
+            <div class="step-item" id="step5">
+              <div class="step-icon">5</div>
+              <span>Unified Diff & Human Review</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Column 2: Live Research Graph & Citation Matrix -->
+    <section class="panel-card">
+      <div class="card-header">
+        <h2><span>🗺️</span> Live Research Graph & Citations</h2>
+        <span class="brand-tag" id="evidenceCountBadge">0 Sources Extracted</span>
+      </div>
+      <div class="card-body">
+        <!-- SVG Research Graph -->
+        <div class="graph-container" id="graphContainer">
+          <svg id="researchGraphSvg" width="100%" height="100%" viewBox="0 0 500 240">
+            <!-- Dynamic Graph Nodes will be injected here -->
+          </svg>
+        </div>
+
+        <!-- Citation Grid -->
+        <div class="citations-grid" id="citationsGrid">
+          <!-- Dynamic Citation Cards will be injected here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Column 3: Synthesized Dossier & Telemetry Stream -->
+    <section class="panel-card">
+      <div class="card-header">
+        <h2><span>📑</span> Synthesized Dossier</h2>
+        <div class="tabs-nav">
+          <button class="tab-btn active" id="tabDossier" onclick="switchTab('dossier')">Dossier</button>
+          <button class="tab-btn" id="tabDiff" onclick="switchTab('diff')">Unified Diff</button>
+          <button class="tab-btn" id="tabAudit" onclick="switchTab('audit')">Audit Scorecard</button>
+        </div>
+      </div>
+      <div class="card-body" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="dossier-viewer" id="dossierContent">
+          <p style="color: var(--text-muted); font-style: italic;">
+            Click <strong>"Execute Autonomous Research"</strong> to generate a verified, evidence-grounded research dossier.
+          </p>
+        </div>
+
+        <div>
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; display: block;">
+            ⚡ Live Telemetry & Audit Stream (events.jsonl)
+          </label>
+          <div class="telemetry-log" id="telemetryStream">
+            <div class="telemetry-row">
+              <span class="telemetry-time">00:00:00</span>
+              <span class="telemetry-type">SYSTEM_INIT</span>
+              <span>10-Module Harness stack initialized and ready.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

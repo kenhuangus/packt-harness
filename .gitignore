@@ -27,4 +27,9 @@ dist/
 audio/
 *.mp3
 *.wav
+*.mp4
+deep_research_agent/demo/frames/
+deep_research_agent/demo/*.mp4
+deep_research_agent/tests/test_workspace/
+deep_research_agent/output/
 
