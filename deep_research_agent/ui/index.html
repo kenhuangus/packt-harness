@@ -53,12 +53,22 @@
             </div>
 
             <div class="form-group">
-              <label for="depthSelect">Synthesis Depth</label>
+              <label for="depthSelect">Synthesis Depth & Mode</label>
               <select id="depthSelect" class="select-input">
-                <option value="multi-hop">Multi-Hop Recursive Synthesis (Live Wikipedia & arXiv)</option>
+                <option value="multi-source">Multi-Source Zero-API Live Crawl (arXiv, GitHub, YouTube, HN, Wiki)</option>
                 <option value="deep-audit">Deep Compliance & AST Security Audit</option>
-                <option value="quick-scan">Fast Overview (3 Sources)</option>
+                <option value="quick-scan">Fast Overview (Top 3 Sources)</option>
               </select>
+            </div>
+
+            <div class="form-group">
+              <label>Active Zero-API Public Streams</label>
+              <div class="source-tags-grid">
+                <span class="source-pill">📄 arXiv / OpenAlex</span>
+                <span class="source-pill">🐙 GitHub Repos</span>
+                <span class="source-pill">🎥 YouTube Talks</span>
+                <span class="source-pill">💬 HackerNews</span>
+              </div>
             </div>
 
             <button type="submit" class="btn-primary" id="startBtn">

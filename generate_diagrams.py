@@ -120,27 +120,32 @@ ARCHITECTURE_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 
   <g transform="translate(60, 680)" filter="url(#shadowArchWhite)">
     <rect width="1800" height="150" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
     <rect width="1800" height="40" rx="14" fill="#f1f5f9"/>
-    <text x="30" y="27" fill="#6d28d9" font-size="16" font-weight="800">LAYER 4: MODEL CONTEXT PROTOCOL (MCP 2.x) &amp; LIVE DATA SOURCES (Module 7)</text>
+    <text x="30" y="27" fill="#6d28d9" font-size="16" font-weight="800">LAYER 4: MODEL CONTEXT PROTOCOL (MCP 2.x) &amp; ZERO-API PUBLIC SEARCH (Module 7)</text>
 
     <!-- Component 4.1 -->
-    <rect x="30" y="55" width="410" height="75" rx="8" fill="#f8fafc" stroke="#7c3aed" stroke-width="2"/>
-    <text x="50" y="85" fill="#0f172a" font-size="17" font-weight="700">MCP Research Server</text>
-    <text x="50" y="112" fill="#475569" font-size="14">JSON-RPC 2.0 Stdio IPC Process</text>
+    <rect x="25" y="55" width="335" height="75" rx="8" fill="#f8fafc" stroke="#7c3aed" stroke-width="2"/>
+    <text x="40" y="85" fill="#0f172a" font-size="16" font-weight="700">MCP Research Server</text>
+    <text x="40" y="112" fill="#475569" font-size="13">JSON-RPC 2.0 Stdio IPC Process</text>
 
     <!-- Component 4.2 -->
-    <rect x="470" y="55" width="410" height="75" rx="8" fill="#f8fafc" stroke="#2563eb" stroke-width="2"/>
-    <text x="490" y="85" fill="#0f172a" font-size="17" font-weight="700">Live arXiv Open Science API</text>
-    <text x="490" y="112" fill="#475569" font-size="14">Peer-Reviewed Papers &amp; Preprints</text>
+    <rect x="380" y="55" width="335" height="75" rx="8" fill="#f8fafc" stroke="#2563eb" stroke-width="2"/>
+    <text x="395" y="85" fill="#0f172a" font-size="16" font-weight="700">arXiv &amp; OpenAlex (No API)</text>
+    <text x="395" y="112" fill="#475569" font-size="13">Peer-Reviewed Papers &amp; DOIs</text>
 
     <!-- Component 4.3 -->
-    <rect x="910" y="55" width="410" height="75" rx="8" fill="#f8fafc" stroke="#059669" stroke-width="2"/>
-    <text x="930" y="85" fill="#0f172a" font-size="17" font-weight="700">Live Wikipedia REST API</text>
-    <text x="930" y="112" fill="#475569" font-size="14">Real-Time Global Encyclopedia Indexes</text>
+    <rect x="735" y="55" width="335" height="75" rx="8" fill="#f8fafc" stroke="#0f172a" stroke-width="2"/>
+    <text x="750" y="85" fill="#0f172a" font-size="16" font-weight="700">GitHub Code Search (Playwright)</text>
+    <text x="750" y="112" fill="#475569" font-size="13">Live Public Repos &amp; Architectures</text>
 
     <!-- Component 4.4 -->
-    <rect x="1350" y="55" width="420" height="75" rx="8" fill="#f8fafc" stroke="#d97706" stroke-width="2"/>
-    <text x="1370" y="85" fill="#0f172a" font-size="17" font-weight="700">Local Vector &amp; Cache Store</text>
-    <text x="1370" y="112" fill="#475569" font-size="14">Deterministic Offline Grounding &amp; Fallbacks</text>
+    <rect x="1090" y="55" width="335" height="75" rx="8" fill="#f8fafc" stroke="#dc2626" stroke-width="2"/>
+    <text x="1105" y="85" fill="#0f172a" font-size="16" font-weight="700">YouTube Video Search (Playwright)</text>
+    <text x="1105" y="112" fill="#475569" font-size="13">Technical Talks &amp; Demos</text>
+
+    <!-- Component 4.5 -->
+    <rect x="1445" y="55" width="330" height="75" rx="8" fill="#f8fafc" stroke="#d97706" stroke-width="2"/>
+    <text x="1460" y="85" fill="#0f172a" font-size="16" font-weight="700">HackerNews &amp; Wikipedia</text>
+    <text x="1460" y="112" fill="#475569" font-size="13">Community Discussions &amp; Wiki</text>
   </g>
 
   <!-- ==================== LAYER 5: VERIFICATION, TDA & AUDIT SCORECARD ==================== -->

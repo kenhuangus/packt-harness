@@ -61,13 +61,13 @@ class FiveStepResearchPipeline:
 
 ## 2. Allowed Scope
 - In-Scope Files: output/reports/*.md, output/citations/*.json, output/*.json, output/*.md, output/*.diff
-- Allowed Domains: en.wikipedia.org, arxiv.org, modelcontextprotocol.io, github.com, ieee.org, nature.com
+- Allowed Domains: en.wikipedia.org, arxiv.org, modelcontextprotocol.io, github.com, ieee.org, nature.com, youtube.com, news.ycombinator.com, openalex.org, duckduckgo.com
 
 ## 3. Explicit Non-Goals
-- Blocked: Unverified forums, database writes, promotional spam
+- Blocked: Unverified spam forums, direct database drops, malicious injections
 
 ## 4. Acceptance Criteria
-- AC-01: Citations count >= 2
+- AC-01: Citations count >= 2 across multi-modal sources (arXiv, GitHub, YouTube, Wikipedia, HN)
 - AC-02: Pytest integrity test pass rate = 100%
 - AC-03: No secret leaks or path traversals
 - AC-04: Grounding confidence >= 30%
@@ -83,7 +83,7 @@ class FiveStepResearchPipeline:
         self.logger.log("STEP_2_SANDBOX_CRAWL", {"action": "spawning_subagents", "query": user_query})
         sub_queries = self.team.run_planner(user_query)
 
-        # Scrape and gather evidence via live multi-source search (Wikipedia, arXiv, DuckDuckGo)
+        # Scrape and gather evidence via live multi-source search (Wikipedia, arXiv, GitHub, YouTube, HN, OpenAlex)
         evidence: list[dict[str, Any]] = []
         for sq in sub_queries:
             allowed, sig = self.loop_detector.record_call("query_web_index", query=sq["query"])
@@ -107,6 +107,8 @@ class FiveStepResearchPipeline:
                         "title": r.get("title", "Reference"),
                         "domain": r.get("domain", "web"),
                         "author": r.get("author", "Researcher"),
+                        "url": r.get("url", f"https://{r.get('domain', 'web')}"),
+                        "source_type": r.get("source_type", "web"),
                         "text": r.get("text", r.get("snippet", "")),
                         "snippet": self.budgeter.compact_evidence(r.get("text", r.get("snippet", "")), max_chars=350),
                         "grounding_quote": claim_verify.get("grounding_quote", r.get("snippet", "")[:120]),

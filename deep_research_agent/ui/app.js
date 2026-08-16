@@ -149,12 +149,48 @@ function renderCitations(evidence) {
   evidence.forEach(item => {
     const card = document.createElement('div');
     card.className = 'citation-card';
+    
+    // Determine source icon and styling
+    const domain = (item.domain || '').toLowerCase();
+    const stype = (item.source_type || '').toLowerCase();
+    let icon = '🌐';
+    let typeBadge = 'WEB';
+    
+    if (stype === 'arxiv' || domain.includes('arxiv')) {
+      icon = '📄';
+      typeBadge = 'ARXIV';
+    } else if (stype === 'github' || domain.includes('github')) {
+      icon = '🐙';
+      typeBadge = 'GITHUB';
+    } else if (stype === 'youtube' || domain.includes('youtube')) {
+      icon = '🎥';
+      typeBadge = 'YOUTUBE';
+    } else if (stype === 'hackernews' || domain.includes('ycombinator')) {
+      icon = '💬';
+      typeBadge = 'HACKERNEWS';
+    } else if (stype === 'openalex' || domain.includes('openalex')) {
+      icon = '📚';
+      typeBadge = 'OPENALEX';
+    } else if (stype === 'wikipedia' || domain.includes('wikipedia')) {
+      icon = '🌐';
+      typeBadge = 'WIKIPEDIA';
+    }
+
+    const targetUrl = item.url || (item.domain ? `https://${item.domain}` : '#');
+
     card.innerHTML = `
       <div class="citation-header">
-        <span class="citation-title">${item.title}</span>
-        <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
+        <span class="citation-title">${icon} ${item.title}</span>
+        <div style="display:flex; gap:0.4rem; align-items:center;">
+          <span class="source-type-badge">${typeBadge}</span>
+          <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
+        </div>
       </div>
-      <div class="citation-domain">${item.domain} • ${item.author || 'Author'}</div>
+      <div class="citation-domain">
+        <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline;">
+          ${item.domain} • ${item.author || 'Author'} ↗
+        </a>
+      </div>
       <div class="citation-quote">"${item.grounding_quote || item.snippet}"</div>
     `;
     grid.appendChild(card);

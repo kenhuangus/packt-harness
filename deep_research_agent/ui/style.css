@@ -246,6 +246,25 @@ body {
   box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
 }
 
+.source-tags-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.source-pill {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .btn-primary {
   display: flex;
   align-items: center;
@@ -435,6 +454,19 @@ body {
   font-weight: 700;
   color: #0f172a;
   line-height: 1.4;
+}
+
+.source-type-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  background: #f1f5f9;
+  color: #334155;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .trust-badge {

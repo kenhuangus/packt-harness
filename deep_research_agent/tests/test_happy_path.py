@@ -74,3 +74,40 @@ def test_hp_06_production_readiness_audit():
     assert audit_res["is_production_ready"] is True
     assert audit_res["score_pct"] == 100.0
     assert audit_res["passed_gates"] == "5/5"
+
+
+def test_hp_07_github_search_no_api():
+    """HP-07: Public GitHub code and repository search without API key."""
+    from deep_research_agent.engine.mcp_research_server import search_github_code
+    res_raw = search_github_code("Harness Engineering", limit=2)
+    import json
+    data = json.loads(res_raw)
+    assert data["status"] == "SUCCESS"
+    assert len(data["repositories"]) >= 1
+    assert any("github.com" in r["url"] for r in data["repositories"])
+
+
+def test_hp_08_youtube_search_no_api():
+    """HP-08: Public YouTube video talk search without API key."""
+    from deep_research_agent.engine.mcp_research_server import search_youtube_videos
+    res_raw = search_youtube_videos("Autonomous Coding Agents", limit=2)
+    import json
+    data = json.loads(res_raw)
+    assert data["status"] == "SUCCESS"
+    assert len(data["videos"]) >= 1
+    assert any("youtube.com" in v["url"] for v in data["videos"])
+
+
+def test_hp_09_hackernews_and_openalex_no_api():
+    """HP-09: HackerNews Algolia discussions and OpenAlex scholarly citations without API key."""
+    from deep_research_agent.engine.mcp_research_server import search_hackernews, fetch_live_openalex
+    import json
+    hn_raw = search_hackernews("Agentic AI", limit=2)
+    hn_data = json.loads(hn_raw)
+    assert hn_data["status"] == "SUCCESS"
+    assert len(hn_data["discussions"]) >= 1
+
+    alex_docs = fetch_live_openalex("Autonomous Agents", limit=2)
+    assert len(alex_docs) >= 1
+    assert any("openalex.org" in d["domain"] for d in alex_docs)
+
