@@ -156,8 +156,8 @@ def generate_svg_for_slide(num, title):
   <text x="120" y="95" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">⚠ Non-Deterministic Output</text>
   
   <path d="M225 65 L340 65" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-  <rect x="233" y="38" width="104" height="24" rx="6" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1.5"/>
-  <text x="285" y="54" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="800" text-anchor="middle">Action Intent ➔</text>
+  <rect x="240" y="38" width="90" height="24" rx="6" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1.5"/>
+  <text x="285" y="54" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Harness ➔</text>
   
   <rect x="350" y="5" width="435" height="120" rx="14" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
   <text x="567" y="34" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Deterministic Harness Control System</text>
