@@ -548,8 +548,25 @@ html_template = '''<!DOCTYPE html>
       --slide-body-base-size: 1.30rem;
       flex: 1; min-height: 0; overflow-y: auto; padding-right: 0.20rem;
       font-size: calc(var(--slide-body-base-size) * var(--fit-scale));
-      color: var(--ink); line-height: 1.48;
-      display: block;
+      line-height: 1.50; color: var(--ink);
+    }
+
+    code {
+      font-family: var(--font-code);
+      background: var(--accent-sf);
+      color: var(--accent-dk);
+      padding: 0.08rem 0.32rem;
+      border-radius: 4px;
+      font-size: 0.90em;
+      white-space: nowrap;
+      border: 1px solid var(--rule);
+    }
+    pre code, .tree-block code, .code-editor-body code {
+      white-space: pre !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: inherit !important;
     }
     .slide-content-wrapper {
       width: 100%;

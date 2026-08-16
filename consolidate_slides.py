@@ -131,7 +131,7 @@ for s in slides:
             "• Self-Contained Modularity: Encapsulates domain expertise, execution scripts, and API schemas in one directory.",
             "• SKILL.md Entry Point: YAML frontmatter with description defining what the skill does and when to use it.",
             "• Progressive Disclosure: Heavy scripts/ and references/ are only loaded into context when triggered.",
-            "• Discovery Priority: .claude/skills/ (project), module_XX/skills/ (module), ~/.claude/skills/ (user)."
+            "• Precedence Hierarchy (Highest to Lowest): 1. Enterprise Managed > 2. Personal User-Level (~/.claude/skills/) > 3. Project Root (.claude/skills/) > 4. Installed Plugins."
         ]
         consolidated.append(s)
         continue
