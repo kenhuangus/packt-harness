@@ -104,38 +104,38 @@ function renderGraph(evidence) {
   svg.innerHTML = `
     <!-- Root Query Node -->
     <g transform="translate(80, 90)">
-      <circle r="36" fill="hsl(168, 80%, 42%)" stroke="hsl(168, 80%, 65%)" stroke-width="2.5" />
+      <circle r="36" fill="#059669" stroke="#047857" stroke-width="2.5" />
       <text fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle" dy="5">RESEARCH</text>
     </g>
 
     <!-- Bezier Curves & Sub-nodes -->
-    <path d="M 120 90 C 240 90, 260 30, 380 30" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
-    <path d="M 120 90 C 240 90, 260 70, 380 70" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
-    <path d="M 120 90 C 240 90, 260 110, 380 110" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
-    <path d="M 120 90 C 240 90, 260 150, 380 150" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 30, 380 30" stroke="#94a3b8" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 70, 380 70" stroke="#94a3b8" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 110, 380 110" stroke="#94a3b8" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 150, 380 150" stroke="#94a3b8" stroke-width="3" fill="none" />
 
     <!-- Sub-node 1 -->
     <g transform="translate(380, 30)">
-      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 45%)" stroke-width="1.5" />
-      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">5 Golden Pillars Stack</text>
+      <rect x="0" y="-16" width="230" height="32" rx="6" fill="#ffffff" stroke="#059669" stroke-width="2" />
+      <text x="115" y="5" fill="#0f172a" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">5 Golden Pillars Stack</text>
     </g>
 
     <!-- Sub-node 2 -->
     <g transform="translate(380, 70)">
-      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(214, 95%, 60%)" stroke-width="1.5" />
-      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">MCP 2.x Stdio Tools</text>
+      <rect x="0" y="-16" width="230" height="32" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2" />
+      <text x="115" y="5" fill="#0f172a" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">MCP 2.x Stdio Tools</text>
     </g>
 
     <!-- Sub-node 3 -->
     <g transform="translate(380, 110)">
-      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(38, 92%, 50%)" stroke-width="1.5" />
-      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">Compound Review Loops</text>
+      <rect x="0" y="-16" width="230" height="32" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="2" />
+      <text x="115" y="5" fill="#0f172a" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">Compound Review Loops</text>
     </g>
 
     <!-- Sub-node 4 -->
     <g transform="translate(380, 150)">
-      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 45%)" stroke-width="1.5" />
-      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">TDA Pytest Verifier</text>
+      <rect x="0" y="-16" width="230" height="32" rx="6" fill="#ffffff" stroke="#059669" stroke-width="2" />
+      <text x="115" y="5" fill="#0f172a" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">TDA Pytest Verifier</text>
     </g>
   `;
 }

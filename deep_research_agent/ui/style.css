@@ -1,9 +1,33 @@
-/* Deep Research Agent - Capstone Design System (Minimum Font Size: 13px-16px) */
+/* Deep Research Agent - Modern White Theme Design System */
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Dark Theme (Default) */
+  /* Crisp White/Light Theme (Default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-color: #cbd5e1;
+  --border-focus: #059669;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --accent-emerald: #059669;
+  --accent-emerald-glow: rgba(5, 150, 105, 0.12);
+  --accent-sapphire: #2563eb;
+  --accent-amber: #d97706;
+  --accent-crimson: #dc2626;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] {
   --bg-primary: hsl(222, 47%, 9%);
   --bg-secondary: hsl(220, 38%, 13%);
   --bg-card: hsl(217, 33%, 16%);
@@ -21,25 +45,7 @@
   --accent-amber: hsl(38, 92%, 50%);
   --accent-crimson: hsl(0, 72%, 55%);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
   --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-}
-
-[data-theme="light"] {
-  --bg-primary: hsl(210, 40%, 98%);
-  --bg-secondary: hsl(210, 30%, 93%);
-  --bg-card: hsl(0, 0%, 100%);
-  --bg-card-hover: hsl(210, 30%, 96%);
-  --border-color: hsl(214, 32%, 85%);
-  --border-focus: hsl(168, 80%, 35%);
-
-  --text-primary: hsl(222, 47%, 10%);
-  --text-secondary: hsl(215, 25%, 32%);
-  --text-muted: hsl(215, 16%, 50%);
-
-  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
 }
 
 * {
@@ -53,7 +59,7 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -65,12 +71,13 @@ body {
 
 /* App Header */
 .app-header {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-card);
   border-bottom: 2px solid var(--border-color);
   padding: 1.2rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .brand {
@@ -97,7 +104,7 @@ body {
 .brand-sub {
   font-size: 0.9rem;
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .header-badges {
@@ -117,15 +124,15 @@ body {
 }
 
 .badge-emerald {
-  background: hsla(168, 80%, 42%, 0.16);
+  background: #ecfdf5;
   border: 1.5px solid var(--accent-emerald);
-  color: var(--accent-emerald);
+  color: #047857;
 }
 
 .badge-sapphire {
-  background: hsla(214, 95%, 60%, 0.16);
+  background: #eff6ff;
   border: 1.5px solid var(--accent-sapphire);
-  color: var(--accent-sapphire);
+  color: #1d4ed8;
 }
 
 .theme-btn {
@@ -205,6 +212,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  background: var(--bg-card);
 }
 
 /* Form Controls */
@@ -223,18 +231,19 @@ body {
 .input-text, .select-input {
   width: 100%;
   padding: 0.9rem 1.1rem;
-  background: var(--bg-primary);
+  background: var(--bg-card);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-text:focus, .select-input:focus {
   border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
 }
 
 .btn-primary {
@@ -244,7 +253,7 @@ body {
   gap: 0.75rem;
   width: 100%;
   padding: 1rem;
-  background: var(--accent-emerald);
+  background: #059669;
   color: #ffffff;
   border: none;
   border-radius: var(--radius-sm);
@@ -252,6 +261,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   margin-top: 0.5rem;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
   transition: opacity 0.2s, transform 0.1s;
 }
 
@@ -272,7 +282,7 @@ body {
 .section-divider {
   margin-top: 0.5rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1.5px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -291,13 +301,13 @@ body {
 }
 
 .preset-chip {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  padding: 0.65rem 1rem;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  padding: 0.75rem 1.1rem;
   border-radius: var(--radius-sm);
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   cursor: pointer;
   text-align: left;
   transition: all 0.2s;
@@ -305,8 +315,8 @@ body {
 
 .preset-chip:hover {
   border-color: var(--accent-emerald);
-  color: var(--text-primary);
-  background: var(--bg-card-hover);
+  background: #ecfdf5;
+  color: #065f46;
 }
 
 /* 5-Step Pipeline Stepper */
@@ -321,7 +331,7 @@ body {
   align-items: center;
   gap: 0.9rem;
   padding: 0.75rem 1rem;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
   transition: all 0.25s ease;
@@ -329,12 +339,12 @@ body {
 
 .step-item.active {
   border-color: var(--accent-sapphire);
-  background: hsla(214, 95%, 60%, 0.1);
+  background: #eff6ff;
 }
 
 .step-item.completed {
   border-color: var(--accent-emerald);
-  background: var(--accent-emerald-glow);
+  background: #ecfdf5;
 }
 
 .step-icon {
@@ -349,13 +359,14 @@ body {
   font-size: 0.9rem;
   font-weight: 800;
   font-family: var(--font-mono);
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
 .step-item.completed .step-icon {
-  background: var(--accent-emerald);
-  color: #fff;
-  border-color: var(--accent-emerald);
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
 }
 
 .step-text {
@@ -375,7 +386,7 @@ body {
 
 /* Graph Container */
 .graph-container {
-  background: var(--bg-primary);
+  background: #f8fafc;
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
   height: 200px;
@@ -395,19 +406,21 @@ body {
 }
 
 .citation-card {
-  background: var(--bg-primary);
+  background: #ffffff;
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: transform 0.2s, border-color 0.2s;
 }
 
 .citation-card:hover {
   transform: translateY(-2px);
   border-color: var(--accent-emerald);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
 .citation-header {
@@ -420,7 +433,7 @@ body {
 .citation-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #0f172a;
   line-height: 1.4;
 }
 
@@ -428,30 +441,30 @@ body {
   font-size: 0.88rem;
   font-weight: 800;
   font-family: var(--font-mono);
-  background: var(--accent-emerald-glow);
-  color: var(--accent-emerald);
+  background: #ecfdf5;
+  color: #047857;
   padding: 0.25rem 0.65rem;
   border-radius: 4px;
-  border: 1px solid var(--accent-emerald);
+  border: 1.5px solid #059669;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .citation-domain {
   font-size: 0.9rem;
-  color: var(--accent-sapphire);
+  color: #2563eb;
   font-family: var(--font-mono);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .citation-quote {
   font-size: 0.95rem;
-  color: var(--text-secondary);
+  color: #334155;
   font-style: italic;
   line-height: 1.6;
-  border-left: 3.5px solid var(--accent-emerald);
+  border-left: 3.5px solid #059669;
   padding: 0.65rem 1rem;
-  background: hsla(220, 38%, 14%, 0.6);
+  background: #f8fafc;
   border-radius: 0 4px 4px 0;
   margin-top: 0.35rem;
 }
@@ -475,49 +488,51 @@ body {
 }
 
 .tab-btn.active {
-  background: var(--bg-primary);
+  background: #ffffff;
   border-color: var(--border-color);
-  color: var(--accent-emerald);
+  color: #059669;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .dossier-viewer {
   font-size: 1rem;
   line-height: 1.75;
-  color: var(--text-secondary);
+  color: #1e293b;
   padding: 0.5rem;
 }
 
 .dossier-viewer h1 {
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #0f172a;
   margin-bottom: 1rem;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 2px solid #e2e8f0;
   padding-bottom: 0.5rem;
 }
 
 .dossier-viewer h2 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--accent-emerald);
+  color: #047857;
   margin: 1.6rem 0 0.6rem;
 }
 
 .dossier-viewer h3 {
   font-size: 1.12rem;
   font-weight: 700;
-  color: var(--accent-sapphire);
+  color: #1d4ed8;
   margin: 1.3rem 0 0.5rem;
 }
 
 .dossier-viewer p {
   margin-bottom: 1rem;
   font-size: 1rem;
+  color: #334155;
 }
 
 /* Telemetry Log Stream */
 .telemetry-log {
-  background: var(--bg-primary);
+  background: #f8fafc;
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 0.85rem;
@@ -537,10 +552,10 @@ body {
 }
 
 .telemetry-time {
-  color: var(--text-muted);
+  color: #64748b;
 }
 
 .telemetry-type {
-  color: var(--accent-sapphire);
+  color: #2563eb;
   font-weight: 700;
 }

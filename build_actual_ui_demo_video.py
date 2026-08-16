@@ -1,9 +1,9 @@
 """
-Generates the 1080p Full HD Demo Video featuring:
-1. 4K System Architecture Diagram (all 10 harness components).
-2. 4K End-to-End Execution Flow Diagram (8-stage deterministic SOP).
-3. 4K Ultra-High-Resolution Live Web UI Screens across multiple topics and tabs.
-4. Contrasting studio frame and local neural TTS narration.
+Generates the 1080p Full HD Demo Video with a clean WHITE BACKGROUND Studio aesthetic:
+1. White Background 4K System Architecture Diagram.
+2. White Background 4K End-to-End Execution Flow Diagram.
+3. White Background 4K Ultra-High-Resolution Live Web UI Screens.
+4. Clean Light Studio frame and neural TTS narration (en-US-ChristopherNeural).
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ STAGES = [
         "badge": "10-MODULE ARCHITECTURE",
         "image_file": "../docs/architecture_diagram.png",
         "is_doc_diagram": True,
-        "narration": "Welcome to the Autonomous Deep Research Agent capstone demonstration. Here is our complete 10-module harness architecture, orchestrating governance, Model Context Protocol, multi-agent worktrees, and test-driven reliability.",
+        "narration": "Welcome to the Autonomous Deep Research Agent capstone demonstration. Here is our complete 10-module harness architecture on a clean white background, orchestrating governance, Model Context Protocol, multi-agent worktrees, and test-driven reliability.",
     },
     {
         "step": 2,
@@ -62,7 +62,7 @@ STAGES = [
         "badge": "UI INITIALIZED",
         "image_file": "01_initial_dashboard_empty.png",
         "is_doc_diagram": False,
-        "narration": "Here is the live Web UI, redesigned with a clean 2-column layout and large, legible typography with a minimum font size of 16 pixels.",
+        "narration": "Here is the live Web UI, redesigned with a clean white aesthetic, a 2-column layout, and large, high-contrast typography with a minimum font size of 16 pixels.",
     },
     {
         "step": 4,
@@ -98,7 +98,7 @@ STAGES = [
         "badge": "100% FACT CHECKED",
         "image_file": "02_harness_ai_results.png",
         "is_doc_diagram": False,
-        "narration": "Our Fact-Checker subagent inspects primary source quotes from papers like Code as Agent Harness, certifying factual match confidence.",
+        "narration": "Our Fact-Checker subagent inspects primary source quotes from papers like Code as Agent Harness, certifying factual match confidence on white citation cards.",
     },
     {
         "step": 7,
@@ -210,15 +210,15 @@ STAGES = [
     },
     {
         "step": 16,
-        "title": "16. Light Theme Mode & UI Design System",
+        "title": "16. Clean Typography & Light Theme Ergonomics",
         "module": "UI Architecture & Ergonomics",
         "skill": "harness-ui-visualization",
-        "tool_used": "Theme Engine Toggle (Inter & JetBrains Mono)",
+        "tool_used": "Theme Engine (Inter & JetBrains Mono)",
         "blocked": "Cliché Tropes (No purple-on-dark, no glowing borders)",
-        "badge": "LIGHT THEME ACTIVE",
+        "badge": "WHITE THEME ACTIVE",
         "image_file": "08_light_theme_mode.png",
         "is_doc_diagram": False,
-        "narration": "The Web UI features a clean HSL design system with instant dark and light mode toggles, adhering to professional usability guidelines.",
+        "narration": "The Web UI uses a clean white background with high-contrast slate text and pure emerald accents, providing maximum legibility for long-form research.",
     },
     {
         "step": 17,
@@ -251,12 +251,12 @@ FULL_NARRATION_TEXT = " ".join(s["narration"] for s in STAGES)
 
 def composite_frame_1080p(stage: dict, frame_path: Path):
     """
-    Composites a crisp 1920x1080 Full HD video frame:
-    1. Warm contrasting studio frame.
+    Composites a crisp 1920x1080 Full HD video frame with a clean WHITE BACKGROUND:
+    1. Crisp white studio frame (#ffffff / #f8fafc).
     2. Embedded diagram or browser screenshot container (1840x820).
-    3. High-DPI typography for header, tool tags, and narration subtitles.
+    3. High-contrast dark typography (#0f172a, #334155) for header, tags, and subtitles.
     """
-    frame = Image.new("RGB", (1920, 1080), color=(18, 18, 22))
+    frame = Image.new("RGB", (1920, 1080), color=(255, 255, 255))
     draw = ImageDraw.Draw(frame)
 
     try:
@@ -272,46 +272,46 @@ def composite_frame_1080p(stage: dict, frame_path: Path):
         font_narr = font_title
         font_mono = font_title
 
-    # Top Studio Header
-    draw.rectangle([(0, 0), (1920, 100)], fill=(28, 25, 23))
-    draw.line([(0, 100), (1920, 100)], fill=(217, 119, 6), width=3)
+    # Top Studio Header (White Surface)
+    draw.rectangle([(0, 0), (1920, 100)], fill=(255, 255, 255))
+    draw.line([(0, 100), (1920, 100)], fill=(5, 150, 105), width=3)
 
-    # Header Title & Module Tag
-    draw.text((40, 18), f"🎬 {stage['title']}", fill=(254, 243, 199), font=font_title)
-    draw.text((40, 60), f"Module: {stage['module']}   |   Skill: {stage['skill']}", fill=(251, 191, 36), font=font_sub)
+    # Header Title & Module Tag (Deep Dark Charcoal & Emerald)
+    draw.text((40, 18), f"{stage['title']}", fill=(15, 23, 42), font=font_title)
+    draw.text((40, 60), f"Module: {stage['module']}   |   Skill: {stage['skill']}", fill=(4, 120, 87), font=font_sub)
 
-    # Top Right Status Badge
-    draw.rectangle([(1520, 24), (1880, 76)], fill=(217, 119, 6), outline=(245, 158, 11), width=2)
-    draw.text((1540, 36), stage["badge"], fill=(255, 255, 255), font=font_badge)
+    # Top Right Status Badge (Emerald Light Pill)
+    draw.rectangle([(1500, 24), (1880, 76)], fill=(236, 253, 245), outline=(5, 150, 105), width=2)
+    draw.text((1520, 36), stage["badge"], fill=(4, 120, 87), font=font_badge)
 
-    # Sub-Header Tool & Blocked Safeguard Banner
-    draw.rectangle([(0, 103), (1920, 155)], fill=(24, 24, 27))
-    draw.line([(0, 155), (1920, 155)], fill=(63, 63, 70), width=1)
+    # Sub-Header Tool & Blocked Safeguard Banner (Light Slate)
+    draw.rectangle([(0, 103), (1920, 155)], fill=(241, 245, 249))
+    draw.line([(0, 155), (1920, 155)], fill=(203, 213, 225), width=1)
 
-    draw.text((40, 118), "⚡ ACTIVE TOOL:", fill=(161, 161, 170), font=font_sub)
-    draw.text((200, 118), stage["tool_used"][:55], fill=(52, 211, 153), font=font_mono)
+    draw.text((40, 118), "ACTIVE TOOL:", fill=(71, 85, 105), font=font_sub)
+    draw.text((190, 118), stage["tool_used"][:55], fill=(5, 150, 105), font=font_mono)
 
-    draw.text((980, 118), "⛔ BLOCKED INVARIANT:", fill=(239, 68, 68), font=font_sub)
-    draw.text((1240, 118), stage["blocked"][:50], fill=(252, 165, 165), font=font_mono)
+    draw.text((980, 118), "BLOCKED INVARIANT:", fill=(220, 38, 38), font=font_sub)
+    draw.text((1220, 118), stage["blocked"][:50], fill=(185, 28, 28), font=font_mono)
 
     # Center Stage: Container (1840x820)
     bx1, by1, bx2, by2 = 40, 170, 1880, 960
-    draw.rectangle([(bx1, by1), (bx2, by2)], fill=(10, 10, 12), outline=(56, 189, 248), width=3)
+    draw.rectangle([(bx1, by1), (bx2, by2)], fill=(255, 255, 255), outline=(203, 213, 225), width=2)
 
     is_doc = stage.get("is_doc_diagram", False)
     if is_doc:
         # Titlebar for Architecture / Flow Diagrams
-        draw.rectangle([(bx1, by1), (bx2, by1 + 38)], fill=(30, 41, 59))
-        draw.text((bx1 + 25, by1 + 9), "📐 10-Module Harness Architecture Specification Diagram", fill=(241, 245, 249), font=font_sub)
+        draw.rectangle([(bx1, by1), (bx2, by1 + 38)], fill=(248, 250, 252))
+        draw.text((bx1 + 25, by1 + 9), "System Architecture & Flow Specification (10-Module Harness)", fill=(15, 23, 42), font=font_sub)
         img_path = (DEMO_DIR / stage["image_file"]).resolve()
     else:
-        # Browser Window Chrome Titlebar
-        draw.rectangle([(bx1, by1), (bx2, by1 + 38)], fill=(39, 39, 42))
+        # Browser Window Chrome Titlebar (Light Clean Chrome)
+        draw.rectangle([(bx1, by1), (bx2, by1 + 38)], fill=(241, 245, 249))
         draw.ellipse([(bx1 + 15, by1 + 12), (bx1 + 29, by1 + 26)], fill=(239, 68, 68))
         draw.ellipse([(bx1 + 38, by1 + 12), (bx1 + 52, by1 + 26)], fill=(234, 179, 8))
         draw.ellipse([(bx1 + 61, by1 + 12), (bx1 + 75, by1 + 26)], fill=(34, 197, 94))
-        draw.rectangle([(bx1 + 95, by1 + 6), (bx1 + 650, by1 + 32)], fill=(24, 24, 27), outline=(82, 82, 91))
-        draw.text((bx1 + 110, by1 + 9), "🔒 http://localhost:8090/ (Simplified Live Agent UI - Capstone)", fill=(212, 212, 216), font=font_mono)
+        draw.rectangle([(bx1 + 95, by1 + 6), (bx1 + 650, by1 + 32)], fill=(255, 255, 255), outline=(203, 213, 225))
+        draw.text((bx1 + 110, by1 + 9), "http://localhost:8090/ (White Theme Live Agent UI)", fill=(51, 65, 85), font=font_mono)
         img_path = UI_SCREENS_DIR / stage["image_file"]
 
     # Load and Embed Image
@@ -322,19 +322,19 @@ def composite_frame_1080p(stage: dict, frame_path: Path):
         resized_img = raw_img.resize((target_w, target_h), Image.Resampling.LANCZOS)
         frame.paste(resized_img, (bx1 + 3, by1 + 39))
 
-    # Bottom Narration Subtitle Banner
-    draw.rectangle([(0, 970), (1920, 1080)], fill=(28, 25, 23))
-    draw.line([(0, 970), (1920, 970)], fill=(217, 119, 6), width=2)
+    # Bottom Narration Subtitle Banner (Light Platinum Surface)
+    draw.rectangle([(0, 970), (1920, 1080)], fill=(248, 250, 252))
+    draw.line([(0, 970), (1920, 970)], fill=(5, 150, 105), width=2)
 
-    draw.text((40, 982), "🎙️ NARRATION:", fill=(251, 191, 36), font=font_sub)
-    draw.text((40, 1018), f"\"{stage['narration']}\"", fill=(245, 245, 244), font=font_narr)
+    draw.text((40, 982), "NARRATION:", fill=(4, 120, 87), font=font_sub)
+    draw.text((40, 1018), f"\"{stage['narration']}\"", fill=(15, 23, 42), font=font_narr)
 
     frame.save(frame_path, quality=98)
 
 
 async def main():
     print("=" * 80)
-    print("GENERATING 1080p FULL HD CAPSTONE DEMO VIDEO (DIAGRAMS + SIMPLIFIED UI)")
+    print("GENERATING 1080p FULL HD CAPSTONE DEMO VIDEO (WHITE BACKGROUND THEME)")
     print("=" * 80)
 
     # 1. Synthesize Narration Audio
@@ -351,8 +351,8 @@ async def main():
     total_duration = float(res.stdout.strip())
     print(f"  [OK] Total Audio Duration: {total_duration:.2f} seconds ({total_duration / 60:.2f} mins)")
 
-    # 2. Render all 18 composited 1080p frames
-    print(f"[*] Rendering 18 master 1080p Full HD frames with diagrams & simplified UI...")
+    # 2. Render all 18 composited 1080p frames with white studio background
+    print(f"[*] Rendering 18 master 1080p Full HD frames with white background theme...")
     frame_paths = []
     for stage in STAGES:
         fpath = FRAMES_DIR / f"actual_frame_1080p_{stage['step']:02d}.jpg"
@@ -405,7 +405,7 @@ async def main():
     shutil.copy(video_out, artifact_video)
 
     print("\n" + "=" * 80)
-    print(">>> 1080p FULL HD CAPSTONE DEMO VIDEO (WITH DIAGRAMS) GENERATED SUCCESSFULLY <<<")
+    print(">>> 1080p FULL HD CAPSTONE DEMO VIDEO (WHITE BACKGROUND) GENERATED SUCCESSFULLY <<<")
     print(f"Video File: {video_out.resolve()}")
     print(f"Video Size: {final_size_mb:.2f} MB")
     print(f"Exact Duration: {final_dur:.2f} seconds ({final_dur / 60:.2f} mins)")
