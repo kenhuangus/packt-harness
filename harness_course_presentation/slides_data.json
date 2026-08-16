@@ -2,9 +2,9 @@
   {
     "number": 1,
     "raw_lines": [
-      "CLAUDE CODE HARNESS",
+      "Hands-On Harness Engineering with Claude",
       "GitHub: https://github.com/kenhuangus/packt-harness",
-      "Site: https://kenhuangus.github.io/packt-harness/"
+      "Site: https://kenhuangus.github.io/packt-harness/slides.html#1"
     ]
   },
   {
@@ -1198,7 +1198,7 @@
   {
     "slide_type": "reference_tables",
     "raw_lines": [
-      "Capstone Project Deliverables & Repository Links",
+      "Capstone Project: Autonomous Deep Research Agent — Execution & Deliverables",
       "| Deliverable / Artifact Title | Direct Repository / Video Link |",
       "|---|---|",
       "| 🐙 GitHub Project Repository | https://github.com/kenhuangus/packt-harness |",
@@ -1208,7 +1208,7 @@
       "| 💻 Deep Research Web UI & Server | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/ |",
       "| 🧪 Automated Pytest Test Suite (14/14 Passing) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
-      "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html |"
+      "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
     "number": 83
   },

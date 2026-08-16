@@ -943,23 +943,121 @@ html_template = '''<!DOCTYPE html>
       break-inside: avoid; page-break-inside: avoid;
     }
     .primary-bullet {
-      font-family: var(--font-display); font-size: 1.14em; font-weight: 700; color: var(--ink);
-      margin-top: 0.45em; margin-bottom: 0.18em; display: flex; align-items: baseline; gap: 0.5em;
+      font-family: var(--font-display); font-size: 1.04em; font-weight: 650; color: var(--ink);
+      margin-top: 0.35em; margin-bottom: 0.18em; position: relative; padding-left: 1.25em; line-height: 1.46;
     }
     .primary-bullet::before {
-      content: "◆"; color: var(--accent); font-size: 0.72em; line-height: 1; flex-shrink: 0;
+      content: "◆"; color: var(--accent); font-size: 0.72em; line-height: 1; position: absolute; left: 0; top: 0.18em;
     }
     .sub-bullets {
-      list-style-type: none; padding-left: 1.35em; border-left: 2px solid var(--rule);
-      margin-left: 0.35em; margin-bottom: 0.45em;
+      list-style-type: none; padding-left: 1.25em; border-left: 2px solid var(--rule);
+      margin-left: 0.40em; margin-top: 0.20em; margin-bottom: 0.40em; display: flex; flex-direction: column; gap: 0.22em;
     }
     .sub-bullet {
-      font-size: 0.98em; color: var(--ink); margin-bottom: 0.22em; position: relative; padding-left: 1.15em;
-      line-height: 1.45;
+      font-size: 0.92em; color: var(--ink); margin-bottom: 0.15em; position: relative; padding-left: 1.15em;
+      line-height: 1.42;
     }
     .sub-bullet::before {
       content: "›"; position: absolute; left: 0; top: -0.05em; color: var(--accent-dk); font-weight: 900; font-size: 1.25em; line-height: 1;
     }
+    .slide-lead-header {
+      font-family: var(--font-display);
+      font-size: 1.15em;
+      font-weight: 750;
+      color: var(--accent-dk);
+      margin-top: 0.15em;
+      margin-bottom: 0.40em;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+
+    /* Capstone Slide 83 Two-Column Grid */
+    .capstone-layout-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: 0.90rem;
+      height: 100%;
+      align-items: stretch;
+    }
+    @media (max-width: 1040px) {
+      .capstone-layout-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+    .capstone-info-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    }
+    .capstone-info-body {
+      padding: 0.60rem 0.80rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.50rem;
+      font-size: 0.84rem;
+      background: var(--surface);
+      flex: 1;
+    }
+    .capstone-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+    }
+    .capstone-section-title {
+      font-family: var(--font-display);
+      font-size: 0.84rem;
+      font-weight: 750;
+      color: var(--accent-dk);
+    }
+    .capstone-cmd-box {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 0.35rem 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+      font-size: 0.77rem;
+    }
+    .capstone-cmd-box code {
+      font-size: 0.78rem;
+      padding: 0.08rem 0.28rem;
+    }
+    .cmd-note {
+      color: var(--ink-muted);
+      font-size: 0.75rem;
+      margin-left: 0.25rem;
+    }
+    .capstone-providers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+    }
+    .provider-pill {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-radius: 5px;
+      padding: 0.22rem 0.40rem;
+      line-height: 1.25;
+    }
+    .capstone-text-desc {
+      font-size: 0.78rem;
+      line-height: 1.38;
+      color: var(--ink);
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 0.35rem 0.55rem;
+    }
+
     /* Reference Slide with Two-Table Layout (Links Table + Screenshot Table) */
     .reference-tables-grid {
       display: grid;
@@ -1321,7 +1419,6 @@ html_template = '''<!DOCTYPE html>
     function cleanNumbers(text) {
       if (/^\\d{1,2}:\\d{2}/.test(text.trim())) return text.trim();
       text = text.replace(/^(\\d+[\\.\\)\\:]|\\d+\\s*&\\s*\\d+[\\.\\)\\:])\\s+/, '');
-      text = text.replace(/^(Pillar|Layer|Step|Phase|Check)\\s*\\d+[\\.\\)\\:]?\\s+/i, '');
       return text.trim();
     }
 
@@ -1549,20 +1646,23 @@ html_template = '''<!DOCTYPE html>
       }
 
       const populatedLines = lines.filter(line => line.trim());
-      const hasParent = populatedLines.some(line => {
-        const t = line.trim();
-        return !t.startsWith('•') && !t.startsWith('-') && !t.startsWith('\ufffd');
-      });
-      const denseClass = populatedLines.length >= DENSE_BULLET_MIN_LINES ? ' dense-columns' : '';
-      let html = `<ul class="main-bullets${denseClass}">`;
+      if (populatedLines.length === 0) return '';
+
+      const hasIndented = populatedLines.some(l => /^\\s{2,}|\\t/.test(l));
+      const denseClass = (!hasIndented && populatedLines.length >= DENSE_BULLET_MIN_LINES) ? ' dense-columns' : '';
+      let html = '';
+      let listOpen = false;
       let groupOpen = false;
       let subListOpen = false;
 
-      populatedLines.forEach(line => {
+      populatedLines.forEach((line, idx) => {
+        const isIndented = /^\\s{2,}|\\t/.test(line);
         const trimmed = line.trim();
-        const isSub = hasParent && (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('\ufffd'));
-        let cleanText = trimmed.replace(/^[•\\-\\ufffd]\\s*/, '').trim();
+        const hasBullet = /^[•\\-\\*\\ufffd]/.test(trimmed);
+
+        let cleanText = trimmed.replace(/^[•\\-\\*\\ufffd]\\s*/, '').trim();
         cleanText = cleanNumbers(cleanText);
+
         const labUrl = cleanText.match(/^Lab demo:\\s*(https:\\/\\/[^\\s]+)/i);
         if (labUrl) {
           cleanText = `<a href="${labUrl[1]}" target="_blank" rel="noopener noreferrer">🔗 Lab demo: open this module in GitHub</a>`;
@@ -1572,7 +1672,20 @@ html_template = '''<!DOCTYPE html>
 
         if (!cleanText) return;
 
-        if (isSub) {
+        if (!hasBullet && !isIndented) {
+          if (subListOpen) { html += '</ul>'; subListOpen = false; }
+          if (groupOpen) { html += '</li>'; groupOpen = false; }
+          if (listOpen) { html += '</ul>'; listOpen = false; }
+          html += `<div class="slide-lead-header">${cleanText}</div>`;
+          return;
+        }
+
+        if (!listOpen) {
+          html += `<ul class="main-bullets${denseClass}">`;
+          listOpen = true;
+        }
+
+        if (isIndented && hasBullet) {
           if (!groupOpen) {
             html += '<li class="bullet-group">';
             groupOpen = true;
@@ -1587,7 +1700,9 @@ html_template = '''<!DOCTYPE html>
             html += '</ul>';
             subListOpen = false;
           }
-          if (groupOpen) html += '</li>';
+          if (groupOpen) {
+            html += '</li>';
+          }
           html += `<li class="bullet-group"><div class="primary-bullet">${cleanText}</div>`;
           groupOpen = true;
         }
@@ -1595,7 +1710,7 @@ html_template = '''<!DOCTYPE html>
 
       if (subListOpen) html += '</ul>';
       if (groupOpen) html += '</li>';
-      html += '</ul>';
+      if (listOpen) html += '</ul>';
       return html;
     }
 
@@ -1679,7 +1794,7 @@ html_template = '''<!DOCTYPE html>
               </div>
               <div class="slide-1-link-item">
                 <span class="slide-1-link-label">🌐 Site:</span>
-                <a href="https://kenhuangus.github.io/packt-harness/" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://kenhuangus.github.io/packt-harness/</a>
+                <a href="https://kenhuangus.github.io/packt-harness/slides.html#1" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://kenhuangus.github.io/packt-harness/slides.html#1</a>
               </div>
             </div>
           </div>
@@ -1761,13 +1876,48 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project Deliverables')) {
+      } else if (slide.number === 83 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project'))) {
         const tableLines = slide.raw_lines.filter(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
         bodyHtml += `
-          <div id="slide-content-wrap" class="capstone-deliverables-wrap" style="width:100%; height:100%; display:flex; flex-direction:column; gap:0.6rem;">
-            <div class="ref-table-card" style="width:100%; box-shadow: 0 4px 16px rgba(0,0,0,0.05); overflow:hidden;">
-              <div class="ref-table-card-header" style="background:var(--accent-sf); font-size:1.02rem; font-weight:750; color:var(--ink);">
-                🚀 Capstone Autonomous Deep Research Agent — Production Artifacts &amp; Repository Links
+          <div id="slide-content-wrap" class="capstone-layout-grid">
+            <div class="capstone-info-card">
+              <div class="ref-table-card-header">
+                ⚡ Local Execution &amp; Model-Driven Zero-API Engine
+              </div>
+              <div class="capstone-info-body">
+                <div class="capstone-section">
+                  <div class="capstone-section-title">💻 How to Run Locally (Web UI &amp; Server)</div>
+                  <div class="capstone-cmd-box">
+                    <div><code>python deep_research_agent/server.py 8090</code> <span class="cmd-note">➔ Open <a href="http://localhost:8090/" target="_blank" rel="noopener noreferrer">http://localhost:8090/</a></span></div>
+                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ 14/14 automated TDA tests passing</span></div>
+                    <div><code>packt-harness audit</code> <span class="cmd-note">➔ 100% Score (5/5 Gates Certified)</span></div>
+                  </div>
+                </div>
+
+                <div class="capstone-section">
+                  <div class="capstone-section-title">🌐 Zero-API Public Search Providers (No Keys / No Auth)</div>
+                  <div class="capstone-providers-grid">
+                    <div class="provider-pill">📄 <strong>arXiv:</strong> Open science preprints Atom API</div>
+                    <div class="provider-pill">📚 <strong>OpenAlex:</strong> Global scholarly index &amp; DOIs</div>
+                    <div class="provider-pill">🌐 <strong>Wikipedia:</strong> Encyclopedia REST API</div>
+                    <div class="provider-pill">💬 <strong>HackerNews:</strong> Algolia community discussions</div>
+                    <div class="provider-pill">🐙 <strong>GitHub Repos:</strong> Playwright browser crawler</div>
+                    <div class="provider-pill">🎥 <strong>YouTube Talks:</strong> Playwright browser crawler</div>
+                  </div>
+                </div>
+
+                <div class="capstone-section">
+                  <div class="capstone-section-title">🧠 Model-Driven Autonomous Search (Query Presets)</div>
+                  <div class="capstone-text-desc">
+                    UI presets provide <strong>pure query text strings</strong> (hypotheses) without hardcoded results. The <strong>Planner subagent</strong> decomposes queries into multi-hop investigation tracks, invokes live MCP search tools across Zero-API providers, and the <strong>Synthesizer model</strong> constructs an evidence-grounded dossier with citation confidence and unified diff.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ref-table-card">
+              <div class="ref-table-card-header">
+                🚀 Capstone Artifacts &amp; Direct Repository Links
               </div>
               ${renderMarkdownTable(tableLines, 'ref-table')}
             </div>
@@ -1857,10 +2007,11 @@ html_template = '''<!DOCTYPE html>
         const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
         const targetH = clientH * 0.90;
+        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid')) ? 1.25 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
         
         let scale = 1.0;
         let growIter = 0;
-        while (wrapper.offsetHeight < targetH && bodyEl.scrollHeight <= clientH && scale < 3.25 && growIter < 45) {
+        while (wrapper.offsetHeight < targetH && bodyEl.scrollHeight <= clientH && scale < maxScale && growIter < 45) {
           scale += 0.05;
           bodyEl.style.setProperty('--fit-scale', scale.toFixed(2));
           growIter++;
