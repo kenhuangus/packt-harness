@@ -4,24 +4,24 @@
       {
         "attempt": 1,
         "returncode": 2,
-        "last_line": "1 error in 0.66s"
+        "last_line": "1 error in 0.32s"
       },
       {
         "attempt": 2,
         "returncode": 2,
-        "last_line": "1 error in 0.90s"
+        "last_line": "1 error in 0.50s"
       },
       {
         "attempt": 3,
         "returncode": 2,
-        "last_line": "1 error in 0.80s"
+        "last_line": "1 error in 0.96s"
       }
     ],
     "deleted": [
       "C:\\Users\\kenhu\\packt-harness\\course_implementation\\module_01_why_harness_engineering\\output\\unharnessed_workspace\\var\\log\\app.log"
     ],
     "log_survived": false,
-    "llm_reply": "A harness is essential to enforce safety, manage execution context, and ensure the model\u2019s code output is reliable and secure before it interacts with the environment."
+    "llm_reply": "A harness is essential to enforce safety, manage execution context, and ensure the model's code output is reliable and actionable within a specific environment."
   },
   "harnessed": {
     "first_pytest": {

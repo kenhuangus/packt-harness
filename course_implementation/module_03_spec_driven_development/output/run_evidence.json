@@ -21,5 +21,5 @@
     "valid": false,
     "error": "EXPIRED"
   },
-  "llm_reply": "An agent must write only files listed in SPEC.md to ensure strict adherence to the project's defined scope and prevent the creation of unintended or unauthorized artifacts."
+  "llm_reply": "An agent must write only files listed in SPEC.md to ensure strict adherence to the project's defined scope and prevent the creation of unintended or unauthorized code artifacts."
 }

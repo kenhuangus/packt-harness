@@ -29,7 +29,7 @@ for m in modules:
     py_files = [f for f in os.listdir(m_path) if f.endswith('.py') and not f.startswith('fix_') and not f.startswith('update_') and not f.startswith('run_')]
     for py in py_files:
         full_py = os.path.join(m_path, py)
-        res = subprocess.run([sys.executable, full_py], capture_output=True, text=True, cwd=m_path, encoding='utf-8', errors='ignore')
+        res = subprocess.run([sys.executable, full_py], input="", capture_output=True, text=True, cwd=m_path, encoding='utf-8', errors='ignore')
         if res.returncode == 0:
             passed += 1
             print(f"PASS {m}/{py}")
