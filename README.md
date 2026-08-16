@@ -35,13 +35,34 @@ LLM_BASE_URL=http://127.0.0.1:8000/v1
 LLM_API_KEY=EMPTY
 ```
 
-## Quickstart
+## Quickstart & CLI Installation
+
+Install the repository as an editable CLI tool:
 
 ```bash
 git clone https://github.com/kenhuangus/packt-harness.git
 cd packt-harness
-python -m pip install mcp
-python run_all_modules.py
+python -m pip install -e .
+```
+
+### Using the `packt-harness` CLI
+
+```bash
+# List all 10 modules and architectural summaries
+packt-harness list
+
+# Run any module demo (1-10 or 'all')
+packt-harness run 3
+packt-harness run all
+
+# Run the 5-Gate production readiness audit
+packt-harness audit
+
+# Run the complete test suite
+packt-harness test
+
+# Launch and view the interactive HTML presentation slide deck
+packt-harness slides --port 8080
 ```
 
 Each module folder under [course_implementation/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/)

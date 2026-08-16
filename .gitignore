@@ -14,7 +14,11 @@ course_implementation/run_all_live_tests.py
 course_implementation/module_01_why_harness_engineering/fix_script.py
 course_implementation/module_01_why_harness_engineering/update_results.py
 
-# Byte-compiled / Python Cache
+# Byte-compiled / Python Cache & Build Artifacts
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
+build/
+dist/
+.pytest_cache/

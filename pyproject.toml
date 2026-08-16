@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "packt-harness"
+version = "1.0.0"
+description = "Production-Grade AI Agent Harness Engineering - 10-Module Interactive Workshop & CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Ken Huang" }
+]
+keywords = [
+    "ai-agents",
+    "agent-harness",
+    "claude-code",
+    "model-context-protocol",
+    "guardrails",
+    "spec-driven-development",
+    "compound-engineering"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Testing",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "pytest>=8.0.0",
+    "mcp>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "aisuite>=0.1.0",
+]
+
+[project.scripts]
+packt-harness = "packt_harness.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["packt_harness*", "course_implementation*"]
