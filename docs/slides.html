@@ -1218,6 +1218,10 @@
       document.getElementById('slide-title').innerText = title;
       document.getElementById('slide-num-badge').innerText = `Slide ${slide.number} of ${slidesData.length}`;
 
+      if (window.location.hash !== '#' + slide.number) {
+        history.replaceState(null, '', '#' + slide.number);
+      }
+
       const restLines = slide.raw_lines ? slide.raw_lines.slice(1) : [];
       const isSkill = slide.slide_type === 'skill';
       const isCode = slide.slide_type === 'code';
@@ -1541,7 +1545,24 @@
       if (!isGridMode) renderSlide(currentIdx);
     });
 
-    renderSlide(0);
+    function getInitialSlideIndex() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        const num = parseInt(hash, 10);
+        if (!isNaN(num)) {
+          const foundIdx = slidesData.findIndex(s => s.number === num);
+          if (foundIdx !== -1) return foundIdx;
+        }
+      }
+      return 0;
+    }
+
+    window.addEventListener('hashchange', () => {
+      const idx = getInitialSlideIndex();
+      if (idx !== currentIdx) renderSlide(idx);
+    });
+
+    renderSlide(getInitialSlideIndex());
   </script>
 </body>
 </html>
