@@ -449,28 +449,28 @@
       <div class="grid-3">
         <div class="card">
           <div class="card-icon">1</div>
-          <h3>Instructions & Conventions</h3>
-          <p>Persistent repository briefs using <code>CLAUDE.md</code> and <code>AGENTS.md</code> with cascading directory lookup and symlink interoperability.</p>
+          <h3>Memory Files</h3>
+          <p>Persistent repository briefs using <code>CLAUDE.md</code> and <code>AGENTS.md</code> with cascading directory lookup and byte-budgeted context loading.</p>
         </div>
         <div class="card">
           <div class="card-icon">2</div>
-          <h3>Scoped Tools & Sandbox</h3>
-          <p>Least-privilege tool execution models bound strictly to workspace boundaries, blocking path traversal exploits.</p>
+          <h3>Scoped Tools &amp; Sandbox</h3>
+          <p>Least-privilege tool allowlists bound strictly to workspace boundaries via <code>is_relative_to()</code>, blocking path traversal exploits.</p>
         </div>
         <div class="card">
           <div class="card-icon">3</div>
-          <h3>Hooks & Policy Engine</h3>
-          <p><code>PreToolUse</code> command guards and <code>PostToolUse</code> checks that can run deterministic policy and analysis.</p>
+          <h3>Deterministic Hooks Engine</h3>
+          <p><code>PreToolUse</code> dangerous command guards and <code>PostToolUse</code> static AST syntax tree validation and secret scanning.</p>
         </div>
         <div class="card">
           <div class="card-icon">4</div>
-          <h3>Automated Testing Loop</h3>
-          <p>Zero-touch compiler and pytest traceback extraction feeding stdout/stderr directly into LLM repair prompts.</p>
+          <h3>Context Token Budgeting</h3>
+          <p>Strict 20/20/50/10 token budget allocations across memory, spec, workspace, and output buffer with head/tail compiler log compaction.</p>
         </div>
         <div class="card">
           <div class="card-icon">5</div>
-          <h3>Observability & Tracing</h3>
-          <p>Structured <code>events.jsonl</code> audit logging recording every tool invocation, diff, and execution duration for continuous learning.</p>
+          <h3>JSONL Tracing &amp; Observability</h3>
+          <p>Append-only structured <code>events.jsonl</code> audit logging recording every tool invocation, permission decision, and ISO UTC timestamp.</p>
         </div>
         <div class="card">
           <div class="card-icon">+</div>
@@ -597,7 +597,7 @@ print(response.choices[0].message.content)
       2: {
         time: "",
         title: "Module 2: Core Harness Stack & 5 System Pillars",
-        output: "============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md'\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - PreToolUse] Code safety inspection passed.\n[Pillar 4 - Test Runner] Executing test suite: pytest\n[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n============================================================"
+        output: "============================================================\nMODULE 2 DEMO: CORE HARNESS STACK (5 PILLARS)\n============================================================\n[Pillar 1 - Memory] Loaded persistent guidelines from 'AGENTS.md' (482 bytes)\nAllocations: {'memory': 25600, 'spec': 25600, 'workspace': 64000, 'output_buffer': 12800}\n[Pillar 2 - Permission] Tool 'write_file' and path 'sample_module.py' validated.\n[Pillar 3 - Pre-Hook] Code safety inspection passed.\n[Pillar 3 - Post-Hook] Running AST static analysis on 'sample_module.py'...\n[Pillar 4 - Token Budget] Compacted 45-line compiler dump into 20-line head/tail window.\n[Pillar 5 - Trace] Appended 'WRITE_FILE_SUCCESS' to events.jsonl audit log.\n[FAIL] HARNESS ERROR: Path Traversal Blocked: Target '../../forbidden.py' is outside workspace.\n============================================================"
       },
       3: {
         time: "",

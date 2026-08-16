@@ -186,11 +186,11 @@
     "raw_lines": [
       "The 5 Harness Pillars",
       "Architecture",
-      "• Memory: CLAUDE.md / AGENTS.md",
-      "• Tools: least privilege + path sandbox",
-      "• Hooks: PreToolUse / PostToolUse",
-      "• Tests: pytest traceback loop",
-      "• Trace: events.jsonl audit log"
+      "• Pillar 1: Memory (CLAUDE.md / AGENTS.md)",
+      "• Pillar 2: Tools (least privilege + path sandbox)",
+      "• Pillar 3: Hooks (PreToolUse / PostToolUse AST)",
+      "• Pillar 4: Token Budget (allocation & log compact)",
+      "• Pillar 5: Trace (events.jsonl audit log)"
     ]
   },
   {
@@ -226,9 +226,10 @@
   {
     "number": 18,
     "raw_lines": [
-      "Pillars 4 & 5: Tests and Trace",
-      "• Feed pytest failures back to the agent",
-      "• Log every tool event to JSONL",
+      "Pillars 4 & 5: Budget and Trace",
+      "• Pillar 4: 20/20/50/10 token budget + log compaction",
+      "• Pillar 5: Structured events.jsonl audit log",
+      "• Deterministic evidence for all tool invocations",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
