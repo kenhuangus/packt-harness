@@ -197,10 +197,15 @@
   {
     "number": 15,
     "raw_lines": [
-      "Pillars 4 & 5: Budget and Trace",
-      "• Pillar 4: 20/20/50/10 token budget + log compaction",
-      "• Pillar 5: Structured events.jsonl audit log",
-      "• Deterministic evidence for all tool invocations",
+      "Pillars 4 & 5: Budget & Tracing",
+      "Context Allocation & Immutable Audit Logs",
+      "• Pillar 4: 20/20/50/10 Context Budget (ContextTokenBudgeter in core_harness_stack.py):",
+      "  • 20% (25.6k tokens) Memory: Standing rules from CLAUDE.md & AGENTS.md",
+      "  • 20% (25.6k tokens) Spec: Immutable scope & acceptance criteria in SPEC.md",
+      "  • 50% (64.0k tokens) Workspace: Active source files, tool execution & file diffs",
+      "  • 10% (12.8k tokens) Output Buffer: Reserved headroom for model generation",
+      "• Head/Tail Log Compaction: Retains first 5 & last 15 lines of compiler stdout, omitting noisy middle lines.",
+      "• Pillar 5: Structured events.jsonl audit trail providing deterministic evidence for every tool call and permission check.",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
