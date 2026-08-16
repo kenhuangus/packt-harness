@@ -103,39 +103,39 @@ function renderGraph(evidence) {
   const svg = document.getElementById('researchGraphSvg');
   svg.innerHTML = `
     <!-- Root Query Node -->
-    <g transform="translate(60, 120)">
-      <circle r="30" fill="hsl(168, 80%, 42%)" opacity="0.9" />
-      <text fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle" dy="4">RESEARCH</text>
+    <g transform="translate(80, 90)">
+      <circle r="36" fill="hsl(168, 80%, 42%)" stroke="hsl(168, 80%, 65%)" stroke-width="2.5" />
+      <text fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle" dy="5">RESEARCH</text>
     </g>
 
     <!-- Bezier Curves & Sub-nodes -->
-    <path d="M 90 120 C 180 120, 200 45, 300 45" stroke="hsl(215, 25%, 35%)" stroke-width="2" fill="none" />
-    <path d="M 90 120 C 180 120, 200 95, 300 95" stroke="hsl(215, 25%, 35%)" stroke-width="2" fill="none" />
-    <path d="M 90 120 C 180 120, 200 145, 300 145" stroke="hsl(215, 25%, 35%)" stroke-width="2" fill="none" />
-    <path d="M 90 120 C 180 120, 200 195, 300 195" stroke="hsl(215, 25%, 35%)" stroke-width="2" fill="none" />
+    <path d="M 120 90 C 240 90, 260 30, 380 30" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 70, 380 70" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 110, 380 110" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
+    <path d="M 120 90 C 240 90, 260 150, 380 150" stroke="hsl(215, 25%, 45%)" stroke-width="3" fill="none" />
 
     <!-- Sub-node 1 -->
-    <g transform="translate(300, 45)">
-      <rect x="-10" y="-14" width="160" height="28" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 42%)" />
-      <text x="70" y="4" fill="hsl(210, 40%, 98%)" font-size="10" font-family="monospace" text-anchor="middle">5 Golden Pillars</text>
+    <g transform="translate(380, 30)">
+      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 45%)" stroke-width="1.5" />
+      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">5 Golden Pillars Stack</text>
     </g>
 
     <!-- Sub-node 2 -->
-    <g transform="translate(300, 95)">
-      <rect x="-10" y="-14" width="160" height="28" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(214, 95%, 60%)" />
-      <text x="70" y="4" fill="hsl(210, 40%, 98%)" font-size="10" font-family="monospace" text-anchor="middle">MCP 2.x Stdio IPC</text>
+    <g transform="translate(380, 70)">
+      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(214, 95%, 60%)" stroke-width="1.5" />
+      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">MCP 2.x Stdio Tools</text>
     </g>
 
     <!-- Sub-node 3 -->
-    <g transform="translate(300, 145)">
-      <rect x="-10" y="-14" width="160" height="28" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(38, 92%, 50%)" />
-      <text x="70" y="4" fill="hsl(210, 40%, 98%)" font-size="10" font-family="monospace" text-anchor="middle">Compound Loop</text>
+    <g transform="translate(380, 110)">
+      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(38, 92%, 50%)" stroke-width="1.5" />
+      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">Compound Review Loops</text>
     </g>
 
     <!-- Sub-node 4 -->
-    <g transform="translate(300, 195)">
-      <rect x="-10" y="-14" width="160" height="28" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 42%)" />
-      <text x="70" y="4" fill="hsl(210, 40%, 98%)" font-size="10" font-family="monospace" text-anchor="middle">TDA Red-Repair-Green</text>
+    <g transform="translate(380, 150)">
+      <rect x="0" y="-16" width="220" height="32" rx="6" fill="hsl(217, 33%, 22%)" stroke="hsl(168, 80%, 45%)" stroke-width="1.5" />
+      <text x="110" y="5" fill="hsl(210, 40%, 98%)" font-size="13" font-weight="700" font-family="sans-serif" text-anchor="middle">TDA Pytest Verifier</text>
     </g>
   `;
 }
@@ -144,7 +144,7 @@ function renderGraph(evidence) {
 function renderCitations(evidence) {
   const grid = document.getElementById('citationsGrid');
   grid.innerHTML = '';
-  document.getElementById('evidenceCountBadge').textContent = `${evidence.length} Sources Extracted`;
+  document.getElementById('evidenceCountBadge').textContent = `${evidence.length} Sources Verified`;
 
   evidence.forEach(item => {
     const card = document.createElement('div');
@@ -154,8 +154,8 @@ function renderCitations(evidence) {
         <span class="citation-title">${item.title}</span>
         <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
       </div>
-      <span style="font-size: 0.72rem; color: var(--accent-sapphire); font-family: var(--font-mono);">${item.domain} • ${item.author || 'Author'}</span>
-      <p class="citation-quote">"${item.grounding_quote || item.snippet}"</p>
+      <div class="citation-domain">${item.domain} • ${item.author || 'Author'}</div>
+      <div class="citation-quote">"${item.grounding_quote || item.snippet}"</div>
     `;
     grid.appendChild(card);
   });

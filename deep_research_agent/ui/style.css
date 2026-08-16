@@ -1,25 +1,25 @@
-/* Deep Research Agent - Modern Design System (Curated HSL Tokens) */
+/* Deep Research Agent - Capstone Design System (Minimum Font Size: 13px-16px) */
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Dark Theme (Default) */
-  --bg-primary: hsl(222, 47%, 10%);
-  --bg-secondary: hsl(220, 38%, 14%);
-  --bg-card: hsl(217, 33%, 17%);
-  --bg-card-hover: hsl(217, 33%, 21%);
-  --border-color: hsl(215, 25%, 26%);
+  --bg-primary: hsl(222, 47%, 9%);
+  --bg-secondary: hsl(220, 38%, 13%);
+  --bg-card: hsl(217, 33%, 16%);
+  --bg-card-hover: hsl(217, 33%, 20%);
+  --border-color: hsl(215, 25%, 27%);
   --border-focus: hsl(168, 80%, 45%);
 
   --text-primary: hsl(210, 40%, 98%);
-  --text-secondary: hsl(215, 20%, 72%);
-  --text-muted: hsl(215, 16%, 52%);
+  --text-secondary: hsl(215, 20%, 75%);
+  --text-muted: hsl(215, 16%, 58%);
 
   --accent-emerald: hsl(168, 80%, 42%);
-  --accent-emerald-glow: hsla(168, 80%, 42%, 0.25);
-  --accent-sapphire: hsl(214, 95%, 60%);
+  --accent-emerald-glow: hsla(168, 80%, 42%, 0.2);
+  --accent-sapphire: hsl(214, 95%, 62%);
   --accent-amber: hsl(38, 92%, 50%);
-  --accent-crimson: hsl(0, 72%, 51%);
+  --accent-crimson: hsl(0, 72%, 55%);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -29,15 +29,15 @@
 
 [data-theme="light"] {
   --bg-primary: hsl(210, 40%, 98%);
-  --bg-secondary: hsl(210, 30%, 94%);
+  --bg-secondary: hsl(210, 30%, 93%);
   --bg-card: hsl(0, 0%, 100%);
   --bg-card-hover: hsl(210, 30%, 96%);
-  --border-color: hsl(214, 32%, 88%);
+  --border-color: hsl(214, 32%, 85%);
   --border-focus: hsl(168, 80%, 35%);
 
-  --text-primary: hsl(222, 47%, 12%);
-  --text-secondary: hsl(215, 25%, 35%);
-  --text-muted: hsl(215, 16%, 55%);
+  --text-primary: hsl(222, 47%, 10%);
+  --text-secondary: hsl(215, 25%, 32%);
+  --text-muted: hsl(215, 16%, 50%);
 
   --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
 }
@@ -58,16 +58,16 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Header */
+/* App Header */
 .app-header {
   background-color: var(--bg-secondary);
   border-bottom: 2px solid var(--border-color);
-  padding: 1.1rem 2rem;
+  padding: 1.2rem 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,72 +76,67 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .brand-icon {
-  font-size: 1.9rem;
+  font-size: 2.2rem;
   background: var(--accent-emerald-glow);
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.7rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--accent-emerald);
+  border: 1.5px solid var(--accent-emerald);
 }
 
 .brand h1 {
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
-.brand-tag {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.6rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  color: var(--accent-emerald);
-  letter-spacing: 0.06em;
+.brand-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .header-badges {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .badge {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0.9rem;
+  padding: 0.5rem 1.1rem;
   border-radius: var(--radius-sm);
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .badge-emerald {
-  background: hsla(168, 80%, 42%, 0.15);
-  border: 1px solid var(--accent-emerald);
+  background: hsla(168, 80%, 42%, 0.16);
+  border: 1.5px solid var(--accent-emerald);
   color: var(--accent-emerald);
 }
 
 .badge-sapphire {
-  background: hsla(214, 95%, 60%, 0.15);
-  border: 1px solid var(--accent-sapphire);
+  background: hsla(214, 95%, 60%, 0.16);
+  border: 1.5px solid var(--accent-sapphire);
   color: var(--accent-sapphire);
 }
 
 .theme-btn {
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   color: var(--text-primary);
-  padding: 0.45rem 0.9rem;
+  padding: 0.5rem 1.1rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
@@ -150,18 +145,35 @@ body {
   border-color: var(--accent-emerald);
 }
 
-/* Dashboard Grid */
+/* Simplified 2-Column Grid Layout */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 340px 1.2fr 1.3fr;
-  gap: 1.5rem;
-  padding: 1.5rem 2rem;
+  grid-template-columns: 420px 1fr;
+  gap: 2rem;
+  padding: 2rem 2.5rem;
   flex: 1;
+  max-width: 2400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
+.sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+/* Panel Cards */
 .panel-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   display: flex;
@@ -170,8 +182,8 @@ body {
 }
 
 .card-header {
-  padding: 1rem 1.4rem;
-  border-bottom: 1px solid var(--border-color);
+  padding: 1.1rem 1.6rem;
+  border-bottom: 1.5px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -179,67 +191,67 @@ body {
 }
 
 .card-header h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  color: var(--text-primary);
 }
 
 .card-body {
-  padding: 1.4rem;
+  padding: 1.6rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  overflow-y: auto;
+  gap: 1.4rem;
 }
 
 /* Form Controls */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .form-group label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .input-text, .select-input {
   width: 100%;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.65rem 0.85rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
+  color: var(--text-primary);
   font-family: var(--font-sans);
-  font-size: 0.85rem;
+  font-size: 1rem;
+  outline: none;
   transition: border-color 0.2s;
 }
 
 .input-text:focus, .select-input:focus {
-  outline: none;
   border-color: var(--border-focus);
 }
 
 .btn-primary {
-  width: 100%;
-  background-color: var(--accent-emerald);
-  color: #fff;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent-emerald);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.5rem;
   transition: opacity 0.2s, transform 0.1s;
 }
 
@@ -251,20 +263,40 @@ body {
   transform: scale(0.99);
 }
 
-/* Presets */
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Presets & Section Dividers */
+.section-divider {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
 .preset-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.6rem;
 }
 
 .preset-chip {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
-  padding: 0.45rem 0.75rem;
+  padding: 0.65rem 1rem;
   border-radius: var(--radius-sm);
-  font-size: 0.78rem;
+  font-size: 0.92rem;
+  font-weight: 600;
   color: var(--text-secondary);
   cursor: pointer;
   text-align: left;
@@ -272,7 +304,7 @@ body {
 }
 
 .preset-chip:hover {
-  border-color: var(--border-focus);
+  border-color: var(--accent-emerald);
   color: var(--text-primary);
   background: var(--bg-card-hover);
 }
@@ -282,24 +314,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-top: 1rem;
 }
 
 .step-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.8rem;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
-  font-size: 0.82rem;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .step-item.active {
   border-color: var(--accent-sapphire);
-  background: hsla(214, 95%, 60%, 0.08);
+  background: hsla(214, 95%, 60%, 0.1);
 }
 
 .step-item.completed {
@@ -308,17 +338,18 @@ body {
 }
 
 .step-icon {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 800;
   font-family: var(--font-mono);
+  flex-shrink: 0;
 }
 
 .step-item.completed .step-icon {
@@ -327,40 +358,56 @@ body {
   border-color: var(--accent-emerald);
 }
 
-/* Center Column: Graph & Citations */
+.step-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-text strong {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.step-text small {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Graph Container */
 .graph-container {
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
-  height: 240px;
-  margin-bottom: 1rem;
-  position: relative;
+  height: 200px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem;
 }
 
+/* Citation Grid */
 .citations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0.5rem;
 }
 
 .citation-card {
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
-  padding: 1rem 1.1rem;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
   transition: transform 0.2s, border-color 0.2s;
 }
 
 .citation-card:hover {
   transform: translateY(-2px);
-  border-color: var(--border-focus);
+  border-color: var(--accent-emerald);
 }
 
 .citation-header {
@@ -371,50 +418,57 @@ body {
 }
 
 .citation-title {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .trust-badge {
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 800;
   font-family: var(--font-mono);
   background: var(--accent-emerald-glow);
   color: var(--accent-emerald);
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.65rem;
   border-radius: 4px;
   border: 1px solid var(--accent-emerald);
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.citation-domain {
+  font-size: 0.9rem;
+  color: var(--accent-sapphire);
+  font-family: var(--font-mono);
+  font-weight: 600;
 }
 
 .citation-quote {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   font-style: italic;
-  line-height: 1.5;
-  border-left: 3px solid var(--accent-emerald);
-  padding-left: 0.75rem;
-  margin-top: 0.25rem;
-  background: hsla(220, 38%, 14%, 0.5);
-  padding: 0.5rem 0.75rem;
+  line-height: 1.6;
+  border-left: 3.5px solid var(--accent-emerald);
+  padding: 0.65rem 1rem;
+  background: hsla(220, 38%, 14%, 0.6);
   border-radius: 0 4px 4px 0;
+  margin-top: 0.35rem;
 }
 
-/* Right Column: Dossier & Telemetry */
+/* Tabs & Dossier Viewer */
 .tabs-nav {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .tab-btn {
   background: transparent;
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   color: var(--text-muted);
-  padding: 0.45rem 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
   border-radius: var(--radius-sm);
   transition: all 0.2s;
@@ -427,64 +481,59 @@ body {
 }
 
 .dossier-viewer {
-  font-size: 0.92rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.75;
   color: var(--text-secondary);
+  padding: 0.5rem;
 }
 
 .dossier-viewer h1 {
-  font-size: 1.35rem;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
 }
 
 .dossier-viewer h2 {
-  font-size: 1.15rem;
-  color: var(--text-primary);
-  margin: 1.25rem 0 0.5rem;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.3rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+  margin: 1.6rem 0 0.6rem;
 }
 
 .dossier-viewer h3 {
-  font-size: 1rem;
+  font-size: 1.12rem;
+  font-weight: 700;
   color: var(--accent-sapphire);
-  margin: 1rem 0 0.4rem;
+  margin: 1.3rem 0 0.5rem;
 }
 
 .dossier-viewer p {
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
-.dossier-viewer blockquote {
-  background: var(--bg-primary);
-  border-left: 3px solid var(--accent-emerald);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin: 0.5rem 0;
-  font-size: 0.8rem;
-}
-
-/* Telemetry Stream */
+/* Telemetry Log Stream */
 .telemetry-log {
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-sm);
-  padding: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  height: 160px;
+  padding: 0.85rem;
+  height: 140px;
   overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .telemetry-row {
   display: flex;
+  gap: 0.75rem;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .telemetry-time {
@@ -492,13 +541,6 @@ body {
 }
 
 .telemetry-type {
-  color: var(--accent-emerald);
-  font-weight: 600;
-}
-
-/* Responsive */
-@media (max-width: 1100px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+  color: var(--accent-sapphire);
+  font-weight: 700;
 }
