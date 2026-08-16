@@ -967,7 +967,77 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_08_compound_engineering/skills/harness-compound-multi-agent-worktrees/"
   },
   {
-    "number": 72,
+    "raw_lines": [
+      "Compound Orchestrator",
+      "The Compounding Agent Loop",
+      "• Open-source framework: https://github.com/kenhuangus/compound-orchestrator",
+      "• Core Loop: brainstorm -> plan -> 6 contracts -> 2-round review -> work -> compound",
+      "• Durable Learning: Every task logs reusable decisions, failure notes, and compound notes",
+      "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux"
+    ],
+    "number": 72
+  },
+  {
+    "raw_lines": [
+      "Six Planning Contracts",
+      "Machine & Human Alignment",
+      "• 6 Standard HTML Contracts: prd.html, planning.html, spec.html",
+      "• Quality & Design: test-cases.html, architecture.html (with Excalidraw), users.html",
+      "• Parallel Drafting: Draft independent contracts concurrently; serialize integration & acceptance",
+      "• Shared Invariants: AGENTS.md & CLAUDE.md managed protocol blocks",
+      "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
+    ],
+    "number": 73
+  },
+  {
+    "raw_lines": [
+      "Cross-Tool Review Protocol",
+      "Two-Round Verification",
+      "• Opposite-Tool Review: One agent runtime reviews work authored by another (Claude vs Codex)",
+      "• 5 Structured Stages: Round 1 Review -> Round 1 Response -> Round 2 Review -> Round 2 Response -> Acceptance",
+      "• Bounded Review Loops: Hard cap at 2 rounds to prevent infinite review churn",
+      "• Review Rubrics: Standardized scorecards for architecture, security, tests, and maintainability",
+      "• Protocol Reference: https://github.com/kenhuangus/compound-orchestrator"
+    ],
+    "number": 74
+  },
+  {
+    "raw_lines": [
+      "Ownership Claims",
+      "Concurrency Protection",
+      "• Granular File Locking: scripts/compound_orchestrator.py claim and release",
+      "• Multi-Tool Coordination: claude, codex, cursor, aider, and CI agents share one ownership ledger",
+      "• Conflict Prevention: Claim fails if another active agent owns an overlapping path",
+      "• Clean Handoffs: Atomic release upon task integration or review handoff",
+      "• Orchestration Code: https://github.com/kenhuangus/compound-orchestrator"
+    ],
+    "number": 75
+  },
+  {
+    "raw_lines": [
+      "Compound Plugin Architecture",
+      "Manifests, Commands & Subagents",
+      "• Plugin Manifests: .claude-plugin/plugin.json & .codex-plugin/ topology",
+      "• Slash Commands: /compound-start, /compound-plan, /compound-review, /compound-learn, /compound-claim",
+      "• Specialized Subagents: compound-architect, compound-reviewer, compound-test-runner, compound-cross-tool-reviewer",
+      "• Agent-Team Enablement: Native support for multi-agent dynamic teams",
+      "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
+    ],
+    "number": 76
+  },
+  {
+    "raw_lines": [
+      "Continuous Verification & Portability",
+      "scripts/verify.py & README Maintenance",
+      "• Universal Verifiers: scripts/verify.py, scripts/verify.ps1, and scripts/verify.sh",
+      "• Comprehensive Checks: Compound files, ownership conflicts, git conflict markers, unittest suites",
+      "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
+      "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
+    ],
+    "number": 77
+  },
+  {
+    "number": 78,
     "raw_lines": [
       "MODULE 9",
       "Practical SOP",
@@ -977,7 +1047,7 @@
     ]
   },
   {
-    "number": 73,
+    "number": 79,
     "raw_lines": [
       "Five-Step SOP",
       "The Pipeline",
@@ -989,7 +1059,7 @@
     ]
   },
   {
-    "number": 74,
+    "number": 80,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -999,7 +1069,7 @@
     ]
   },
   {
-    "number": 75,
+    "number": 81,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -1009,7 +1079,7 @@
     ]
   },
   {
-    "number": 76,
+    "number": 82,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -1044,7 +1114,7 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 77
+    "number": 83
   },
   {
     "slide_type": "skill",
@@ -1059,7 +1129,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md"
     ],
-    "number": 78,
+    "number": 84,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md"
@@ -1070,7 +1140,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/skills/harness-five-step-sop-pipeline/"
   },
   {
-    "number": 79,
+    "number": 85,
     "raw_lines": [
       "MODULE 10",
       "Principles and Audit",
@@ -1080,7 +1150,7 @@
     ]
   },
   {
-    "number": 80,
+    "number": 86,
     "raw_lines": [
       "Four Principles",
       "What to Optimize",
@@ -1091,7 +1161,7 @@
     ]
   },
   {
-    "number": 81,
+    "number": 87,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -1103,7 +1173,7 @@
     ]
   },
   {
-    "number": 82,
+    "number": 88,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -1138,7 +1208,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 83
+    "number": 89
   },
   {
     "slide_type": "skill",
@@ -1153,7 +1223,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py, https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md"
     ],
-    "number": 84,
+    "number": 90,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py"
@@ -1180,7 +1250,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 85
+    "number": 91
   },
   {
     "slide_type": "reference_tables",
@@ -1195,6 +1265,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 86
+    "number": 92
   }
 ]
