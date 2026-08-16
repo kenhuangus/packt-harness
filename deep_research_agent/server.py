@@ -11,6 +11,11 @@ import os
 from pathlib import Path
 import sys
 
+# Ensure repository root is in sys.path
+REPO_ROOT = Path(__file__).parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from deep_research_agent.engine.five_step_pipeline import FiveStepResearchPipeline
 
 UI_DIR = Path(__file__).parent / "ui"
@@ -48,8 +53,12 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
         self.end_headers()
 
 
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+
+# ...
+
 def run_server(port: int = 8090):
-    server = HTTPServer(("0.0.0.0", port), DeepResearchAPIHandler)
+    server = ThreadingHTTPServer(("0.0.0.0", port), DeepResearchAPIHandler)
     print(f"[*] Deep Research Agent UI running at http://localhost:{port}/")
     server.serve_forever()
 
