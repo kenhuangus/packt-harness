@@ -67,17 +67,22 @@ packt-harness slides --port 8080
 
 ## 🚀 Capstone Project: Autonomous Deep Research Agent
 
-A production-grade, end-to-end research platform synthesizing all 10 harness engineering modules:
+A production-grade, end-to-end autonomous research platform synthesizing all 10 harness engineering modules:
 
-* 📐 **[System Architecture Specification](deep_research_agent/ARCHITECTURE.md)** (with interactive SVG and 4K diagrams).
-* 🔄 **[End-to-End Execution Flow](deep_research_agent/docs/flow_diagram.svg)**.
-* 🌐 **Live Web UI**: Real-time research graph visualizer, citation confidence matrix, and markdown dossier viewer.
-* 📡 **Live Data Ingestion**: Live Model Context Protocol (MCP 2.x) integration with Wikipedia REST API and arXiv Open Science API.
-* 🛡️ **Verification**: 100% 5-Gate Scorecard certification and automated Pytest TDA reliability loop.
+* 📐 **[System Architecture Specification](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/architecture_diagram.svg)** (with interactive SVG and 4K diagrams).
+* 🔄 **[End-to-End Execution Flow](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/flow_diagram.svg)** (8-stage deterministic execution pipeline).
+* 🌐 **Live Web UI 2.0**: High-contrast white theme, real-time SVG multi-hop research graph visualizer, citation confidence matrix, and unified diff reviewer.
+* 🐙 **Zero-API Public Search Streams**: Playwright browser agent for public GitHub code/repositories, Playwright YouTube technical video search, HackerNews Algolia open index, OpenAlex scholarly DOIs, arXiv preprints, and Wikipedia.
+* 🎥 **[1080p Full HD Demo Video Walkthrough](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4)** (3.87 mins, 19 stages).
+* 🛡️ **Verification**: 100% 5-Gate Scorecard certification and 14/14 passing automated Pytest TDA tests.
+* 📖 **[Deep Research Agent Documentation](https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/)**.
 
 ```bash
 # Launch the Deep Research Web UI & Server on port 8090
 python deep_research_agent/server.py 8090
+
+# Run all 14 unit and TDA test suites
+pytest -v
 ```
 
 Each module folder under [course_implementation/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/)

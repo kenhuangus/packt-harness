@@ -32,6 +32,7 @@ deep_research_agent/demo/frames/
 deep_research_agent/demo/actual_video_frames/
 deep_research_agent/demo/actual_video_frames_1080p/
 deep_research_agent/demo/*.mp4
+!deep_research_agent/demo/deep_research_agent_demo.mp4
 deep_research_agent/tests/test_workspace/
 deep_research_agent/output/
 
