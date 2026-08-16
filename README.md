@@ -65,6 +65,21 @@ packt-harness test
 packt-harness slides --port 8080
 ```
 
+## 🚀 Capstone Project: Autonomous Deep Research Agent
+
+A production-grade, end-to-end research platform synthesizing all 10 harness engineering modules:
+
+* 📐 **[System Architecture Specification](deep_research_agent/ARCHITECTURE.md)** (with interactive SVG and 4K diagrams).
+* 🔄 **[End-to-End Execution Flow](deep_research_agent/docs/flow_diagram.svg)**.
+* 🌐 **Live Web UI**: Real-time research graph visualizer, citation confidence matrix, and markdown dossier viewer.
+* 📡 **Live Data Ingestion**: Live Model Context Protocol (MCP 2.x) integration with Wikipedia REST API and arXiv Open Science API.
+* 🛡️ **Verification**: 100% 5-Gate Scorecard certification and automated Pytest TDA reliability loop.
+
+```bash
+# Launch the Deep Research Web UI & Server on port 8090
+python deep_research_agent/server.py 8090
+```
+
 Each module folder under [course_implementation/](https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/)
 has its own `README.md` with what that module teaches, the absolute-path
 run command, and captured stdout in `RUN_RESULTS.md`.
