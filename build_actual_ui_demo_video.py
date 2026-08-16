@@ -1,5 +1,5 @@
 """
-Generates the Ultimate Demo Video featuring ACTUAL LIVE UI SCREENSHOTS
+Generates the 1080p Full HD Demo Video featuring 4K ULTRA-HIGH-RESOLUTION ACTUAL LIVE UI SCREENS
 across multiple diverse search terms (Harness Engineering, Quantum QEC, Zero Trust K8s, CRISPR Prime Editing),
 tabs (Dossier, Diff, Audit), and theme modes.
 Features a DISTINCT contrasting studio presentation background framing the actual UI browser window.
@@ -17,7 +17,7 @@ import edge_tts
 from PIL import Image, ImageDraw, ImageFont
 
 DEMO_DIR = Path("deep_research_agent/demo")
-FRAMES_DIR = DEMO_DIR / "actual_video_frames"
+FRAMES_DIR = DEMO_DIR / "actual_video_frames_1080p"
 FRAMES_DIR.mkdir(parents=True, exist_ok=True)
 UI_SCREENS_DIR = DEMO_DIR / "actual_ui_screens"
 
@@ -34,7 +34,7 @@ STAGES = [
         "blocked": "Uncertified Repositories / Unverified State",
         "badge": "UI INITIALIZED",
         "image_file": "01_initial_dashboard_empty.png",
-        "narration": "Welcome to the Autonomous Deep Research Agent live interface demonstration. Here we see the actual running Web UI connected to our 10-module harness backend.",
+        "narration": "Welcome to the Autonomous Deep Research Agent capstone demonstration. Here we see the live 10-module harness Web UI connected to our deterministic engine.",
     },
     {
         "step": 2,
@@ -45,7 +45,7 @@ STAGES = [
         "blocked": "Non-Goals (Database writes, Reddit forum spam)",
         "badge": "SPEC FORMULATED",
         "image_file": "02_harness_ai_results.png",
-        "narration": "We submit our first research topic: Harness Engineering for Agentic AI Systems. The agent formulates a machine-verifiable SPEC.md contract with strict scope whitelists.",
+        "narration": "We submit our primary capstone query: Harness Engineering for Agentic AI Systems. The agent formulates a machine-verifiable SPEC.md contract with strict scope whitelists.",
     },
     {
         "step": 3,
@@ -78,7 +78,7 @@ STAGES = [
         "blocked": "Unstructured Output / Vague Bullet Points",
         "badge": "DOSSIER GENERATED",
         "image_file": "02_harness_ai_results.png",
-        "narration": "The Synthesizer generates a multi-thousand-word deep research dossier featuring executive summaries, technical breakdowns, and grounded bibliographic citations.",
+        "narration": "The Synthesizer generates a multi-thousand-word deep research dossier featuring executive summaries, the 5 golden pillars breakdown, and empirical comparative matrices.",
     },
     {
         "step": 6,
@@ -206,24 +206,23 @@ STAGES = [
 FULL_NARRATION_TEXT = " ".join(s["narration"] for s in STAGES)
 
 
-def composite_frame(stage: dict, frame_path: Path):
+def composite_frame_1080p(stage: dict, frame_path: Path):
     """
-    Composites a 1280x720 video frame with:
-    1. A DISTINCT contrasting warm studio presentation background (e.g. Deep Charcoal / Amber Gold studio aesthetic).
-    2. A distinct header banner showing Video Stage Title, Module, Skill, and Tool.
-    3. An embedded ACTUAL live browser screenshot of the Web UI with browser chrome frame.
-    4. A bottom subtitles banner with local neural TTS narration.
+    Composites a crisp 1920x1080 Full HD video frame:
+    1. Rich contrasting warm studio background (#18181b / #1c1917 with gold/amber header).
+    2. Embedded 4K-rendered browser screenshot inside a clean browser chrome frame (1840x820).
+    3. Crystal clear high-DPI typography for header, tool tags, and narration subtitles.
     """
-    # 1. Distinct Presentation Background: Deep Warm Charcoal (#18181b / #121214) with subtle studio gradient
-    frame = Image.new("RGB", (1280, 720), color=(18, 18, 22))
+    # 1. Canvas 1920x1080
+    frame = Image.new("RGB", (1920, 1080), color=(18, 18, 22))
     draw = ImageDraw.Draw(frame)
 
     try:
-        font_title = ImageFont.truetype("arial.ttf", 22)
-        font_sub = ImageFont.truetype("arial.ttf", 15)
-        font_badge = ImageFont.truetype("arial.ttf", 14)
-        font_narr = ImageFont.truetype("arial.ttf", 15)
-        font_mono = ImageFont.truetype("consola.ttf", 13)
+        font_title = ImageFont.truetype("arial.ttf", 32)
+        font_sub = ImageFont.truetype("arial.ttf", 20)
+        font_badge = ImageFont.truetype("arial.ttf", 18)
+        font_narr = ImageFont.truetype("arial.ttf", 22)
+        font_mono = ImageFont.truetype("consola.ttf", 18)
     except Exception:
         font_title = ImageFont.load_default()
         font_sub = font_title
@@ -231,69 +230,67 @@ def composite_frame(stage: dict, frame_path: Path):
         font_narr = font_title
         font_mono = font_title
 
-    # Top Studio Presentation Header (Contrasting warm gold / amber aesthetic)
-    draw.rectangle([(0, 0), (1280, 72)], fill=(28, 25, 23))  # Warm Stone/Amber header
-    draw.line([(0, 72), (1280, 72)], fill=(217, 119, 6), width=2)  # Amber gold accent line
+    # Top Studio Presentation Header (Contrasting warm amber/stone studio aesthetic)
+    draw.rectangle([(0, 0), (1920, 100)], fill=(28, 25, 23))
+    draw.line([(0, 100), (1920, 100)], fill=(217, 119, 6), width=3)
 
-    # Header Title
-    draw.text((25, 12), f"🎬 {stage['title']}", fill=(254, 243, 199), font=font_title)
-    draw.text((25, 42), f"Module: {stage['module']}   |   Skill: {stage['skill']}", fill=(251, 191, 36), font=font_sub)
+    # Header Title & Module Tag
+    draw.text((40, 18), f"🎬 {stage['title']}", fill=(254, 243, 199), font=font_title)
+    draw.text((40, 60), f"Module: {stage['module']}   |   Skill: {stage['skill']}", fill=(251, 191, 36), font=font_sub)
 
     # Top Right Status Badge (Warm Gold / Emerald)
-    draw.rectangle([(980, 16), (1255, 52)], fill=(217, 119, 6), outline=(245, 158, 11))
-    draw.text((995, 24), stage["badge"], fill=(255, 255, 255), font=font_badge)
+    draw.rectangle([(1520, 24), (1880, 76)], fill=(217, 119, 6), outline=(245, 158, 11), width=2)
+    draw.text((1540, 36), stage["badge"], fill=(255, 255, 255), font=font_badge)
 
-    # Sub-Header Tool & Blocked Safeguard Banner (Dark warm contrast)
-    draw.rectangle([(0, 74), (1280, 112)], fill=(24, 24, 27))
-    draw.line([(0, 112), (1280, 112)], fill=(63, 63, 70), width=1)
+    # Sub-Header Tool & Blocked Safeguard Banner
+    draw.rectangle([(0, 103), (1920, 155)], fill=(24, 24, 27))
+    draw.line([(0, 155), (1920, 155)], fill=(63, 63, 70), width=1)
 
-    draw.text((25, 84), "⚡ ACTIVE TOOL:", fill=(161, 161, 170), font=font_sub)
-    draw.text((140, 84), stage["tool_used"][:48], fill=(52, 211, 153), font=font_mono)
+    draw.text((40, 118), "⚡ ACTIVE TOOL:", fill=(161, 161, 170), font=font_sub)
+    draw.text((200, 118), stage["tool_used"][:55], fill=(52, 211, 153), font=font_mono)
 
-    draw.text((640, 84), "⛔ BLOCKED INVARIANT:", fill=(239, 68, 68), font=font_sub)
-    draw.text((820, 84), stage["blocked"][:45], fill=(252, 165, 165), font=font_mono)
+    draw.text((980, 118), "⛔ BLOCKED INVARIANT:", fill=(239, 68, 68), font=font_sub)
+    draw.text((1240, 118), stage["blocked"][:50], fill=(252, 165, 165), font=font_mono)
 
-    # Center Stage: Actual UI Browser Window Container
-    # Browser Container Box: (25, 122, 1255, 630)
-    bx1, by1, bx2, by2 = 25, 122, 1255, 635
-    draw.rectangle([(bx1, by1), (bx2, by2)], fill=(10, 10, 12), outline=(56, 189, 248), width=2)
+    # Center Stage: Actual UI Browser Window Container (1840x820)
+    bx1, by1, bx2, by2 = 40, 170, 1880, 960
+    draw.rectangle([(bx1, by1), (bx2, by2)], fill=(10, 10, 12), outline=(56, 189, 248), width=3)
 
     # Browser Window Chrome Titlebar
-    draw.rectangle([(bx1, by1), (bx2, by1 + 28)], fill=(39, 39, 42))
+    draw.rectangle([(bx1, by1), (bx2, by1 + 38)], fill=(39, 39, 42))
     # 3 Window Buttons (Red, Yellow, Green)
-    draw.ellipse([(bx1 + 10, by1 + 9), (bx1 + 20, by1 + 19)], fill=(239, 68, 68))
-    draw.ellipse([(bx1 + 26, by1 + 9), (bx1 + 36, by1 + 19)], fill=(234, 179, 8))
-    draw.ellipse([(bx1 + 42, by1 + 9), (bx1 + 52, by1 + 19)], fill=(34, 197, 94))
+    draw.ellipse([(bx1 + 15, by1 + 12), (bx1 + 29, by1 + 26)], fill=(239, 68, 68))
+    draw.ellipse([(bx1 + 38, by1 + 12), (bx1 + 52, by1 + 26)], fill=(234, 179, 8))
+    draw.ellipse([(bx1 + 61, by1 + 12), (bx1 + 75, by1 + 26)], fill=(34, 197, 94))
 
     # Browser URL Pill
-    draw.rectangle([(bx1 + 65, by1 + 4), (bx1 + 450, by1 + 24)], fill=(24, 24, 27), outline=(82, 82, 91))
-    draw.text((bx1 + 75, by1 + 6), "🔒 http://localhost:8090/ (Actual Live Agent UI)", fill=(212, 212, 216), font=font_mono)
+    draw.rectangle([(bx1 + 95, by1 + 6), (bx1 + 650, by1 + 32)], fill=(24, 24, 27), outline=(82, 82, 91))
+    draw.text((bx1 + 110, by1 + 9), "🔒 http://localhost:8090/ (Actual Live Agent UI - Capstone)", fill=(212, 212, 216), font=font_mono)
 
-    # Load and Embed Actual Screenshot
+    # Load and Embed Actual 4K Screenshot
     img_path = UI_SCREENS_DIR / stage["image_file"]
     if img_path.exists():
         raw_ui_img = Image.open(img_path)
-        # Target viewport area inside browser chrome
-        target_w = bx2 - bx1 - 4
-        target_h = by2 - (by1 + 28) - 4
+        target_w = bx2 - bx1 - 6
+        target_h = by2 - (by1 + 38) - 6
 
-        # Resize screenshot to fit target container nicely
+        # Resize screenshot with high-fidelity LANCZOS resampling
         resized_ui = raw_ui_img.resize((target_w, target_h), Image.Resampling.LANCZOS)
-        frame.paste(resized_ui, (bx1 + 2, by1 + 29))
+        frame.paste(resized_ui, (bx1 + 3, by1 + 39))
 
-    # Bottom Narration Subtitle Banner (Contrasting Stone bar with clear white text)
-    draw.rectangle([(0, 642), (1280, 720)], fill=(28, 25, 23))
-    draw.line([(0, 642), (1280, 642)], fill=(217, 119, 6), width=1)
+    # Bottom Narration Subtitle Banner (Contrasting warm bar with crisp 22px text)
+    draw.rectangle([(0, 970), (1920, 1080)], fill=(28, 25, 23))
+    draw.line([(0, 970), (1920, 970)], fill=(217, 119, 6), width=2)
 
-    draw.text((25, 652), "🎙️ NARRATION:", fill=(251, 191, 36), font=font_sub)
-    draw.text((25, 676), f"\"{stage['narration']}\"", fill=(245, 245, 244), font=font_narr)
+    draw.text((40, 982), "🎙️ NARRATION:", fill=(251, 191, 36), font=font_sub)
+    draw.text((40, 1018), f"\"{stage['narration']}\"", fill=(245, 245, 244), font=font_narr)
 
-    frame.save(frame_path, quality=95)
+    frame.save(frame_path, quality=98)
 
 
 async def main():
     print("=" * 80)
-    print("GENERATING ULTIMATE DEMO VIDEO WITH ACTUAL LIVE UI SCREENS & CONTRASTING STUDIO FRAME")
+    print("GENERATING 1080p FULL HD CAPSTONE DEMO VIDEO WITH 4K ACTUAL UI SCREENS")
     print("=" * 80)
 
     # 1. Synthesize Narration Audio with local neural TTS
@@ -311,29 +308,29 @@ async def main():
     total_duration = float(res.stdout.strip())
     print(f"  [OK] Total Audio Duration: {total_duration:.2f} seconds ({total_duration / 60:.2f} mins)")
 
-    # 2. Render all 16 composited frames
-    print(f"[*] Rendering 16 master frames with actual UI screenshots & contrasting studio background...")
+    # 2. Render all 16 composited 1080p frames
+    print(f"[*] Rendering 16 master 1080p Full HD frames with 4K actual UI screenshots & contrasting studio background...")
     frame_paths = []
     for stage in STAGES:
-        fpath = FRAMES_DIR / f"actual_frame_{stage['step']:02d}.jpg"
-        composite_frame(stage, fpath)
+        fpath = FRAMES_DIR / f"actual_frame_1080p_{stage['step']:02d}.jpg"
+        composite_frame_1080p(stage, fpath)
         frame_paths.append(fpath)
-    print(f"  [OK] Rendered {len(frame_paths)} frames in {FRAMES_DIR}")
+    print(f"  [OK] Rendered {len(frame_paths)} 1080p frames in {FRAMES_DIR}")
 
     # 3. Build Concat List
     frame_dur = total_duration / len(STAGES)
     print(f"[*] Frame display duration: {frame_dur:.4f}s per step.")
 
-    concat_file = DEMO_DIR / "input_list_actual_ui.txt"
+    concat_file = DEMO_DIR / "input_list_1080p.txt"
     with open(concat_file, "w", encoding="utf-8") as f:
         for fpath in frame_paths:
-            f.write(f"file 'actual_video_frames/{fpath.name}'\n")
+            f.write(f"file 'actual_video_frames_1080p/{fpath.name}'\n")
             f.write(f"duration {frame_dur:.4f}\n")
-        f.write(f"file 'actual_video_frames/{frame_paths[-1].name}'\n")
+        f.write(f"file 'actual_video_frames_1080p/{frame_paths[-1].name}'\n")
 
-    # 4. FFmpeg Video Assembly
+    # 4. FFmpeg Video Assembly at 1080p Full HD (1920x1080)
     video_out = DEMO_DIR / "deep_research_agent_demo.mp4"
-    print(f"[*] Assembling MP4 video with FFmpeg to {video_out}...")
+    print(f"[*] Assembling 1080p MP4 video with FFmpeg to {video_out}...")
     ffmpeg_cmd = [
         "ffmpeg", "-y",
         "-f", "concat",
@@ -342,7 +339,9 @@ async def main():
         "-i", str(audio_path),
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
-        "-vf", "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2",
+        "-preset", "slow",
+        "-crf", "18",
+        "-vf", "scale=1920:1080",
         "-c:a", "aac",
         "-b:a", "192k",
         "-shortest",
@@ -358,16 +357,17 @@ async def main():
     final_dur = float(res_vid.stdout.strip())
     final_size_mb = video_out.stat().st_size / (1024 * 1024)
 
-    # Also copy to artifact directory
+    # Copy to artifact directory
     artifact_video = Path(r"C:\Users\kenhu\.gemini\antigravity-cli\brain\34f929e5-1335-4eeb-a7ac-dfb192af729a\deep_research_agent_demo.mp4")
     import shutil
     shutil.copy(video_out, artifact_video)
 
     print("\n" + "=" * 80)
-    print(">>> ULTIMATE DEMO VIDEO GENERATED SUCCESSFULLY <<<")
+    print(">>> 1080p FULL HD CAPSTONE DEMO VIDEO GENERATED SUCCESSFULLY <<<")
     print(f"Video File: {video_out.resolve()}")
     print(f"Video Size: {final_size_mb:.2f} MB")
     print(f"Exact Duration: {final_dur:.2f} seconds ({final_dur / 60:.2f} mins)")
+    print(f"Resolution: 1920 x 1080 Full HD (16:9)")
     print(f"VERIFICATION: PASSED (Duration >= 1.0 min: {final_dur >= 55.0})")
     print("=" * 80 + "\n")
 

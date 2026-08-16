@@ -1,13 +1,15 @@
 """
-Generates actual live Web UI screenshots for multiple real-world search terms,
-tabs (Dossier, Diff, Audit), and theme modes using Playwright.
+Generates Ultra-High-Resolution (4K/Retina 2x DPI) Live Web UI Screenshots
+for multiple real-world search terms, tabs (Dossier, Diff, Audit), and theme modes.
 """
 
 import asyncio
 from pathlib import Path
+import shutil
 import time
 from playwright.async_api import async_playwright
 
+ARTIFACT_DIR = Path(r"C:\Users\kenhu\.gemini\antigravity-cli\brain\34f929e5-1335-4eeb-a7ac-dfb192af729a")
 SCREENSHOTS_DIR = Path("deep_research_agent/demo/actual_ui_screens")
 SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -37,18 +39,24 @@ TOPICS = [
 
 async def capture_all_ui_screens():
     print("=" * 80)
-    print("CAPTURING ACTUAL LIVE WEB UI SCREENSHOTS FOR DIVERSE SEARCH TERMS")
+    print("CAPTURING 4K ULTRA-HIGH-RESOLUTION LIVE UI SCREENSHOTS (RETINA 2X DPI)")
     print("=" * 80)
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page(viewport={"width": 1920, "height": 1080})
+        context = await browser.new_context(
+            viewport={"width": 1920, "height": 1080},
+            device_scale_factor=2.0,  # Ultra-crisp 4K Retina rendering
+        )
+        page = await context.new_page()
 
         # 1. Initial Empty State
-        print("[*] Capturing Initial Empty State...")
+        print("[*] Capturing Initial Empty State (4K)...")
         await page.goto("http://localhost:8090/", wait_until="domcontentloaded")
         await page.wait_for_timeout(1000)
-        await page.screenshot(path=str(SCREENSHOTS_DIR / "01_initial_dashboard_empty.png"))
+        p1 = SCREENSHOTS_DIR / "01_initial_dashboard_empty.png"
+        await page.screenshot(path=str(p1))
+        print(f"  [OK] Saved {p1.name} ({p1.stat().st_size} bytes)")
 
         # Loop through diverse topics
         for idx, topic in enumerate(TOPICS, 2):
@@ -58,12 +66,12 @@ async def capture_all_ui_screens():
 
             # Wait for results to render
             await page.wait_for_selector(".citation-card", timeout=40000)
-            await page.wait_for_timeout(2000)
+            await page.wait_for_timeout(2500)
 
             # Capture main results dashboard
             main_path = SCREENSHOTS_DIR / f"{idx:02d}_{topic['id']}_results.png"
             await page.screenshot(path=str(main_path))
-            print(f"  [OK] Saved {main_path.name}")
+            print(f"  [OK] Saved {main_path.name} ({main_path.stat().st_size} bytes)")
 
             # If first topic, capture Diff and Audit tabs and light theme
             if topic["id"] == "harness_ai":
@@ -72,31 +80,36 @@ async def capture_all_ui_screens():
                 await page.wait_for_timeout(1000)
                 diff_path = SCREENSHOTS_DIR / "03_harness_unified_diff_tab.png"
                 await page.screenshot(path=str(diff_path))
-                print(f"  [OK] Saved {diff_path.name}")
+                print(f"  [OK] Saved {diff_path.name} ({diff_path.stat().st_size} bytes)")
 
                 # Tab: Audit Scorecard
                 await page.click("#tabAudit")
                 await page.wait_for_timeout(1000)
                 audit_path = SCREENSHOTS_DIR / "04_harness_audit_scorecard_tab.png"
                 await page.screenshot(path=str(audit_path))
-                print(f"  [OK] Saved {audit_path.name}")
+                print(f"  [OK] Saved {audit_path.name} ({audit_path.stat().st_size} bytes)")
 
                 # Switch back to Dossier tab
                 await page.click("#tabDossier")
                 await page.wait_for_timeout(500)
 
         # Toggle Light Theme Mode
-        print("[*] Toggling Light Theme Mode...")
+        print("[*] Toggling Light Theme Mode (4K)...")
         await page.click("#themeToggle")
         await page.wait_for_timeout(1000)
         light_path = SCREENSHOTS_DIR / "08_light_theme_mode.png"
         await page.screenshot(path=str(light_path))
-        print(f"  [OK] Saved {light_path.name}")
+        print(f"  [OK] Saved {light_path.name} ({light_path.stat().st_size} bytes)")
+
+        # Copy high-res screenshots to artifact directory
+        for f in SCREENSHOTS_DIR.glob("*.png"):
+            shutil.copy(f, ARTIFACT_DIR / f.name)
+            print(f"  [OK] Copied {f.name} to artifact directory.")
 
         await browser.close()
 
     print("\n" + "=" * 80)
-    print(f">>> CAPTURED ALL ACTUAL LIVE UI SCREENSHOTS IN {SCREENSHOTS_DIR} <<<")
+    print(">>> ALL 4K ULTRA-HIGH-RESOLUTION UI SCREENSHOTS GENERATED! <<<")
     print("=" * 80 + "\n")
 
 

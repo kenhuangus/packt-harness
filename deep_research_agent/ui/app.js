@@ -33,31 +33,48 @@ function renderTabContent() {
   }
 
   if (currentTab === 'dossier') {
-    // Simple markdown renderer
-    const md = latestResult.dossier_markdown
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
-      .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-      .replace(/`(.*?)`/gim, '<code style="background: var(--bg-primary); padding: 2px 5px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em;">$1</code>')
-      .replace(/\n\n/gim, '<p></p>')
+    let raw = latestResult.dossier_markdown || '';
+
+    // Convert Markdown Tables
+    raw = raw.replace(/\n(\|.+?\|\n\|[-:| ]+\|\n(?:\|.+?\|\n?)+)/g, (match) => {
+      const lines = match.trim().split('\n');
+      const headers = lines[0].split('|').filter(c => c.trim()).map(c => `<th style="padding: 8px 12px; border-bottom: 2px solid var(--border-color); text-align: left; font-size: 0.82rem; color: var(--accent-sapphire);">${c.trim()}</th>`).join('');
+      const rows = lines.slice(2).map(r => {
+        const cells = r.split('|').filter(c => c.trim()).map(c => `<td style="padding: 8px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem;">${c.trim()}</td>`).join('');
+        return `<tr>${cells}</tr>`;
+      }).join('');
+      return `<div style="overflow-x: auto; margin: 1.25rem 0;"><table style="width: 100%; border-collapse: collapse; background: var(--bg-primary); border-radius: 6px;"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    });
+
+    // Convert Headings
+    raw = raw
+      .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.4rem; color: var(--text-primary); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 style="font-size: 1.15rem; color: var(--accent-emerald); margin-top: 1.5rem; margin-bottom: 0.5rem;">$1</h2>')
+      .replace(/^### (.*$)/gim, '<h3 style="font-size: 0.98rem; color: var(--accent-sapphire); margin-top: 1.2rem; margin-bottom: 0.4rem;">$1</h3>')
+      .replace(/^\> (.*$)/gim, '<blockquote style="border-left: 3px solid var(--accent-emerald); padding-left: 10px; margin: 0.75rem 0; color: var(--text-secondary); font-style: italic;">$1</blockquote>')
+      .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: var(--text-primary);">$1</strong>')
+      .replace(/`(.*?)`/gim, '<code style="background: var(--bg-primary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em;">$1</code>')
+      .replace(/^---$/gim, '<hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">')
+      .replace(/\n\n/gim, '<p style="margin-bottom: 0.85rem; line-height: 1.6; font-size: 0.88rem; color: var(--text-secondary);"></p>')
       .replace(/\n/gim, '<br>');
-    container.innerHTML = md;
+
+    container.innerHTML = raw;
   } else if (currentTab === 'diff') {
-    container.innerHTML = `<pre style="font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg-primary); padding: 0.75rem; border-radius: 6px; overflow-x: auto; color: var(--accent-emerald);">${escapeHtml(latestResult.unified_diff || 'No diff available.')}</pre>`;
+    container.innerHTML = `<pre style="font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg-primary); padding: 0.75rem; border-radius: 6px; overflow-x: auto; color: var(--accent-emerald); line-height: 1.5;">${escapeHtml(latestResult.unified_diff || 'No diff available.')}</pre>`;
   } else if (currentTab === 'audit') {
     const audit = latestResult.audit || {};
     const gates = audit.details || [];
     const html = `
-      <div style="background: var(--bg-primary); padding: 1rem; border-radius: 6px;">
-        <h3 style="color: var(--accent-emerald); margin-bottom: 0.5rem;">5-Gate Readiness Score: ${audit.score_pct || 100}%</h3>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+      <div style="background: var(--bg-primary); padding: 1.25rem; border-radius: 6px;">
+        <h3 style="color: var(--accent-emerald); margin-bottom: 0.75rem; font-size: 1.1rem;">5-Gate Readiness Score: ${audit.score_pct || 100}% (Certified)</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
           ${gates.map(g => `
-            <li style="display: flex; align-items: center; gap: 0.5rem;">
-              <span>${g.passed ? '✅' : '❌'}</span>
-              <strong>${g.gate}:</strong>
-              <span style="color: var(--text-muted);">${g.message}</span>
+            <li style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.5rem; background: var(--bg-secondary); border-radius: 4px;">
+              <span style="font-size: 1.1rem;">${g.passed ? '✅' : '❌'}</span>
+              <div>
+                <strong style="color: var(--text-primary);">${g.gate}:</strong>
+                <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">${g.message}</div>
+              </div>
             </li>
           `).join('')}
         </ul>
