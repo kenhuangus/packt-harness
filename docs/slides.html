@@ -710,6 +710,42 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    /* Slide 1 Custom Links Layout with 50% Reduced Text Size */
+    .slide-1-links-card {
+      margin-top: 0.85rem;
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      padding: 0.65rem 1.0rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.40rem;
+      font-size: 0.30em; /* Reduced by half */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .slide-1-link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.50rem;
+      font-size: 1.0em;
+      line-height: 1.40;
+    }
+    .slide-1-link-label {
+      font-weight: 750;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .slide-1-link-url {
+      font-family: var(--font-code);
+      color: var(--accent-dk);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      word-break: break-all;
+    }
+    .slide-1-link-url:hover {
+      color: var(--accent);
+    }
     .books-gallery-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -1209,6 +1245,22 @@
                   <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
                   <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${moduleFolder}/tests/</code> ↗</a></div>
                 </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (slide.number === 1) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="slide-content-wrapper slide-1-wrapper">
+            ${svgMap[1] || ''}
+            <div class="slide-1-links-card">
+              <div class="slide-1-link-item">
+                <span class="slide-1-link-label">🐙 GitHub:</span>
+                <a href="https://github.com/kenhuangus/packt-harness" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://github.com/kenhuangus/packt-harness</a>
+              </div>
+              <div class="slide-1-link-item">
+                <span class="slide-1-link-label">🌐 Site:</span>
+                <a href="https://kenhuangus.github.io/packt-harness/" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://kenhuangus.github.io/packt-harness/</a>
               </div>
             </div>
           </div>
