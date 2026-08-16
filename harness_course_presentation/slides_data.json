@@ -306,10 +306,10 @@
     "raw_lines": [
       "SPEC.md Anatomy",
       "Required Sections",
-      "• Allowed file list",
-      "• Explicit non-goals",
-      "• I/O schema",
-      "• Acceptance criteria"
+      "• 1. Objective & Scope (allowed/forbidden files)",
+      "• 2. Explicit Non-Goals (no DB pool, no OAuth2)",
+      "• 3. Input/Output Schemas (token -> dict)",
+      "• 4. Acceptance Criteria (AC-01 through AC-04)"
     ]
   },
   {
@@ -317,19 +317,21 @@
     "raw_lines": [
       "Scope and Non-Goals",
       "Hard Boundaries",
-      "• Agents wander into adjacent files",
-      "• Only listed files may change",
-      "• database.py is rejected"
+      "• Allowed Files: auth_validator.py, test_auth.py",
+      "• Forbidden Files: database.py, config/settings.py",
+      "• Non-Goal: Rejects connect_db & OAuth2 rotation",
+      "• Sandboxing: Bound via Path.is_relative_to()"
     ]
   },
   {
     "number": 25,
     "raw_lines": [
       "Acceptance Criteria",
-      "Vague vs Executable",
-      "• Vague: make it fast and safe",
-      "• Executable: validate_jwt returns valid=true",
-      "• Executable: tests/test_auth.py covers cases"
+      "Machine-Verifiable Contracts",
+      "• AC-01: Exports validate_jwt(token: str) -> dict",
+      "• AC-02: Returns valid=True, user_id=123 for live JWT",
+      "• AC-03: Returns valid=False, error=EXPIRED for expired JWT",
+      "• AC-04: Passes all automated tests in test_auth.py"
     ]
   },
   {
@@ -337,9 +339,10 @@
     "raw_lines": [
       "How Specs Are Used",
       "SDD Lifecycle",
-      "• Read SPEC.md first",
-      "• Plan only against the spec",
-      "• Audit the diff before merge"
+      "• 1. SpecVerifier parses markdown headings into schema",
+      "• 2. Agent generates code strictly inside declared scope",
+      "• 3. Pre-write audit rejects forbidden paths & non-goals",
+      "• 4. Post-write runs ast.parse() & real pytest suite"
     ]
   },
   {
@@ -347,9 +350,9 @@
     "raw_lines": [
       "Spec Verification",
       "Before Code Ships",
-      "• Validate the spec itself first",
-      "• Check non-goals and schemas",
-      "• Reject hallucinated scope",
+      "• SpecVerifier.attempt_write() checks allowed_files",
+      "• Blocks out-of-scope files (database.py -> SCOPE_VIOLATION)",
+      "• Scans code content for non-goal violations",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
