@@ -38,8 +38,18 @@ SLIDE_LECTURES: dict[int, str] = {
         "In enterprise software engineering, when a developer writes code, their workflow is supported by robust tooling: "
         "compilers identify type mismatches, linters enforce formatting, unit tests verify logic, and CI/CD pipelines prevent broken builds from merging. "
         "When we deploy an AI coding agent without a harness, we are effectively removing all of those foundational safety nets and hoping the model never errs. "
-        "Harness engineering reinstates and expands those safety nets for the age of autonomous AI. Throughout this masterclass, we will examine "
-        "every layer of the harness architecture, providing concrete Python implementations that you can immediately adapt and run in your own environment."
+        "Harness engineering reinstates and expands those safety nets for the age of autonomous AI. "
+        "To provide a complete, end-to-end framework, this masterclass is structured into ten comprehensive modules: "
+        "Module 1 investigates why harness engineering is required, dissecting the four classic agent failure modes and demonstrating runtime loop interception. "
+        "Module 2 introduces the Core Harness Stack, establishing the Five Golden Pillars: Memory Files, Scoped Tools, Deterministic Hooks, Context Token Budgeting, and JSONL Observability. "
+        "Module 3 explores Spec-Driven Development, transforming ambiguous conversational prompts into machine-verifiable SPEC.md contracts with strict scope whitelists and non-goals. "
+        "Module 4 covers Guardrails and Hooks, implementing defense-in-depth across the 4-layer control model, Claude Code PascalCase PreToolUse contracts, and AST secret scanning. "
+        "Module 5 examines Permission Escalation Gateways, managing human-in-the-loop approvals across a 4-tier risk matrix backed by a signed ledger. "
+        "Module 6 focuses on Tests as the Reliability Layer, constructing the Test-Driven Agent Red-Repair-Green loop and persisting anti-regression safeguards. "
+        "Module 7 explores Skills, Plugins, and the Model Context Protocol, detailing stdio child process transports, tool decorators, and live LLM client synthesis. "
+        "Module 8 advances to Compound Engineering, orchestrating specialized Planner, Implementer, and Reviewer multi-agent teams within ephemeral Git worktrees. "
+        "Module 9 presents the Practical 5-Step SOP Workflow Pattern, executing a unified pipeline from spec ingestion to human unified diff review. "
+        "And Module 10 concludes with Enterprise Principles and our automated 5-Gate Production Readiness Audit."
     ),
     2: (
         "Before diving into our technical stack, allow me to introduce myself and provide the context behind this curriculum. "
@@ -53,7 +63,9 @@ SLIDE_LECTURES: dict[int, str] = {
         "The core philosophy underpinning this course is that every theoretical principle must be substantiated by real, executable code. "
         "In this masterclass, you will not encounter theoretical pseudo-code or mocked stubs. Every module, test runner, AST analyzer, "
         "and Model Context Protocol server in our repository is fully functional, standard-library compliant, and thoroughly tested. "
-        "All course materials, code labs, and presentation decks are available directly in our open-source GitHub repository."
+        "All course materials, code labs, and presentation decks are available directly in our open-source GitHub repository. "
+        "You can execute every module directly using our custom packt-harness CLI, which allows you to list modules, run interactive simulations, "
+        "inspect audit logs, and launch the HTML slide presentation."
     ),
     3: (
         "Let us begin our deep dive with Module 1: Why Harness Engineering is Required. "
