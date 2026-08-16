@@ -39,13 +39,13 @@ TOPICS = [
 
 async def capture_all_ui_screens():
     print("=" * 80)
-    print("CAPTURING 4K ULTRA-HIGH-RESOLUTION LIVE UI SCREENSHOTS (RETINA 2X DPI)")
+    print("CAPTURING 4K ULTRA-HIGH-RESOLUTION LIVE UI SCREENSHOTS (2560x1440 2x RETINA)")
     print("=" * 80)
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
-            viewport={"width": 1920, "height": 1080},
+            viewport={"width": 2560, "height": 1440},
             device_scale_factor=2.0,  # Ultra-crisp 4K Retina rendering
         )
         page = await context.new_page()
@@ -65,8 +65,8 @@ async def capture_all_ui_screens():
             await page.click("#startBtn")
 
             # Wait for results to render
-            await page.wait_for_selector(".citation-card", timeout=40000)
-            await page.wait_for_timeout(2500)
+            await page.wait_for_selector(".citation-card", timeout=45000)
+            await page.wait_for_timeout(3000)
 
             # Capture main results dashboard
             main_path = SCREENSHOTS_DIR / f"{idx:02d}_{topic['id']}_results.png"
