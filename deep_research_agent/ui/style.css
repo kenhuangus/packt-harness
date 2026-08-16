@@ -316,15 +316,22 @@ body {
 .preset-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.45rem;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .preset-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   background: var(--bg-secondary);
   border: 1.5px solid var(--border-color);
-  padding: 0.75rem 1.1rem;
+  padding: 0.60rem 0.85rem;
   border-radius: var(--radius-sm);
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
@@ -336,6 +343,20 @@ body {
   border-color: var(--accent-emerald);
   background: #ecfdf5;
   color: #065f46;
+  transform: translateX(2px);
+}
+
+.preset-tag {
+  font-size: 0.68rem;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* 5-Step Pipeline Stepper */

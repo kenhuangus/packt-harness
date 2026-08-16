@@ -77,19 +77,60 @@
           </form>
 
           <div class="section-divider">
-            <label class="section-title">One-Click Presets</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label class="section-title">One-Click Presets (Agent & LLM Driven)</label>
+              <span style="font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.2);">10 Topics</span>
+            </div>
             <div class="preset-list">
-              <button class="preset-chip" onclick="setPreset('Harness Engineering for Agentic AI Systems')">
-                📌 Harness Engineering & 5 Pillars
+              <!-- AI & Agentic Harness -->
+              <button type="button" class="preset-chip" onclick="setPreset('Harness Engineering for Long-Horizon AI Agents')">
+                <span>🛡️ Harness Engineering & 5 Pillars</span>
+                <span class="preset-tag">AI AGENTS</span>
               </button>
-              <button class="preset-chip" onclick="setPreset('Quantum Error Correction in Topological Qubits')">
-                📌 Quantum Error Correction & Qubits
+              <button type="button" class="preset-chip" onclick="setPreset('Model Context Protocol (MCP 2.x) vs Dynamic Workflows in Claude Code')">
+                <span>🔌 MCP 2.x vs Dynamic Workflows</span>
+                <span class="preset-tag">STANDARDS</span>
               </button>
-              <button class="preset-chip" onclick="setPreset('Zero Trust Cybersecurity Architecture in Kubernetes')">
-                📌 Zero Trust in Kubernetes Clusters
+              <button type="button" class="preset-chip" onclick="setPreset('MAESTRO Framework: Threat Modeling for Autonomous Agentic AI')">
+                <span>🎯 MAESTRO Agent Threat Modeling</span>
+                <span class="preset-tag">SECURITY</span>
               </button>
-              <button class="preset-chip" onclick="setPreset('CRISPR-Cas9 Prime Editing and Epigenetic Modifications')">
-                📌 CRISPR-Cas9 Prime Editing in 2026
+              <!-- Cloud & Security -->
+              <button type="button" class="preset-chip" onclick="setPreset('Zero Trust Architecture in Kubernetes with SPIFFE/SPIRE and Istio mTLS')">
+                <span>🔐 Zero Trust in Kubernetes Clusters</span>
+                <span class="preset-tag">CLOUD SEC</span>
+              </button>
+              <button type="button" class="preset-chip" onclick="setPreset('eBPF Observability and Runtime Security Telemetry in Linux Kernel')">
+                <span>⚡ eBPF Linux Kernel Telemetry</span>
+                <span class="preset-tag">SYSTEMS</span>
+              </button>
+              <!-- Distributed Systems & Databases -->
+              <button type="button" class="preset-chip" onclick="setPreset('Raft Consensus vs Paxos in High-Throughput Distributed Key-Value Stores')">
+                <span>🌐 Raft vs Paxos Distributed Consensus</span>
+                <span class="preset-tag">DISTRIBUTED</span>
+              </button>
+              <button type="button" class="preset-chip" onclick="setPreset('Vector Database Indexing: HNSW vs IVFPQ at Billion-Scale')">
+                <span>📊 Billion-Scale Vector Indexing</span>
+                <span class="preset-tag">DATABASES</span>
+              </button>
+              <!-- Quantum & Crypto -->
+              <button type="button" class="preset-chip" onclick="setPreset('Topological Quantum Error Correction and Fault-Tolerant Surface Codes')">
+                <span>⚛️ Quantum Error Correction & Qubits</span>
+                <span class="preset-tag">QUANTUM</span>
+              </button>
+              <!-- BioTech & Molecular AI -->
+              <button type="button" class="preset-chip" onclick="setPreset('CRISPR-Cas9 Prime Editing and Epigenetic Modifications in 2026')">
+                <span>🧬 CRISPR-Cas9 Prime Gene Editing</span>
+                <span class="preset-tag">BIOTECH</span>
+              </button>
+              <button type="button" class="preset-chip" onclick="setPreset('AlphaFold 3 Biomolecular Interaction Modeling and De Novo Protein Design')">
+                <span>🧠 AlphaFold 3 Biomolecular Modeling</span>
+                <span class="preset-tag">BIO AI</span>
+              </button>
+              <!-- LLM Systems -->
+              <button type="button" class="preset-chip" onclick="setPreset('Speculative Decoding, KV-Cache Compression, and FlashAttention-3 in LLM Inference')">
+                <span>🚀 Speculative Decoding & KV-Cache</span>
+                <span class="preset-tag">LLM INFRA</span>
               </button>
             </div>
           </div>
