@@ -9,7 +9,7 @@
   "refused_nongoal": true,
   "wrote_tests": true,
   "pytest_returncode": 0,
-  "pytest_output": "...                                                                      [100%]\n3 passed in 0.22s",
+  "pytest_output": "...                                                                      [100%]\n3 passed in 0.23s",
   "live_valid": {
     "valid": true,
     "user_id": "123",

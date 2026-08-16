@@ -4,17 +4,17 @@
       {
         "attempt": 1,
         "returncode": 2,
-        "last_line": "1 error in 0.32s"
+        "last_line": "1 error in 0.37s"
       },
       {
         "attempt": 2,
         "returncode": 2,
-        "last_line": "1 error in 0.50s"
+        "last_line": "1 error in 0.49s"
       },
       {
         "attempt": 3,
         "returncode": 2,
-        "last_line": "1 error in 0.96s"
+        "last_line": "1 error in 0.49s"
       }
     ],
     "deleted": [
