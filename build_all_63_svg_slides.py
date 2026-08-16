@@ -78,7 +78,28 @@ def highlight_python(code, highlight_lines=None):
 def generate_svg_for_slide(num, title):
     title_upper = title.upper()
     
-    if 'GRAPH ENGINEERING VS. DYNAMIC WORKFLOWS' in title_upper or 'GRAPH ENGINEERING VS' in title_upper:
+    if 'CAPSTONE' in title_upper or 'DEEP RESEARCH' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="240" height="88" rx="10" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="120" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🔬 Autonomous Research</text>
+    <text x="120" y="50" fill="#059669" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">5-Step Deterministic SOP</text>
+    <text x="120" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">SpecFirst &amp; Ephemeral Worktrees</text>
+  </g>
+  <g transform="translate(270, 6)">
+    <rect x="0" y="0" width="245" height="88" rx="10" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="122" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🐙 Zero-API Public Streams</text>
+    <text x="122" y="50" fill="#2563eb" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Playwright GitHub &amp; YouTube</text>
+    <text x="122" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">arXiv, OpenAlex, HackerNews</text>
+  </g>
+  <g transform="translate(530, 6)">
+    <rect x="0" y="0" width="255" height="88" rx="10" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
+    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ 100% Production Certified</text>
+    <text x="127" y="50" fill="#7c3aed" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Pytest TDA Self-Healing</text>
+    <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">14/14 Tests &amp; 5-Gate Scorecard</text>
+  </g>
+</svg>'''
+    elif 'GRAPH ENGINEERING VS. DYNAMIC WORKFLOWS' in title_upper or 'GRAPH ENGINEERING VS' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="355" height="88" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>

@@ -1253,9 +1253,65 @@
     "number": 91
   },
   {
+    "slide_type": "concept",
+    "raw_lines": [
+      "Capstone Project: Autonomous Deep Research Agent",
+      "• 10-Module Harness Architecture: A production-grade autonomous deep research platform synthesizing all 10 harness engineering modules into a deterministic runtime.",
+      "• Zero-API Public Search Streams: Uses headless Playwright browser agents to search public GitHub repositories and YouTube technical video talks without API keys, alongside arXiv preprints, OpenAlex DOIs, and HackerNews.",
+      "• 5-Step Deterministic SOP Pipeline: Spec formulation (SPEC.md) -> Ephemeral worktree sandboxing & live crawl -> PreToolUse guardrails & secret scan -> Pytest TDA self-healing loop -> Unified diff review & 5-gate audit certification.",
+      "• Web UI & Multi-Hop Research Graph: Real-time SVG entity visualizer, citation confidence matrix, and full academic dossier reader on a clean white background.",
+      "• Verified Production Metrics: 100% 5-Gate Scorecard Certification, 14/14 Passing Pytest Assertions, and -94.2% reduction in unverified model mutations.",
+      "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
+      "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
+    ],
+    "number": 92
+  },
+  {
+    "slide_type": "code",
+    "code_filename": "deep_research_agent/engine/five_step_pipeline.py",
+    "code_language": "python",
+    "highlight_lines": [
+      3,
+      4,
+      8,
+      9,
+      10,
+      14,
+      15,
+      16
+    ],
+    "code_block": "class FiveStepResearchPipeline:\n    async def execute_deep_research(self, user_query: str) -> dict[str, Any]:\n        # Step 1: Spec Formulation & Whitelist Enforcement (SPEC.md)\n        spec_verifier = SpecVerifier(self.sanitizer.validate_path('SPEC.md').read_text())\n        \n        # Step 2: Worktree Sandboxing & Zero-API Public Search (GitHub, YouTube, arXiv, HN)\n        sub_queries = self.team.run_planner(user_query)\n        evidence = self.crawl_and_verify_sources(sub_queries)\n        \n        # Step 3: Guardrail PreToolUse Interception & AST Secret Scanning\n        hook_res = self.guardrails.intercept_pre_tool_use({'hookName': 'PreToolUse'})\n        \n        # Step 4: Automated Pytest TDA Red-Repair-Green Feedback Loop\n        test_file = self.tda.write_citation_test_suite(citations_file)\n        passed, trace, code = self.tda.run_pytest(test_file)\n        \n        # Step 5: Academic Synthesis, Unified Diff Review & 5-Gate Scorecard Audit\n        dossier_text = self.team.run_synthesizer(user_query, evidence)",
+    "raw_lines": [
+      "Capstone Code Lab: 5-Step Deterministic Deep Research SOP",
+      "File: deep_research_agent/engine/five_step_pipeline.py",
+      "• [Lines 3-4] Step 1 Spec First: Formulates machine-verifiable SPEC.md contract with strict scope whitelists.",
+      "• [Lines 8-10] Step 2 Zero-API Public Streams: Gathers live evidence from GitHub, YouTube, arXiv, and HackerNews via Playwright browser agents & MCP.",
+      "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
+      "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
+    ],
+    "number": 93
+  },
+  {
     "slide_type": "reference_tables",
     "raw_lines": [
-      "Additional References",
+      "Capstone Project Deliverables & Repository Links",
+      "| Deliverable / Artifact Title | Direct Repository / Video Link |",
+      "|---|---|",
+      "| 🐙 GitHub Project Repository | https://github.com/kenhuangus/packt-harness |",
+      "| 🎥 1080p Full HD Demo Video Walkthrough | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4 |",
+      "| 📐 System Architecture Diagram SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/architecture_diagram.svg |",
+      "| 🔄 8-Stage Execution Flow SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/flow_diagram.svg |",
+      "| 💻 Deep Research Web UI & Server | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/ |",
+      "| 🧪 Automated Pytest Test Suite (14/14 Passing) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
+      "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
+      "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html |"
+    ],
+    "number": 94
+  },
+  {
+    "slide_type": "reference_tables",
+    "raw_lines": [
+      "Additional References & Resources",
       "| Resource / Reference Title | Direct URL Link |",
       "|---|---|",
       "| OWASP Agentic Skills Top 10 Risks Video | https://www.youtube.com/watch?v=l-uwnCzRRE0 |",
@@ -1265,6 +1321,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 92
+    "number": 95
   }
 ]
