@@ -227,8 +227,6 @@
     "number": 18,
     "raw_lines": [
       "Pillars 4 & 5: Tests and Trace",
-      "Budget and Audit",
-      "• Compact long compiler dumps",
       "• Feed pytest failures back to the agent",
       "• Log every tool event to JSONL",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
