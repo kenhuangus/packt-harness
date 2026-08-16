@@ -229,7 +229,7 @@ def generate_svg_for_slide(num, title):
   <text x="597" y="58" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10: TDA, MCP, Multi-Agent &amp; Audit</text>
   <text x="597" y="78" fill="#D97757" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">5-Gate Production Readiness Scorecard</text>
 </svg>'''
-    elif re.match(r'^MODULE\s+\d+$', title.strip()):
+    elif re.match(r'^MODULE\s+\d+', title.strip(), re.IGNORECASE):
         mod_match = re.search(r'\d+', title)
         m_num = int(mod_match.group(0)) if mod_match else 1
         return f'''<svg viewBox="0 0 800 110" class="slide-svg">
