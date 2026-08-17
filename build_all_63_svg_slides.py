@@ -662,6 +662,71 @@ def generate_svg_for_slide(num, title):
     <text x="75" y="78" fill="#6d28d9" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">settings.json Lifecycle</text>
   </g>
 </svg>'''
+    elif 'MULTI-AGENT DESIGN PATTERNS' in title_upper or '7 CORE ARCHITECTURAL TOPOLOGIES' in title_upper or 'MULTI-AGENT TOPOLOGIES' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <!-- 1. Orchestrator-Worker -->
+  <g transform="translate(6, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#2563eb" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#1e40af" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">1. Orchestrator</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Central Router</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Delegates to N</text>
+    <text x="53" y="74" fill="#2563eb" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Dynamic Routing</text>
+  </g>
+
+  <!-- 2. Pipeline -->
+  <g transform="translate(119, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#059669" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#047857" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">2. Pipeline</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Sequential Chain</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Stage Boundaries</text>
+    <text x="53" y="74" fill="#047857" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">A ➔ B ➔ C Audit</text>
+  </g>
+
+  <!-- 3. Fan-out / Fan-in -->
+  <g transform="translate(232, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">3. Fan-Out/In</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Map–Reduce</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Parallel Chunks</text>
+    <text x="53" y="74" fill="#BD5D3A" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Reducer Merge</text>
+  </g>
+
+  <!-- 4. Critic-Refiner -->
+  <g transform="translate(345, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#7c3aed" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#6d28d9" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">4. Critic-Refiner</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Self-Improvement</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Generator + Critic</text>
+    <text x="53" y="74" fill="#6d28d9" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Hard 2-3 Cap</text>
+  </g>
+
+  <!-- 5. Hierarchical -->
+  <g transform="translate(458, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#2563eb" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#1e40af" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">5. Hierarchical</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Multi-Tier Trees</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Sub-Managers</text>
+    <text x="53" y="74" fill="#1e40af" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Abort Propagate</text>
+  </g>
+
+  <!-- 6. Event-Driven -->
+  <g transform="translate(571, 6)">
+    <rect x="0" y="0" width="106" height="92" rx="7" fill="#FAF9F5" stroke="#059669" stroke-width="1.8"/>
+    <text x="53" y="20" fill="#047857" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">6. Event-Driven</text>
+    <text x="53" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Message Bus</text>
+    <text x="53" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Async Sub/Pub</text>
+    <text x="53" y="74" fill="#047857" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Decoupled Scale</text>
+  </g>
+
+  <!-- 7. Sidecar + HITL -->
+  <g transform="translate(684, 6)">
+    <rect x="0" y="0" width="108" height="92" rx="7" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="1.8"/>
+    <text x="54" y="20" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">7. Sidecar / HITL</text>
+    <text x="54" y="38" fill="#141413" font-family="Inter" font-size="8" font-weight="700" text-anchor="middle">Guard Interceptor</text>
+    <text x="54" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" text-anchor="middle">Risk Threshold</text>
+    <text x="54" y="74" fill="#BD5D3A" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Human Review</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
