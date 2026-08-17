@@ -660,6 +660,65 @@
       padding: 0.35rem 0.55rem;
     }
 
+    /* Slide 3 Course Master Map: Two-Column Part 1 (Left) & Part 2 (Right) */
+    .course-map-slide-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .course-map-columns-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.10rem;
+      flex: 1;
+      align-items: stretch;
+    }
+    .course-map-part-col {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.85rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .course-map-part-header {
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--accent-dk);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.40rem;
+      border-bottom: 1.5px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .course-map-module-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 1.02rem;
+      color: var(--ink);
+    }
+    .course-map-module-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.55rem;
+      line-height: 1.40;
+    }
+    .course-map-module-list .mod-bullet {
+      color: var(--accent);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
     /* Reference Slide with Two-Table Layout (Links Table + Screenshot Table) */
     .reference-tables-grid {
       display: grid;
@@ -1478,6 +1537,38 @@
             </div>
           </div>
         `;
+      } else if (slide.number === 3) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="course-map-slide-wrap">
+            ${svgMap[3] || ''}
+            <div class="course-map-columns-grid">
+              <div class="course-map-part-col">
+                <div class="course-map-part-header">
+                  <span>🏛️ PART 1: FOUNDATIONS &amp; CONTROL</span>
+                </div>
+                <ul class="course-map-module-list">
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 1:</strong> Why Harness Engineering</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 2:</strong> Core Harness Stack</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 3:</strong> Spec-Driven Development</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 4:</strong> Guardrails &amp; Hooks</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 5:</strong> Break &amp; Permission Gateways</li>
+                </ul>
+              </div>
+              <div class="course-map-part-col">
+                <div class="course-map-part-header">
+                  <span>🚀 PART 2: RELIABILITY &amp; TEAMS</span>
+                </div>
+                <ul class="course-map-module-list">
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 6:</strong> Tests as Reliability</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 7:</strong> Skills, Plugins, MCP</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 8:</strong> Compound Engineering</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 9:</strong> Five-Step SOP</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 10:</strong> Principles &amp; Audit</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        `;
       } else if (slide.number === 83 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project'))) {
         const tableLines = slide.raw_lines.filter(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
         bodyHtml += `
@@ -1608,7 +1699,7 @@
         const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
         const targetH = clientH * 0.90;
-        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid')) ? 1.25 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
+        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid')) ? 1.25 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
         
         let scale = 1.0;
         let growIter = 0;
