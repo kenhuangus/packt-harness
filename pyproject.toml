@@ -34,8 +34,21 @@ dependencies = [
     "pytest>=8.0.0",
     "mcp>=1.0.0",
     "python-dotenv>=1.0.0",
-    "aisuite>=0.1.0",
+    # The [openai] extra is required, not cosmetic: aisuite loads a provider
+    # module lazily, and the course default is an OpenAI-compatible local
+    # endpoint. Plain "aisuite" installs, then fails at the first call with
+    # "No module named 'openai'".
+    "aisuite[openai]>=0.1.0",
 ]
+
+# course_implementation/dashboard/capture_dashboard.py drives a real browser.
+# It is not one of the ten modules and run_all_modules.py never invokes it,
+# so playwright stays out of the default install: it pulls browser binaries
+# that the modules do not need.
+[project.optional-dependencies]
+dashboard = ["playwright>=1.40.0"]
+# Only needed to switch LLM_PROVIDER=anthropic per the root README.
+anthropic = ["aisuite[anthropic]>=0.1.0"]
 
 [project.scripts]
 packt-harness = "packt_harness.cli:main"

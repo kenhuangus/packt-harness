@@ -46,9 +46,10 @@ Output files:
 
 ## How to run
 
-Use the Python 3.13 interpreter and the absolute script path. Working
-directory does not matter; the script locates `common\llm_client.py` from
-its own file path.
+Run from the repository root, using the project virtualenv (see the
+[root README](../../README.md#setup)). The script finds
+`common\llm_client.py` from its own file path, so only the relative path
+below depends on the working directory.
 
 ```powershell
 python course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py
