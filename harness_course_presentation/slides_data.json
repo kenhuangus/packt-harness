@@ -569,7 +569,6 @@
     "number": 39,
     "raw_lines": [
       "Test Tiers",
-      "What to Run",
       "• Unit: one function",
       "• Integration: module boundaries",
       "• E2E: the whole flow"
