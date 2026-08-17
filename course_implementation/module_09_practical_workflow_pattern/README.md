@@ -33,8 +33,10 @@ by inserting that directory on `sys.path`. It does not copy the engine.
 
 ## How to run
 
+Run from the repository root:
+
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_09_practical_workflow_pattern\five_step_sop_pipeline.py
+python course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py
 ```
 
 Requires pytest on that interpreter.

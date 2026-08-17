@@ -33,8 +33,10 @@ is the implementer output from the last run, not a `return True` stub.
 
 ## How to run
 
+Run from the repository root:
+
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_08_compound_engineering\multi_agent_team_simulator.py
+python course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py
 ```
 
 ## Output file and evidence

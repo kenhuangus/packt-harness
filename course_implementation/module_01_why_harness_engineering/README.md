@@ -51,13 +51,13 @@ directory does not matter; the script locates `common\llm_client.py` from
 its own file path.
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_01_why_harness_engineering\harness_vs_model_demo.py
+python course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py
 ```
 
 Or run every module from the repository root:
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\run_all_modules.py
+python run_all_modules.py
 ```
 
 ## Output file and evidence

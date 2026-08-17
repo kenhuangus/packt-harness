@@ -55,14 +55,14 @@ subprocess and writes
 Full demo:
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_04_guardrails_and_hooks\guardrails_engine.py
+python course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py
 ```
 
 Live Bash hook (from the repository root). Write the JSON to a file first
 so PowerShell does not eat the quotes:
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\.claude\hooks\bash_guard.py
+python .claude/hooks/bash_guard.py
 ```
 
 Pipe a `PreToolUse` payload into that command. Safe `pytest` returns

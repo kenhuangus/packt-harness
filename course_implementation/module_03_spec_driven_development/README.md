@@ -41,8 +41,10 @@ Output files:
 
 ## How to run
 
+Run from the repository root:
+
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_03_spec_driven_development\spec_driven_verifier.py
+python course_implementation/module_03_spec_driven_development/spec_driven_verifier.py
 ```
 
 ## Output file and evidence
