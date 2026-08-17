@@ -39,9 +39,19 @@ async def inspect(server_script: str | None = None) -> int:
             return 0
 
 
+def root_cause(exc: BaseException) -> str:
+    while isinstance(exc, BaseExceptionGroup) and exc.exceptions:
+        exc = exc.exceptions[0]
+    return f"{type(exc).__name__}: {exc}"
+
+
 def main() -> int:
     server_path = sys.argv[1] if len(sys.argv) > 1 else None
-    return asyncio.run(inspect(server_path))
+    try:
+        return asyncio.run(inspect(server_path))
+    except Exception as exc:
+        print(f"[FAIL] Could not inspect MCP server: {root_cause(exc)}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
