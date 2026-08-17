@@ -63,13 +63,13 @@ No extra output file. The MCP exchange is on the child's stdio pipes.
 Install the SDK once if needed:
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe -m pip install mcp
+python -m pip install mcp
 ```
 
 Run the client (it starts the server):
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_07_skills_plugins_mcp\mcp_client_runner.py
+python course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py
 ```
 
 Do not run `mcp_server_demo.py` by itself unless you intend to speak

@@ -36,8 +36,10 @@ Output files:
 
 ## How to run
 
+Run from the repository root:
+
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_05_break_and_qna\permission_escalation_gateway.py
+python course_implementation/module_05_break_and_qna/permission_escalation_gateway.py
 ```
 
 ## Output file and evidence

@@ -35,8 +35,10 @@ Path checks use `Path.resolve().is_relative_to()`, not a string prefix.
 
 ## How to run
 
+Run from the repository root:
+
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_02_core_harness_stack\core_harness_stack.py
+python course_implementation/module_02_core_harness_stack/core_harness_stack.py
 ```
 
 Requires `pytest` on that interpreter (`python -m pip install pytest`).

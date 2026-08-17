@@ -52,13 +52,13 @@ No extra output file. The audit prints to stdout.
 Audit this repository (default target = two directories up from the script):
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_10_closing_and_principles\production_harness_audit.py
+python course_implementation/module_10_closing_and_principles/production_harness_audit.py
 ```
 
 Audit some other project:
 
 ```powershell
-C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu\packt-harness\course_implementation\module_10_closing_and_principles\production_harness_audit.py C:\path\to\other\repo
+python course_implementation/module_10_closing_and_principles/production_harness_audit.py C:/path/to/other/repo
 ```
 
 ## Output file and evidence
