@@ -429,7 +429,7 @@
       "Evaluation Harnesses for Agentic AI",
       "The Hardest Frontier in AI Engineering",
       "• The Hardest Engineering Challenge: Evaluating autonomous agents (especially coding agents) is notoriously difficult due to non-deterministic multi-turn trajectories, dynamic state explosion, and test contamination.",
-      "• Key Evaluation Invariant: Strict Isolation — the evaluator must run in an external, independent control sandbox completely out of the agent's context and reach.",
+      "• Strict Evaluation Isolation: the evaluator must run in an external, independent control sandbox completely out of the agent's context and reach.",
       "• Industry Benchmark Examples:",
       "  • SWE-bench (Verified / Lite): Real-world GitHub issues evaluated against hidden unit test assertions.",
       "  • HumanEval & MBPP: Function-level code synthesis and unit-test benchmarks.",
@@ -719,7 +719,8 @@
       "  • 6. Sandboxed Execution: Micro-VMs (gVisor/Firecracker), readOnlyRootFilesystem=true, seccomp=RuntimeDefault, 50% RAM tmpfs scratch.",
       "  • 7. Rate Limiting & Denial-of-Wallet Guards: Token buckets (100 req/min), declared $maxCost USD quotas per tool, global circuit-breakers.",
       "  • 8. Supply-Chain Security: Pin and hash dependencies (--hash=sha256:), private PyPI mirror, Sigstore Cosign image signing & SBOM.",
-      "  • 9. Human-in-the-Loop Gateways: Destructive or high-cost actions (> $50 or DROP/DELETE) require step-up FIDO2 / mobile MFA approval."
+      "  • 9. Human-in-the-Loop Gateways: Destructive or high-cost actions (> $50 or DROP/DELETE) require step-up FIDO2 / mobile MFA approval.",
+      "• Insecure MCP Demo: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, SSRF & command execution vulnerabilities in MCP servers)"
     ]
   },
   {
@@ -743,7 +744,7 @@
       "• [Line 5] @mcp.tool Decorator: Defines callable actions with parameters and execution capabilities.",
       "• [Line 9] @mcp.resource Decorator: Exposes read-only application state over standard URIs (config://).",
       "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls.",
-      "• Insecure MCP Vulnerability Lab: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
+      "• Insecure MCP Demo: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
     ],
     "number": 49
   },
@@ -908,7 +909,7 @@
       "• 6 Standard HTML Contracts: prd.html, planning.html, spec.html",
       "• Quality & Design: test-cases.html, architecture.html (with Excalidraw), users.html",
       "• Parallel Drafting: Draft independent contracts concurrently; serialize integration & acceptance",
-      "• Shared Invariants: AGENTS.md & CLAUDE.md managed protocol blocks",
+      "• Shared Memory & Rules: AGENTS.md & CLAUDE.md managed protocol blocks",
       "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
     "number": 61

@@ -455,7 +455,7 @@ def generate_svg_for_slide(num, title):
   </g>
   <g transform="translate(595, 6)">
     <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
-    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. Invariant Scoring</text>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. Automated Scoring</text>
     <text x="92" y="50" fill="#047857" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Pass Rate &amp; Scope</text>
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Test Contamination</text>
   </g>
@@ -2257,7 +2257,7 @@ html_template = '''<!DOCTYPE html>
             html += `
               <div class="code-concept-card">
                 <div class="concept-card-head">
-                  <span class="concept-tag" style="background:var(--accent-sf); color:var(--accent-dk); border:1px solid var(--accent-dk);">🛡️ GUARANTEE</span>
+                  <span class="concept-tag" style="background:var(--accent-sf); color:var(--accent-dk); border:1px solid var(--accent-dk);">🛡️ VERIFIED</span>
                   <span class="concept-name">${formatTextWithCode(title)}</span>
                 </div>
                 <div class="concept-card-text">${desc}</div>
@@ -2562,7 +2562,7 @@ html_template = '''<!DOCTYPE html>
             <div class="code-concepts-column">
               ${formatCodeConcepts(rawBullets)}
               <div class="invariant-card">
-                <div class="invariant-title">🛡️ Execution &amp; Control Invariant</div>
+                <div class="invariant-title">🛡️ Deterministic Control Architecture</div>
                 <div style="margin-bottom:0.35rem; color:var(--ink); font-size:0.86rem;">Verified directly against runnable tests in GitHub:</div>
                 <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.84rem;">
                   <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
@@ -2687,7 +2687,7 @@ html_template = '''<!DOCTYPE html>
                     <strong>⚙️ Frameworks &amp; Practices:</strong> SDLC, Agile, Architecture Patterns, CI/CD pipelines, Unit/Integration Testing Pyramids, SRE, and Secure-SDLC / AppSec.
                   </div>
                   <div class="thesis-point">
-                    <strong>🔒 Core Guarantee:</strong> <strong>Deterministic Repeatability</strong> — identical inputs and state strictly produce identical outputs (<code>f(x) ➔ y</code>).
+                    <strong>🔒 Core Principle:</strong> <strong>Deterministic Repeatability</strong> — identical inputs and state strictly produce identical outputs (<code>f(x) ➔ y</code>).
                   </div>
                 </div>
               </div>
@@ -2709,7 +2709,7 @@ html_template = '''<!DOCTYPE html>
                     <strong>🛡️ Deterministic Control Environment:</strong> Engineers the surrounding scaffold: Memory (<code>CLAUDE.md</code>/<code>AGENTS.md</code>), path sandboxing, Pre/Post AST hooks, Pytest TDA loops, and permission gateways.
                   </div>
                   <div class="thesis-point">
-                    <strong>🎯 The 5 Production Invariants:</strong> Transforms probabilistic model outputs into systems that are <strong>Reliable</strong>, <strong>Observable</strong>, <strong>Secure</strong>, <strong>Governable</strong>, and <strong>Operationally Manageable</strong>.
+                    <strong>🎯 The 5 Production Goals:</strong> Transforms probabilistic model outputs into systems that are <strong>Reliable</strong>, <strong>Observable</strong>, <strong>Secure</strong>, <strong>Governable</strong>, and <strong>Operationally Manageable</strong>.
                   </div>
                 </div>
               </div>
@@ -2769,7 +2769,7 @@ html_template = '''<!DOCTYPE html>
                     <div class="defense-title">🛡️ Deterministic Harness Defense:</div>
                     <div style="font-size:0.79rem; line-height:1.36;">
                       <strong>PreToolUse Interceptor:</strong> Regex &amp; AST analysis block dangerous commands before subprocess creation.<br>
-                      <strong>OS Path Sandbox:</strong> <code>Path.is_relative_to()</code> guarantees zero file escapes.
+                      <strong>OS Path Sandbox:</strong> <code>Path.is_relative_to()</code> enforces strict workspace file boundaries.
                     </div>
                   </div>
                   <div class="setup-links-box">
@@ -2781,7 +2781,7 @@ html_template = '''<!DOCTYPE html>
                     </div>
                     <div>
                       💡 <strong>Why the Virtual Environment:</strong><br>
-                      <span>Each module executes <code>pytest</code> via <code>sys.executable</code> — guaranteeing tests run against the dedicated project environment without false passes from system PATH.</span>
+                      <span>Each module executes <code>pytest</code> via <code>sys.executable</code> — ensures tests run against the dedicated project environment without false passes from system PATH.</span>
                     </div>
                     <div>
                       📖 <strong>Full Setup &amp; Multi-Model Keys:</strong><br>
