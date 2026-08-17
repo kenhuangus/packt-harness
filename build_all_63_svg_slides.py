@@ -301,15 +301,32 @@ def generate_svg_for_slide(num, title):
   <text x="597" y="58" fill="#6B6B63" font-family="Inter" font-size="11" text-anchor="middle">Modules 6–10: TDA, MCP, Multi-Agent &amp; Audit</text>
   <text x="597" y="78" fill="#D97757" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">5-Gate Production Readiness Scorecard</text>
 </svg>'''
-    elif re.match(r'^MODULE\s+\d+', title.strip(), re.IGNORECASE):
-        mod_match = re.search(r'\d+', title)
-        m_num = int(mod_match.group(0)) if mod_match else 1
-        return f'''<svg viewBox="0 0 800 110" class="slide-svg">
-  <rect x="15" y="6" width="770" height="98" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2.5"/>
-  <circle cx="70" cy="55" r="30" fill="#F5E6DF" stroke="#D97757" stroke-width="2.5"/>
-  <text x="70" y="64" fill="#141413" font-family="Inter" font-size="20" font-weight="900" text-anchor="middle">M{m_num}</text>
-  <text x="120" y="46" fill="#141413" font-family="Inter" font-size="17" font-weight="800">MODULE {m_num} SPECIFICATION &amp; PRODUCTION BLUEPRINT</text>
-  <text x="120" y="74" fill="#6B6B63" font-family="Inter" font-size="12.5">Verified Implementation in course_implementation/ | Deterministic Control Architecture</text>
+    elif 'SPEC-DRIVEN' in title_upper or 'SPEC CONTRACT' in title_upper or 'SPECIFICATION' in title_upper or 'MODULE 3' in title_upper:
+        return '''<svg viewBox="0 0 800 100" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">1. SPEC.md Contract</text>
+    <text x="87" y="50" fill="#4A4A44" font-family="Inter" font-size="10.5" text-anchor="middle">Immutable File Scope</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Acceptance Criteria</text>
+  </g>
+  <g transform="translate(205, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">2. Allowed Scopes</text>
+    <text x="87" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">allowed_files Check</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Blocks database.py</text>
+  </g>
+  <g transform="translate(395, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">3. Non-Goal Scans</text>
+    <text x="92" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Scope Violations</text>
+    <text x="92" y="70" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Rejects Feature Creep</text>
+  </g>
+  <g transform="translate(595, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. AST Pre-Validation</text>
+    <text x="92" y="50" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">ast.parse() Syntax Check</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Syntax Errors</text>
+  </g>
 </svg>'''
     elif '5 HARNESS PILLARS' in title_upper or '5 PILLARS' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
@@ -344,7 +361,7 @@ def generate_svg_for_slide(num, title):
     <text x="77" y="72" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">ISO UTC Timestamps</text>
   </g>
 </svg>'''
-    elif '4-LAYER' in title_upper:
+    elif '4-LAYER' in title_upper or 'GUARDRAILS' in title_upper or 'MODULE 4' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
