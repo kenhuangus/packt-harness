@@ -30,7 +30,13 @@ def main():
         }
         print(json.dumps(out))
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
+        print(json.dumps({
+            "hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": "deny",
+                "permissionDecisionReason": f"PreToolUse parse failure: {str(e)}"
+            }
+        }))
 
 if __name__ == "__main__":
     main()
