@@ -84,6 +84,61 @@ for k, v in BASE_CORPUS.items():
     DYNAMIC_CORPUS[k] = {"doc_id": k, **v, "snippet": v["text"][:240] + "..."}
 
 
+def _compact_error_message(exc: Exception, max_len: int = 240) -> str:
+    """Returns a single-line, bounded error string for operator-facing diagnostics."""
+    message = str(exc).strip().replace("\n", " ")
+    if not message:
+        message = exc.__class__.__name__
+    if len(message) > max_len:
+        return message[: max_len - 3] + "..."
+    return message
+
+
+def _classify_playwright_runtime_error(exc: Exception) -> str:
+    """Maps Playwright runtime exceptions into actionable failure categories."""
+    lowered = _compact_error_message(exc).lower()
+    if "executable doesn't exist" in lowered or "please run the following command" in lowered:
+        return "browser_binary_not_installed"
+    if "timeout" in lowered or "timed out" in lowered or "net::" in lowered or "connection" in lowered:
+        return "navigation_or_network_failure"
+    return "playwright_runtime_failure"
+
+
+def _report_crawl_failure(source: str, query: str, failure_mode: str, exc: Exception) -> None:
+    """Emits explicit crawler failure diagnostics instead of silently fabricating evidence."""
+    print(
+        f"[WARN] {source} crawl failed for query '{query}': {failure_mode} "
+        f"({_compact_error_message(exc)})"
+    )
+
+
+def _dedupe_preserving_order(items: list[dict], key_fn) -> list[dict]:
+    """Drops duplicate crawl hits (overlapping DOM selectors can match the same
+    result more than once) while preserving first-seen order."""
+    seen = set()
+    unique = []
+    for item in items:
+        key = key_fn(item)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(item)
+    return unique
+
+
+def _canonical_youtube_video_id(url: str) -> str:
+    """Extracts the stable YouTube video id from a watch URL, ignoring tracking params."""
+    parsed = urllib.parse.urlparse(url)
+    video_id = urllib.parse.parse_qs(parsed.query).get("v", [None])[0]
+    return video_id or url.rstrip("/")
+
+
+def _canonical_github_repo_url(url: str) -> str:
+    """Normalizes a GitHub repository URL for de-duplication, ignoring query/fragment noise."""
+    parsed = urllib.parse.urlparse(url)
+    return f"{parsed.netloc.lower()}{parsed.path.rstrip('/').lower()}"
+
+
 # ==============================================================================
 # 1. ACADEMIC & ENCYCLOPEDIA SEARCH (Wikipedia, arXiv, OpenAlex)
 # ==============================================================================
@@ -252,11 +307,16 @@ def fetch_live_hackernews(query: str, limit: int = 2) -> list[dict]:
 def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
     """
     Fast public GitHub repository search without API key.
-    Uses Playwright browser automation if available, or direct public search fallback.
+    Uses Playwright browser automation and returns zero documents on crawl failure.
     """
     docs = []
     try:
-        from playwright.sync_api import sync_playwright
+        from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
+    except ModuleNotFoundError as exc:
+        _report_crawl_failure("GitHub", query, "playwright_not_installed", exc)
+        return docs
+
+    try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page(
@@ -287,6 +347,9 @@ def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
             """)
             browser.close()
 
+            repos = _dedupe_preserving_order(
+                repos, lambda r: _canonical_github_repo_url(r.get("url", ""))
+            )
             for r in repos[:limit]:
                 name = r.get("name", "GitHub Repo")
                 url = r.get("url", "https://github.com")
@@ -304,24 +367,12 @@ def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
                 docs.append(doc_obj)
-    except Exception:
-        pass
-
-    if not docs:
-        clean_q = re.sub(r'[^a-zA-Z0-9\s]', '', query).strip().replace(" ", "-").lower()
-        doc_id = f"gh_{abs(hash(query))%100000:05d}"
-        doc_obj = {
-            "doc_id": doc_id,
-            "title": f"awesome-{clean_q} (GitHub Repository)",
-            "domain": "github.com",
-            "author": "Open Source Community",
-            "url": f"https://github.com/topics/{clean_q}",
-            "source_type": "github",
-            "text": f"GitHub Open Source Architecture and Implementation Reference for {query}.",
-            "snippet": f"Open source code repository and architecture patterns for {query}.",
-        }
-        DYNAMIC_CORPUS[doc_id] = doc_obj
-        docs.append(doc_obj)
+    except PlaywrightTimeoutError as exc:
+        _report_crawl_failure("GitHub", query, "navigation_or_network_failure", exc)
+    except PlaywrightError as exc:
+        _report_crawl_failure("GitHub", query, _classify_playwright_runtime_error(exc), exc)
+    except Exception as exc:
+        _report_crawl_failure("GitHub", query, "unexpected_failure", exc)
     return docs
 
 
@@ -336,7 +387,12 @@ def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
     """
     docs = []
     try:
-        from playwright.sync_api import sync_playwright
+        from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
+    except ModuleNotFoundError as exc:
+        _report_crawl_failure("YouTube", query, "playwright_not_installed", exc)
+        return docs
+
+    try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page(
@@ -367,6 +423,9 @@ def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
             """)
             browser.close()
 
+            videos = _dedupe_preserving_order(
+                videos, lambda v: _canonical_youtube_video_id(v.get("url", ""))
+            )
             for v in videos[:limit]:
                 title = v.get("title", "YouTube Video")
                 url = v.get("url", "https://youtube.com")
@@ -384,23 +443,12 @@ def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
                 docs.append(doc_obj)
-    except Exception:
-        pass
-
-    if not docs:
-        doc_id = f"yt_{abs(hash(query))%100000:05d}"
-        doc_obj = {
-            "doc_id": doc_id,
-            "title": f"{query}: Architecture & Implementation Walkthrough (YouTube Technical Video)",
-            "domain": "youtube.com",
-            "author": "Tech Conference Keynotes",
-            "url": f"https://www.youtube.com/results?search_query={urllib.parse.quote(query)}",
-            "source_type": "youtube",
-            "text": f"Technical video presentation and engineering architecture demonstration on {query}.",
-            "snippet": f"Video walkthrough and technical teardown for {query}.",
-        }
-        DYNAMIC_CORPUS[doc_id] = doc_obj
-        docs.append(doc_obj)
+    except PlaywrightTimeoutError as exc:
+        _report_crawl_failure("YouTube", query, "navigation_or_network_failure", exc)
+    except PlaywrightError as exc:
+        _report_crawl_failure("YouTube", query, _classify_playwright_runtime_error(exc), exc)
+    except Exception as exc:
+        _report_crawl_failure("YouTube", query, "unexpected_failure", exc)
     return docs
 
 

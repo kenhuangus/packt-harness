@@ -1,9 +1,10 @@
 """
-Edge Case & Failure Defense Test Suite for Deep Research Agent (EC-01 to EC-07).
+Edge Case & Failure Defense Test Suite for Deep Research Agent (EC-01 to EC-08).
 """
 
 from pathlib import Path
 import pytest
+import sys
 
 from deep_research_agent.engine.escalation_gateway import PermissionEscalationGateway, RiskTier
 from deep_research_agent.engine.guardrails import GuardrailsEngine
@@ -77,7 +78,7 @@ def test_ec_05_critical_permission_escalation():
 
 
 def test_ec_06_context_token_compaction():
-    """EC-07: Excessive evidence text is safely compacted with head/tail preservation."""
+    """EC-06: Excessive evidence text is safely compacted with head/tail preservation."""
     budgeter = ContextTokenBudgeter(max_tokens=8000)
     huge_text = "HEAD_FACTS: " + ("evidence " * 1000) + " TAIL_FACTS"
     compacted = budgeter.compact_evidence(huge_text, max_chars=400)
@@ -86,3 +87,22 @@ def test_ec_06_context_token_compaction():
     assert "HEAD_FACTS" in compacted
     assert "TAIL_FACTS" in compacted
     assert "OMITTED" in compacted
+
+
+def test_ec_07_browser_crawlers_return_empty_without_playwright(monkeypatch):
+    """EC-07: Browser-based crawlers must return empty results when Playwright is unavailable."""
+    from deep_research_agent.engine import mcp_research_server as research_server
+
+    monkeypatch.delitem(sys.modules, "playwright.sync_api", raising=False)
+
+    real_import = __import__
+
+    def guarded_import(name, *args, **kwargs):
+        if name == "playwright.sync_api":
+            raise ModuleNotFoundError("No module named 'playwright'")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr("builtins.__import__", guarded_import)
+
+    assert research_server.fetch_live_github_sync("Harness Engineering", limit=2) == []
+    assert research_server.fetch_live_youtube_sync("Autonomous Coding Agents", limit=2) == []

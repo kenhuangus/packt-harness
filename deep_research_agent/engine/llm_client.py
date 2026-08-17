@@ -4,7 +4,10 @@ Supports:
 - Local Model (Default): OpenAI-compatible vLLM (http://127.0.0.1:8000/v1) or Ollama (http://127.0.0.1:11434)
 - Anthropic Claude: claude-sonnet-4-5 / claude-3-5-sonnet-20241022 via ANTHROPIC_API_KEY
 - OpenAI: gpt-4o / gpt-4o-mini via OPENAI_API_KEY
-- Google Gemini: gemini-1.5-pro / gemini-2.0-flash via GEMINI_API_KEY / GOOGLE_API_KEY
+- Google Gemini via Google's OpenAI-compatible endpoint
+  (https://generativelanguage.googleapis.com/v1beta/openai/) with GEMINI_API_KEY
+  or GOOGLE_API_KEY. This is not aisuite's Vertex AI google provider.
+  LLM_PROVIDER=vertex requires aisuite[google] plus GCP credentials.
 - Multi-Turn Self-Reflection & In-Depth Review Engine (Turn 1: Gap Reflection -> Turn 2: Adversarial Audit -> Finalize)
 """
 
@@ -40,7 +43,10 @@ DEFAULT_PROVIDER = "openai"
 DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
-DEFAULT_GEMINI_MODEL = "gemini-1.5-pro"
+DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_OPENAI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
+GEMINI_PROVIDERS = {"google", "gemini"}
+VERTEX_PROVIDERS = {"vertex", "vertexai", "google-vertex"}
 
 
 def _is_local_base(url: str) -> bool:
@@ -80,13 +86,30 @@ class ResearchLLMClient:
         else:
             if self.provider == "anthropic":
                 self.model = DEFAULT_ANTHROPIC_MODEL
-            elif self.provider in ("google", "gemini"):
+            elif self.provider in GEMINI_PROVIDERS:
                 self.provider = "google"
                 self.model = DEFAULT_GEMINI_MODEL
             elif self.provider == "openai" and not _is_local_base(self.base_url):
                 self.model = DEFAULT_OPENAI_MODEL
             else:
                 self.model = DEFAULT_LOCAL_MODEL
+
+        if self.provider in VERTEX_PROVIDERS:
+            raise RuntimeError(
+                "LLM_PROVIDER=vertex uses aisuite's Vertex AI google provider, "
+                "which requires aisuite[google] plus GOOGLE_PROJECT_ID, "
+                "GOOGLE_REGION, and GOOGLE_APPLICATION_CREDENTIALS. "
+                "This course does not install that extra. For the Gemini API, "
+                "set LLM_PROVIDER=google (or gemini) and GEMINI_API_KEY; "
+                "the client routes that through Google's OpenAI-compatible "
+                f"endpoint ({GEMINI_OPENAI_BASE})."
+            )
+        if self.provider == "gemini":
+            self.provider = "google"
+        if self.provider in GEMINI_PROVIDERS:
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base or _is_local_base(env_base):
+                self.base_url = GEMINI_OPENAI_BASE.rstrip("/")
 
         self.live = False
         self.last_error = ""
@@ -110,10 +133,15 @@ class ResearchLLMClient:
             key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY") or ""
             if key:
                 configs["anthropic"] = {"api_key": key}
-        elif self.provider in ("google", "gemini"):
+        elif self.provider in GEMINI_PROVIDERS:
             key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("LLM_API_KEY") or ""
             if key:
-                configs["google"] = {"api_key": key}
+                # aisuite's google provider is Vertex AI and does not accept
+                # api_key. Route Gemini through the OpenAI-compat endpoint.
+                configs["openai"] = {
+                    "api_key": key,
+                    "base_url": self.base_url,
+                }
         elif self.provider == "ollama":
             configs["ollama"] = {
                 "api_key": "ollama",
@@ -146,7 +174,7 @@ class ResearchLLMClient:
             self.live = bool(os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY"))
             return
 
-        if self.provider in ("google", "gemini"):
+        if self.provider in GEMINI_PROVIDERS:
             self.live = bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("LLM_API_KEY"))
             return
 
@@ -169,9 +197,10 @@ class ResearchLLMClient:
             if self.provider == "openai" and _is_local_base(self.base_url):
                 kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": False}}
 
+            aisuite_provider = "openai" if self.provider in GEMINI_PROVIDERS else self.provider
             try:
                 response = self._client.chat.completions.create(
-                    model=f"{self.provider}:{self.model}",
+                    model=f"{aisuite_provider}:{self.model}",
                     messages=messages,
                     **kwargs,
                 )

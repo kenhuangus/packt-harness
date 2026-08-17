@@ -1161,10 +1161,10 @@
     "raw_lines": [
       "Capstone Project: Autonomous Deep Research Agent",
       "• 10-Module Harness Architecture: A production-grade autonomous deep research platform synthesizing all 10 harness engineering modules into a deterministic runtime.",
-      "• Zero-API Public Search Streams: Uses headless Playwright browser agents to search public GitHub repositories and YouTube technical video talks without API keys, alongside arXiv preprints, OpenAlex DOIs, and HackerNews.",
+      "• Zero-API Public Search Streams: Uses headless Playwright browser agents to search public GitHub repositories and YouTube technical video talks without API keys, alongside arXiv preprints, OpenAlex DOIs, and HackerNews. The browser streams need the capstone extra (pip install -e \".[capstone]\"); when a crawl cannot run it returns no documents rather than inventing one.",
       "• 5-Step Deterministic SOP Pipeline: Spec formulation (SPEC.md) -> Ephemeral worktree sandboxing & live crawl -> PreToolUse guardrails & secret scan -> Pytest TDA self-healing loop -> Unified diff review & 5-gate audit certification.",
       "• Web UI & Multi-Hop Research Graph: Real-time SVG entity visualizer, citation confidence matrix, and full academic dossier reader on a clean white background.",
-      "• Verified Production Metrics: 100% 5-Gate Scorecard Certification, 14/14 Passing Pytest Assertions, and -94.2% reduction in unverified model mutations.",
+      "• Verified Production Metrics: 100% 5-Gate Scorecard Certification and 17 Pytest assertions, of which the two live-crawl tests skip rather than pass when a real crawl is unavailable.",
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
@@ -1206,7 +1206,7 @@
       "| 📐 System Architecture Diagram SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/architecture_diagram.svg |",
       "| 🔄 8-Stage Execution Flow SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/flow_diagram.svg |",
       "| 💻 Deep Research Web UI & Server | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/ |",
-      "| 🧪 Automated Pytest Test Suite (16/16 Passing) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
+      "| 🧪 Automated Pytest Test Suite (17 Tests) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],

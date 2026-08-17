@@ -39,13 +39,24 @@ dependencies = [
     # endpoint. Plain "aisuite" installs, then fails at the first call with
     # "No module named 'openai'".
     "aisuite[openai]>=0.1.0",
+    # Gemini is NOT aisuite[google]. That extra installs vertexai and
+    # GoogleProvider requires GOOGLE_PROJECT_ID, GOOGLE_REGION, and
+    # GOOGLE_APPLICATION_CREDENTIALS — it is Vertex AI, not the Gemini API.
+    # Both llm_client.py files route Gemini through Google's OpenAI-compatible
+    # endpoint (https://generativelanguage.googleapis.com/v1beta/openai/)
+    # using GEMINI_API_KEY / GOOGLE_API_KEY and the openai extra above.
+    # Do not add aisuite[google] or vertexai here.
 ]
 
-# course_implementation/dashboard/capture_dashboard.py drives a real browser.
-# It is not one of the ten modules and run_all_modules.py never invokes it,
-# so playwright stays out of the default install: it pulls browser binaries
-# that the modules do not need.
 [project.optional-dependencies]
+# Playwright is used by the capstone (deep_research_agent GitHub and YouTube
+# crawlers) and by course_implementation/dashboard/capture_dashboard.py.
+# It is not in the default install: it pulls browser binaries the ten
+# course modules do not need. Install with:
+#   pip install -e ".[capstone]"
+#   python -m playwright install chromium
+# Keep dashboard as an alias so existing README commands still work.
+capstone = ["playwright>=1.40.0"]
 dashboard = ["playwright>=1.40.0"]
 # Only needed to switch LLM_PROVIDER=anthropic per the root README.
 anthropic = ["aisuite[anthropic]>=0.1.0"]
@@ -55,4 +66,17 @@ packt-harness = "packt_harness.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["packt_harness*", "course_implementation*"]
+# deep_research_agent has no __init__.py files. Keep namespaces=true so
+# setuptools installs it as a PEP 420 namespace package and
+# `import deep_research_agent` works from any cwd after `pip install -e .`.
+namespaces = true
+include = [
+    "packt_harness*",
+    "course_implementation*",
+    "deep_research_agent*",
+]
+
+# Pytest configuration lives in pytest.ini at the repo root, which already sets
+# pythonpath, testpaths, and norecursedirs. pytest.ini takes precedence over
+# [tool.pytest.ini_options], so a copy here would be silently ignored and pytest
+# would warn about it. Edit pytest.ini instead.

@@ -63,13 +63,36 @@ Prefer the second form if PowerShell blocks activation with an execution
 policy error. Everything below assumes the venv interpreter is what `python`
 resolves to.
 
-The browser dashboard in `course_implementation/dashboard/` needs an extra
-that the ten modules do not:
+Clone rather than downloading a ZIP. Module 8 drives `git worktree` and fails
+with `not a git repository` when there is no `.git` directory.
+
+Two parts of the repository need a real browser, which the ten modules do not:
+the dashboard in `course_implementation/dashboard/`, and the capstone's GitHub
+and YouTube crawlers. Both come from the same extra:
 
 ```powershell
-.venv\Scripts\python.exe -m pip install -e ".[dashboard]"
+.venv\Scripts\python.exe -m pip install -e ".[capstone]"
 .venv\Scripts\python.exe -m playwright install chromium
 ```
+
+`[dashboard]` is an alias for the same package, so either name works.
+
+### Using a cloud model instead of the local one
+
+The default is the local OpenAI-compatible endpoint and needs no key. To switch,
+set `LLM_PROVIDER` and the matching key in a gitignored `.env` (see
+`course_implementation/.env.example`):
+
+| Provider | `LLM_PROVIDER` | Key | Extra install |
+| --- | --- | --- | --- |
+| OpenAI | `openai` | `OPENAI_API_KEY` | none |
+| Claude | `anthropic` | `ANTHROPIC_API_KEY` | `pip install -e ".[anthropic]"` |
+| Gemini | `google` | `GEMINI_API_KEY` | none |
+
+Gemini needs no extra because it routes through Google's OpenAI-compatible
+endpoint. It is deliberately not `aisuite[google]`: that extra is Vertex AI and
+requires `GOOGLE_PROJECT_ID`, `GOOGLE_REGION`, and a service-account credentials
+file, not a Gemini API key.
 
 ### Verify the install
 

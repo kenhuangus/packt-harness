@@ -3,9 +3,9 @@
 > **Production-Grade Reference Implementation of the 10-Module Harness Engineering Framework**
 > Zero-API Public Search Streams • Spec-Driven Contracts • Model Context Protocol (MCP 2.x) • Ephemeral Worktrees • Pytest TDA Self-Healing
 
-[![5-Gate Production Auditor](https://img.shields.io/badge/5--Gate%20Auditor-100%25%20Certified-059669?style=flat-square)](file:///C:/Users/kenhu/packt-harness/deep_research_agent/docs/github_deliverables_card.png)
-[![Pytest Test Suite](https://img.shields.io/badge/Pytest%20TDA-14%2F14%20Passing-2563eb?style=flat-square)](file:///C:/Users/kenhu/packt-harness/deep_research_agent/tests/test_happy_path.py)
-[![Zero-API Streams](https://img.shields.io/badge/Zero--API%20Streams-GitHub%20%7C%20YouTube%20%7C%20arXiv%20%7C%20HN-7c3aed?style=flat-square)](file:///C:/Users/kenhu/packt-harness/deep_research_agent/engine/mcp_research_server.py)
+[![5-Gate Production Auditor](https://img.shields.io/badge/5--Gate%20Auditor-100%25%20Certified-059669?style=flat-square)](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/github_deliverables_card.png)
+[![Pytest Test Suite](https://img.shields.io/badge/Pytest%20TDA-17%20Tests-2563eb?style=flat-square)](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/tests/test_happy_path.py)
+[![Zero-API Streams](https://img.shields.io/badge/Zero--API%20Streams-GitHub%20%7C%20YouTube%20%7C%20arXiv%20%7C%20HN-7c3aed?style=flat-square)](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/engine/mcp_research_server.py)
 [![Demo Video](https://img.shields.io/badge/Demo%20Video-1080p%20Full%20HD%20(3.87%20mins)-dc2626?style=flat-square)](https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4)
 
 ---
@@ -57,6 +57,24 @@ The agent fetches real-world multi-modal evidence across 6 distinct public chann
 
 ## 🚀 Quickstart & Running the Web UI
 
+### 0. Install
+
+All commands run from the repository root, inside the project virtualenv (see the
+[root README](../README.md#setup)). The GitHub and YouTube crawlers drive a real
+headless browser, so they need the `capstone` extra plus a browser binary:
+
+```bash
+pip install -e ".[capstone]"
+python -m playwright install chromium
+```
+
+Without that extra the agent still runs — arXiv, OpenAlex, HackerNews and
+Wikipedia need no browser — but the GitHub and YouTube streams return no
+documents and say so, and their two tests skip rather than pass.
+
+Use a `git clone` rather than a downloaded ZIP: module 8 drives `git worktree`
+and fails without a `.git` directory.
+
 ### 1. Start the Live Research Server
 ```bash
 # Launch the API server and Web UI on port 8090
@@ -68,7 +86,17 @@ Open **[http://localhost:8090/](http://localhost:8090/)** in your browser.
 ```bash
 pytest -v
 ```
-*Output: 14/14 passed in < 20s (including Zero-API GitHub & YouTube tests).*
+17 tests. Two of them (HP-07 GitHub, HP-08 YouTube) drive a real browser against
+a live site, so their result depends on the network rather than on the code:
+
+| Situation | Result |
+| --- | --- |
+| `capstone` extra installed, crawls succeed | 17 passed |
+| Crawl runs but the site rate-limits or blocks it | 16 passed, 1 skipped (reason names the cause) |
+| No `capstone` extra | 15 passed, 2 skipped |
+
+Those two never pass without documents from a real crawl. A skip is the honest
+outcome when the crawl cannot run; the suite will not manufacture a result.
 
 ### 3. Run the 5-Gate Production Readiness Audit
 ```bash

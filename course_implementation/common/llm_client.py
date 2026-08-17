@@ -10,7 +10,17 @@ Switch providers with a gitignored .env, for example:
 
     LLM_PROVIDER=anthropic
     LLM_MODEL=claude-sonnet-4-5
-    ANTHROPIC_API_KEY=sk-ant-...
+    ANTHROPIC_API_KEY=
+
+    LLM_PROVIDER=google
+    LLM_MODEL=gemini-2.5-flash
+    GEMINI_API_KEY=
+
+Gemini uses Google's OpenAI-compatible endpoint
+(https://generativelanguage.googleapis.com/v1beta/openai/),
+not aisuite's Vertex AI google provider. LLM_PROVIDER=vertex
+requires aisuite[google] plus GCP credentials and is not
+installed by this course.
 
 Never commit API keys. Simulated text is used only when
 HARNESS_ALLOW_SIMULATED_LLM=1.
@@ -45,10 +55,17 @@ DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1"
 DEFAULT_PROVIDER = "openai"
 DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
+DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_OPENAI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
+GEMINI_PROVIDERS = {"google", "gemini"}
+VERTEX_PROVIDERS = {"vertex", "vertexai", "google-vertex"}
 KNOWN_PROVIDERS = {
     "openai",
     "anthropic",
     "google",
+    "gemini",
+    "vertex",
+    "vertexai",
     "ollama",
     "mistral",
     "huggingface",
@@ -109,11 +126,29 @@ class LLMClient:
     def __init__(self, require_live: bool | None = None) -> None:
         env_provider = os.getenv("LLM_PROVIDER", DEFAULT_PROVIDER).strip().lower()
         self.provider, env_model = _split_model(os.getenv("LLM_MODEL"), env_provider)
+        if self.provider in VERTEX_PROVIDERS:
+            raise RuntimeError(
+                "LLM_PROVIDER=vertex uses aisuite's Vertex AI google provider, "
+                "which requires aisuite[google] plus GOOGLE_PROJECT_ID, "
+                "GOOGLE_REGION, and GOOGLE_APPLICATION_CREDENTIALS. "
+                "This course does not install that extra. For the Gemini API, "
+                "set LLM_PROVIDER=google (or gemini) and GEMINI_API_KEY; "
+                "the client routes that through Google's OpenAI-compatible "
+                f"endpoint ({GEMINI_OPENAI_BASE})."
+            )
+        if self.provider == "gemini":
+            self.provider = "google"
         self.base_url = _normalize_base(os.getenv("LLM_BASE_URL", DEFAULT_BASE_URL))
+        if self.provider in GEMINI_PROVIDERS:
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base or _is_local_base(env_base):
+                self.base_url = _normalize_base(GEMINI_OPENAI_BASE)
         self.api_key = (
             os.getenv("LLM_API_KEY")
             or os.getenv("OPENAI_API_KEY")
             or os.getenv("ANTHROPIC_API_KEY")
+            or os.getenv("GEMINI_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
             or "EMPTY"
         )
         self.require_live = (
@@ -127,15 +162,23 @@ class LLMClient:
         self._probe()
         print(
             f"[LLM Client] aisuite provider={self.provider} model={self.model} "
-            f"endpoint={self.base_url if self.provider == 'openai' else self.provider} "
+            f"endpoint={self.base_url if self._aisuite_provider() == 'openai' else self.provider} "
             f"live={self.live}"
         )
         if self.require_live and not self.live:
             raise RuntimeError(self._missing_backend_message())
 
+    def _aisuite_provider(self) -> str:
+        """Gemini rides aisuite's openai provider at the OpenAI-compat URL."""
+        if self.provider in GEMINI_PROVIDERS:
+            return "openai"
+        return self.provider
+
     def _default_model(self) -> str:
         if self.provider == "anthropic":
             return DEFAULT_ANTHROPIC_MODEL
+        if self.provider in GEMINI_PROVIDERS:
+            return DEFAULT_GEMINI_MODEL
         if self.provider == "openai" and _is_local_base(self.base_url):
             return self._discover_local_model() or DEFAULT_LOCAL_MODEL
         return DEFAULT_LOCAL_MODEL
@@ -169,6 +212,23 @@ class LLMClient:
                     ".env for local testing only."
                 )
             configs["anthropic"] = {"api_key": key}
+        elif self.provider in GEMINI_PROVIDERS:
+            key = (
+                os.getenv("GEMINI_API_KEY")
+                or os.getenv("GOOGLE_API_KEY")
+                or os.getenv("LLM_API_KEY")
+                or ""
+            )
+            if not key:
+                raise RuntimeError(
+                    "GEMINI_API_KEY is not set. Put it in the gitignored "
+                    ".env for local testing only. Gemini uses Google's "
+                    "OpenAI-compatible endpoint, not Vertex AI."
+                )
+            configs["openai"] = {
+                "api_key": key,
+                "base_url": self.base_url,
+            }
         elif self.provider == "ollama":
             configs["ollama"] = {
                 "api_key": "ollama",
@@ -213,6 +273,17 @@ class LLMClient:
             if not self.live:
                 self.last_error = "ANTHROPIC_API_KEY missing"
             return
+        if self.provider in GEMINI_PROVIDERS:
+            key = (
+                os.getenv("GEMINI_API_KEY")
+                or os.getenv("GOOGLE_API_KEY")
+                or os.getenv("LLM_API_KEY")
+                or ""
+            )
+            self.live = bool(key.strip())
+            if not self.live:
+                self.last_error = "GEMINI_API_KEY missing"
+            return
         if self._client is not None:
             self.live = True
 
@@ -221,6 +292,13 @@ class LLMClient:
             return (
                 "Claude is selected but ANTHROPIC_API_KEY is not set. "
                 "Add it to the gitignored .env for local testing only."
+            )
+        if self.provider in GEMINI_PROVIDERS:
+            return (
+                "Gemini is selected but GEMINI_API_KEY (or GOOGLE_API_KEY) "
+                "is not set. Add it to the gitignored .env for local testing "
+                "only. This client uses Google's OpenAI-compatible endpoint, "
+                "not Vertex AI."
             )
         if self.provider == "openai" and _is_local_base(self.base_url):
             return (
@@ -253,7 +331,7 @@ class LLMClient:
 
         try:
             response = self._client.chat.completions.create(
-                model=f"{self.provider}:{self.model}",
+                model=f"{self._aisuite_provider()}:{self.model}",
                 messages=messages,
                 **kwargs,
             )
