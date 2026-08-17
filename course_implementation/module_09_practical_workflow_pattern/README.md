@@ -33,7 +33,9 @@ by inserting that directory on `sys.path`. It does not copy the engine.
 
 ## How to run
 
-Run from the repository root:
+Run from the repository root, using the project virtualenv
+(`python -m venv .venv` then `.venv\Scripts\python.exe -m pip install -e .`
+— see the [root README](../../README.md#setup)):
 
 ```powershell
 python course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py

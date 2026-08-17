@@ -36,7 +36,9 @@ Output files:
 
 ## How to run
 
-Run from the repository root:
+Run from the repository root, using the project virtualenv
+(`python -m venv .venv` then `.venv\Scripts\python.exe -m pip install -e .`
+— see the [root README](../../README.md#setup)):
 
 ```powershell
 python course_implementation/module_05_break_and_qna/permission_escalation_gateway.py

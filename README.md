@@ -21,9 +21,7 @@ This repository supports the Packt masterclass **Build Reliable Claude Code Work
 
 ## Prerequisites
 
-- Python 3.13.
-- The MCP Python SDK: `python -m pip install mcp`.
-- [aisuite](https://github.com/andrewyng/aisuite) (`python -m pip install aisuite`). The course client talks to every provider through aisuite.
+- Python 3.10 or newer (3.13 on the authoring machine).
 - A **local** OpenAI-compatible model by default (`http://127.0.0.1:8000/v1`, vLLM `nvidia/Qwen3.6-35B-A3B-NVFP4`). Switch to Claude or others with a gitignored `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`). Never commit keys. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
 
 Example configuration:
@@ -35,15 +33,52 @@ LLM_BASE_URL=http://127.0.0.1:8000/v1
 LLM_API_KEY=EMPTY
 ```
 
-## Quickstart & CLI Installation
+## Setup
 
-Install the repository as an editable CLI tool:
+Every module launches its subprocesses with `sys.executable`, so whichever
+interpreter starts a module is the one that runs its pytest. A virtual
+environment is what makes that interpreter predictable — and it is why a
+module cannot pass by finding a different Python on `PATH`.
 
-```bash
+```powershell
 git clone https://github.com/kenhuangus/packt-harness.git
 cd packt-harness
-python -m pip install -e .
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -e .
 ```
+
+On macOS or Linux the interpreter is `.venv/bin/python` instead.
+
+That single editable install pulls `pytest`, `mcp`, `python-dotenv`, and
+`aisuite`, and puts the `packt-harness` CLI on the venv's path.
+
+Activating is optional. These are equivalent:
+
+```powershell
+.venv\Scripts\Activate.ps1     # then plain `python ...` means the venv
+.venv\Scripts\python.exe ...   # no activation needed
+```
+
+Prefer the second form if PowerShell blocks activation with an execution
+policy error. Everything below assumes the venv interpreter is what `python`
+resolves to.
+
+The browser dashboard in `course_implementation/dashboard/` needs an extra
+that the ten modules do not:
+
+```powershell
+.venv\Scripts\python.exe -m pip install -e ".[dashboard]"
+.venv\Scripts\python.exe -m playwright install chromium
+```
+
+### Verify the install
+
+```powershell
+python run_all_modules.py
+```
+
+Expect `Summary: 14 passed, 0 failed`. The run starts with a preflight
+against the configured model and stops immediately if that backend is down.
 
 ### Using the `packt-harness` CLI
 

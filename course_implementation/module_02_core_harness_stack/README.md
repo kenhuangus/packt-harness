@@ -35,7 +35,9 @@ Path checks use `Path.resolve().is_relative_to()`, not a string prefix.
 
 ## How to run
 
-Run from the repository root:
+Run from the repository root, using the project virtualenv
+(`python -m venv .venv` then `.venv\Scripts\python.exe -m pip install -e .`
+— see the [root README](../../README.md#setup)):
 
 ```powershell
 python course_implementation/module_02_core_harness_stack/core_harness_stack.py

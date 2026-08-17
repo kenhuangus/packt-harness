@@ -49,6 +49,9 @@ No extra output file. The audit prints to stdout.
 
 ## How to run
 
+All commands run from the repository root, using the project virtualenv
+(see the [root README](../../README.md#setup)).
+
 Audit this repository (default target = two directories up from the script):
 
 ```powershell

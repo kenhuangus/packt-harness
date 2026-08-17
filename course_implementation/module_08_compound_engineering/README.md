@@ -33,7 +33,9 @@ is the implementer output from the last run, not a `return True` stub.
 
 ## How to run
 
-Run from the repository root:
+Run from the repository root, using the project virtualenv
+(`python -m venv .venv` then `.venv\Scripts\python.exe -m pip install -e .`
+— see the [root README](../../README.md#setup)):
 
 ```powershell
 python course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py

@@ -60,11 +60,10 @@ No extra output file. The MCP exchange is on the child's stdio pipes.
 
 ## How to run
 
-Install the SDK once if needed:
-
-```powershell
-python -m pip install mcp
-```
+All commands run from the repository root, using the project virtualenv
+(see the [root README](../../README.md#setup)). The MCP SDK is a declared
+dependency, so `pip install -e .` already provides it — no separate
+install step.
 
 Run the client (it starts the server):
 

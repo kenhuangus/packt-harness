@@ -52,6 +52,9 @@ subprocess and writes
 
 ## How to run
 
+All commands run from the repository root, using the project virtualenv
+(see the [root README](../../README.md#setup)).
+
 Full demo:
 
 ```powershell
