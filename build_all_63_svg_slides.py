@@ -503,6 +503,41 @@ def generate_svg_for_slide(num, title):
     <text x="182" y="70" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Download URLs, Verified Authors &amp; Compatibility</text>
   </g>
 </svg>'''
+    elif 'MODEL CONTEXT PROTOCOL' in title_upper or 'MCP ARCHITECTURE' in title_upper or 'MCP FOUNDATION' in title_upper or 'MCP PROTOCOL' in title_upper:
+        return '''<svg viewBox="0 0 800 110" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="240" height="96" rx="10" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="120" y="24" fill="#1e40af" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🖥️ MCP HOST</text>
+    <text x="120" y="42" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Claude Code, Cursor, AI Runtime</text>
+    <rect x="15" y="52" width="210" height="34" rx="6" fill="#FFFFFF" stroke="#bfdbfe"/>
+    <text x="120" y="68" fill="#1e40af" font-family="Inter" font-size="10" font-weight="750" text-anchor="middle">📦 Nested MCP Client</text>
+    <text x="120" y="80" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">1-to-1 Protocol Connection</text>
+  </g>
+  <g transform="translate(265, 16)">
+    <path d="M 0 20 L 70 20" stroke="#BD5D3A" stroke-width="2.5"/>
+    <path d="M 70 42 L 0 42" stroke="#BD5D3A" stroke-width="2.5" stroke-dasharray="3 3"/>
+    <rect x="8" y="2" width="54" height="18" rx="4" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1"/>
+    <text x="35" y="14" fill="#BD5D3A" font-family="Inter" font-size="8" font-weight="800" text-anchor="middle">JSON-RPC</text>
+    <text x="35" y="56" fill="#6B6B63" font-family="Inter" font-size="7.5" font-weight="700" text-anchor="middle">stdio / HTTP</text>
+    <text x="35" y="66" fill="#BD5D3A" font-family="Inter" font-size="7" font-weight="750" text-anchor="middle">[MRTR Roundtrip]</text>
+  </g>
+  <g transform="translate(345, 6)">
+    <rect x="0" y="0" width="440" height="96" rx="10" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="220" y="24" fill="#047857" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">⚡ MCP SERVER (Stateless Execution)</text>
+    <text x="220" y="42" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Universal Serverless &amp; Cloudflare Workers / AWS Lambda</text>
+    <g transform="translate(12, 50)">
+      <rect x="0" y="0" width="130" height="36" rx="6" fill="#FFFFFF" stroke="#a7f3d0"/>
+      <text x="65" y="16" fill="#047857" font-family="Inter" font-size="9.5" font-weight="750" text-anchor="middle">🛠️ @mcp.tool()</text>
+      <text x="65" y="28" fill="#6B6B63" font-family="Inter" font-size="8" text-anchor="middle">Actions &amp; Schemas</text>
+      <rect x="142" y="0" width="130" height="36" rx="6" fill="#FFFFFF" stroke="#a7f3d0"/>
+      <text x="207" y="16" fill="#047857" font-family="Inter" font-size="9.5" font-weight="750" text-anchor="middle">📄 @mcp.resource()</text>
+      <text x="207" y="28" fill="#6B6B63" font-family="Inter" font-size="8" text-anchor="middle">Read-Only URIs</text>
+      <rect x="284" y="0" width="130" height="36" rx="6" fill="#FFFFFF" stroke="#a7f3d0"/>
+      <text x="349" y="16" fill="#047857" font-family="Inter" font-size="9.5" font-weight="750" text-anchor="middle">💬 @mcp.prompt()</text>
+      <text x="349" y="28" fill="#6B6B63" font-family="Inter" font-size="8" text-anchor="middle">Reusable Templates</text>
+    </g>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>

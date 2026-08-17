@@ -710,12 +710,18 @@
   {
     "number": 49,
     "raw_lines": [
-      "MCP Foundation",
-      "Three Different Numbers",
-      "• Protocol: dated revisions, not 2.0",
-      "• JSON-RPC 2.0 is only framing",
-      "• SDK 2.0.0 is the Python package",
-      "• Exposes tools, resources, prompts"
+      "Model Context Protocol (MCP): Architecture & Protocol Evolution",
+      "Host, Client, Server, Tools & Modern Stateless JSON-RPC 2.0",
+      "• 4 Core MCP Architecture Roles:",
+      "  • MCP Host: Overarching runtime environment (Claude Code, Cursor) managing the chat session & coordinating external endpoints without application bloat.",
+      "  • MCP Client: Nested 1-to-1 connection manager handling feature discovery, authentication, intent-to-call translation, and output formatting.",
+      "  • MCP Server: Independent service abstracting databases (Postgres), APIs (GitHub), or filesystems locally or remotely.",
+      "  • MCP Tools, Resources & Prompts: Actionable capabilities (@mcp.tool decorators with JSON Schema), raw readable data URIs, and reusable prompt templates.",
+      "• Protocol Architecture & Evolution (Stateless JSON-RPC 2.0):",
+      "  • Fully Stateless Requests: Protocol shifted from legacy stateful sessions to a stateless request-response model using JSON-RPC 2.0 (initialization handshake and sticky session routing removed).",
+      "  • Universal Serverless Scaling: Self-contained requests allow servers to scale behind standard load balancers on AWS Lambda or Cloudflare Workers.",
+      "  • Multi-Round Trip Requests (MRTR): Human input or extra authorization returns resultType: \"input_required\", allowing client retries to land on any server instance seamlessly.",
+      "  • Flexible Transports: stdio for low-overhead local plugins; standardized HTTP/HTTPS for remote cloud infrastructure."
     ]
   },
   {
