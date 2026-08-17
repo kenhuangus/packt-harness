@@ -325,17 +325,7 @@
       "• 1. SpecVerifier parses markdown headings into schema",
       "• 2. Agent generates code strictly inside declared scope",
       "• 3. Pre-write audit rejects forbidden paths & non-goals",
-      "• 4. Post-write runs ast.parse() & real pytest suite"
-    ]
-  },
-  {
-    "number": 24,
-    "raw_lines": [
-      "Spec Verification",
-      "Before Code Ships",
-      "• SpecVerifier.attempt_write() checks allowed_files",
-      "• Blocks out-of-scope files (database.py -> SCOPE_VIOLATION)",
-      "• Scans code content for non-goal violations",
+      "• 4. Post-write runs ast.parse() & real pytest suite",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/README.md"
     ]
   },
@@ -359,7 +349,7 @@
       "• [Lines 10-12] Non-Goal Filtering: Scans diff content against explicit non-goals to prevent scope creep (e.g. database logic in a JWT validator).",
       "• [Line 18] AST Parsing Gate: Runs ast.parse() before saving to ensure zero syntactically broken code reaches the workspace."
     ],
-    "number": 25
+    "number": 24
   },
   {
     "slide_type": "skill",
@@ -374,7 +364,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-spec-driven-development/SKILL.md"
     ],
-    "number": 26,
+    "number": 25,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md"
@@ -385,7 +375,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_03_spec_driven_development/skills/harness-spec-driven-development/"
   },
   {
-    "number": 27,
+    "number": 26,
     "raw_lines": [
       "MODULE 4: Guardrails, Hooks & 4-Layer Control",
       "Defense-in-Depth for Safe Tool Execution",
@@ -397,7 +387,7 @@
     ]
   },
   {
-    "number": 28,
+    "number": 27,
     "raw_lines": [
       "Claude Code Hooks",
       "What Actually Fires",
@@ -408,7 +398,7 @@
     ]
   },
   {
-    "number": 29,
+    "number": 28,
     "raw_lines": [
       "Post-Action Checks",
       "AST and Secrets",
@@ -418,7 +408,7 @@
     ]
   },
   {
-    "number": 30,
+    "number": 29,
     "raw_lines": [
       "Path Sandbox",
       "Stay in the Workspace",
@@ -428,14 +418,14 @@
     ]
   },
   {
-    "number": 31,
+    "number": 30,
     "raw_lines": [
       "Permission Modes",
       "Risk Tiers"
     ]
   },
   {
-    "number": 32,
+    "number": 31,
     "raw_lines": [
       "Evaluation Harnesses for Agentic AI",
       "The Hardest Frontier in AI Engineering",
@@ -449,7 +439,7 @@
     ]
   },
   {
-    "number": 33,
+    "number": 32,
     "raw_lines": [
       "Safety Checklist",
       "Three Must-Haves",
@@ -481,7 +471,7 @@
       "• [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
       "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (OpenAI sk-proj-, AWS IAM AKIA) before writing files."
     ],
-    "number": 34
+    "number": 33
   },
   {
     "slide_type": "skill",
@@ -496,7 +486,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py, https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-guardrails-and-hooks/SKILL.md"
     ],
-    "number": 35,
+    "number": 34,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/.claude/settings.json"
@@ -507,7 +497,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_04_guardrails_and_hooks/skills/harness-guardrails-and-hooks/"
   },
   {
-    "number": 36,
+    "number": 35,
     "raw_lines": [
       "MODULE 5: Break & Permission Gateways",
       "Risk-Tiered Approval Gateways & Mid-Course Q&A",
@@ -540,7 +530,7 @@
       "• [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
       "• [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
     ],
-    "number": 37
+    "number": 36
   },
   {
     "slide_type": "skill",
@@ -555,7 +545,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/approvals.json",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md"
     ],
-    "number": 38,
+    "number": 37,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/approvals.json"
@@ -566,7 +556,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_05_break_and_qna/skills/harness-permission-escalation-gateway/"
   },
   {
-    "number": 39,
+    "number": 38,
     "raw_lines": [
       "MODULE 6: Tests as Reliability Layer",
       "The Test-Driven Agent (TDA) Red-Repair-Green Loop",
@@ -577,7 +567,7 @@
     ]
   },
   {
-    "number": 40,
+    "number": 39,
     "raw_lines": [
       "Test Tiers",
       "What to Run",
@@ -587,7 +577,7 @@
     ]
   },
   {
-    "number": 41,
+    "number": 40,
     "raw_lines": [
       "Pytest Capture vs. Observability Platforms",
       "Dual-Loop Architecture: Black-Box Verification & Glass-Box Tracing",
@@ -605,7 +595,7 @@
     ]
   },
   {
-    "number": 42,
+    "number": 41,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -615,7 +605,7 @@
     ]
   },
   {
-    "number": 43,
+    "number": 42,
     "raw_lines": [
       "Reliability Metrics",
       "Watch These",
@@ -647,7 +637,7 @@
       "• [Lines 12-13] Traceback Capture: Captures raw failure output (ZeroDivisionError) directly into the agent repair prompt.",
       "• [Lines 18-20] Anti-Regression Safeguard: Automatically appends new bug regression tests to prevent \"fix-and-break\" cycles."
     ],
-    "number": 44
+    "number": 43
   },
   {
     "slide_type": "skill",
@@ -662,7 +652,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-tda-reliability-pipeline/SKILL.md"
     ],
-    "number": 45,
+    "number": 44,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/tda_reliability_pipeline.py"
     ],
@@ -672,7 +662,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_06_tests_as_reliability_layer/skills/harness-tda-reliability-pipeline/"
   },
   {
-    "number": 46,
+    "number": 45,
     "raw_lines": [
       "MODULE 7: Agent Extensions with Skills, Plugins, MCP etc.",
       "Extending Agent Capabilities via SOPs, Tool Servers & Distribution Bundles",
@@ -684,7 +674,7 @@
     ]
   },
   {
-    "number": 47,
+    "number": 46,
     "raw_lines": [
       "Agent Skills & Directory Layout (Revisit)",
       "Standard Architecture: SKILL.md, Scripts & References",
@@ -695,7 +685,7 @@
     ]
   },
   {
-    "number": 48,
+    "number": 47,
     "raw_lines": [
       "Plugin Architecture: plugin.json vs. marketplace.json",
       "Local Implementation Blueprint vs. Global Distribution Registry",
@@ -705,7 +695,7 @@
     ]
   },
   {
-    "number": 49,
+    "number": 48,
     "raw_lines": [
       "Model Context Protocol (MCP): Architecture & Protocol Evolution",
       "Host, Client, Server, Tools & Modern Stateless JSON-RPC 2.0",
@@ -722,7 +712,7 @@
     ]
   },
   {
-    "number": 50,
+    "number": 49,
     "raw_lines": [
       "Securing the Model Context Protocol (MCP) Server",
       "Threat Modeling, 3-Zone Architecture & Production Hardening Checklist",
@@ -767,7 +757,7 @@
       "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls.",
       "• Insecure MCP Vulnerability Lab: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
     ],
-    "number": 51
+    "number": 50
   },
   {
     "slide_type": "skill",
@@ -782,7 +772,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/.claude-plugin/plugin.json",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-mcp-and-plugins/SKILL.md"
     ],
-    "number": 52,
+    "number": 51,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/mcp_client_runner.py",
@@ -794,7 +784,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_07_skills_plugins_mcp/skills/harness-mcp-and-plugins/"
   },
   {
-    "number": 53,
+    "number": 52,
     "raw_lines": [
       "MODULE 8: Compound Engineering",
       "Why Multi-Agent Roles & Context Isolation",
@@ -806,7 +796,7 @@
     ]
   },
   {
-    "number": 54,
+    "number": 53,
     "raw_lines": [
       "Planner",
       "Architect",
@@ -816,7 +806,7 @@
     ]
   },
   {
-    "number": 55,
+    "number": 54,
     "raw_lines": [
       "Implementer",
       "Constrained Coder",
@@ -826,7 +816,7 @@
     ]
   },
   {
-    "number": 56,
+    "number": 55,
     "raw_lines": [
       "Reviewer",
       "Independent Audit",
@@ -836,7 +826,7 @@
     ]
   },
   {
-    "number": 57,
+    "number": 56,
     "raw_lines": [
       "Worktree Isolation",
       "isolation: worktree",
@@ -846,7 +836,7 @@
     ]
   },
   {
-    "number": 58,
+    "number": 57,
     "raw_lines": [
       "Subagent Context",
       "Pass Less",
@@ -856,7 +846,7 @@
     ]
   },
   {
-    "number": 59,
+    "number": 58,
     "raw_lines": [
       "Self-Improvement",
       "Close the Loop",
@@ -887,7 +877,7 @@
       "• [Lines 11-12] Clean Workspace Teardown: Safely removes temporary worktrees and branches after testing.",
       "• [Lines 18-19] Sub-Spec Extraction: Delivers focused task slices to subagents, preventing context window fatigue."
     ],
-    "number": 60
+    "number": 59
   },
   {
     "slide_type": "skill",
@@ -902,7 +892,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py, https://github.com/kenhuangus/packt-harness/blob/main/.claude/agents/",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-compound-multi-agent-worktrees/SKILL.md"
     ],
-    "number": 61,
+    "number": 60,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
       "https://github.com/kenhuangus/packt-harness/tree/main/.claude/agents/"
@@ -921,7 +911,7 @@
       "• Durable Learning: Every task logs reusable decisions, failure notes, and compound notes",
       "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux"
     ],
-    "number": 62
+    "number": 61
   },
   {
     "raw_lines": [
@@ -933,7 +923,7 @@
       "• Shared Invariants: AGENTS.md & CLAUDE.md managed protocol blocks",
       "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 63
+    "number": 62
   },
   {
     "raw_lines": [
@@ -945,7 +935,7 @@
       "• Review Rubrics: Standardized scorecards for architecture, security, tests, and maintainability",
       "• Protocol Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 64
+    "number": 63
   },
   {
     "raw_lines": [
@@ -957,7 +947,7 @@
       "• Clean Handoffs: Atomic release upon task integration or review handoff",
       "• Orchestration Code: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 65
+    "number": 64
   },
   {
     "raw_lines": [
@@ -969,7 +959,7 @@
       "• Agent-Team Enablement: Native support for multi-agent dynamic teams",
       "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 66
+    "number": 65
   },
   {
     "raw_lines": [
@@ -980,10 +970,10 @@
       "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
       "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 67
+    "number": 66
   },
   {
-    "number": 68,
+    "number": 67,
     "raw_lines": [
       "MODULE 9: The Five-Step Practical SOP Pipeline",
       "Deterministic End-to-End Delivery Lifecycle",
@@ -995,7 +985,7 @@
     ]
   },
   {
-    "number": 69,
+    "number": 68,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -1005,7 +995,7 @@
     ]
   },
   {
-    "number": 70,
+    "number": 69,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -1015,7 +1005,7 @@
     ]
   },
   {
-    "number": 71,
+    "number": 70,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -1050,7 +1040,7 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 72
+    "number": 71
   },
   {
     "slide_type": "skill",
@@ -1065,7 +1055,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md"
     ],
-    "number": 73,
+    "number": 72,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md"
@@ -1076,7 +1066,7 @@
     "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_09_practical_workflow_pattern/skills/harness-five-step-sop-pipeline/"
   },
   {
-    "number": 74,
+    "number": 73,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -1088,7 +1078,7 @@
     ]
   },
   {
-    "number": 75,
+    "number": 74,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -1100,7 +1090,7 @@
     ]
   },
   {
-    "number": 76,
+    "number": 75,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -1135,7 +1125,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 77
+    "number": 76
   },
   {
     "slide_type": "skill",
@@ -1150,7 +1140,7 @@
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py, https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-production-readiness-auditor/SKILL.md"
     ],
-    "number": 78,
+    "number": 77,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/production_harness_audit.py",
       "https://github.com/kenhuangus/packt-harness/blob/main/run_all_modules.py"
@@ -1177,7 +1167,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 79
+    "number": 78
   },
   {
     "slide_type": "concept",
@@ -1191,7 +1181,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 80
+    "number": 79
   },
   {
     "slide_type": "code",
@@ -1216,7 +1206,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 81
+    "number": 80
   },
   {
     "slide_type": "reference_tables",
@@ -1233,7 +1223,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 82
+    "number": 81
   },
   {
     "slide_type": "reference_tables",
@@ -1248,6 +1238,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 83
+    "number": 82
   }
 ]
