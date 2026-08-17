@@ -537,13 +537,13 @@
       "Skill Description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH, CRITICAL), auto-approving safe reads and requiring approvals.json for git_push.",
       "• When to Use: Gating sensitive tools, establishing human-in-the-loop workflows, or generating pending action artifacts.",
       "• How to Use: evaluate_request() auto-approves LOW reads, audits MEDIUM writes, and gates CRITICAL tools via approvals.json tokens.",
-      "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json",
+      "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/approvals.json",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md"
     ],
     "number": 37,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/permission_escalation_gateway.py",
-      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/approvals.json"
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/output/approvals.json"
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-permission-escalation-gateway/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-permission-escalation-gateway/",
@@ -706,7 +706,7 @@
       "MCP Python SDK",
       "Modern SDK Authoring",
       "• Modern Server: MCPServer from mcp.server.mcpserver",
-      "• Lightweight Alternative: FastMCP",
+      "• Renamed in 2.x: FastMCP was the 1.x name",
       "• Standard Decorators: @mcp.tool / @mcp.resource",
       "• Stdio Execution: mcp.run() defaults to stdio"
     ]
@@ -1039,13 +1039,13 @@
       "Skill Description: Runs an end-to-end 5-step SOP pipeline combining Spec First (1), Sandbox Execution (2), Guardrails (3), Pytest (4), and Unified Diff (5).",
       "• When to Use: Executing end-to-end feature pipelines or auditing workflow rigor before PR submission.",
       "• How to Use: FiveStepSOPPipeline executes all 5 gates sequentially, producing unified diffs (difflib.unified_diff) for human review.",
-      "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md",
+      "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md"
     ],
     "number": 74,
     "key_files_urls": [
       "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
-      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/SPEC.md"
+      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_03_spec_driven_development/SPEC.md"
     ],
     "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-five-step-sop-pipeline/SKILL.md",
     "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-five-step-sop-pipeline/",
