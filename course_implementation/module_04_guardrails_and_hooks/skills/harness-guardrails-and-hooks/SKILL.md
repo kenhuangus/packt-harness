@@ -6,7 +6,7 @@ description: Implements Claude Code PascalCase PreToolUse and PostToolUse hook i
   shell executions, or auditing pre/post tool policies.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Grep
 ---
 
 # Harness Guardrails & Hooks

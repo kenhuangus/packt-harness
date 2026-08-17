@@ -163,7 +163,7 @@ File: `.claude/agents/<name>.md` (project) or `~/.claude/agents/<name>.md` (pers
 ---
 name: code-reviewer
 description: Reviews code for quality and best practices
-tools: Read, Glob, Grep        # or disallowedTools: Write, Edit
+tools: Read, Grep        # or disallowedTools: Write, Edit
 model: sonnet
 isolation: worktree            # gives the subagent its own git worktree
 ---

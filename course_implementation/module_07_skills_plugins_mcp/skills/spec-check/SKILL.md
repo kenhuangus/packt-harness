@@ -1,7 +1,7 @@
 ---
 name: spec-check
 description: Checks code and documentation against an authoritative specification.
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Grep
 ---
 
 # Specification Check

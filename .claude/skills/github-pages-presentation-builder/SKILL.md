@@ -3,7 +3,7 @@ name: github-pages-presentation-builder
 description: 'Builds interactive, production-grade GitHub Pages HTML presentations with dynamic text auto-scaling (minimizing empty space without vertical overflow), multi-format slides (code labs with line highlighting, agent skill manifests, comparison tables, vector diagrams), mandatory GitHub repository links for code/tests, and presentation controls (Go-To slide jump, dropdown select, grid view, fullscreen, keyboard shortcuts).'
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Edit, Bash, Glob, Grep
+allowed-tools: Read, Write, Edit, Bash, Grep
 ---
 
 # GitHub Pages Presentation Deck Builder

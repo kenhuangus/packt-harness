@@ -6,7 +6,7 @@ description: Runs an end-to-end 5-step Standard Operating Procedure (SOP) pipeli
   rigor before PR submission.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Bash, Read, Write, Glob, Grep
+allowed-tools: Bash, Read, Write, Grep
 ---
 
 # Harness Five-Step SOP Pipeline

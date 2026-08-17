@@ -6,7 +6,7 @@ description: 'Enforces the 5 core harness pillars: CLAUDE.md/AGENTS.md memory, l
   workspace boundaries, or establishing events.jsonl audit trails.'
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Grep
 ---
 
 # Harness Core Stack & Sandbox

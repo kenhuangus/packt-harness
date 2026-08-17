@@ -6,7 +6,7 @@ description: 'Programmatically audits codebases across 5 objective readiness gat
   readiness, scoring CI/CD pipelines, or verifying enterprise control compliance.'
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Glob, Grep, Bash
+allowed-tools: Read, Grep, Bash
 ---
 
 # Harness Production Readiness Auditor

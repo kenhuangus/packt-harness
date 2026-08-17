@@ -1,7 +1,7 @@
 ---
 name: spec-reviewer
 description: Reviews code and documentation for contradictions with an authoritative specification
-tools: Read, Glob, Grep
+tools: Read, Grep
 model: sonnet
 ---
 

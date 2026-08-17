@@ -6,7 +6,7 @@ description: Orchestrates specialized Planner, Implementer, and Reviewer multi-a
   git worktrees, or recording multi-agent runs to telemetry.jsonl.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Bash, Read, Write, Glob, Grep
+allowed-tools: Bash, Read, Write, Grep
 ---
 
 # Harness Compound Multi-Agent Worktrees

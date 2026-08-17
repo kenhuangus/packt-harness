@@ -7,7 +7,7 @@ description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, 
   action ledgers.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Glob, Grep
+allowed-tools: Read, Write, Grep
 ---
 
 # Harness Permission Escalation Gateway

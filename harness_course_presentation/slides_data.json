@@ -255,7 +255,7 @@
     "slide_type": "skill",
     "skill_name": "harness-core-stack-sandbox",
     "skill_path": ".claude/skills/harness-core-stack-sandbox/SKILL.md",
-    "allowed_tools": "Read, Write, Glob, Grep",
+    "allowed_tools": "Read, Write, Grep",
     "raw_lines": [
       "Module 2 Skill: harness-core-stack-sandbox",
       "Skill Description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(), post-edit secret scanning, and append-only event tracing.",
@@ -368,7 +368,7 @@
     "slide_type": "skill",
     "skill_name": "harness-spec-driven-development",
     "skill_path": ".claude/skills/harness-spec-driven-development/SKILL.md",
-    "allowed_tools": "Read, Write, Glob, Grep, Bash",
+    "allowed_tools": "Read, Write, Grep, Bash",
     "raw_lines": [
       "Module 3 Skill: harness-spec-driven-development",
       "Skill Description: Parses and enforces immutable SPEC.md contracts, bounding agent writes strictly to allowed files, blocking non-goals, and validating AST syntax.",
@@ -490,7 +490,7 @@
     "slide_type": "skill",
     "skill_name": "harness-guardrails-and-hooks",
     "skill_path": ".claude/skills/harness-guardrails-and-hooks/SKILL.md",
-    "allowed_tools": "Read, Write, Glob, Grep",
+    "allowed_tools": "Read, Write, Grep",
     "raw_lines": [
       "Module 4 Skill: harness-guardrails-and-hooks",
       "Skill Description: Implements Claude Code PascalCase PreToolUse and PostToolUse deterministic hook interceptors to block dangerous CLI flags and secret leaks.",
@@ -549,7 +549,7 @@
     "slide_type": "skill",
     "skill_name": "harness-permission-escalation-gateway",
     "skill_path": ".claude/skills/harness-permission-escalation-gateway/SKILL.md",
-    "allowed_tools": "Read, Write, Glob, Grep",
+    "allowed_tools": "Read, Write, Grep",
     "raw_lines": [
       "Module 5 Skill: harness-permission-escalation-gateway",
       "Skill Description: Evaluates tool requests against a 4-tier risk matrix (LOW, MEDIUM, HIGH, CRITICAL), auto-approving safe reads and requiring approvals.json for git_push.",
@@ -648,7 +648,7 @@
     "slide_type": "skill",
     "skill_name": "harness-tda-reliability-pipeline",
     "skill_path": ".claude/skills/harness-tda-reliability-pipeline/SKILL.md",
-    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "allowed_tools": "Bash, Read, Write, Grep",
     "raw_lines": [
       "Module 6 Skill: harness-tda-reliability-pipeline",
       "Skill Description: Executes deterministic test-driven agent (TDA) feedback loops via isolated pytest subprocesses, capturing tracebacks into repair prompts.",
@@ -768,7 +768,7 @@
     "slide_type": "skill",
     "skill_name": "harness-mcp-and-plugins",
     "skill_path": ".claude/skills/harness-mcp-and-plugins/SKILL.md",
-    "allowed_tools": "Read, Write, Glob, Grep, Bash",
+    "allowed_tools": "Read, Write, Grep, Bash",
     "raw_lines": [
       "Module 7 Skill: harness-mcp-and-plugins",
       "Skill Description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, exposing @mcp.tool() actions and @mcp.resource() URIs over stdio.",
@@ -888,7 +888,7 @@
     "slide_type": "skill",
     "skill_name": "harness-compound-multi-agent-worktrees",
     "skill_path": ".claude/skills/harness-compound-multi-agent-worktrees/SKILL.md",
-    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "allowed_tools": "Bash, Read, Write, Grep",
     "raw_lines": [
       "Module 8 Skill: harness-compound-multi-agent-worktrees",
       "Skill Description: Orchestrates specialized Planner, Implementer, and Reviewer multi-agent teams, isolating coding execution in ephemeral Git worktrees.",
@@ -1051,7 +1051,7 @@
     "slide_type": "skill",
     "skill_name": "harness-five-step-sop-pipeline",
     "skill_path": ".claude/skills/harness-five-step-sop-pipeline/SKILL.md",
-    "allowed_tools": "Bash, Read, Write, Glob, Grep",
+    "allowed_tools": "Bash, Read, Write, Grep",
     "raw_lines": [
       "Module 9 Skill: harness-five-step-sop-pipeline",
       "Skill Description: Runs an end-to-end 5-step SOP pipeline combining Spec First (1), Sandbox Execution (2), Guardrails (3), Pytest (4), and Unified Diff (5).",
@@ -1136,7 +1136,7 @@
     "slide_type": "skill",
     "skill_name": "harness-production-readiness-auditor",
     "skill_path": ".claude/skills/harness-production-readiness-auditor/SKILL.md",
-    "allowed_tools": "Read, Glob, Grep, Bash",
+    "allowed_tools": "Read, Grep, Bash",
     "raw_lines": [
       "Module 10 Skill: harness-production-readiness-auditor",
       "Skill Description: Programmatically audits codebases across 5 objective readiness gates: Memory Files, PreToolUse Hooks, Test Runners, MCP, and Subagents.",

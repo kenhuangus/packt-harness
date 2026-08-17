@@ -6,7 +6,7 @@ description: Enforces immutable SPEC.md contracts by bounding agent edits strict
   drift, or validating code against specifications.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Glob, Grep, Bash
+allowed-tools: Read, Write, Grep, Bash
 ---
 
 # Harness Spec-Driven Development

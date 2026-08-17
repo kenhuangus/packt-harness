@@ -6,7 +6,7 @@ description: Authors and consumes Model Context Protocol (MCP) 2.x SDK servers, 
   servers, declaring read-only application resources, or configuring plugin manifests.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Glob, Grep, Bash
+allowed-tools: Read, Write, Grep, Bash
 ---
 
 # Harness MCP & Plugins

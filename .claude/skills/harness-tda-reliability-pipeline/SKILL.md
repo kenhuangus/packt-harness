@@ -6,7 +6,7 @@ description: Executes Test-Driven Agent (TDA) feedback loops via isolated pytest
   test assertions, or preventing regression failures.
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Bash, Read, Write, Glob, Grep
+allowed-tools: Bash, Read, Write, Grep
 ---
 
 # Harness TDA Reliability Pipeline
