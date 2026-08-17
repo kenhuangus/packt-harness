@@ -700,11 +700,11 @@
   {
     "number": 48,
     "raw_lines": [
-      "Plugins",
-      "One Manifest",
-      "• Path: .claude-plugin/plugin.json",
-      "• Can bundle skills, agents, hooks, MCP",
-      "• Load in place or via marketplace"
+      "Plugin Architecture: plugin.json vs. marketplace.json",
+      "Local Implementation Blueprint vs. Global Distribution Registry",
+      "• plugin.json (Internal Blueprint): Resides locally at .claude-plugin/plugin.json. Maps plugin identity (e.g., \"name\": \"db-helper\", \"version\": \"1.0.0\"), execution boundaries, language runtimes, companion agents, hooks, and MCP servers so the Claude client can register and isolate that specific tool on your machine.",
+      "• marketplace.json (Public Registry): Operates as the ecosystem distribution catalog. Acts as an index pointing to secure hosting locations, verified developer profiles, version histories, and download URLs (e.g., listing db-helper with author & compatibility requirements) so users can safely discover and install plugins.",
+      "• Strict Operational Hierarchy: While plugin.json configures how a single tool functions under the hood locally, marketplace.json manages how users discover, download, and safely install that tool from an approved repository or enterprise store."
     ]
   },
   {

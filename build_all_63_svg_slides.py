@@ -486,6 +486,23 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="9.5" text-anchor="middle">Isolated Context Worktrees</text>
   </g>
 </svg>'''
+    elif 'PLUGIN.JSON' in title_upper or 'MARKETPLACE' in title_upper or 'PLUGIN ARCHITECTURE' in title_upper:
+        return '''<svg viewBox="0 0 800 100" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="365" height="86" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="182" y="28" fill="#1e40af" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">📁 LOCAL BLUEPRINT: plugin.json</text>
+    <text x="182" y="50" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Internal Execution &amp; Tool Isolation</text>
+    <text x="182" y="70" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">.claude-plugin/plugin.json · Skills, Hooks, Agents &amp; MCP</text>
+  </g>
+  <path d="M390 49 L410 49" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="3 3"/>
+  <text x="400" y="38" fill="#BD5D3A" font-family="Inter" font-size="8.5" font-weight="800" text-anchor="middle">➔</text>
+  <g transform="translate(420, 6)">
+    <rect x="0" y="0" width="365" height="86" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="182" y="28" fill="#047857" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🌐 PUBLIC REGISTRY: marketplace.json</text>
+    <text x="182" y="50" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Ecosystem Catalog &amp; Verified Distribution</text>
+    <text x="182" y="70" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Download URLs, Verified Authors &amp; Compatibility</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
