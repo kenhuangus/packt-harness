@@ -554,7 +554,9 @@
       "• Self-Contained Modularity: Encapsulates domain expertise, execution scripts, and API schemas in one directory.",
       "• SKILL.md Entry Point: YAML frontmatter with description defining what the skill does and when to use it.",
       "• Progressive Disclosure: Heavy scripts/ and references/ are only loaded into context when triggered.",
-      "• Precedence Hierarchy (Highest to Lowest): 1. Enterprise Managed > 2. Personal User-Level (~/.claude/skills/) > 3. Project Root (.claude/skills/)."
+      "• Precedence Hierarchy (Highest to Lowest): 1. Enterprise Managed > 2. Personal User-Level (~/.claude/skills/) > 3. Project Root (.claude/skills/).",
+      "• OWASP Agentic Skill Top 10 Risks: https://owasp.org/www-project-agentic-skills-top-10/ (Standardized security taxonomy covering prompt injection in instructions, malicious tool schemas, unauthorized data egress, and unvalidated script execution in agent skills).",
+      "• Video Walkthrough: https://www.youtube.com/watch?v=l-uwnCzRRE0 (In-depth breakdown of OWASP Agentic Skills Top 10 risks & defenses)."
     ]
   },
   {
