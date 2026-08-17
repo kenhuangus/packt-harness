@@ -45,7 +45,7 @@
       "• Mod 5: Break & Permission Gateways",
       "PART 2: RELIABILITY & TEAMS",
       "• Mod 6: Tests as Reliability",
-      "• Mod 7: Skills, Plugins, MCP",
+      "• Mod 7: Agent Extensions (Skills, Plugins, MCP)",
       "• Mod 8: Compound Engineering",
       "• Mod 9: Five-Step SOP",
       "• Mod 10: Principles & Audit"
@@ -677,11 +677,13 @@
   {
     "number": 46,
     "raw_lines": [
-      "MODULE 7",
-      "Skills, Plugins, MCP",
-      "• SKILL.md is description-driven",
-      "• Plugins bundle skills, agents, hooks",
-      "• MCP: tools and resources over stdio"
+      "MODULE 7: Agent Extensions with Skills, Plugins, MCP etc.",
+      "Extending Agent Capabilities via SOPs, Tool Servers & Distribution Bundles",
+      "• Modular Architecture: Decouples domain knowledge (Skills), executable tool servers (MCP), and distribution packages (Plugins).",
+      "• Skills (SKILL.md): Standardized Markdown SOPs loaded on demand via progressive disclosure.",
+      "• Plugins (.claude-plugin/plugin.json): Self-contained bundles packaging skills, hooks, MCP servers, and subagents.",
+      "• Model Context Protocol (MCP): Open standard exposing deterministic tools (@mcp.tool) and resources over stdio and Streamable HTTP.",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_07_skills_plugins_mcp/README.md"
     ]
   },
   {

@@ -459,6 +459,33 @@ def generate_svg_for_slide(num, title):
     <text x="182" y="70" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">Prompt Chains, Token Costs, Latency &amp; Retries</text>
   </g>
 </svg>'''
+    elif 'AGENT EXTENSIONS' in title_upper or 'SKILLS, PLUGINS' in title_upper or 'MODULE 7' in title_upper:
+        return '''<svg viewBox="0 0 800 100" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">1. Skills (SOPs)</text>
+    <text x="87" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">SKILL.md Playbooks</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="9.5" text-anchor="middle">Progressive Disclosure</text>
+  </g>
+  <g transform="translate(205, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">2. Plugins (Bundles)</text>
+    <text x="87" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">plugin.json Manifest</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="9.5" text-anchor="middle">Skills + Hooks + Agents</text>
+  </g>
+  <g transform="translate(395, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">3. MCP (Tools/Data)</text>
+    <text x="92" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">@mcp.tool &amp; Resources</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="9.5" text-anchor="middle">stdio &amp; Streamable HTTP</text>
+  </g>
+  <g transform="translate(595, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. Subagents</text>
+    <text x="92" y="50" fill="#047857" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">.claude/agents/*.md</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="9.5" text-anchor="middle">Isolated Context Worktrees</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
@@ -2574,7 +2601,7 @@ html_template = '''<!DOCTYPE html>
                 </div>
                 <ul class="course-map-module-list">
                   <li><span class="mod-bullet">◆</span> <strong>Mod 6:</strong> Tests as Reliability</li>
-                  <li><span class="mod-bullet">◆</span> <strong>Mod 7:</strong> Skills, Plugins, MCP</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 7:</strong> Agent Extensions (Skills, Plugins, MCP)</li>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 8:</strong> Compound Engineering</li>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 9:</strong> Five-Step SOP</li>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 10:</strong> Principles &amp; Audit</li>
