@@ -260,7 +260,7 @@
       "Module 2 Skill: harness-core-stack-sandbox",
       "Skill Description: Enforces least-privilege tool allowlists, path sandboxing via is_relative_to(), post-edit secret scanning, and append-only event tracing.",
       "• When to Use: Sandboxing agent tool invocations, setting up file system isolation, or establishing audit trails in events.jsonl.",
-      "• How to Use: validate_tool_permission() checks allowlist & is_relative_to(); run_post_edit_hook() scans for sk-proj-/AKIA keys.",
+      "• How to Use: validate_tool_permission() checks allowlist & is_relative_to(); run_post_edit_hook() scans for hardcoded secrets (OpenAI sk-proj- & AWS IAM AKIA keys).",
       "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/core_harness_stack.py, https://github.com/kenhuangus/packt-harness/blob/main/CLAUDE.md, https://github.com/kenhuangus/packt-harness/blob/main/AGENTS.md",
       "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-core-stack-sandbox/SKILL.md"
     ],
@@ -417,7 +417,7 @@
       "AST and Secrets",
       "• Run after every file write",
       "• ast.parse catches syntax errors",
-      "• Scan for sk-proj- and AKIA keys"
+      "• Scan for secrets (OpenAI sk-proj- & AWS IAM AKIA keys)"
     ]
   },
   {
@@ -482,7 +482,7 @@
       "File: course_implementation/module_04_guardrails_and_hooks/guardrails_engine.py",
       "• [Lines 5-6] Flag Circumvention Blocking: Intercepts flags like --dangerously-skip-permissions before shell invocation.",
       "• [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
-      "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (sk-proj-, AKIA) before writing files."
+      "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (OpenAI sk-proj-, AWS IAM AKIA) before writing files."
     ],
     "number": 34
   },
