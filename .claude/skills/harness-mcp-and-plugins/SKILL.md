@@ -49,14 +49,19 @@ Always format output adhering to this structure:
 ## Examples
 ### Declaring MCP Tools and Resources
 ```python
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
-mcp = FastMCP("HarnessServer")
+mcp = MCPServer("HarnessServer")
 
 @mcp.tool()
 def validate_code(code: str) -> bool:
     """Validates Python code syntax."""
     return True
+
+@mcp.resource("harness://metrics/live")
+def metrics_live() -> str:
+    """Read-only application metrics endpoint."""
+    return '{"status": "ok"}'
 ```
 
 ## Key Implementation Links (GitHub)
