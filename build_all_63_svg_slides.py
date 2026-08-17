@@ -624,6 +624,44 @@ def generate_svg_for_slide(num, title):
     <text x="82" y="78" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Zero Direct Zone 0 Path</text>
   </g>
 </svg>'''
+    elif 'COMPARING AGENT EXTENSION' in title_upper or 'MCP VS. CLI' in title_upper or 'COMPARE THEM' in title_upper:
+        return '''<svg viewBox="0 0 800 100" class="slide-svg">
+  <g transform="translate(10, 5)">
+    <rect x="0" y="0" width="145" height="88" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="72" y="24" fill="#1e40af" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">⚡ MCP</text>
+    <text x="72" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Universal Bridge</text>
+    <text x="72" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">For: AI Models</text>
+    <text x="72" y="78" fill="#2563eb" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">JSON-RPC / stdio / HTTP</text>
+  </g>
+  <g transform="translate(165, 5)">
+    <rect x="0" y="0" width="145" height="88" rx="8" fill="#FAF9F5" stroke="#4B5563" stroke-width="2"/>
+    <text x="72" y="24" fill="#1F2937" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">💻 CLI</text>
+    <text x="72" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Text-Based Terminal</text>
+    <text x="72" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">For: Humans / Scripts</text>
+    <text x="72" y="78" fill="#4B5563" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Subprocess Shell</text>
+  </g>
+  <g transform="translate(320, 5)">
+    <rect x="0" y="0" width="150" height="88" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="75" y="24" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">📦 Skill</text>
+    <text x="75" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Packaged Capability</text>
+    <text x="75" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">For: AI Platforms</text>
+    <text x="75" y="78" fill="#BD5D3A" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">SKILL.md / SOP Guides</text>
+  </g>
+  <g transform="translate(480, 5)">
+    <rect x="0" y="0" width="150" height="88" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="75" y="24" fill="#047857" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🔌 Plug-in</text>
+    <text x="75" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Feature Add-on</text>
+    <text x="75" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">For: Host Apps</text>
+    <text x="75" y="78" fill="#047857" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">plugin.json Manifest</text>
+  </g>
+  <g transform="translate(640, 5)">
+    <rect x="0" y="0" width="150" height="88" rx="8" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
+    <text x="75" y="24" fill="#6d28d9" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🪝 Hook</text>
+    <text x="75" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Event Code Trigger</text>
+    <text x="75" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">For: Runtimes</text>
+    <text x="75" y="78" fill="#6d28d9" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">settings.json Lifecycle</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
