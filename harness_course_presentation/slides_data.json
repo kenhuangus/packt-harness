@@ -433,12 +433,12 @@
   {
     "number": 31,
     "raw_lines": [
-      "Permission Modes",
-      "Risk Tiers",
-      "• plan: read-only",
-      "• default: ask before mutations",
-      "• acceptEdits: files yes, risky Bash no",
-      "• bypassPermissions: isolated VM only"
+      "Permission Modes & Action Gateways",
+      "Environment Bounding & Policy Escalation",
+      "• Permission Modes vs. Risk Tiers: Modes (plan, default, acceptEdits, bypassPermissions) control confirmation prompts; risk tiers determine allowed tool mutations.",
+      "• Sandbox Invariant: bypassPermissions must strictly run in ephemeral VMs or disposable containers — never on developer host environments.",
+      "• Signed Action Gateways: Critical tier actions (git_push, database operations) require explicit signed approval tokens via approvals.json regardless of permission mode.",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
   {
