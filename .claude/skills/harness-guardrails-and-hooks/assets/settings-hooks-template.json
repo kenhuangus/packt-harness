@@ -3,7 +3,13 @@
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "command": "python .claude/skills/harness-guardrails-and-hooks/scripts/hook_pre_tool_use.py"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/skills/harness-guardrails-and-hooks/scripts/hook_pre_tool_use.py",
+            "timeout": 10
+          }
+        ]
       }
     ]
   }

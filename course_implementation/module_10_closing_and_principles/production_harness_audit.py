@@ -401,8 +401,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[FAIL] Target project directory does not exist: {target}")
         return 2
     auditor = ProductionHarnessAuditor(target)
-    auditor.run_audit()
-    return 0
+    score, total = auditor.run_audit()
+    return 0 if score == total else 1
 
 
 if __name__ == "__main__":
