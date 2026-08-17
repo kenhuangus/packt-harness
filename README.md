@@ -66,6 +66,15 @@ resolves to.
 Clone rather than downloading a ZIP. Module 8 drives `git worktree` and fails
 with `not a git repository` when there is no `.git` directory.
 
+On Windows, clone into a short directory. The longest path in the repository is
+140 characters, so a clone directory over about 119 characters trips the 260
+character `MAX_PATH` limit and checkout fails with `Filename too long`. If that
+happens, or to avoid it up front:
+
+```powershell
+git config --global core.longpaths true
+```
+
 Two parts of the repository need a real browser, which the ten modules do not:
 the dashboard in `course_implementation/dashboard/`, and the capstone's GitHub
 and YouTube crawlers. Both come from the same extra:
