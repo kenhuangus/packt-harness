@@ -137,6 +137,27 @@ def generate_svg_for_slide(num, title):
     <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Production Guides &amp; Insights</text>
   </g>
 </svg>'''
+    elif num == 7 or 'DANGEROUS TOOLS' in title_upper or 'FAILURE MODE 3' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="240" height="88" rx="10" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
+    <text x="120" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🚨 Hazard: Shell Traps</text>
+    <text x="120" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">rm -rf &amp; Unscoped Actions</text>
+    <text x="120" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Config &amp; Data Deletion</text>
+  </g>
+  <g transform="translate(270, 6)">
+    <rect x="0" y="0" width="245" height="88" rx="10" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="122" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ Deterministic Defense</text>
+    <text x="122" y="50" fill="#059669" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">PreToolUse AST &amp; Regex</text>
+    <text x="122" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Path.is_relative_to() Scope</text>
+  </g>
+  <g transform="translate(530, 6)">
+    <rect x="0" y="0" width="255" height="88" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">⚡ Deterministic Setup</text>
+    <text x="127" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Virtualenv + Editable Pip</text>
+    <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">sys.executable Pytest Loop</text>
+  </g>
+</svg>'''
     elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
         return '''<svg viewBox="0 0 800 115" class="slide-svg">
   <g transform="translate(15, 8)">
@@ -1391,6 +1412,273 @@ html_template = '''<!DOCTYPE html>
       overflow-wrap: anywhere;
     }
 
+    /* Slide 7: Enhanced Setup & Command Blocks with Copy Buttons */
+    .setup-slide-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.90fr) minmax(0, 1.35fr);
+      gap: 0.95rem;
+      height: 100%;
+      align-items: start;
+    }
+    @media (max-width: 1040px) {
+      .setup-slide-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+    .setup-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.50rem;
+    }
+    .failure-mode-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    }
+    .failure-mode-header {
+      background: var(--accent-sf);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 750;
+      font-size: 0.96rem;
+      padding: 0.42rem 0.75rem;
+      border-bottom: 1.5px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.40rem;
+    }
+    .failure-mode-body {
+      padding: 0.55rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      color: var(--ink);
+    }
+    .failure-hazard-box {
+      background: #FFF5F2;
+      border: 1px solid #F5C6BA;
+      border-left: 3.5px solid #E06C75;
+      border-radius: 6px;
+      padding: 0.40rem 0.60rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+    }
+    .hazard-title {
+      font-weight: 750;
+      color: #BD5D3A;
+      font-size: 0.82rem;
+    }
+    .hazard-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+      font-size: 0.80rem;
+    }
+    .hazard-list li {
+      position: relative;
+      padding-left: 1.1rem;
+      line-height: 1.32;
+    }
+    .hazard-list li::before {
+      content: "⚠️";
+      position: absolute;
+      left: 0;
+      font-size: 0.72rem;
+      top: 0.05rem;
+    }
+    .defense-box {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid #059669;
+      border-radius: 6px;
+      padding: 0.40rem 0.60rem;
+      font-size: 0.80rem;
+      line-height: 1.38;
+    }
+    .defense-title {
+      font-weight: 750;
+      color: #059669;
+      margin-bottom: 0.18rem;
+      font-size: 0.82rem;
+    }
+    .setup-links-box {
+      font-size: 0.80rem;
+      color: var(--ink-muted);
+      line-height: 1.36;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      border-top: 1px dashed var(--rule);
+      padding-top: 0.45rem;
+    }
+    .setup-links-box a {
+      color: var(--accent-dk);
+      font-weight: 650;
+      text-decoration: underline;
+    }
+    .setup-links-box a:hover {
+      color: var(--accent);
+    }
+    .setup-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .setup-steps-container {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      padding: 0.60rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.42rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    }
+    .setup-steps-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      border-bottom: 1.5px solid var(--rule);
+      padding-bottom: 0.30rem;
+      flex-wrap: wrap;
+    }
+    .setup-steps-header span:first-child {
+      font-family: var(--font-display);
+      font-weight: 750;
+      font-size: 0.94rem;
+      color: var(--accent-dk);
+    }
+    .setup-steps-sub {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+    .cmd-step-card {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-left: 3.5px solid var(--accent);
+      border-radius: 7px;
+      padding: 0.35rem 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.20rem;
+    }
+    .cmd-step-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .cmd-step-title {
+      font-family: var(--font-display);
+      font-size: 0.86rem;
+      font-weight: 750;
+      color: var(--ink);
+    }
+    .cmd-step-badge {
+      font-size: 0.66rem;
+      font-weight: 750;
+      color: var(--accent-dk);
+      background: var(--accent-sf);
+      border: 1px solid var(--rule);
+      padding: 0.06rem 0.30rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .cmd-step-desc {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      line-height: 1.28;
+    }
+    .cmd-code-row {
+      display: flex;
+      align-items: center;
+      background: var(--code-bg);
+      border: 1px solid var(--code-rule);
+      border-radius: 5px;
+      padding: 0.25rem 0.50rem;
+      gap: 0.45rem;
+      position: relative;
+    }
+    .cmd-code-prompt {
+      color: #D97757;
+      font-family: var(--font-code);
+      font-size: 0.76rem;
+      font-weight: 750;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .cmd-code-text {
+      flex: 1;
+      font-family: var(--font-code) !important;
+      font-size: 0.76rem !important;
+      color: #FAF9F5 !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      white-space: pre-wrap !important;
+      word-break: break-all;
+      line-height: 1.30;
+    }
+    .cmd-copy-btn {
+      background: #2D2C28;
+      color: #FAF9F5;
+      border: 1px solid #444440;
+      border-radius: 4px;
+      padding: 0.18rem 0.45rem;
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      font-weight: 650;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.22rem;
+      transition: all 0.16s ease;
+      user-select: none;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .cmd-copy-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #FAF9F5;
+      transform: translateY(-1px);
+    }
+    .cmd-copy-btn:active {
+      transform: translateY(0);
+    }
+    .cmd-copy-btn.copied {
+      background: #2e7d32 !important;
+      border-color: #4caf50 !important;
+      color: #ffffff !important;
+    }
+    .copy-icon {
+      font-size: 0.72rem;
+      line-height: 1;
+    }
+    .os-cmd-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+      margin-top: 0.10rem;
+    }
+    .os-cmd-label {
+      font-size: 0.70rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
     .grid-viewport {
       width: 100%; height: 100%; overflow-y: auto; padding: clamp(1rem, 2.5vw, 1.8rem);
       display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem;
@@ -1497,6 +1785,53 @@ html_template = '''<!DOCTYPE html>
         text = text.replaceAll(kw, `<code>${kw}</code>`);
       });
       return text;
+    }
+
+    function copyCommand(btn, text) {
+      if (!btn) return;
+      const originalHtml = btn.innerHTML;
+      
+      function setSuccess() {
+        btn.classList.add('copied');
+        btn.innerHTML = '<span class="copy-icon">✓</span> Copied!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = originalHtml;
+        }, 1800);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(setSuccess).catch(() => {
+          fallbackCopy(text, setSuccess);
+        });
+      } else {
+        fallbackCopy(text, setSuccess);
+      }
+    }
+
+    function fallbackCopy(text, cb) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful && cb) cb();
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function copyCodeFromSlide(btn, slideIdx) {
+      const slide = slidesData[slideIdx];
+      if (slide && slide.code_block) {
+        copyCommand(btn, slide.code_block);
+      }
     }
 
     function formatCodeConcepts(lines) {
@@ -1825,7 +2160,12 @@ html_template = '''<!DOCTYPE html>
                 <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer" class="code-file-tag" title="Open ${primaryFile} on GitHub" style="color:#A0A09A; text-decoration:none;">
                   📄 ${fileTag} ↗
                 </a>
-                <div class="code-lang-tag">${slide.code_language || 'PYTHON'}</div>
+                <div style="display:flex; align-items:center; gap:0.45rem;">
+                  <button class="cmd-copy-btn" onclick="copyCodeFromSlide(this, ${idx})" title="Copy Python code">
+                    <span class="copy-icon">📋</span> Copy
+                  </button>
+                  <div class="code-lang-tag">${slide.code_language || 'PYTHON'}</div>
+                </div>
               </div>
               <div class="code-block">${slide.highlighted_code}</div>
             </div>
@@ -1967,6 +2307,143 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
+      } else if (slide.number === 7 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Dangerous Tools'))) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="setup-slide-grid">
+            <div class="setup-left-col">
+              ${svgMap[slide.number] || ''}
+              <div class="failure-mode-card">
+                <div class="failure-mode-header">
+                  <span>🛡️ Failure Mode Analysis &amp; Harness Guardrails</span>
+                </div>
+                <div class="failure-mode-body">
+                  <div class="failure-hazard-box">
+                    <div class="hazard-title">🚨 The Hazard (Unsanitized Shell Actions):</div>
+                    <ul class="hazard-list">
+                      <li><code>rm -rf</code>, <code>sudo</code>, <code>chmod 777</code>, and unvetted shell execution</li>
+                      <li>Overwrites config, drops database/files, leaks keys, alters host</li>
+                    </ul>
+                  </div>
+                  <div class="defense-box">
+                    <div class="defense-title">🛡️ Deterministic Harness Defense:</div>
+                    <div style="font-size:0.79rem; line-height:1.36;">
+                      <strong>PreToolUse Interceptor:</strong> Regex &amp; AST analysis block dangerous commands before subprocess creation.<br>
+                      <strong>OS Path Sandbox:</strong> <code>Path.is_relative_to()</code> guarantees zero file escapes.
+                    </div>
+                  </div>
+                  <div class="setup-links-box">
+                    <div>
+                      🔗 <strong>Interactive Lab Demo:</strong><br>
+                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md" target="_blank" rel="noopener noreferrer">
+                        Module 01: Pre-Hook Interception &amp; Loop Detection ↗
+                      </a>
+                    </div>
+                    <div>
+                      💡 <strong>Why the Virtual Environment:</strong><br>
+                      <span>Each module executes <code>pytest</code> via <code>sys.executable</code> — guaranteeing tests run against the dedicated project environment without false passes from system PATH.</span>
+                    </div>
+                    <div>
+                      📖 <strong>Full Setup &amp; Multi-Model Keys:</strong><br>
+                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/README.md" target="_blank" rel="noopener noreferrer">
+                        Packt Masterclass README (Setup, API Keys, Browser Extra) ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="setup-right-col">
+              <div class="setup-steps-container">
+                <div class="setup-steps-header">
+                  <span>⚡ Universal Environment Setup (Run Once)</span>
+                  <span class="setup-steps-sub">All 10 module labs execute deterministically with this setup</span>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">1️⃣ Step 1: Clone Repository</span>
+                    <span class="cmd-step-badge">Required (.git)</span>
+                  </div>
+                  <div class="cmd-step-desc">Clone the git repository (not a ZIP: Module 8 drives git worktrees and requires <code>.git</code>):</div>
+                  <div class="cmd-code-row">
+                    <span class="cmd-code-prompt">$</span>
+                    <code class="cmd-code-text">git clone https://github.com/kenhuangus/packt-harness.git</code>
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'git clone https://github.com/kenhuangus/packt-harness.git')" title="Copy Clone Command">
+                      <span class="copy-icon">📋</span> Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">2️⃣ Step 2: Enter Directory &amp; Create Virtual Environment</span>
+                    <span class="cmd-step-badge">Python 3.10+</span>
+                  </div>
+                  <div class="cmd-step-desc">Navigate into <code>packt-harness</code> before creating the isolated <code>.venv</code>:</div>
+                  <div class="cmd-code-row" style="margin-bottom:0.25rem;">
+                    <span class="cmd-code-prompt">$</span>
+                    <code class="cmd-code-text">cd packt-harness</code>
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'cd packt-harness')" title="Copy cd Command">
+                      <span class="copy-icon">📋</span> Copy
+                    </button>
+                  </div>
+                  <div class="cmd-code-row">
+                    <span class="cmd-code-prompt">$</span>
+                    <code class="cmd-code-text">python -m venv .venv</code>
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv')" title="Copy venv Command">
+                      <span class="copy-icon">📋</span> Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">3️⃣ Step 3: Install in Editable Mode</span>
+                    <span class="cmd-step-badge"><code>-e .</code></span>
+                  </div>
+                  <div class="cmd-step-desc">Install the harness package into the active virtual environment:</div>
+                  
+                  <div class="os-cmd-group">
+                    <div class="os-cmd-label">🪟 Windows (PowerShell / Command Prompt):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">PS&gt;</span>
+                      <code class="cmd-code-text">.venv\\\\Scripts\\\\python.exe -m pip install -e .</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv\\\\\\\\Scripts\\\\\\\\python.exe -m pip install -e .')" title="Copy Windows Install Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (Bash / Zsh):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">.venv/bin/python -m pip install -e .</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv/bin/python -m pip install -e .')" title="Copy macOS/Linux Install Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">4️⃣ Step 4: Check &amp; Verify All Modules</span>
+                    <span class="cmd-step-badge" style="background:#e8f5e9; color:#2e7d32; border-color:#a5d6a7;">14 Passed ✓</span>
+                  </div>
+                  <div class="cmd-step-desc">Run the harness test runner across all modules (expects <code>Summary: 14 passed, 0 failed</code>):</div>
+                  <div class="cmd-code-row">
+                    <span class="cmd-code-prompt">$</span>
+                    <code class="cmd-code-text">python run_all_modules.py</code>
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python run_all_modules.py')" title="Copy Step 4 Command">
+                      <span class="copy-icon">📋</span> Copy
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        `;
       } else if (slide.number === 83 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project'))) {
         const tableLines = slide.raw_lines.filter(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
         bodyHtml += `
@@ -1978,11 +2455,35 @@ html_template = '''<!DOCTYPE html>
               <div class="capstone-info-body">
                 <div class="capstone-section">
                   <div class="capstone-section-title">💻 How to Run Locally (Step-by-Step Beginner Guide)</div>
-                  <div class="capstone-cmd-box">
-                    <div><code>git clone https://github.com/kenhuangus/packt-harness.git &amp;&amp; cd packt-harness</code></div>
-                    <div><code>cp .env.example .env</code> <span class="cmd-note">➔ (Windows: <code>copy .env.example .env</code>) Configure LLM Keys</span></div>
-                    <div><code>python deep_research_agent/server.py 8090</code> <span class="cmd-note">➔ Open <a href="http://localhost:8090/" target="_blank" rel="noopener noreferrer">http://localhost:8090/</a> in browser</span></div>
-                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ 16/16 automated assertions passing</span></div>
+                  <div class="capstone-cmd-box" style="background:transparent; border:none; padding:0; gap:0.35rem;">
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">git clone https://github.com/kenhuangus/packt-harness.git &amp;&amp; cd packt-harness</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">cp .env.example .env</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'cp .env.example .env')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">python deep_research_agent/server.py 8090</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python deep_research_agent/server.py 8090')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">pytest deep_research_agent/tests/ -v</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pytest deep_research_agent/tests/ -v')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -2097,7 +2598,7 @@ html_template = '''<!DOCTYPE html>
         const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
         const targetH = clientH * 0.90;
-        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid')) ? 1.25 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
+        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid') || wrapper.querySelector('.setup-slide-grid')) ? 1.20 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
         
         let scale = 1.0;
         let growIter = 0;
