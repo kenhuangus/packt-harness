@@ -1888,29 +1888,27 @@ html_template = '''<!DOCTYPE html>
                 <div class="capstone-section">
                   <div class="capstone-section-title">💻 How to Run Locally (Step-by-Step Beginner Guide)</div>
                   <div class="capstone-cmd-box">
-                    <div><code>git clone https://github.com/kenhuangus/packt-harness.git</code> <span class="cmd-note">➔ Clone exact project repo</span></div>
-                    <div><code>cd packt-harness</code> <span class="cmd-note">➔ Navigate to repository root</span></div>
+                    <div><code>git clone https://github.com/kenhuangus/packt-harness.git &amp;&amp; cd packt-harness</code></div>
+                    <div><code>cp .env.example .env</code> <span class="cmd-note">➔ (Windows: <code>copy .env.example .env</code>) Configure LLM Keys</span></div>
                     <div><code>python deep_research_agent/server.py 8090</code> <span class="cmd-note">➔ Open <a href="http://localhost:8090/" target="_blank" rel="noopener noreferrer">http://localhost:8090/</a> in browser</span></div>
-                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ Run automated tests (16/16 passing)</span></div>
+                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ 16/16 automated assertions passing</span></div>
                   </div>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🌐 Zero-API Public Search Providers (No Keys / No Auth)</div>
+                  <div class="capstone-section-title">🔑 aisuite Provider Configuration (.env Setup)</div>
                   <div class="capstone-providers-grid">
-                    <div class="provider-pill">📄 <strong>arXiv:</strong> Open science preprints Atom API</div>
-                    <div class="provider-pill">📚 <strong>OpenAlex:</strong> Global scholarly index &amp; DOIs</div>
-                    <div class="provider-pill">🌐 <strong>Wikipedia:</strong> Encyclopedia REST API</div>
-                    <div class="provider-pill">💬 <strong>HackerNews:</strong> Algolia community discussions</div>
-                    <div class="provider-pill">🐙 <strong>GitHub Repos:</strong> Playwright browser crawler</div>
-                    <div class="provider-pill">🎥 <strong>YouTube Talks:</strong> Playwright browser crawler</div>
+                    <div class="provider-pill">💻 <strong>Local vLLM (Default):</strong> <code>LLM_PROVIDER=openai</code> (Port 8000)</div>
+                    <div class="provider-pill">🧡 <strong>Claude (Anthropic):</strong> <code>ANTHROPIC_API_KEY=sk-ant...</code></div>
+                    <div class="provider-pill">🟢 <strong>OpenAI:</strong> <code>OPENAI_API_KEY=sk-proj...</code></div>
+                    <div class="provider-pill">🔵 <strong>Gemini (Google):</strong> <code>GEMINI_API_KEY=AIzaSy...</code></div>
                   </div>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🧠 aisuite LLM Engine &amp; 2-Turn Self-Reflection</div>
+                  <div class="capstone-section-title">🧠 Andrew Ng aisuite &amp; 2-Turn Self-Reflection</div>
                   <div class="capstone-text-desc">
-                    Built on <strong>Andrew Ng's aisuite</strong> supporting <strong>Local Model (Default)</strong>, <strong>Claude</strong>, <strong>OpenAI</strong>, and <strong>Gemini</strong>. Review team executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) to finalize publication-grade dossiers.
+                    Copy <code>.env.example</code> to <code>.env</code> to switch between local vLLM, Claude, OpenAI, or Gemini via <strong>aisuite</strong>. Multi-agent review executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) across 6 Zero-API public streams (arXiv, OpenAlex, Wikipedia, GitHub, YouTube, HN).
                   </div>
                 </div>
               </div>
