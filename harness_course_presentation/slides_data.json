@@ -205,11 +205,15 @@
   {
     "number": 15,
     "raw_lines": [
-      "Pillar 3: Hooks",
-      "Inspect Before and After",
-      "• Pre-hook: deny dangerous commands",
-      "• Post-hook: AST + secret scan",
-      "• Policy is code, not a prompt"
+      "Pillar 3: Hooks & The 31-Event Lifecycle Map",
+      "Deterministic Guardrails Across 6 Interception Categories",
+      "• 31 Lifecycle Hooks: Claude Code provides 31 deterministic PascalCase lifecycle events configured in .claude/settings.json, giving exact programmatic control over every agent turn, shell command, worktree, and memory compaction.",
+      "• 1. Session & Turn (7 hooks): SessionStart, Setup (CI/script flags), UserPromptSubmit, UserPromptExpansion, Stop, StopFailure, SessionEnd (manages environment initialization & turn teardown).",
+      "• 2. Tool & Execution Loop (6 hooks): PreToolUse (security blocker; exit code 2 blocks execution), PermissionRequest, PermissionDenied, PostToolUse (AST parsing & secret filtering), PostToolUseFailure, PostToolBatch.",
+      "• 3. Subagent & Team Orchestration (5 hooks): SubagentStart, SubagentStop (quality gates), TeammateIdle, TaskCreated, TaskCompleted (enforces 'Definition of Done' checks before accepting work).",
+      "• 4. Environment, Config & Worktrees (7 hooks): InstructionsLoaded (CLAUDE.md/AGENTS.md), ConfigChange, CwdChanged, DirectoryAdded, FileChanged, WorktreeCreate, WorktreeRemove (ephemeral git worktree isolation).",
+      "• 5. Context Compaction (2 hooks): PreCompact (intercepts token pressure), PostCompact (re-injects critical project rules after memory compression).",
+      "• 6. MCP & System Interaction (4 hooks): Notification (Slack/desktop alerts), MessageDisplay, Elicitation, ElicitationResult (sanitizes user response before sending to MCP servers)."
     ]
   },
   {

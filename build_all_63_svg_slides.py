@@ -328,6 +328,51 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Syntax Errors</text>
   </g>
 </svg>'''
+    elif 'PILLAR 3: HOOKS' in title_upper or 'LIFECYCLE HOOK' in title_upper or '31 DETERMINISTIC' in title_upper or '31-EVENT' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <g transform="translate(10, 5)">
+    <rect x="0" y="0" width="122" height="92" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="61" y="24" fill="#1e40af" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">1. Session/Turn</text>
+    <text x="61" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">7 Events</text>
+    <text x="61" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">SessionStart/Stop</text>
+    <text x="61" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">UserPromptSubmit</text>
+  </g>
+  <g transform="translate(140, 5)">
+    <rect x="0" y="0" width="122" height="92" rx="8" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
+    <text x="61" y="24" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">2. Tool Loop</text>
+    <text x="61" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">6 Events</text>
+    <text x="61" y="62" fill="#BD5D3A" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">PreToolUse (Deny)</text>
+    <text x="61" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">PostToolUse (AST)</text>
+  </g>
+  <g transform="translate(270, 5)">
+    <rect x="0" y="0" width="125" height="92" rx="8" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
+    <text x="62" y="24" fill="#6d28d9" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">3. Subagents</text>
+    <text x="62" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">5 Events</text>
+    <text x="62" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">SubagentStart/Stop</text>
+    <text x="62" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">TaskCompleted DoD</text>
+  </g>
+  <g transform="translate(403, 5)">
+    <rect x="0" y="0" width="125" height="92" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="62" y="24" fill="#047857" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">4. Worktrees</text>
+    <text x="62" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">7 Events</text>
+    <text x="62" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">WorktreeCreate</text>
+    <text x="62" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">CwdChanged/File</text>
+  </g>
+  <g transform="translate(536, 5)">
+    <rect x="0" y="0" width="122" height="92" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="61" y="24" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">5. Compaction</text>
+    <text x="61" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">2 Events</text>
+    <text x="61" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">PreCompact Gate</text>
+    <text x="61" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">PostCompact Fact</text>
+  </g>
+  <g transform="translate(666, 5)">
+    <rect x="0" y="0" width="124" height="92" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="62" y="24" fill="#1e40af" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">6. MCP / Alerts</text>
+    <text x="62" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">4 Events</text>
+    <text x="62" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Elicitation (MCP)</text>
+    <text x="62" y="78" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Notification Push</text>
+  </g>
+</svg>'''
     elif '5 HARNESS PILLARS' in title_upper or '5 PILLARS' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <g transform="translate(10, 5)">
