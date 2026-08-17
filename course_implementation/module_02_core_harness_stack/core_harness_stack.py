@@ -42,15 +42,15 @@ class ContextTokenBudgeter:
         return int(len(words) * 1.33)
 
     def compact_output(self, raw_output: str, max_lines=20) -> str:
-        # Keep a head/tail window so the model still sees the error and
-        # the last compiler lines, while the middle is replaced by a marker.
+        # Keep a head/tail window so the model still sees initial context and
+        # latest results/tracebacks, while the noisy middle is replaced by a marker.
         lines = raw_output.splitlines()
         if len(lines) <= max_lines:
             return raw_output
         header = lines[:5]
         footer = lines[-15:]
         omitted_count = len(lines) - 20
-        return "\n".join(header) + f"\n\n... [HARNESS COMPACTION: Omitted {omitted_count} lines of compiler stdout] ...\n\n" + "\n".join(footer)
+        return "\n".join(header) + f"\n\n... [HARNESS COMPACTION: Omitted {omitted_count} lines of verbose log / conversation output] ...\n\n" + "\n".join(footer)
 
 
 class CoreHarnessStack:

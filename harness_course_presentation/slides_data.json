@@ -222,7 +222,7 @@
       "  • 20% (25.6k tokens) Spec: Immutable scope & acceptance criteria in SPEC.md",
       "  • 50% (64.0k tokens) Workspace: Active source files, tool execution & file diffs",
       "  • 10% (12.8k tokens) Output Buffer: Reserved headroom for model generation",
-      "• Head/Tail Log Compaction: Retains first 5 & last 15 lines of compiler stdout, omitting noisy middle lines.",
+      "• Head/Tail Context Compaction: Retains first 5 & last 15 lines/turns of conversation history and tool outputs, omitting noisy middle lines to preserve context budget.",
       "• Pillar 5: Structured events.jsonl audit trail providing deterministic evidence for every tool call and permission check.",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
