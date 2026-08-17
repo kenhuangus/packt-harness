@@ -43,19 +43,23 @@ C:\Users\kenhu\AppData\Local\Programs\Python\Python313\python.exe C:\Users\kenhu
 - **Live telemetry (ephemeral):** `C:\Users\kenhu\AppData\Local\Temp\module_08_team_<random>\telemetry.jsonl`
 - **Recorded copy:** [RUN_RESULTS.md](https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/RUN_RESULTS.md)
 
-Captured on this machine, 2026-08-14:
+Captured on this machine, 2026-08-17:
 
 ```text
+[Isolation] git worktree created at ...\Temp\module08-agent-27740-20260817061818385121
+[Isolation] branch module08-agent-27740-20260817061818385121
 [Planner Subagent (Architect)] Analyzing requirement...
   [PASS] Plan Generated: 2 micro-subtasks allocated.
-[Implementer Subagent (Coder)] Executing simulated edits in a temporary sandbox...
-  Claude Code project subagents are defined in .claude/agents/<name>.md with frontmatter `isolation: worktree`.
-  [Illustrative command - NOT EXECUTED] git worktree add -b agent-worktree ./worktree-dir main
-  [PASS] Simulated isolated edit completed for 'auth_component'.
-  [PASS] Simulated isolated edit completed for 'test_suite'.
-[Reviewer Subagent (Auditor)] Auditing Implementer output against SPEC.md...
-  [PASS] Review Passed: AST syntax valid, scope compliance confirmed.
-[Self-Improvement Telemetry] Recorded task 'jwt_auth_multi_agent_handoff' into 'telemetry.jsonl'.
+[Implementer Subagent (Coder)] Writing into the worktree...
+  [PASS] Wrote ...\auth.py (2392 bytes).
+  [PASS] Wrote ...\test_auth.py (663 bytes).
+[Reviewer Subagent (Auditor)] AST + pytest in the worktree...
+  [PASS] Review auth.py: {'syntax_ok': True, 'defines_validate_jwt': True, ...}
+  [PASS] Review test_auth.py: {'syntax_ok': True, 'defines_validate_jwt': False, ...}
+3 passed in 0.22s
+  [PASS] pytest passed inside the isolated worktree.
+[Self-Improvement Telemetry] Appended to ...\telemetry.jsonl
+[Isolation] git worktree removed.
 ```
 
 ## Annotated code
@@ -68,18 +72,28 @@ class SubagentPromptIsolator:
     or non-goals, and drops the rest.
     """
 
-class MultiAgentTeamSimulator:
+class WorktreeIsolation:
     """
-    The implementer writes into a TemporaryDirectory, not a real git
-    worktree. The printed `git worktree add` line is labelled NOT EXECUTED.
+    Runs `git worktree add` on a real branch and removes it in a finally
+    block. The implementer never writes into the checked-out repository.
+    """
+
+class MultiAgentTeam:
+    """
+    Each role gets the worktree path, not the repository root, so scope
+    violations fail on the filesystem rather than on trust.
     """
 
     def run_planner(self, spec_text):
         # Two named subtasks: auth_component -> auth.py, test_suite -> test_auth.py
 
-    def run_implementer_in_worktree(self, subtask, master_spec):
+    def run_implementer(self, subtask, master_spec):
         # Write one scoped Python file from a focused spec slice.
 
     def run_reviewer(self, target_file):
-        # File exists and defines validate_jwt. AST and scope are checked in main().
+        # ast.parse the file and confirm it defines validate_jwt.
 ```
+
+`main()` then runs pytest inside the worktree and returns 1 if it does
+not exit 0, so a failing suite fails the module instead of printing
+`[PASS]`.
