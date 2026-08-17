@@ -538,6 +538,47 @@ def generate_svg_for_slide(num, title):
     </g>
   </g>
 </svg>'''
+    elif 'SECURING THE MODEL CONTEXT PROTOCOL' in title_upper or 'SECURING MCP' in title_upper or 'THREAT MODELING, 3-ZONE' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <!-- Zone 0: Control Plane -->
+  <g transform="translate(10, 5)">
+    <rect x="0" y="0" width="180" height="92" rx="8" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
+    <text x="90" y="24" fill="#6d28d9" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🛡️ ZONE 0: Control Plane</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Vault Dynamic Secrets</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">OPA / Cedar Policy Engine</text>
+    <text x="90" y="78" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">OTEL SIEM Audit Bus</text>
+  </g>
+  <path d="M195 50 L212 50" stroke="#BD5D3A" stroke-width="2.5"/>
+
+  <!-- Zone 1: MCP Server Fleet -->
+  <g transform="translate(215, 5)">
+    <rect x="0" y="0" width="180" height="92" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="24" fill="#1e40af" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">⚡ ZONE 1: MCP Server</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">mTLS Mesh &amp; DPoP JWT</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Read-Only Root Filesystem</text>
+    <text x="90" y="78" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Sidecar OPA Authorization</text>
+  </g>
+  <path d="M400 50 L417 50" stroke="#BD5D3A" stroke-width="2.5"/>
+
+  <!-- Zone 2: Tool Runtime Sandbox -->
+  <g transform="translate(420, 5)">
+    <rect x="0" y="0" width="180" height="92" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="90" y="24" fill="#047857" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🔒 ZONE 2: Tool Runtime</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">gVisor / Firecracker VM</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Strict Egress Allowlist</text>
+    <text x="90" y="78" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">5-Min Ephemeral Token</text>
+  </g>
+  <path d="M605 50 L622 50" stroke="#BD5D3A" stroke-width="2.5"/>
+
+  <!-- Zone 3: Downstream Systems -->
+  <g transform="translate(625, 5)">
+    <rect x="0" y="0" width="165" height="92" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="82" y="24" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">🏛️ ZONE 3: Downstream</text>
+    <text x="82" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">Scoped Target Tokens</text>
+    <text x="82" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Postgres, GitHub, Stripe</text>
+    <text x="82" y="78" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Zero Direct Zone 0 Path</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
