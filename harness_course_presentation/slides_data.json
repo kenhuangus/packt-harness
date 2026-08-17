@@ -771,7 +771,8 @@
       "File: course_implementation/module_07_skills_plugins_mcp/mcp_server_demo.py & mcp_client_runner.py",
       "• [Line 5] @mcp.tool Decorator: Defines callable actions with parameters and execution capabilities.",
       "• [Line 9] @mcp.resource Decorator: Exposes read-only application state over standard URIs (config://).",
-      "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls."
+      "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls.",
+      "• Insecure MCP Vulnerability Lab: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
     ],
     "number": 51
   },
