@@ -689,7 +689,7 @@
   {
     "number": 47,
     "raw_lines": [
-      "Agent Skills & Directory Layout",
+      "Agent Skills & Directory Layout (Revisit)",
       "Standard Architecture: SKILL.md, Scripts & References",
       "• Self-Contained Modularity: Encapsulates domain expertise, execution scripts, and API schemas in one directory.",
       "• SKILL.md Entry Point: YAML frontmatter with description defining what the skill does and when to use it.",

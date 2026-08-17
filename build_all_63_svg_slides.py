@@ -209,7 +209,7 @@ def generate_svg_for_slide(num, title):
     <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">sys.executable Pytest Loop</text>
   </g>
 </svg>'''
-    elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper:
+    elif 'WHAT IS AN AGENT SKILL' in title_upper or 'WHAT IS A SKILL' in title_upper or 'AGENT SKILLS' in title_upper:
         return '''<svg viewBox="0 0 800 115" class="slide-svg">
   <g transform="translate(15, 8)">
     <rect x="0" y="0" width="175" height="92" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
