@@ -137,7 +137,58 @@ def generate_svg_for_slide(num, title):
     <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Production Guides &amp; Insights</text>
   </g>
 </svg>'''
-    elif num == 7 or 'DANGEROUS TOOLS' in title_upper or 'FAILURE MODE 3' in title_upper:
+    elif 'CORE THESIS' in title_upper or 'TRADITIONAL SE' in title_upper or 'THESIS' in title_upper:
+        return '''<svg viewBox="0 0 880 140" class="slide-svg">
+  <defs>
+    <marker id="thesis-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#BD5D3A"/>
+    </marker>
+  </defs>
+  <!-- Traditional Software Engineering -->
+  <g transform="translate(10, 5)">
+    <rect x="0" y="0" width="395" height="128" rx="10" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <rect x="0" y="0" width="395" height="28" rx="10" fill="#EBF2FE" stroke="#2563eb" stroke-width="2"/>
+    <text x="197" y="19" fill="#1e40af" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🏛️ TRADITIONAL SOFTWARE ENGINEERING</text>
+    <text x="197" y="46" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Deterministic IT Systems: Explicit Logic &amp; Repeatable Outputs</text>
+    <g transform="translate(12, 56)">
+      <rect x="0" y="0" width="180" height="36" rx="5" fill="#FFFFFF" stroke="#E3E0D6"/>
+      <text x="90" y="15" fill="#1e3a8a" font-family="Inter" font-size="9" font-weight="750" text-anchor="middle">SDLC · Agile · Architecture</text>
+      <text x="90" y="28" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">DevOps · CI/CD · Pyramids</text>
+      <rect x="190" y="0" width="180" height="36" rx="5" fill="#FFFFFF" stroke="#E3E0D6"/>
+      <text x="280" y="15" fill="#1e3a8a" font-family="Inter" font-size="9" font-weight="750" text-anchor="middle">SRE &amp; Secure-SDLC</text>
+      <text x="280" y="28" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">AppSec · SAST/DAST</text>
+    </g>
+    <rect x="12" y="98" width="370" height="22" rx="4" fill="#EBF2FE" stroke="#bfdbfe"/>
+    <text x="197" y="113" fill="#1e40af" font-family="JetBrains Mono" font-size="9.5" font-weight="700" text-anchor="middle">Formula: f(x) ➔ y  [Strict Input-Output Repeatability]</text>
+  </g>
+
+  <!-- Paradigm Shift Connector -->
+  <g transform="translate(410, 54)">
+    <path d="M 0 15 L 56 15" stroke="#BD5D3A" stroke-width="2.5" stroke-dasharray="4 3" marker-end="url(#thesis-arrow)"/>
+    <rect x="4" y="3" width="48" height="24" rx="4" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1.2"/>
+    <text x="28" y="15" fill="#BD5D3A" font-family="Inter" font-size="7.5" font-weight="850" text-anchor="middle">PARADIGM</text>
+    <text x="28" y="23" fill="#BD5D3A" font-family="Inter" font-size="6.8" font-weight="800" text-anchor="middle">SHIFT</text>
+  </g>
+
+  <!-- Harness Engineering -->
+  <g transform="translate(475, 5)">
+    <rect x="0" y="0" width="395" height="128" rx="10" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <rect x="0" y="0" width="395" height="28" rx="10" fill="#E6F7F0" stroke="#059669" stroke-width="2"/>
+    <text x="197" y="19" fill="#047857" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">🛡️ HARNESS ENGINEERING FOR AGENTIC AI</text>
+    <text x="197" y="46" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Non-Deterministic Systems: Model + Emergent Behavior</text>
+    <g transform="translate(12, 56)">
+      <rect x="0" y="0" width="180" height="36" rx="5" fill="#FFFFFF" stroke="#E3E0D6"/>
+      <text x="90" y="15" fill="#BD5D3A" font-family="Inter" font-size="9" font-weight="750" text-anchor="middle">Probabilistic Core</text>
+      <text x="90" y="28" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Model · Prompts · Context · Tools</text>
+      <rect x="190" y="0" width="180" height="36" rx="5" fill="#FFFFFF" stroke="#059669" stroke-width="1.2"/>
+      <text x="280" y="15" fill="#047857" font-family="Inter" font-size="9" font-weight="750" text-anchor="middle">Deterministic Control Harness</text>
+      <text x="280" y="28" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Memory · Sandbox · Hooks · TDA</text>
+    </g>
+    <rect x="12" y="98" width="370" height="22" rx="4" fill="#E6F7F0" stroke="#a7f3d0"/>
+    <text x="197" y="113" fill="#047857" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">Goal: Reliable · Observable · Secure · Governable · Manageable</text>
+  </g>
+</svg>'''
+    elif 'DANGEROUS TOOLS' in title_upper or 'FAILURE MODE 3' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="240" height="88" rx="10" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
@@ -1412,6 +1463,119 @@ html_template = '''<!DOCTYPE html>
       overflow-wrap: anywhere;
     }
 
+    /* Slide 3: Course Core Thesis (Traditional SE vs Harness Engineering) */
+    .thesis-slide-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      flex: 1;
+      align-items: stretch;
+    }
+    @media (max-width: 1040px) {
+      .thesis-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+    .thesis-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 9px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .thesis-card.trad-card {
+      border-top: 3.5px solid #2563eb;
+    }
+    .thesis-card.harn-card {
+      border-top: 3.5px solid #059669;
+    }
+    .thesis-card-header {
+      padding: 0.40rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-bottom: 1.5px solid var(--rule);
+    }
+    .thesis-card-header.trad-header {
+      background: #F0F5FE;
+    }
+    .thesis-card-header.harn-header {
+      background: #E8F8F2;
+    }
+    .thesis-icon {
+      font-size: 1.15rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .thesis-title {
+      font-family: var(--font-display);
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.20;
+    }
+    .thesis-subtitle {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      margin-top: 0.05rem;
+    }
+    .thesis-badge {
+      margin-left: auto;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 0.10rem 0.38rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .thesis-badge.trad-badge {
+      background: #DBEAFE;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    .thesis-badge.harn-badge {
+      background: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #a7f3d0;
+    }
+    .thesis-card-body {
+      padding: 0.45rem 0.70rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      font-size: 0.82rem;
+      line-height: 1.38;
+      color: var(--ink);
+      background: var(--surface);
+    }
+    .thesis-point {
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-radius: 5px;
+      padding: 0.32rem 0.55rem;
+      line-height: 1.34;
+      font-size: 0.79rem;
+    }
+    .trad-card .thesis-point {
+      border-left: 3px solid #3b82f6;
+    }
+    .harn-card .thesis-point {
+      border-left: 3px solid #10b981;
+    }
+
     /* Slide 7: Enhanced Setup & Command Blocks with Copy Buttons */
     .setup-slide-grid {
       display: grid;
@@ -2275,10 +2439,61 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 3) {
+      } else if (slide.raw_lines && slide.raw_lines[0] && (slide.raw_lines[0].includes('Core Thesis') || slide.raw_lines[0].includes('Traditional SE'))) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="thesis-slide-wrap">
+            ${svgMap[slide.number] || ''}
+            <div class="thesis-grid">
+              <div class="thesis-card trad-card">
+                <div class="thesis-card-header trad-header">
+                  <span class="thesis-icon">🏛️</span>
+                  <div>
+                    <div class="thesis-title">Traditional Software Engineering</div>
+                    <div class="thesis-subtitle">SDLC, DevOps, CI/CD, Testing Pyramids &amp; SRE</div>
+                  </div>
+                  <span class="thesis-badge trad-badge">DETERMINISTIC SYSTEMS</span>
+                </div>
+                <div class="thesis-card-body">
+                  <div class="thesis-point">
+                    <strong>🎯 System Domain:</strong> Built for <strong>deterministic IT systems</strong> where explicit logic and algorithms run on predictable computer hardware.
+                  </div>
+                  <div class="thesis-point">
+                    <strong>⚙️ Frameworks &amp; Practices:</strong> SDLC, Agile, Architecture Patterns, CI/CD pipelines, Unit/Integration Testing Pyramids, SRE, and Secure-SDLC / AppSec.
+                  </div>
+                  <div class="thesis-point">
+                    <strong>🔒 Core Guarantee:</strong> <strong>Deterministic Repeatability</strong> — identical inputs and state strictly produce identical outputs (<code>f(x) ➔ y</code>).
+                  </div>
+                </div>
+              </div>
+
+              <div class="thesis-card harn-card">
+                <div class="thesis-card-header harn-header">
+                  <span class="thesis-icon">🛡️</span>
+                  <div>
+                    <div class="thesis-title">Harness Engineering for Agentic AI</div>
+                    <div class="thesis-subtitle">Deterministic Control Systems for Probabilistic Agents</div>
+                  </div>
+                  <span class="thesis-badge harn-badge">NON-DETERMINISTIC + HARNESS</span>
+                </div>
+                <div class="thesis-card-body">
+                  <div class="thesis-point">
+                    <strong>🧠 Probabilistic Emergence:</strong> Behavior emerges probabilistically from foundation models plus prompts, dynamic context, memory, tools, loops, policies, and multi-agent teams.
+                  </div>
+                  <div class="thesis-point">
+                    <strong>🛡️ Deterministic Control Environment:</strong> Engineers the surrounding scaffold: Memory (<code>CLAUDE.md</code>/<code>AGENTS.md</code>), path sandboxing, Pre/Post AST hooks, Pytest TDA loops, and permission gateways.
+                  </div>
+                  <div class="thesis-point">
+                    <strong>🎯 The 5 Production Invariants:</strong> Transforms probabilistic model outputs into systems that are <strong>Reliable</strong>, <strong>Observable</strong>, <strong>Secure</strong>, <strong>Governable</strong>, and <strong>Operationally Manageable</strong>.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('COURSE MASTER MAP')) {
         bodyHtml += `
           <div id="slide-content-wrap" class="course-map-slide-wrap">
-            ${svgMap[3] || ''}
+            ${svgMap[slide.number] || ''}
             <div class="course-map-columns-grid">
               <div class="course-map-part-col">
                 <div class="course-map-part-header">
@@ -2598,7 +2813,7 @@ html_template = '''<!DOCTYPE html>
         const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
         const targetH = clientH * 0.90;
-        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid') || wrapper.querySelector('.setup-slide-grid')) ? 1.20 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
+        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid') || wrapper.querySelector('.setup-slide-grid') || wrapper.querySelector('.thesis-grid')) ? 1.20 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
         
         let scale = 1.0;
         let growIter = 0;
