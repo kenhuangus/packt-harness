@@ -2748,7 +2748,7 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 7 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Dangerous Tools'))) {
+      } else if (slide.number === 7) {
         bodyHtml += `
           <div id="slide-content-wrap" class="setup-slide-grid">
             <div class="setup-left-col">

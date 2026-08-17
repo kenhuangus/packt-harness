@@ -87,18 +87,11 @@
     "number": 8,
     "raw_lines": [
       "Failure Mode 3: Dangerous Tools",
-      "Unsanitized Actions",
-      "• rm -rf and other shell landmines",
-      "• Overwrites config, drops data",
-      "• Fix: PreToolUse guards + path sandbox",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md",
-      "• First time here? Set up once, then every module lab runs the same way:",
-      "  • Step 1 - Clone it (not a ZIP: module 8 drives git worktree and needs .git): git clone https://github.com/kenhuangus/packt-harness.git",
-      "  • Step 2 - Enter directory & create venv: cd packt-harness then python -m venv .venv",
-      "  • Step 3 - Install: .venv\\Scripts\\python.exe -m pip install -e .   (macOS/Linux: .venv/bin/python -m pip install -e .)",
-      "  • Step 4 - Check it: python run_all_modules.py   expects Summary: 14 passed, 0 failed",
-      "  • Why the venv: each module launches pytest with sys.executable, so the interpreter that starts a module is the one that runs its tests - it cannot pass by finding another Python on PATH",
-      "  • Full setup, cloud model keys (OpenAI, Claude, Gemini) and the browser extra: https://github.com/kenhuangus/packt-harness/blob/main/README.md"
+      "Unsanitized Actions & Destructive Commands",
+      "• The Hazard: Agents executing rm -rf, sudo, chmod 777, or modifying host files outside the repository.",
+      "• Impact: Overwrites configurations, drops databases, and corrupts host environments.",
+      "• Fix: PreToolUse interceptor guards block dangerous shell commands before subprocess execution; Path.is_relative_to() prevents path traversal.",
+      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
   },
   {
