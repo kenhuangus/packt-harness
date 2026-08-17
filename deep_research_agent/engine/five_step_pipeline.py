@@ -176,10 +176,16 @@ class FiveStepResearchPipeline:
         pipeline_log.append({"step": 4, "name": "Pytest TDA Verification", "status": "PASSED", "exit_code": code})
 
         # =========================================================================
-        # STEP 5: SYNTHESIS & UNIFIED DIFF REVIEW (Module 5, 8 & 9)
+        # STEP 5: TWO-TURN SELF-REFLECTION & UNIFIED DIFF REVIEW (Module 5, 8 & 9)
         # =========================================================================
-        self.logger.log("STEP_5_SYNTHESIS_DIFF", {"action": "synthesizing_final_dossier"})
-        dossier_text = self.team.run_synthesizer(user_query, evidence_list)
+        self.logger.log("STEP_5_REFLECTION_TURN_1", {"action": "empirical_gap_analysis"})
+        turn_1_review = self.team.run_reflection_turn_1(user_query, evidence_list)
+
+        self.logger.log("STEP_5_REFLECTION_TURN_2", {"action": "adversarial_stress_testing"})
+        turn_2_review = self.team.run_reflection_turn_2(user_query, evidence_list, turn_1_review)
+
+        self.logger.log("STEP_5_SYNTHESIS_DIFF", {"action": "synthesizing_finalized_dossier"})
+        dossier_text = self.team.run_synthesizer(user_query, evidence_list, turn_1_review, turn_2_review)
         dossier_file = self.sanitizer.validate_path("dossier.md")
         dossier_file.write_text(dossier_text, encoding="utf-8")
 
@@ -195,7 +201,13 @@ class FiveStepResearchPipeline:
         diff_file.write_text(diff_str, encoding="utf-8")
 
         audit_res = self.auditor.run_full_audit()
-        pipeline_log.append({"step": 5, "name": "Unified Diff & Audit", "status": "COMPLETED", "dossier_file": str(dossier_file)})
+        pipeline_log.append({
+            "step": 5,
+            "name": "Two-Turn Self-Reflection & Unified Diff",
+            "status": "COMPLETED",
+            "reflection_turns": 2,
+            "dossier_file": str(dossier_file),
+        })
 
         elapsed = time.time() - t0
         self.team.log_telemetry("Synthesizer", "finalize_dossier", "SUCCESS", elapsed)
@@ -210,6 +222,8 @@ class FiveStepResearchPipeline:
             "dossier_file": str(dossier_file),
             "diff_file": str(diff_file),
             "evidence": evidence_list,
+            "turn_1_reflection": turn_1_review,
+            "turn_2_reflection": turn_2_review,
             "dossier_markdown": dossier_text,
             "unified_diff": diff_str,
             "audit": audit_res,

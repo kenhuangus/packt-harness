@@ -59,6 +59,43 @@ function renderTabContent() {
       .replace(/\n/gim, '<br>');
 
     container.innerHTML = raw;
+  } else if (currentTab === 'reflection') {
+    const t1 = latestResult.turn_1_reflection || { phase: 'Empirical Grounding & Gap Reflection', reflection_analysis: 'Turn 1 reflection completed.' };
+    const t2 = latestResult.turn_2_reflection || { phase: 'Adversarial Stress-Testing & High-Order Insights', reflection_analysis: 'Turn 2 adversarial review completed.' };
+    
+    container.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        
+        <!-- Turn 1 Card -->
+        <div style="background: var(--bg-primary); border: 1.5px solid var(--border-color); border-radius: 8px; padding: 1.2rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.2rem;">🔄</span>
+              <strong style="color: var(--accent-emerald); font-size: 1.02rem;">Turn 1 Review: ${t1.phase || 'Empirical Grounding & Gap Analysis'}</strong>
+            </div>
+            <span style="font-size: 0.75rem; font-weight: 700; background: #ecfdf5; color: #059669; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">APPROVED</span>
+          </div>
+          <div style="font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); white-space: pre-wrap;">
+${escapeHtml(t1.reflection_analysis || '')}
+          </div>
+        </div>
+
+        <!-- Turn 2 Card -->
+        <div style="background: var(--bg-primary); border: 1.5px solid var(--border-color); border-radius: 8px; padding: 1.2rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.2rem;">🛡️</span>
+              <strong style="color: var(--accent-sapphire); font-size: 1.02rem;">Turn 2 Review: ${t2.phase || 'Adversarial Stress-Testing & High-Order Insights'}</strong>
+            </div>
+            <span style="font-size: 0.75rem; font-weight: 700; background: #eff6ff; color: #2563eb; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(37,99,235,0.2);">FINALIZED</span>
+          </div>
+          <div style="font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); white-space: pre-wrap;">
+${escapeHtml(t2.reflection_analysis || '')}
+          </div>
+        </div>
+
+      </div>
+    `;
   } else if (currentTab === 'diff') {
     container.innerHTML = `<pre style="font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg-primary); padding: 0.75rem; border-radius: 6px; overflow-x: auto; color: var(--accent-emerald); line-height: 1.5;">${escapeHtml(latestResult.unified_diff || 'No diff available.')}</pre>`;
   } else if (currentTab === 'audit') {

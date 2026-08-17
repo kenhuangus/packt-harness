@@ -111,3 +111,39 @@ def test_hp_09_hackernews_and_openalex_no_api():
     assert len(alex_docs) >= 1
     assert any("openalex.org" in d["domain"] for d in alex_docs)
 
+
+def test_hp_10_aisuite_llm_client():
+    """HP-10: aisuite LLM Client multi-provider configuration & fallback."""
+    from deep_research_agent.engine.llm_client import ResearchLLMClient
+    client = ResearchLLMClient()
+    assert client.provider in ["openai", "anthropic", "google", "ollama"]
+    assert client.model is not None
+    # Client initialize must not crash
+    out = client.generate("Test prompt")
+    assert isinstance(out, str)
+
+
+def test_hp_11_two_turn_self_reflection():
+    """HP-11: Two-turn self-reflection and in-depth review workflow."""
+    from deep_research_agent.engine.research_team import MultiAgentResearchTeam
+    team = MultiAgentResearchTeam(WORKSPACE_DIR, WORKSPACE_DIR / "telemetry.jsonl")
+    evidence = [
+        {"doc_id": "d1", "title": "Paper 1", "domain": "arxiv.org", "snippet": "Theorem on convergence", "source_type": "arxiv"},
+        {"doc_id": "d2", "title": "Repo 2", "domain": "github.com", "snippet": "Implementation patterns", "source_type": "github"},
+    ]
+    t1 = team.run_reflection_turn_1("Test Query", evidence)
+    assert t1["turn"] == 1
+    assert t1["status"] == "APPROVED"
+    assert "reflection_analysis" in t1
+
+    t2 = team.run_reflection_turn_2("Test Query", evidence, t1)
+    assert t2["turn"] == 2
+    assert t2["status"] == "FINALIZED"
+    assert "reflection_analysis" in t2
+
+    dossier = team.run_synthesizer("Test Query", evidence, t1, t2)
+    assert "Multi-Turn Agentic Self-Reflection" in dossier
+    assert "Turn 1 Self-Reflection" in dossier
+    assert "Turn 2 Self-Reflection" in dossier
+
+

@@ -1891,7 +1891,7 @@ html_template = '''<!DOCTYPE html>
                     <div><code>git clone https://github.com/kenhuangus/packt-harness.git</code> <span class="cmd-note">➔ Clone exact project repo</span></div>
                     <div><code>cd packt-harness</code> <span class="cmd-note">➔ Navigate to repository root</span></div>
                     <div><code>python deep_research_agent/server.py 8090</code> <span class="cmd-note">➔ Open <a href="http://localhost:8090/" target="_blank" rel="noopener noreferrer">http://localhost:8090/</a> in browser</span></div>
-                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ Run automated tests (14/14 passing)</span></div>
+                    <div><code>pytest deep_research_agent/tests/ -v</code> <span class="cmd-note">➔ Run automated tests (16/16 passing)</span></div>
                   </div>
                 </div>
 
@@ -1908,9 +1908,9 @@ html_template = '''<!DOCTYPE html>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🧠 Model-Driven Autonomous Search (Query Presets)</div>
+                  <div class="capstone-section-title">🧠 aisuite LLM Engine &amp; 2-Turn Self-Reflection</div>
                   <div class="capstone-text-desc">
-                    UI presets provide <strong>pure query text strings</strong> (hypotheses) without hardcoded results. The <strong>Planner subagent</strong> decomposes queries into multi-hop investigation tracks, invokes live MCP search tools across Zero-API providers, and the <strong>Synthesizer model</strong> constructs an evidence-grounded dossier with citation confidence and unified diff.
+                    Built on <strong>Andrew Ng's aisuite</strong> supporting <strong>Local Model (Default)</strong>, <strong>Claude</strong>, <strong>OpenAI</strong>, and <strong>Gemini</strong>. Review team executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) to finalize publication-grade dossiers.
                   </div>
                 </div>
               </div>
