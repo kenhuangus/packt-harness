@@ -1,6 +1,7 @@
 """5-Gate Production Harness Auditor CLI."""
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 import subprocess
 import sys
@@ -24,5 +25,13 @@ def run_audit(target_dir: str = ".") -> int:
 
 
 if __name__ == "__main__":
-    target = sys.argv[1] if len(sys.argv) > 1 else "."
-    sys.exit(run_audit(target))
+    parser = argparse.ArgumentParser(
+        description="Run the 5-gate production readiness audit against a project."
+    )
+    parser.add_argument(
+        "target",
+        nargs="?",
+        default=".",
+        help="project directory to audit (default: this repository root)",
+    )
+    sys.exit(run_audit(parser.parse_args().target))
