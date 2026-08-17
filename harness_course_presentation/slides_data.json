@@ -444,11 +444,15 @@
   {
     "number": 32,
     "raw_lines": [
-      "Evaluation Harnesses",
-      "Score Behavior",
-      "• Replay fixed tasks from a known repo",
-      "• Score tests, scope, denies, retries",
-      "• Keep the evaluator off the agent"
+      "Evaluation Harnesses for Agentic AI",
+      "The Hardest Frontier in AI Engineering",
+      "• The Hardest Engineering Challenge: Evaluating autonomous agents (especially coding agents) is notoriously difficult due to non-deterministic multi-turn trajectories, dynamic state explosion, and test contamination.",
+      "• Key Evaluation Invariant: Strict Isolation — the evaluator must run in an external, independent control sandbox completely out of the agent's context and reach.",
+      "• Industry Benchmark Examples:",
+      "  • SWE-bench (Verified / Lite): Real-world GitHub issues evaluated against hidden unit test assertions.",
+      "  • HumanEval & MBPP: Function-level code synthesis and unit-test benchmarks.",
+      "  • TerminalBench & InterCode: Multi-turn interactive bash shell and CLI execution tasks.",
+      "  • In-Repo Deterministic Replay Suites: Scored on test pass rate, scope fidelity, token spend, and permission denies."
     ]
   },
   {

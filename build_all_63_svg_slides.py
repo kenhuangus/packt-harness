@@ -388,6 +388,33 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Process Isolation</text>
   </g>
 </svg>'''
+    elif 'EVALUATION' in title_upper or 'SCORE BEHAVIOR' in title_upper:
+        return '''<svg viewBox="0 0 800 100" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">1. The Hard Problem</text>
+    <text x="87" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Non-Deterministic</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Multi-Turn Trajectories</text>
+  </g>
+  <g transform="translate(205, 6)">
+    <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="87" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">2. SWE-bench &amp; Evals</text>
+    <text x="87" y="50" fill="#1e40af" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Real GitHub Issues</text>
+    <text x="87" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Hidden Pytest Asserts</text>
+  </g>
+  <g transform="translate(395, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">3. TerminalBench</text>
+    <text x="92" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Interactive CLI</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Multi-Turn Shell Tasks</text>
+  </g>
+  <g transform="translate(595, 6)">
+    <rect x="0" y="0" width="185" height="86" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="92" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">4. Invariant Scoring</text>
+    <text x="92" y="50" fill="#047857" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Pass Rate &amp; Scope</text>
+    <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Test Contamination</text>
+  </g>
+</svg>'''
     elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <g transform="translate(15, 6)">
