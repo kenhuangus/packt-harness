@@ -6,12 +6,15 @@ import subprocess
 import sys
 
 
+def find_repo_root(start: Path) -> Path:
+    for candidate in [start, *start.parents]:
+        if (candidate / "pyproject.toml").is_file() or (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError("repository root not found from " + str(start))
+
+
 def main() -> int:
-    here = Path(__file__).resolve()
-    if ".claude" in here.parts:
-        repo_root = here.parents[4]
-    else:
-        repo_root = here.parents[5]
+    repo_root = find_repo_root(Path(__file__).resolve().parent)
     script_path = repo_root / "course_implementation" / "module_09_practical_workflow_pattern" / "five_step_sop_pipeline.py"
     res = subprocess.run([sys.executable, str(script_path)])
     return res.returncode

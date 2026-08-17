@@ -10,14 +10,17 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 
+def find_repo_root(start: Path) -> Path:
+    for candidate in [start, *start.parents]:
+        if (candidate / "pyproject.toml").is_file() or (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError("repository root not found from " + str(start))
+
+
 async def inspect(server_script: str | None = None) -> int:
     if server_script is None:
-        here = Path(__file__).resolve()
-        if ".claude" in here.parts:
-            repo_root = here.parents[4]
-            server_path = repo_root / "course_implementation" / "module_07_skills_plugins_mcp" / "mcp_server_demo.py"
-        else:
-            server_path = here.parents[3] / "mcp_server_demo.py"
+        repo_root = find_repo_root(Path(__file__).resolve().parent)
+        server_path = repo_root / "course_implementation" / "module_07_skills_plugins_mcp" / "mcp_server_demo.py"
         server_script = str(server_path.resolve())
 
     params = StdioServerParameters(

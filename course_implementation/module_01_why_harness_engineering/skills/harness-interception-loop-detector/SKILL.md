@@ -30,7 +30,8 @@ Provides deterministic pre-execution command auditing and sliding-window loop de
 - Maximum allowed identical retry threshold (default: 2).
 
 ## Instructions
-1. Execute `python scripts/intercept_command.py --command "<cmd>"` or inspect `assets/forbidden_patterns.json`.
+Run all commands from the repository root.
+1. Execute `python .claude/skills/harness-interception-loop-detector/scripts/intercept_command.py --command "<cmd>"` or inspect `assets/forbidden_patterns.json`.
 2. Scan the command string against prohibited regex patterns (`rm -rf`, `sudo`, `chmod 777`, `drop database`).
 3. Check command history: if the exact same command failed $\ge 2$ consecutive times without code changes, trigger the loop circuit breaker.
 4. If unsafe or looped, block execution immediately and provide actionable remediation guidance prompting the agent to change strategy.

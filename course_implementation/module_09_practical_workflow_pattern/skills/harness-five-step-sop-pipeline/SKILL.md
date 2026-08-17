@@ -30,12 +30,13 @@ Executes the canonical 5-step Standard Operating Procedure (SOP) pipeline (Spec 
 - Pipeline configuration (`assets/pipeline_config.json`).
 
 ## Instructions
+Run all commands from the repository root.
 1. Gate 1 (Spec First): Parse `SPEC.md` and validate scope bounds.
 2. Gate 2 (Sandbox Execution): Constrain tool writes strictly to `allowed_files`.
 3. Gate 3 (Guardrails): Run AST syntax verification and regex secret scanning on all diffs.
 4. Gate 4 (Pytest): Run test suite via subprocess asserting returncode == 0.
 5. Gate 5 (Human Sign-off): Produce clean unified diff patch for human review.
-6. Run `python scripts/run_sop_pipeline.py` to execute all 5 gates sequentially.
+6. Run `python .claude/skills/harness-five-step-sop-pipeline/scripts/run_sop_pipeline.py` to execute all 5 gates sequentially.
 7. Consult `references/five-step-sop-checklist.md` for gate requirements.
 
 ## Output Format

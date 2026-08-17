@@ -29,12 +29,13 @@ Programmatic 5-gate production readiness auditor that benchmarks repository harn
 - Scorecard rubric criteria (`references/production-scorecard-rubric.md`).
 
 ## Instructions
+Run all commands from the repository root.
 1. Gate 1 (Memory): Verify presence and structure of `CLAUDE.md` and `AGENTS.md`.
 2. Gate 2 (Hooks): Verify PreToolUse hooks registered in `.claude/settings.json`.
 3. Gate 3 (Tests): Verify automated test runner exits with code 0.
 4. Gate 4 (MCP): Verify `@mcp.tool` and `@mcp.resource` AST declarations.
 5. Gate 5 (Subagents): Verify subagent YAML frontmatter configurations.
-6. Execute `python scripts/run_audit.py` to calculate gate compliance score.
+6. Execute `python .claude/skills/harness-production-readiness-auditor/scripts/run_audit.py` to calculate gate compliance score.
 7. Consult `references/production-scorecard-rubric.md` for scoring rubric.
 
 ## Output Format

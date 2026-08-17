@@ -75,14 +75,15 @@ Trigger this skill whenever you need to:
 ---
 
 ## Step-by-Step Workflow
+Run all commands from the repository root.
 
 1. **Prepare Slide Data (`slides_data.json`)**:
    - Organize slides into structured JSON adhering to `assets/slides_data_schema.json`.
    - Support slide types: `concept`, `code`, `skill`, `comparison`, and `reference_tables`.
 2. **Compile Presentation**:
-   - Run `python scripts/build_presentation.py --data slides_data.json --out docs/slides.html`.
+   - Run `python .claude/skills/github-pages-presentation-builder/scripts/build_presentation.py --data harness_course_presentation/slides_data.json --out docs/slides.html`.
 3. **Validate in Playwright**:
-   - Execute `python scripts/verify_presentation_qa.py --url docs/slides.html`.
+   - Execute `python .claude/skills/github-pages-presentation-builder/scripts/verify_presentation_qa.py --url file:docs/slides.html`.
    - Ensure `0 vertical overflows` across all slides and confirm that all links and scaling metrics pass.
 4. **Deploy to GitHub Pages**:
    - Save production HTML to `docs/slides.html` and commit/push to the repository `main` branch.

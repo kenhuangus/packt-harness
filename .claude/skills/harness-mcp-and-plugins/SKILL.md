@@ -29,9 +29,10 @@ Authors and consumes Model Context Protocol (MCP) 2.x SDK servers exposing typed
 - Plugin manifest configuration (`.claude-plugin/plugin.json`).
 
 ## Instructions
+Run all commands from the repository root.
 1. Declare executable actions using `@mcp.tool()` with typed docstrings.
 2. Declare read-only state endpoints using `@mcp.resource("uri://...")`.
-3. Execute `python scripts/inspect_mcp_server.py` to inspect tools and resources over stdio.
+3. Execute `python .claude/skills/harness-mcp-and-plugins/scripts/inspect_mcp_server.py` to inspect tools and resources over stdio.
 4. Bundle the server and skills into `.claude-plugin/plugin.json` using `assets/plugin_manifest_template.json`.
 5. Consult `references/mcp-2x-spec.md` for MCP 2.x architectural guidelines.
 

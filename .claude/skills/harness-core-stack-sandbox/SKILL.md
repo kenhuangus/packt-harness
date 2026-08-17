@@ -31,9 +31,10 @@ Implements the 5 core architectural harness pillars (Memory, Sandboxing, Hooks, 
 - Tool invocation name and arguments.
 
 ## Instructions
+Run all commands from the repository root.
 1. Verify memory files (`CLAUDE.md`, `AGENTS.md`) exist at workspace root.
 2. Validate tool requests against `assets/allowed_tools.json`; reject any unlisted tools.
-3. Run `python scripts/validate_sandbox.py --workspace "." --path "<target>"` to ensure path containment.
+3. Run `python .claude/skills/harness-core-stack-sandbox/scripts/validate_sandbox.py --workspace "." --path "<target>"` to ensure path containment.
 4. Scan file contents against secret patterns in `references/secret-patterns.md` (OpenAI, AWS, GitHub tokens).
 5. Append an ISO UTC timestamped record to `events.jsonl` matching `assets/event_schema.json`.
 

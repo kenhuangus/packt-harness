@@ -6,12 +6,15 @@ import subprocess
 import sys
 
 
+def find_repo_root(start: Path) -> Path:
+    for candidate in [start, *start.parents]:
+        if (candidate / "pyproject.toml").is_file() or (candidate / ".git").exists():
+            return candidate
+    raise RuntimeError("repository root not found from " + str(start))
+
+
 def run_audit(target_dir: str = ".") -> int:
-    here = Path(__file__).resolve()
-    if ".claude" in here.parts:
-        repo_root = here.parents[4]
-    else:
-        repo_root = here.parents[5]
+    repo_root = find_repo_root(Path(__file__).resolve().parent)
     script_path = repo_root / "course_implementation" / "module_10_closing_and_principles" / "production_harness_audit.py"
     target_path = Path(target_dir).resolve()
     if target_dir == ".":

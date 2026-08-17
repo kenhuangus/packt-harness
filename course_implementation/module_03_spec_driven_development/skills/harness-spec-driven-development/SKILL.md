@@ -30,8 +30,9 @@ Converts Markdown specification contracts (SPEC.md) into machine-enforceable wri
 - Proposed code implementation string.
 
 ## Instructions
+Run all commands from the repository root.
 1. Parse `SPEC.md` using the schema in `assets/spec_schema.json` (Goal, Allowed Files, Forbidden Files, Non-Goals).
-2. Run `python scripts/verify_spec_scope.py` to assert the target file is permitted.
+2. Run `python .claude/skills/harness-spec-driven-development/scripts/verify_spec_scope.py` to assert the target file is permitted.
 3. Execute `ast.parse(code_content)` to catch syntax errors before writing to disk.
 4. Reject edits modifying forbidden files or implementing explicitly declared non-goals.
 5. Consult `references/sdd-contract-guide.md` for specification best practices.

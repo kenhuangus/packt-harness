@@ -30,8 +30,9 @@ Coordinates specialized Planner, Implementer, and Reviewer subagent teams, isola
 - Ephemeral branch and worktree directory path.
 
 ## Instructions
+Run all commands from the repository root.
 1. Dispatch Planner agent to generate a focused sub-spec from the goal.
-2. Execute `python scripts/worktree_manager.py` to create an ephemeral Git worktree.
+2. Execute `python .claude/skills/harness-compound-multi-agent-worktrees/scripts/worktree_manager.py` to create an ephemeral Git worktree.
 3. Dispatch Implementer agent inside the worktree directory with a scoped context window.
 4. Dispatch Reviewer agent in a fresh context window to run pytest assertions and AST checks.
 5. Merge verified changes to `main` and delete the ephemeral worktree (`git worktree remove`).

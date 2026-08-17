@@ -31,10 +31,11 @@ allowed-tools: Read, Write, Glob, Grep
 - Path to signed approval ledger (`approvals.json`).
 
 ## Instructions
+Run all commands from the repository root.
 1. Map requested tool to risk tier in `assets/risk_matrix.json` (LOW, MEDIUM, HIGH, CRITICAL).
 2. Auto-approve `LOW` risk operations (`read_file`, `list_dir`, `grep_search`).
 3. Log `MEDIUM` risk operations (`write_file`, `run_test`) and proceed inside sandbox.
-4. For `CRITICAL` operations (`git_push`), execute `python scripts/evaluate_gateway.py` to check `approvals.json`.
+4. For `CRITICAL` operations (`git_push`), execute `python .claude/skills/harness-permission-escalation-gateway/scripts/evaluate_gateway.py` to check `approvals.json`.
 5. If token is missing, generate pending action artifact and block execution.
 6. Consult `references/risk-tier-matrix.md` for policy mapping.
 

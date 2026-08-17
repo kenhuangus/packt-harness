@@ -31,7 +31,8 @@ Executes deterministic pytest feedback loops in isolated subprocesses, extractin
 - Maximum test-and-repair iterations (default: 3).
 
 ## Instructions
-1. Execute `python scripts/run_tda_loop.py` running `pytest -q --tb=short -p no:cacheprovider`.
+Run all commands from the repository root.
+1. Execute `python .claude/skills/harness-tda-reliability-pipeline/scripts/run_tda_loop.py` running `pytest -q --tb=short -p no:cacheprovider`.
 2. Capture stdout and stderr; evaluate process exit code.
 3. If exit code == 0, mark test loop as SUCCESS.
 4. If exit code != 0, extract the concise failure traceback and supply it to the model for targeted repair.
