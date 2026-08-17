@@ -592,11 +592,19 @@
   {
     "number": 41,
     "raw_lines": [
-      "Traceback Feedback",
-      "No Copy-Paste",
-      "• Capture pytest stdout/stderr",
-      "• Put the real failure in the prompt",
-      "• Repair from evidence, not guesses"
+      "Pytest Capture vs. Observability Platforms",
+      "Dual-Loop Architecture: Black-Box Verification & Glass-Box Tracing",
+      "• Local vs. Distributed Observability: Pytest Capture (capfd) is a local test runner ('Black Box' Outer Loop), while Langfuse, LangSmith, and Arize are distributed observability platforms ('Glass Box / X-Ray' Inner Loop).",
+      "| Feature | Pytest Capture (capfd) | Langfuse / LangSmith / Arize | OpenAI SDK Tracing |",
+      "| --- | --- | --- | --- |",
+      "| Primary Role | Test Runner & Output Verifier | LLM Observability & Debugging | Raw API Logging |",
+      "| What it Captures | Local stdout / stderr & exit codes | Full trace of prompts, tool calls, costs | Raw HTTP request / response payloads |",
+      "| Visibility | Black Box (Final artifacts & side effects) | Glass Box (Internal reasoning & retries) | Network Level (Payloads only) |",
+      "| Best Use Case | CI/CD Pass/Fail: Customer Acceptance | Root-Cause Debugging & Cost Tracking | Low-level connection debugging |",
+      "• The Dual-Loop Pattern in Production:",
+      "  • Outer Loop (Pytest): Asserts final deliverables — Did the agent create valid files? Did tests exit 0? Did stderr stay clean?",
+      "  • Inner Loop (LangSmith / Langfuse): Diagnoses execution path — Why 3 retries? Did it hallucinate tools? What was the token cost?",
+      "• Best Practice: Start with zero-setup Pytest Capture for deterministic correctness; add Langfuse/LangSmith later to optimize costs and reasoning."
     ]
   },
   {
