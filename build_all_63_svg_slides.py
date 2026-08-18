@@ -3084,10 +3084,17 @@ html_template = '''<!DOCTYPE html>
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">2. Venv:</span>
-                      <code class="cmd-code-text">python -m venv .venv &amp;&amp; .venv\\Scripts\\activate</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv && .venv\\Scripts\\activate')" title="Copy Command">
-                        <span class="copy-icon">📋</span> Copy
+                      <span class="cmd-code-prompt">2. Venv (Win):</span>
+                      <code class="cmd-code-text">python -m venv .venv ; .venv\\Scripts\\Activate.ps1</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv ; .venv\\\\\\\\Scripts\\\\\\\\Activate.ps1')" title="Copy Windows PowerShell Command">
+                        <span class="copy-icon">📋</span> Copy Win
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">2. Venv (Mac/Linux):</span>
+                      <code class="cmd-code-text">python3 -m venv .venv &amp;&amp; source .venv/bin/activate</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python3 -m venv .venv && source .venv/bin/activate')" title="Copy macOS/Linux Command">
+                        <span class="copy-icon">📋</span> Copy Mac/Linux
                       </button>
                     </div>
                     <div class="cmd-code-row">
@@ -3099,9 +3106,12 @@ html_template = '''<!DOCTYPE html>
                     </div>
                     <div class="cmd-code-row">
                       <span class="cmd-code-prompt">4. Config:</span>
-                      <code class="cmd-code-text">copy .env.example .env</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example .env')" title="Copy Command">
-                        <span class="copy-icon">📋</span> Copy
+                      <code class="cmd-code-text">copy .env.example .env (Win) | cp .env.example .env (Mac/Linux)</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example .env')" title="Copy Windows Config Command">
+                        <span class="copy-icon">📋</span> Win
+                      </button>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'cp .env.example .env')" title="Copy Mac/Linux Config Command">
+                        <span class="copy-icon">📋</span> Mac/Linux
                       </button>
                     </div>
                     <div class="cmd-code-row">

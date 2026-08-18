@@ -746,9 +746,9 @@
     "raw_lines": [
       "Capstone Project: Autonomous Deep Research Agent — Setup, Execution & Deliverables",
       "• 1. Clone & CD: git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness",
-      "• 2. Virtual Environment: python -m venv .venv && .venv\\Scripts\\activate (macOS/Linux: source .venv/bin/activate)",
+      "• 2. Virtual Environment: Windows (PowerShell): python -m venv .venv ; .venv\\Scripts\\Activate.ps1 (CMD: .venv\\Scripts\\activate) | macOS/Linux: python3 -m venv .venv && source .venv/bin/activate",
       "• 3. Dependencies: pip install -r requirements.txt && python -m playwright install chromium",
-      "• 4. Provider Config: copy .env.example .env (Supports OpenAI, OpenRouter, Ollama, Gemini, Claude via aisuite)",
+      "• 4. Provider Config: Windows: copy .env.example .env | macOS/Linux: cp .env.example .env",
       "• 5. Launch Server & UI: python deep_research_agent/server.py 8090 (http://localhost:8090/)",
       "• 6. Verification: pytest -v (23 Tests Passing) & packt-harness audit (5/5 Gates Certified)",
       "| Deliverable / Artifact Title | Direct Repository / Video Link |",
