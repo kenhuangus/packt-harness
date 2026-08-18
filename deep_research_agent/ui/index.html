@@ -257,6 +257,122 @@
 
   </main>
 
+  <!-- Live Research Progress & Source Inspector Modal Dialog -->
+  <div class="modal-overlay" id="researchProgressModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-spinner" id="modalSpinner">⚡</span>
+          <div>
+            <h3 id="modalTitle">Autonomous Research in Progress</h3>
+            <p id="modalQuerySubtitle" class="modal-subtitle">Query: "..."</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="modalMinimizeBtn" onclick="closeProgressModal()" title="Minimize / View Dashboard">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Main Progress Bar -->
+        <div class="modal-progress-container">
+          <div class="modal-progress-top">
+            <span class="modal-step-badge" id="modalStepBadge">STEP 1 OF 5</span>
+            <span class="modal-step-name" id="modalStepName">Formulating Specification Contracts</span>
+            <span class="modal-pct" id="modalPct">8%</span>
+          </div>
+          <div class="modal-progress-track">
+            <div class="modal-progress-fill" id="modalProgressFill" style="width: 8%;"></div>
+          </div>
+        </div>
+
+        <!-- Live Multi-Source Research Grid -->
+        <div class="sources-progress-section">
+          <h4 class="sources-section-title">📡 Active Zero-API Source Streams</h4>
+          <div class="sources-grid" id="modalSourcesGrid">
+            
+            <div class="source-status-card" id="srcCardArxiv">
+              <div class="source-card-header">
+                <span class="src-icon">📄</span>
+                <strong>arXiv &amp; OpenAlex</strong>
+                <span class="src-badge badge-pending" id="srcBadgeArxiv">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescArxiv">Querying preprints &amp; scholarly DOIs...</p>
+              <div class="src-hits" id="srcHitsArxiv">0 papers found</div>
+            </div>
+
+            <div class="source-status-card" id="srcCardGithub">
+              <div class="source-card-header">
+                <span class="src-icon">🐙</span>
+                <strong>GitHub Repositories</strong>
+                <span class="src-badge badge-pending" id="srcBadgeGithub">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescGithub">Stealth agent crawling codebase repositories...</p>
+              <div class="src-hits" id="srcHitsGithub">0 repos found</div>
+            </div>
+
+            <div class="source-status-card" id="srcCardYoutube">
+              <div class="source-card-header">
+                <span class="src-icon">🎥</span>
+                <strong>YouTube Tech Talks</strong>
+                <span class="src-badge badge-pending" id="srcBadgeYoutube">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescYoutube">Scraping conference keynotes, views &amp; metadata...</p>
+              <div class="src-hits" id="srcHitsYoutube">0 videos found</div>
+            </div>
+
+            <div class="source-status-card" id="srcCardHn">
+              <div class="source-card-header">
+                <span class="src-icon">💬</span>
+                <strong>HackerNews Community</strong>
+                <span class="src-badge badge-pending" id="srcBadgeHn">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescHn">Querying developer discussions &amp; upvotes...</p>
+              <div class="src-hits" id="srcHitsHn">0 threads found</div>
+            </div>
+
+            <div class="source-status-card" id="srcCardWiki">
+              <div class="source-card-header">
+                <span class="src-icon">🌐</span>
+                <strong>Wikipedia Encyclopedia</strong>
+                <span class="src-badge badge-pending" id="srcBadgeWiki">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescWiki">Extracting core principles &amp; definitions...</p>
+              <div class="src-hits" id="srcHitsWiki">0 articles found</div>
+            </div>
+
+            <div class="source-status-card" id="srcCardGuardrails">
+              <div class="source-card-header">
+                <span class="src-icon">🛡️</span>
+                <strong>Harness &amp; Guardrails</strong>
+                <span class="src-badge badge-pending" id="srcBadgeGuardrails">Pending...</span>
+              </div>
+              <p class="src-desc" id="srcDescGuardrails">AST syntax parse &amp; secret filter verification...</p>
+              <div class="src-hits" id="srcHitsGuardrails">5/5 gates ready</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Live Stream of Discovered Evidence Items -->
+        <div class="live-evidence-section">
+          <h4 class="sources-section-title">🔍 Live Discovered Evidence Feed</h4>
+          <div class="live-evidence-list" id="modalLiveEvidenceList">
+            <div class="live-evidence-empty">Awaiting first evidence stream packet from MCP tools...</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-footer-status" id="modalFooterStatus">
+          <span>⚡</span> Autonomous MCP Search &amp; Crawl Engine Active
+        </div>
+        <button class="btn-primary" id="modalViewDossierBtn" onclick="closeProgressModal()" style="display: none; width: auto; padding: 0.6rem 1.4rem;">
+          <span>📊</span> View Final Synthesized Dossier
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>

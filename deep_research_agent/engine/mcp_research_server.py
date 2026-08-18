@@ -329,13 +329,29 @@ def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--disable-blink-features=AutomationControlled", "--no-sandbox"],
             )
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                viewport={"width": 1280, "height": 800},
+                locale="en-US",
+                timezone_id="America/New_York",
+                extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
+            )
+            page = context.new_page()
+            # Stealth init script to mask automated browser flags
+            page.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                window.navigator.chrome = { runtime: {} };
+                Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
+            """)
             gh_url = f"https://github.com/search?q={urllib.parse.quote(query)}&type=repositories"
-            page.goto(gh_url, timeout=9000, wait_until="domcontentloaded")
-            page.wait_for_timeout(1500)
+            page.goto(gh_url, timeout=12000, wait_until="domcontentloaded")
+            # Human interaction simulation: subtle scroll and pause
+            page.mouse.wheel(0, 300)
+            page.wait_for_timeout(1200)
 
             repos = page.evaluate("""
                 () => {
@@ -409,29 +425,65 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            page = browser.new_page(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--disable-blink-features=AutomationControlled", "--no-sandbox"],
             )
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                viewport={"width": 1280, "height": 800},
+                locale="en-US",
+                timezone_id="America/New_York",
+                extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
+            )
+            page = context.new_page()
+            # Stealth init script to mask automation & navigator.webdriver flags
+            page.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                window.navigator.chrome = { runtime: {} };
+                Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
+            """)
             yt_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote(query)}"
-            page.goto(yt_url, timeout=9000, wait_until="domcontentloaded")
-            page.wait_for_timeout(1500)
+            page.goto(yt_url, timeout=12000, wait_until="domcontentloaded")
+
+            # Human interaction simulation: dismiss consent banner if present & scroll gently
+            try:
+                consent_btn = page.query_selector(
+                    'button[aria-label*="Accept"], button[aria-label*="Agree"], ytd-button-renderer#dismiss-button button, button.yt-spec-button-shape-next--filled'
+                )
+                if consent_btn:
+                    consent_btn.click()
+                    page.wait_for_timeout(400)
+            except Exception:
+                pass
+
+            # Simulate human scroll and viewport settling
+            page.mouse.wheel(0, 350)
+            page.wait_for_timeout(1400)
 
             videos = page.evaluate("""
                 () => {
                     const items = [];
-                    const elements = document.querySelectorAll('ytd-video-renderer, ytd-rich-item-renderer, a#video-title');
-                    for (let el of elements) {
-                        const titleEl = el.querySelector('#video-title') || el;
-                        const channelEl = el.querySelector('#channel-name, ytd-channel-name');
-                        if (titleEl && titleEl.href && titleEl.title) {
+                    const cards = document.querySelectorAll('ytd-video-renderer, ytd-rich-item-renderer');
+                    for (let card of cards) {
+                        const titleEl = card.querySelector('#video-title');
+                        const channelEl = card.querySelector('#channel-name, ytd-channel-name, #text.ytd-channel-name');
+                        const descEl = card.querySelector('#description-text, .metadata-snippet-container');
+                        const metaEl = card.querySelector('#metadata-line');
+                        if (titleEl && titleEl.href && (titleEl.title || titleEl.innerText)) {
+                            const title = (titleEl.title || titleEl.innerText).trim();
+                            const channel = channelEl ? channelEl.innerText.replace(/\\n+/g, ' ').trim() : 'YouTube Tech';
+                            const desc = descEl ? descEl.innerText.trim() : '';
+                            const meta = metaEl ? metaEl.innerText.replace(/\\n+/g, ' ').trim() : '';
                             items.push({
-                                title: titleEl.title.trim(),
+                                title: title,
                                 url: titleEl.href,
-                                channel: channelEl ? channelEl.innerText.trim() : 'Technical Creator'
+                                channel: channel,
+                                description: desc,
+                                metadata: meta
                             });
                         }
-                        if (items.length >= 4) break;
+                        if (items.length >= 5) break;
                     }
                     return items;
                 }
@@ -445,16 +497,20 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
                 title = v.get("title", "YouTube Video")
                 url = v.get("url", "https://youtube.com")
                 channel = v.get("channel", "YouTube Tech")
+                desc = v.get("description", "")
+                meta = v.get("metadata", "")
                 doc_id = f"yt_{abs(hash(title))%100000:05d}"
+                meta_suffix = f" ({meta})" if meta else ""
+                desc_snippet = f" Overview: {desc}." if desc else ""
                 doc_obj = {
                     "doc_id": doc_id,
                     "title": f"{title} (YouTube Technical Video)",
                     "domain": "youtube.com",
-                    "author": channel,
+                    "author": f"{channel}{meta_suffix}",
                     "url": url,
                     "source_type": "youtube",
-                    "text": f"YouTube Video Talk: '{title}' by {channel}. URL: {url}. In-depth engineering walkthrough and architectural breakdown.",
-                    "snippet": f"Technical video by {channel}: {title}. Watch at {url}"[:240] + "...",
+                    "text": f"YouTube Video Talk: '{title}' by {channel}.{meta_suffix}{desc_snippet} URL: {url}. In-depth engineering walkthrough and architectural breakdown.",
+                    "snippet": f"Technical video by {channel}: {title}. {meta} Watch at {url}"[:240] + "...",
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
                 docs.append(doc_obj)
