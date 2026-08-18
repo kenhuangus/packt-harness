@@ -118,52 +118,7 @@
     "number": 9
   },
   {
-    "slide_type": "concept",
-    "raw_lines": [
-      "What is an Agent Skill? Standard Architecture & Directory Structure",
-      "• Modular Agent Capability: An Agent Skill is a self-contained folder providing specialized domain instructions, automated scripts, reference guides, and templates for Claude Code and coding agents.",
-      "• Progressive Disclosure: To conserve prompt tokens, the agent only loads YAML metadata from SKILL.md during startup. Heavy scripts and reference docs are loaded into context only when triggered.",
-      "• Canonical Skill Directory Structure:",
-      "  custom-agent-skill/         # The individual skill folder (hyphenated-name)",
-      "  ├── SKILL.md                # REQUIRED: Entry point, metadata & prompt rules",
-      "  ├── scripts/                # OPTIONAL: Code files the agent can execute",
-      "  │   ├── fetch_data.py",
-      "  │   └── validate_output.sh",
-      "  ├── references/             # OPTIONAL: Knowledge docs, guides & API schemas",
-      "  │   ├── api-guide.md",
-      "  │   └── business-rules.md",
-      "  └── assets/                 # OPTIONAL: Visuals, templates & configurations",
-      "      ├── logo.png",
-      "      └── response-template.json",
-      "• Precedence Hierarchy (Highest to Lowest): 1. Enterprise Managed > 2. Personal User-Level (~/.claude/skills/) > 3. Project Root (.claude/skills/). User-level personal skills override project-level skills if naming conflicts occur."
-    ],
-    "number": 10
-  },
-  {
-    "slide_type": "skill",
-    "skill_name": "harness-interception-loop-detector",
-    "skill_path": ".claude/skills/harness-interception-loop-detector/SKILL.md",
-    "allowed_tools": "Bash, Read, Grep",
-    "raw_lines": [
-      "Module 1 Skill: harness-interception-loop-detector",
-      "Skill Description: Intercepts destructive shell commands and breaks repeating execution retry loops before token waste or data loss occurs.",
-      "• When to Use: Running untrusted or automated agent command loops, auditing shell tool calls, or debugging stuck test-fix iterations.",
-      "• How to Use: pre_execution_hook(command) regex blocks rm -rf/sudo; loop_detector(command) halts identical retries >= max_retries.",
-      "• Key Files: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py, https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md",
-      "• Skill Manifest: https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md"
-    ],
-    "number": 11,
-    "key_files_urls": [
-      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/harness_vs_model_demo.py",
-      "https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
-    ],
-    "skill_manifest_url": "https://github.com/kenhuangus/packt-harness/blob/main/.claude/skills/harness-interception-loop-detector/SKILL.md",
-    "skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/.claude/skills/harness-interception-loop-detector/",
-    "module_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/",
-    "module_skill_folder_url": "https://github.com/kenhuangus/packt-harness/tree/main/course_implementation/module_01_why_harness_engineering/skills/harness-interception-loop-detector/"
-  },
-  {
-    "number": 12,
+    "number": 10,
     "raw_lines": [
       "MODULE 2: The 5 Core Harness Pillars",
       "Architectural Scaffolding for Coding Agents",
@@ -175,7 +130,7 @@
     ]
   },
   {
-    "number": 13,
+    "number": 11,
     "raw_lines": [
       "Pillar 1: Memory Files",
       "CLAUDE.md vs AGENTS.md",
@@ -186,7 +141,7 @@
     ]
   },
   {
-    "number": 14,
+    "number": 12,
     "raw_lines": [
       "Pillar 2: Scoped Tools",
       "Least Privilege",
@@ -196,7 +151,7 @@
     ]
   },
   {
-    "number": 15,
+    "number": 13,
     "raw_lines": [
       "Pillar 3: Hooks & The 31-Event Lifecycle Map",
       "Deterministic Guardrails Across 6 Interception Categories",
@@ -210,7 +165,7 @@
     ]
   },
   {
-    "number": 16,
+    "number": 14,
     "raw_lines": [
       "Pillars 4 & 5: Budget & Tracing",
       "Context Allocation & Immutable Audit Logs",
@@ -246,10 +201,10 @@
       "• [Lines 19-20] Post-Edit Secret Scan: Inspects proposed code edits for hardcoded API keys (sk-proj-) before writing to disk.",
       "• Audit Observability: All tool requests and hook decisions are logged to events.jsonl with ISO timestamps."
     ],
-    "number": 17
+    "number": 15
   },
   {
-    "number": 18,
+    "number": 16,
     "raw_lines": [
       "MODULE 3: Spec-Driven Development",
       "Why Prompts Fail & Machine-Readable Specs Succeed",
@@ -261,7 +216,7 @@
     ]
   },
   {
-    "number": 19,
+    "number": 17,
     "raw_lines": [
       "SPEC.md Anatomy",
       "Required Sections",
@@ -272,7 +227,7 @@
     ]
   },
   {
-    "number": 20,
+    "number": 18,
     "raw_lines": [
       "Scope and Non-Goals",
       "Hard Boundaries",
@@ -283,7 +238,7 @@
     ]
   },
   {
-    "number": 21,
+    "number": 19,
     "raw_lines": [
       "Acceptance Criteria",
       "Machine-Verifiable Contracts",
@@ -294,7 +249,7 @@
     ]
   },
   {
-    "number": 22,
+    "number": 20,
     "raw_lines": [
       "How Specs Are Used",
       "SDD Lifecycle",
@@ -325,10 +280,10 @@
       "• [Lines 10-12] Non-Goal Filtering: Scans diff content against explicit non-goals to prevent scope creep (e.g. database logic in a JWT validator).",
       "• [Line 18] AST Parsing Gate: Runs ast.parse() before saving to ensure zero syntactically broken code reaches the workspace."
     ],
-    "number": 23
+    "number": 21
   },
   {
-    "number": 24,
+    "number": 22,
     "raw_lines": [
       "MODULE 4: Guardrails, Hooks & 4-Layer Control",
       "Defense-in-Depth for Safe Tool Execution",
@@ -340,7 +295,7 @@
     ]
   },
   {
-    "number": 25,
+    "number": 23,
     "raw_lines": [
       "Claude Code Hooks",
       "What Actually Fires",
@@ -351,7 +306,7 @@
     ]
   },
   {
-    "number": 26,
+    "number": 24,
     "raw_lines": [
       "Post-Action Checks",
       "AST and Secrets",
@@ -361,7 +316,7 @@
     ]
   },
   {
-    "number": 27,
+    "number": 25,
     "raw_lines": [
       "Path Sandbox",
       "Stay in the Workspace",
@@ -371,13 +326,13 @@
     ]
   },
   {
-    "number": 28,
+    "number": 26,
     "raw_lines": [
       "Permission Modes"
     ]
   },
   {
-    "number": 29,
+    "number": 27,
     "raw_lines": [
       "Evaluation Harnesses for Agentic AI",
       "The Hardest Frontier in AI Engineering",
@@ -391,7 +346,7 @@
     ]
   },
   {
-    "number": 30,
+    "number": 28,
     "raw_lines": [
       "Safety Checklist",
       "Three Must-Haves",
@@ -423,10 +378,10 @@
       "• [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
       "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (OpenAI sk-proj-, AWS IAM AKIA) before writing files."
     ],
-    "number": 31
+    "number": 29
   },
   {
-    "number": 32,
+    "number": 30,
     "raw_lines": [
       "MODULE 5: Break & Permission Gateways",
       "Risk-Tiered Approval Gateways & Mid-Course Q&A",
@@ -459,10 +414,10 @@
       "• [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
       "• [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
     ],
-    "number": 33
+    "number": 31
   },
   {
-    "number": 34,
+    "number": 32,
     "raw_lines": [
       "MODULE 6: Tests as Reliability Layer",
       "The Test-Driven Agent (TDA) Red-Repair-Green Loop",
@@ -473,7 +428,7 @@
     ]
   },
   {
-    "number": 35,
+    "number": 33,
     "raw_lines": [
       "Test Tiers",
       "• Unit: one function",
@@ -482,7 +437,7 @@
     ]
   },
   {
-    "number": 36,
+    "number": 34,
     "raw_lines": [
       "Pytest Capture vs. Observability Platforms",
       "Dual-Loop Architecture: Black-Box Verification & Glass-Box Tracing",
@@ -500,7 +455,7 @@
     ]
   },
   {
-    "number": 37,
+    "number": 35,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -532,10 +487,10 @@
       "• [Lines 12-13] Traceback Capture: Captures raw failure output (ZeroDivisionError) directly into the agent repair prompt.",
       "• [Lines 18-20] Anti-Regression Safeguard: Automatically appends new bug regression tests to prevent \"fix-and-break\" cycles."
     ],
-    "number": 38
+    "number": 36
   },
   {
-    "number": 39,
+    "number": 37,
     "raw_lines": [
       "MODULE 7: Agent Extensions with Skills, Plugins, MCP etc.",
       "Extending Agent Capabilities via SOPs, Tool Servers & Distribution Bundles",
@@ -547,7 +502,7 @@
     ]
   },
   {
-    "number": 40,
+    "number": 38,
     "raw_lines": [
       "Agent Skills & Directory Layout (Revisit)",
       "Standard Architecture: SKILL.md, Scripts & References",
@@ -560,7 +515,7 @@
     ]
   },
   {
-    "number": 41,
+    "number": 39,
     "raw_lines": [
       "Plugin Architecture: plugin.json vs. marketplace.json",
       "Local Implementation Blueprint vs. Global Distribution Registry",
@@ -570,7 +525,7 @@
     ]
   },
   {
-    "number": 42,
+    "number": 40,
     "raw_lines": [
       "Model Context Protocol (MCP): Architecture & Protocol Evolution",
       "Host, Client, Server, Tools & Modern Stateless JSON-RPC 2.0",
@@ -587,7 +542,7 @@
     ]
   },
   {
-    "number": 43,
+    "number": 41,
     "raw_lines": [
       "Securing the Model Context Protocol (MCP) Server",
       "Threat Modeling, 3-Zone Architecture & Production Hardening Checklist",
@@ -611,7 +566,7 @@
     ]
   },
   {
-    "number": 44,
+    "number": 42,
     "raw_lines": [
       "Comparing Agent Extension Mechanisms: MCP vs. CLI vs. Skill vs. Plugin vs. Hook",
       "Taxonomy, Simple Definitions & Operational Boundaries",
@@ -628,7 +583,7 @@
     ]
   },
   {
-    "number": 45,
+    "number": 43,
     "raw_lines": [
       "Multi-Agent Design Patterns & Production Hardening Framework",
       "The 7 Core Architectural Topologies, Execution Flows & Production Hardening Checklist",
@@ -670,10 +625,10 @@
       "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls.",
       "• Insecure MCP Demo: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
     ],
-    "number": 46
+    "number": 44
   },
   {
-    "number": 47,
+    "number": 45,
     "raw_lines": [
       "MODULE 8: Compound Engineering",
       "Why Multi-Agent Roles & Context Isolation",
@@ -694,7 +649,7 @@
       "• Durable Learning: Every task logs reusable decisions, failure notes, and compound notes",
       "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux"
     ],
-    "number": 48
+    "number": 46
   },
   {
     "raw_lines": [
@@ -706,7 +661,7 @@
       "• Shared Memory & Rules: AGENTS.md & CLAUDE.md managed protocol blocks",
       "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 49
+    "number": 47
   },
   {
     "raw_lines": [
@@ -718,7 +673,7 @@
       "• Review Rubrics: Standardized scorecards for architecture, security, tests, and maintainability",
       "• Protocol Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 50
+    "number": 48
   },
   {
     "raw_lines": [
@@ -730,7 +685,7 @@
       "• Clean Handoffs: Atomic release upon task integration or review handoff",
       "• Orchestration Code: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 51
+    "number": 49
   },
   {
     "raw_lines": [
@@ -742,7 +697,7 @@
       "• Agent-Team Enablement: Native support for multi-agent dynamic teams",
       "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 52
+    "number": 50
   },
   {
     "raw_lines": [
@@ -753,10 +708,10 @@
       "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
       "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 53
+    "number": 51
   },
   {
-    "number": 54,
+    "number": 52,
     "raw_lines": [
       "MODULE 9: The Five-Step Practical SOP Pipeline",
       "Deterministic End-to-End Delivery Lifecycle",
@@ -768,7 +723,7 @@
     ]
   },
   {
-    "number": 55,
+    "number": 53,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -778,7 +733,7 @@
     ]
   },
   {
-    "number": 56,
+    "number": 54,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -788,7 +743,7 @@
     ]
   },
   {
-    "number": 57,
+    "number": 55,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -823,10 +778,10 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 58
+    "number": 56
   },
   {
-    "number": 59,
+    "number": 57,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -838,7 +793,7 @@
     ]
   },
   {
-    "number": 60,
+    "number": 58,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -850,7 +805,7 @@
     ]
   },
   {
-    "number": 61,
+    "number": 59,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -885,7 +840,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 62
+    "number": 60
   },
   {
     "slide_type": "comparison",
@@ -904,7 +859,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 63
+    "number": 61
   },
   {
     "slide_type": "concept",
@@ -918,7 +873,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 64
+    "number": 62
   },
   {
     "slide_type": "code",
@@ -943,7 +898,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 65
+    "number": 63
   },
   {
     "slide_type": "reference_tables",
@@ -960,7 +915,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 66
+    "number": 64
   },
   {
     "slide_type": "reference_tables",
@@ -975,6 +930,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 67
+    "number": 65
   }
 ]
