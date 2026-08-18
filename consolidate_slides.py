@@ -114,7 +114,7 @@ for s in slides:
     if title == "TDA Loop":
         s["raw_lines"] = [
             "MODULE 6: Tests as Reliability Layer",
-            "The Test-Driven Agent (TDA) Red-Repair-Green Loop",
+            "The Test-Driven Coding Agent (TDCA) Red-Repair-Green Loop",
             "• Grounded Execution: Replace unverified agent claims with deterministic pytest subprocess return codes.",
             "• Real Traceback Capture: Feed raw stdout/stderr error tracebacks directly into repair prompts without copy-paste.",
             "• Anti-Regression Safeguards: Automatically register discovered bugs as permanent test suite fixtures.",
