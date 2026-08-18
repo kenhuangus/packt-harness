@@ -349,6 +349,44 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Syntax Errors</text>
   </g>
 </svg>'''
+    elif 'PILLAR 1: MEMORY' in title_upper or 'MEMORY FILES' in title_upper or 'AUTO MEMORY' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <!-- 1. CLAUDE.md Files (Manual) -->
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="90" y="24" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">📝 1. CLAUDE.md (User)</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Persistent Guidelines</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Rules, Arch &amp; Standards</text>
+    <text x="90" y="78" fill="#BD5D3A" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Loaded full at session start</text>
+  </g>
+
+  <!-- 2. Auto Memory (Autonomous) -->
+  <g transform="translate(210, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="24" fill="#1e40af" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🧠 2. Auto Memory (Agent)</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Autonomous Learnings</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">MEMORY.md &amp; topic notes</text>
+    <text x="90" y="78" fill="#2563eb" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">First 200 lines / 25KB</text>
+  </g>
+
+  <!-- 3. Resolution Hierarchy -->
+  <g transform="translate(405, 6)">
+    <rect x="0" y="0" width="185" height="90" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="92" y="24" fill="#047857" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🌲 3. 5-Tier Scope Tree</text>
+    <text x="92" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Resolution Order</text>
+    <text x="92" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Managed ➔ User ➔ Project</text>
+    <text x="92" y="78" fill="#047857" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Local .md ➔ .claude/rules/</text>
+  </g>
+
+  <!-- 4. Imports & AGENTS.md -->
+  <g transform="translate(605, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
+    <text x="90" y="24" fill="#7c3aed" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🔗 4. Imports &amp; Interop</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Modular @path Syntax</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">4-Hop recursive expansion</text>
+    <text x="90" y="78" fill="#7c3aed" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">@AGENTS.md bridge</text>
+  </g>
+</svg>'''
     elif 'PILLAR 3: HOOKS' in title_upper or 'LIFECYCLE HOOK' in title_upper or '31 DETERMINISTIC' in title_upper or '31-EVENT' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <g transform="translate(10, 5)">
