@@ -756,7 +756,58 @@
     ]
   },
   {
-    "number": 56,
+    "slide_type": "code",
+    "code_filename": "course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+    "code_language": "python",
+    "highlight_lines": [
+      4,
+      9,
+      10,
+      11,
+      14,
+      15,
+      16,
+      19,
+      22
+    ],
+    "code_block": "class FiveStepSOPPipeline:\n    def run_pipeline(self, feature_name: str) -> int:\n        # Step 1 (Line 4): Spec First - Parse allowed files and non-goals\n        allowed_files, non_goals = parse_spec(self.spec_path)\n\n        with tempfile.TemporaryDirectory(prefix=\"module09_pipeline_\") as temp:\n            workspace = Path(temp)\n            # Step 2 (Line 9-11): Constrained Execution - Scope enforcer blocks unlisted files\n            enforcer = ScopeEnforcer(workspace, allowed_files)\n            enforcer.attempt_write(\"auth_validator.py\", implementation)\n            enforcer.attempt_write(\"database.py\", \"...\")  # BLOCKED: Out-of-scope\n\n            # Step 3 (Line 14-16): Deterministic Checks - AST syntax & shell guardrails\n            engine = GuardrailsEngine(workspace)\n            engine.audit_ast_and_secrets(\"auth_validator.py\", implementation)\n            engine.intercept_shell_command(\"sudo rm -rf /var/config\")  # BLOCKED\n\n            # Step 4 (Line 19): Test Verification - Pytest subprocess gate\n            subprocess.run([sys.executable, \"-m\", \"pytest\", \"tests/test_auth.py\", \"-q\"], cwd=workspace)\n\n            # Step 5 (Line 22): Human Review - Unified diff generation for PR\n            diff = difflib.unified_diff(original.splitlines(), implementation.splitlines())",
+    "raw_lines": [
+      "Module 9 Code Lab: End-to-End Five-Step SOP Pipeline",
+      "File: course_implementation/module_09_practical_workflow_pattern/five_step_sop_pipeline.py",
+      "• [Line 4] Step 1 Spec First: Parses immutable contracts and non-goals before code generation.",
+      "• [Lines 9-11] Step 2 Sandbox Execution: Blocks out-of-scope file modifications (database.py).",
+      "• [Lines 14-16] Step 3 Deterministic Checks: Verifies AST syntax and blocks dangerous shell commands.",
+      "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
+      "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
+    ],
+    "number": 56
+  },
+  {
+    "number": 57,
+    "raw_lines": [
+      "MODULE 10: Four Principles of Harness Engineering",
+      "Core Tenets & Production Readiness Benchmarking",
+      "• Principle 1: Predictability over randomness (deterministic scaffolding over prompt tuning).",
+      "• Principle 2: Specs over prompts (machine-readable contracts over conversational requests).",
+      "• Principle 3: Automated checks over vigilance (compiler AST, pytest, and hook interceptors).",
+      "• Principle 4: Trust over raw speed (verified correctness before merging to main).",
+      "• 5-Gate Scorecard: Memory files, PreToolUse hooks, test runner, MCP tools, and subagent schemas."
+    ]
+  },
+  {
+    "number": 58,
+    "raw_lines": [
+      "Readiness Scorecard",
+      "Five Checks",
+      "• Memory files present",
+      "• PreToolUse hook on disk",
+      "• Automated test runner",
+      "• MCP tools + resources declared",
+      "• Subagent definitions valid"
+    ]
+  },
+  {
+    "number": 59,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -791,7 +842,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 57
+    "number": 60
   },
   {
     "slide_type": "comparison",
@@ -810,7 +861,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 58
+    "number": 61
   },
   {
     "slide_type": "concept",
@@ -824,7 +875,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 59
+    "number": 62
   },
   {
     "slide_type": "code",
@@ -849,7 +900,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 60
+    "number": 63
   },
   {
     "slide_type": "reference_tables",
@@ -866,7 +917,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 61
+    "number": 64
   },
   {
     "slide_type": "reference_tables",
@@ -881,6 +932,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 62
+    "number": 65
   }
 ]
