@@ -307,54 +307,7 @@
       "• Layer 2 (Tool Schemas): Strongly typed JSON schema argument validation.",
       "• Layer 3 (Hooks): PascalCase PreToolUse flag denial & PostToolUse AST / secret scanners.",
       "• Layer 4 (OS Sandbox): Resolved-path isolation and process-level least privilege.",
-      "• Deterministic Enforcement: Security policies written in code, never left to model discretion."
-    ]
-  },
-  {
-    "number": 24,
-    "raw_lines": [
-      "Claude Code Hooks",
-      "What Actually Fires",
-      "• Event names are PascalCase",
-      "• PreToolUse can allow, deny, ask, defer",
-      "• matcher is a tool name, e.g. Bash",
-      "• Exit 2 is the blocking error"
-    ]
-  },
-  {
-    "number": 25,
-    "raw_lines": [
-      "Post-Action Checks",
-      "AST and Secrets",
-      "• Run after every file write",
-      "• ast.parse catches syntax errors",
-      "• Scan for secrets (OpenAI sk-proj- & AWS IAM AKIA keys)"
-    ]
-  },
-  {
-    "number": 26,
-    "raw_lines": [
-      "Path Sandbox",
-      "Stay in the Workspace",
-      "• Resolve the target path first",
-      "• Require is_relative_to(workspace)",
-      "• Sibling-prefix names still fail"
-    ]
-  },
-  {
-    "number": 27,
-    "raw_lines": [
-      "Permission Modes"
-    ]
-  },
-  {
-    "number": 28,
-    "raw_lines": [
-      "Safety Checklist",
-      "Three Must-Haves",
-      "• JSONL audit with timestamps",
-      "• Secret scan on file writes",
-      "• Path sandbox on every write",
+      "• Deterministic Enforcement: Security policies written in code, never left to model discretion.",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_04_guardrails_and_hooks/README.md"
     ]
   },
@@ -380,10 +333,10 @@
       "• [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
       "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (OpenAI sk-proj-, AWS IAM AKIA) before writing files."
     ],
-    "number": 29
+    "number": 24
   },
   {
-    "number": 30,
+    "number": 25,
     "raw_lines": [
       "MODULE 5: Permission Gateways",
       "Risk-Tiered Approval Gateways & Mid-Course Q&A",
@@ -416,10 +369,10 @@
       "• [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
       "• [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
     ],
-    "number": 31
+    "number": 26
   },
   {
-    "number": 32,
+    "number": 27,
     "raw_lines": [
       "MODULE 6: Tests as Reliability Layer",
       "The Test-Driven Agent (TDA) Red-Repair-Green Loop",
@@ -430,7 +383,7 @@
     ]
   },
   {
-    "number": 33,
+    "number": 28,
     "raw_lines": [
       "Test Tiers",
       "• Unit: one function",
@@ -439,7 +392,7 @@
     ]
   },
   {
-    "number": 34,
+    "number": 29,
     "raw_lines": [
       "Pytest Capture vs. Observability Platforms",
       "Dual-Loop Architecture: Black-Box Verification & Glass-Box Tracing",
@@ -457,7 +410,7 @@
     ]
   },
   {
-    "number": 35,
+    "number": 30,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -468,7 +421,7 @@
     ]
   },
   {
-    "number": 36,
+    "number": 31,
     "raw_lines": [
       "Evaluation Harnesses for Agentic AI",
       "The Hardest Frontier in AI Engineering",
@@ -503,10 +456,10 @@
       "• [Lines 12-13] Traceback Capture: Captures raw failure output (ZeroDivisionError) directly into the agent repair prompt.",
       "• [Lines 18-20] Anti-Regression Safeguard: Automatically appends new bug regression tests to prevent \"fix-and-break\" cycles."
     ],
-    "number": 37
+    "number": 32
   },
   {
-    "number": 38,
+    "number": 33,
     "raw_lines": [
       "MODULE 7: Agent Extensions with Skills, Plugins, MCP etc.",
       "Extending Agent Capabilities via SOPs, Tool Servers & Distribution Bundles",
@@ -518,7 +471,7 @@
     ]
   },
   {
-    "number": 39,
+    "number": 34,
     "raw_lines": [
       "Agent Skills & Directory Layout",
       "Standard Architecture: SKILL.md, Scripts & References",
@@ -531,7 +484,7 @@
     ]
   },
   {
-    "number": 40,
+    "number": 35,
     "raw_lines": [
       "Plugin Architecture: plugin.json vs. marketplace.json",
       "Local Implementation Blueprint vs. Global Distribution Registry",
@@ -541,7 +494,7 @@
     ]
   },
   {
-    "number": 41,
+    "number": 36,
     "raw_lines": [
       "Model Context Protocol (MCP): Architecture & Protocol Evolution",
       "Host, Client, Server, Tools & Modern Stateless JSON-RPC 2.0",
@@ -558,7 +511,7 @@
     ]
   },
   {
-    "number": 42,
+    "number": 37,
     "raw_lines": [
       "Securing the Model Context Protocol (MCP) Server",
       "Threat Modeling, 3-Zone Architecture & Production Hardening Checklist",
@@ -582,7 +535,7 @@
     ]
   },
   {
-    "number": 43,
+    "number": 38,
     "raw_lines": [
       "Comparing Agent Extension Mechanisms: MCP vs. CLI vs. Skill vs. Plugin vs. Hook",
       "Taxonomy, Simple Definitions & Operational Boundaries",
@@ -599,7 +552,7 @@
     ]
   },
   {
-    "number": 44,
+    "number": 39,
     "raw_lines": [
       "Multi-Agent Design Patterns & Production Hardening Framework",
       "The 7 Core Architectural Topologies, Execution Flows & Production Hardening Checklist",
@@ -641,10 +594,10 @@
       "• [Lines 18-21] ClientSession stdio Protocol: Performs protocol handshake, capability discovery, and typed tool calls.",
       "• Insecure MCP Demo: https://github.com/kenhuangus/mcp-vulnerable-server-demo (Hands-on exploration of prompt injection, unauthenticated SSE, SSRF & command execution in vulnerable MCP servers)."
     ],
-    "number": 45
+    "number": 40
   },
   {
-    "number": 46,
+    "number": 41,
     "raw_lines": [
       "MODULE 8: Compound Engineering",
       "Why Multi-Agent Roles & Context Isolation",
@@ -666,7 +619,7 @@
       "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux",
       "• Skill for this Plug-in: https://github.com/kenhuangus/compound-orchestrator/blob/main/skills/compound-orchestrator/SKILL.md"
     ],
-    "number": 47
+    "number": 42
   },
   {
     "raw_lines": [
@@ -678,7 +631,7 @@
       "• Shared Memory & Rules: AGENTS.md & CLAUDE.md managed protocol blocks",
       "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 48
+    "number": 43
   },
   {
     "raw_lines": [
@@ -690,7 +643,7 @@
       "• Review Rubrics: Standardized scorecards for architecture, security, tests, and maintainability",
       "• Protocol Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 49
+    "number": 44
   },
   {
     "raw_lines": [
@@ -702,7 +655,7 @@
       "• Clean Handoffs: Atomic release upon task integration or review handoff",
       "• Orchestration Code: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 50
+    "number": 45
   },
   {
     "raw_lines": [
@@ -715,7 +668,7 @@
       "• Skill for this Plug-in: https://github.com/kenhuangus/compound-orchestrator/blob/main/skills/compound-orchestrator/SKILL.md",
       "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 51
+    "number": 46
   },
   {
     "raw_lines": [
@@ -726,10 +679,10 @@
       "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
       "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 52
+    "number": 47
   },
   {
-    "number": 53,
+    "number": 48,
     "raw_lines": [
       "MODULE 9: The Five-Step Practical SOP Pipeline",
       "Deterministic End-to-End Delivery Lifecycle",
@@ -741,7 +694,7 @@
     ]
   },
   {
-    "number": 54,
+    "number": 49,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -751,7 +704,7 @@
     ]
   },
   {
-    "number": 55,
+    "number": 50,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -761,7 +714,7 @@
     ]
   },
   {
-    "number": 56,
+    "number": 51,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -796,10 +749,10 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 57
+    "number": 52
   },
   {
-    "number": 58,
+    "number": 53,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -811,7 +764,7 @@
     ]
   },
   {
-    "number": 59,
+    "number": 54,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -823,7 +776,7 @@
     ]
   },
   {
-    "number": 60,
+    "number": 55,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -858,7 +811,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 61
+    "number": 56
   },
   {
     "slide_type": "comparison",
@@ -877,7 +830,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 62
+    "number": 57
   },
   {
     "slide_type": "concept",
@@ -891,7 +844,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 63
+    "number": 58
   },
   {
     "slide_type": "code",
@@ -916,7 +869,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 64
+    "number": 59
   },
   {
     "slide_type": "reference_tables",
@@ -933,7 +886,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 65
+    "number": 60
   },
   {
     "slide_type": "reference_tables",
@@ -948,6 +901,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 66
+    "number": 61
   }
 ]
