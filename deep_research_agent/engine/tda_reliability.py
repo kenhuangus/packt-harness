@@ -31,11 +31,17 @@ def test_citation_integrity():
     cit_path = Path(r"{citations_path.resolve()}")
     assert cit_path.exists(), "Citations JSON file must exist on disk."
     data = json.loads(cit_path.read_text(encoding="utf-8"))
-    assert len(data) >= 2, "Report must contain at least 2 verified citations."
+    assert len(data) >= 4, "Report must contain at least 4 verified multi-modal citations."
     for item in data:
         assert "doc_id" in item, "Each citation item must contain 'doc_id'."
         assert "title" in item, "Each citation item must contain 'title'."
         assert item.get("confidence_score", 0) >= 0.30, "Citation confidence score must be >= 0.30."
+
+    youtube_count = sum(1 for item in data if item.get("source_type") == "youtube" or "youtube.com" in item.get("domain", ""))
+    assert youtube_count >= 2, f"Report must contain at least 2 YouTube technical video sources (found {{youtube_count}})."
+
+    github_count = sum(1 for item in data if item.get("source_type") == "github" or "github.com" in item.get("domain", ""))
+    assert github_count >= 2, f"Report must contain at least 2 GitHub open-source repositories (found {{github_count}})."
 """
         test_file.write_text(test_code, encoding="utf-8")
         return test_file

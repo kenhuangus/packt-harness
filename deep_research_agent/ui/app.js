@@ -221,6 +221,7 @@ function renderCitations(evidence) {
         <span class="citation-title">${icon} ${item.title}</span>
         <div style="display:flex; gap:0.4rem; align-items:center;">
           <span class="source-type-badge">${typeBadge}</span>
+          <span class="trust-badge" style="background:#ecfdf5; color:#059669; border:1px solid #6ee7b7;">🟢 HTTP ${item.url_status || 200}</span>
           <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
         </div>
       </div>

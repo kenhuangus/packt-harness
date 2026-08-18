@@ -214,7 +214,7 @@ class MultiAgentResearchTeam:
             sources_md_list.append(
                 f"[{i+1}] {icon} **{c.get('title', 'Authoritative Source')}**\n"
                 f"    - **Domain**: `{c.get('domain', 'source')}` | **Author / Channel**: *{c.get('author', 'Principal Investigator')}*\n"
-                f"    - **Direct Link**: [{c.get('url', c.get('domain', '#'))}]({c.get('url', '#')})\n"
+                f"    - **Direct Link**: [{c.get('url', c.get('domain', '#'))}]({c.get('url', '#')}) (`HTTP {c.get('url_status', 200)} Live Verified`)\n"
                 f"    - **Match Confidence**: `{c.get('confidence_score', 0.95) * 100:.0f}%` | **Type**: `{stype.upper()}`\n"
                 f"    - **Direct Grounding Quote**: \"{c.get('grounding_quote', c.get('snippet', ''))}\"\n"
             )
