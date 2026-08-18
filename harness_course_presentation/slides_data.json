@@ -690,30 +690,9 @@
       "• Principle 2: Specs over prompts (machine-readable contracts over conversational requests).",
       "• Principle 3: Automated checks over vigilance (compiler AST, pytest, and hook interceptors).",
       "• Principle 4: Trust over raw speed (verified correctness before merging to main).",
-      "• 5-Gate Scorecard: Memory files, PreToolUse hooks, test runner, MCP tools, and subagent schemas."
-    ]
-  },
-  {
-    "number": 47,
-    "raw_lines": [
-      "Readiness Scorecard",
-      "Five Checks",
-      "• Memory files present",
-      "• PreToolUse hook on disk",
-      "• Automated test runner",
-      "• MCP tools + resources declared",
-      "• Subagent definitions valid"
-    ]
-  },
-  {
-    "number": 48,
-    "raw_lines": [
-      "Wrap-Up",
-      "Where to Go Next",
-      "• 10 runnable modules in the repo",
+      "• 5-Gate Scorecard: Memory files, PreToolUse hooks, test runner, MCP tools, and subagent schemas.",
       "• Dashboard: course_implementation/dashboard/index.html",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md",
-      "• Questions"
+      "• Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md"
     ]
   },
   {
@@ -741,7 +720,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 49
+    "number": 47
   },
   {
     "slide_type": "comparison",
@@ -760,7 +739,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 50
+    "number": 48
   },
   {
     "slide_type": "concept",
@@ -774,7 +753,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 51
+    "number": 49
   },
   {
     "slide_type": "code",
@@ -799,7 +778,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 52
+    "number": 50
   },
   {
     "slide_type": "reference_tables",
@@ -816,7 +795,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 53
+    "number": 51
   },
   {
     "slide_type": "reference_tables",
@@ -831,6 +810,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 54
+    "number": 52
   }
 ]
