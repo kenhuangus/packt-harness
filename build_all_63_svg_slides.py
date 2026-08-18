@@ -387,6 +387,26 @@ def generate_svg_for_slide(num, title):
     <text x="90" y="78" fill="#7c3aed" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">@AGENTS.md bridge</text>
   </g>
 </svg>'''
+    elif 'PILLARS 4 & 5' in title_upper or 'BUDGET & TRACING' in title_upper or 'JSONL TRANSCRIPTS' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <!-- Pillar 4: Token Budgeting & Compaction -->
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="375" height="92" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="187" y="24" fill="#BD5D3A" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">⚡ PILLAR 4: Context Budget &amp; Compaction</text>
+    <text x="187" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">20/20/50/10 Allocation (Memory · Spec · Workspace · Headroom)</text>
+    <text x="187" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Head/Tail Compaction: First 5 &amp; Last 15 Turns Preserved</text>
+    <text x="187" y="78" fill="#BD5D3A" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">Eliminates Context Drift &amp; Prevents OOM Exhaustion</text>
+  </g>
+
+  <!-- Pillar 5: Structured Tracing (Claude Code JSONL) -->
+  <g transform="translate(410, 6)">
+    <rect x="0" y="0" width="375" height="92" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="187" y="24" fill="#047857" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">📜 PILLAR 5: Claude Code JSONL Transcripts</text>
+    <text x="187" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">~/.claude/projects/&lt;encoded-path&gt;/&lt;session-id&gt;.jsonl</text>
+    <text x="187" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Append-Only Events: user · assistant · tool_use · tool_result · usage</text>
+    <text x="187" y="78" fill="#047857" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">Direct jq / Python Inspection · Token Attribution &amp; Audit</text>
+  </g>
+</svg>'''
     elif 'PILLAR 3: HOOKS' in title_upper or 'LIFECYCLE HOOK' in title_upper or '31 DETERMINISTIC' in title_upper or '31-EVENT' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <g transform="translate(10, 5)">
@@ -437,8 +457,8 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(10, 5)">
     <rect x="0" y="0" width="140" height="88" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="70" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Pillar 1: Memory</text>
-    <text x="70" y="52" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">CLAUDE.md</text>
-    <text x="70" y="72" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">AGENTS.md Rules</text>
+    <text x="70" y="50" fill="#BD5D3A" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">User vs. Generated</text>
+    <text x="70" y="68" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Short vs. Long Term</text>
   </g>
   <g transform="translate(165, 5)">
     <rect x="0" y="0" width="140" height="88" rx="8" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
@@ -2405,12 +2425,17 @@ html_template = '''<!DOCTYPE html>
     }
 
     function formatTextWithCode(text) {
-      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json', 'scripts/', 'references/', 'assets/', '.claude/workflows/'];
+      const keywords = ['CLAUDE.md', 'AGENTS.md', 'SPEC.md', 'MEMORY.md', 'CLAUDE.local.md', 'pytest', 'events.jsonl', 'telemetry.jsonl', 'rm -rf', 'write_file', 'read_file', '.claude-plugin/plugin.json', 'SKILL.md', 'mcp_client_runner.py', 'mcp_server_demo.py', 'core_harness_stack.py', 'guardrails_engine.py', 'spec_driven_verifier.py', 'tda_reliability_pipeline.py', 'multi_agent_team_simulator.py', 'five_step_sop_pipeline.py', 'production_harness_audit.py', 'is_relative_to()', 'ast.parse()', 'PreToolUse', 'PostToolUse', 'MCPServer', 'permissionDecision', 'approvals.json', 'ZeroDivisionError', 'pending_push.json', 'scripts/', 'references/', 'assets/', '.claude/workflows/'];
       
       text = text.replace(
-        /(https?:\\/\\/[^\\s<>"']+)/g,
+        /\\[(.*?)\\]\\(((?:https?:\\/\\/|file:\\/\\/\\/)[^\\s<>"']+)\\)/g,
+        (match, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+      );
+
+      text = text.replace(
+        /(https?:\\/\\/[^\\s<>"']+|file:\\/\\/\\/[^\\s<>"']+)/g,
         (match) => {
-          let url = match.replace(/[\\.\\,\\;\\:\\)]+$/, '');
+          let url = match.replace(/[.,;:)]+$/, '');
           let trailing = match.slice(url.length);
           return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${trailing}`;
         }

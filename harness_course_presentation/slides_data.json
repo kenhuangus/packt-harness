@@ -107,7 +107,7 @@
     "raw_lines": [
       "MODULE 2: The 5 Core Harness Pillars",
       "Architectural Scaffolding for Coding Agents",
-      "• Pillar 1: Memory (CLAUDE.md & AGENTS.md persistent project instructions)",
+      "• Pillar 1: Memory (user defined vs. generated and short term vs. long term)",
       "• Pillar 2: Scoped Tools (least privilege allowlists & Path.is_relative_to() sandboxing)",
       "• Pillar 3: Deterministic Hooks (PascalCase PreToolUse & PostToolUse AST / secret guards)",
       "• Pillar 4: Token Budgeting (20/20/50/10 budget allocation & head/tail log compaction)",
@@ -123,6 +123,7 @@
       "• CLAUDE.md vs. Auto Memory Comparison:",
       "  • CLAUDE.md Files: Written by you; holds instructions, coding standards & architecture; scoped to project/user/managed policy; loaded in full at session start.",
       "  • Auto Memory (~/.claude/projects/<project>/memory/): Written by Claude; holds build commands, debugging insights & discovered preferences; loaded first 200 lines / 25KB of MEMORY.md.",
+      "  • Example Auto-Generated Memory Folder: [C:\\Users\\kenhu\\.claude\\projects\\C--Users-kenhu-security-tools\\memory](file:///C:/Users/kenhu/.claude/projects/C--Users-kenhu-security-tools/memory) (Live auto-generated memory .md files by Claude Code: MEMORY.md, malware-incident-2026-04.md, sentinelc-tool.md, windows-c-toolchain.md).",
       "• Multi-Tier Scope Precedence (Broadest to Most Specific):",
       "  • 1. Managed Policy: Organization-wide IT policy (/etc/claude-code/CLAUDE.md or C:\\Program Files\\ClaudeCode\\CLAUDE.md).",
       "  • 2. User Instructions: Personal preferences across all projects (~/.claude/CLAUDE.md).",
@@ -131,6 +132,7 @@
       "  • 5. Path-Scoped Rules: Modular rules in .claude/rules/*.md scoped by glob patterns (paths: ['src/api/**/*.ts']).",
       "• Modular Imports & AGENTS.md Interoperability: Reference files with @path/to/import syntax (expands up to 4 hops recursively). Claude Code reads CLAUDE.md, so add @AGENTS.md into CLAUDE.md or symlink ln -s AGENTS.md CLAUDE.md for cross-agent compatibility.",
       "• Compaction Survival & Enforcement Boundary: Root CLAUDE.md survives /compact and re-injects automatically into context. Memory files guide behavior; use PreToolUse hooks for non-negotiable security blocks.",
+      "• Example Memory Folder Link: [C:\\Users\\kenhu\\.claude\\projects\\C--Users-kenhu-security-tools\\memory](file:///C:/Users/kenhu/.claude/projects/C--Users-kenhu-security-tools/memory) (Live project auto-generated memory files)",
       "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)",
       "• Advanced Research & Benchmarks: https://kenhuangus.github.io/agent-memory-harness/presentation/#1"
     ]
@@ -162,15 +164,16 @@
   {
     "number": 12,
     "raw_lines": [
-      "Pillars 4 & 5: Budget & Tracing",
-      "Context Allocation & Immutable Audit Logs",
-      "• Pillar 4: 20/20/50/10 Context Budget (ContextTokenBudgeter in core_harness_stack.py):",
-      "  • 20% (25.6k tokens) Memory: Standing rules from CLAUDE.md & AGENTS.md",
-      "  • 20% (25.6k tokens) Spec: Immutable scope & acceptance criteria in SPEC.md",
-      "  • 50% (64.0k tokens) Workspace: Active source files, tool execution & file diffs",
-      "  • 10% (12.8k tokens) Output Buffer: Reserved headroom for model generation",
-      "• Head/Tail Context Compaction: Retains first 5 & last 15 lines/turns of conversation history and tool outputs, omitting noisy middle lines to preserve context budget.",
-      "• Pillar 5: Structured events.jsonl audit trail providing deterministic evidence for every tool call and permission check.",
+      "Pillars 4 & 5: Budget & Tracing (Claude Code JSONL Transcripts)",
+      "Context Allocation & Immutable Audit Logs (~/.claude/projects/<encoded-path>/<session-id>.jsonl)",
+      "• Pillar 4: Context Token Budgeting & Compaction (ContextTokenBudgeter in core_harness_stack.py):",
+      "  • 20/20/50/10 Token Allocation: 20% Memory (CLAUDE.md), 20% Spec (SPEC.md), 50% Workspace (active code/diffs), 10% Output Headroom.",
+      "  • Head/Tail Compaction: Preserves first 5 & last 15 lines/turns of conversation history, omitting noisy intermediate logs to prevent context drift.",
+      "• Pillar 5: Structured Tracing & Claude Code JSONL Transcript Architecture:",
+      "  • File Layout & Storage: Stored under ~/.claude/projects/<encoded-project-path>/<session-id>.jsonl (one file per session UUID, append-only, one JSON object per line).",
+      "  • Common Top-Level Schema: type (user/assistant/system), uuid, parentUuid, timestamp (ISO 8601), sessionId, cwd, gitBranch, and version.",
+      "  • Event Types & Payloads: type: 'user' (prompts & tool_result blocks), type: 'assistant' (text, thinking, tool_use blocks, and message.usage token accounting).",
+      "  • Direct Audit Inspection (jq/Python): Scan tool calls via jq -c 'select(.type==\"assistant\") | .message.content[] | select(.type==\"tool_use\") | {name, input}' or query token usage via .message.usage.",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
