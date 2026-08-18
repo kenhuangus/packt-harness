@@ -481,7 +481,7 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="70" fill="#4A4A44" font-family="Inter" font-size="10" text-anchor="middle">Zero Test Contamination</text>
   </g>
 </svg>'''
-    elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper:
+    elif 'PERMISSION MODES' in title_upper or 'RISK TIERS' in title_upper or 'PERMISSION GATEWAYS' in title_upper or 'MODULE 5' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <g transform="translate(15, 6)">
     <rect x="0" y="0" width="175" height="86" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>

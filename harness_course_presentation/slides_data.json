@@ -339,11 +339,13 @@
     "number": 25,
     "raw_lines": [
       "MODULE 5: Permission Gateways",
-      "Risk-Tiered Approval Gateways & Mid-Course Q&A",
-      "• 4-Tier Risk Matrix: LOW (auto-approve reads), MEDIUM (sandboxed writes), HIGH (scanned commands), CRITICAL (approvals.json).",
-      "• Cryptographic Escalation: Critical operations (e.g. git_push) require explicit authorization tokens.",
-      "• Checkpoint Discussion: How does your organization gate agent permissions in CI/CD?",
-      "• Failure Analysis: Where have un-gated agent loops caused accidental outages or data loss?",
+      "Risk-Tiered Approval Matrix & Execution Actions",
+      "| Risk | Tools | Action in this demo |",
+      "|---|---|---|",
+      "| LOW | read_file, list_dir, grep | Auto-approve |",
+      "| MEDIUM | write_file, run_test | Log and approve |",
+      "| HIGH | pip_install | Extra logging, still allowed |",
+      "| CRITICAL | git_push, db_drop | Block unless user_auto_approve=True |",
       "• Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_05_break_and_qna/README.md"
     ]
   },
