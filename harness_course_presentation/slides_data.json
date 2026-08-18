@@ -642,18 +642,7 @@
     "number": 43
   },
   {
-    "raw_lines": [
-      "Continuous Verification & Portability",
-      "scripts/verify.py & README Maintenance",
-      "• Universal Verifiers: scripts/verify.py, scripts/verify.ps1, and scripts/verify.sh",
-      "• Comprehensive Checks: Compound files, ownership conflicts, git conflict markers, unittest suites",
-      "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
-      "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
-    ],
-    "number": 44
-  },
-  {
-    "number": 45,
+    "number": 44,
     "raw_lines": [
       "MODULE 9: The Five-Step Practical SOP Pipeline",
       "Deterministic End-to-End Delivery Lifecycle",
@@ -665,7 +654,7 @@
     ]
   },
   {
-    "number": 46,
+    "number": 45,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -675,7 +664,7 @@
     ]
   },
   {
-    "number": 47,
+    "number": 46,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -685,7 +674,7 @@
     ]
   },
   {
-    "number": 48,
+    "number": 47,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -720,10 +709,10 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 49
+    "number": 48
   },
   {
-    "number": 50,
+    "number": 49,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -735,7 +724,7 @@
     ]
   },
   {
-    "number": 51,
+    "number": 50,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -747,7 +736,7 @@
     ]
   },
   {
-    "number": 52,
+    "number": 51,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -782,7 +771,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 53
+    "number": 52
   },
   {
     "slide_type": "comparison",
@@ -801,7 +790,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 54
+    "number": 53
   },
   {
     "slide_type": "concept",
@@ -815,7 +804,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 55
+    "number": 54
   },
   {
     "slide_type": "code",
@@ -840,7 +829,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 56
+    "number": 55
   },
   {
     "slide_type": "reference_tables",
@@ -857,7 +846,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 57
+    "number": 56
   },
   {
     "slide_type": "reference_tables",
@@ -872,6 +861,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 58
+    "number": 57
   }
 ]
