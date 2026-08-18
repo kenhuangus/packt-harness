@@ -34,31 +34,20 @@ dependencies = [
     "pytest>=8.0.0",
     "mcp>=1.0.0",
     "python-dotenv>=1.0.0",
-    # The [openai] extra is required, not cosmetic: aisuite loads a provider
-    # module lazily, and the course default is an OpenAI-compatible local
-    # endpoint. Plain "aisuite" installs, then fails at the first call with
-    # "No module named 'openai'".
     "aisuite[openai]>=0.1.0",
-    # Gemini is NOT aisuite[google]. That extra installs vertexai and
-    # GoogleProvider requires GOOGLE_PROJECT_ID, GOOGLE_REGION, and
-    # GOOGLE_APPLICATION_CREDENTIALS — it is Vertex AI, not the Gemini API.
-    # Both llm_client.py files route Gemini through Google's OpenAI-compatible
-    # endpoint (https://generativelanguage.googleapis.com/v1beta/openai/)
-    # using GEMINI_API_KEY / GOOGLE_API_KEY and the openai extra above.
-    # Do not add aisuite[google] or vertexai here.
+    "aisuite[anthropic]>=0.1.0",
+    "httpx>=0.27.0",
+    "requests>=2.31.0",
 ]
 
 [project.optional-dependencies]
 # Playwright is used by the capstone (deep_research_agent GitHub and YouTube
 # crawlers) and by course_implementation/dashboard/capture_dashboard.py.
-# It is not in the default install: it pulls browser binaries the ten
-# course modules do not need. Install with:
+# Install with:
 #   pip install -e ".[capstone]"
 #   python -m playwright install chromium
-# Keep dashboard as an alias so existing README commands still work.
 capstone = ["playwright>=1.40.0"]
 dashboard = ["playwright>=1.40.0"]
-# Only needed to switch LLM_PROVIDER=anthropic per the root README.
 anthropic = ["aisuite[anthropic]>=0.1.0"]
 
 [project.scripts]

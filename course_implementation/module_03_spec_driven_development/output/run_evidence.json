@@ -9,7 +9,7 @@
   "refused_nongoal": true,
   "wrote_tests": true,
   "pytest_returncode": 0,
-  "pytest_output": "...                                                                      [100%]\n3 passed in 0.17s",
+  "pytest_output": "...                                                                      [100%]\n3 passed in 0.58s",
   "live_valid": {
     "valid": true,
     "user_id": "123",
@@ -21,5 +21,5 @@
     "valid": false,
     "error": "EXPIRED"
   },
-  "llm_reply": "An agent must write only files listed in SPEC.md to ensure strict adherence to the project's defined scope and prevent the creation of unintended or unauthorized artifacts."
+  "llm_reply": "An agent must write only files listed in SPEC.md to ensure strict adherence to the project's defined scope and prevent the creation of unintended or unauthorized code artifacts."
 }

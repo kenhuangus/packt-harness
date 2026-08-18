@@ -106,6 +106,7 @@
       "  • Step 3 - Install: .venv\\Scripts\\python.exe -m pip install -e .   (macOS/Linux: .venv/bin/python -m pip install -e .)",
       "  • Step 4 - Check it: python run_all_modules.py   expects Summary: 14 passed, 0 failed",
       "  • Why the venv: each module launches pytest with sys.executable, so the interpreter that starts a module is the one that runs its tests - it cannot pass by finding another Python on PATH",
+      "  • Environment Configuration (.env.example): https://github.com/kenhuangus/packt-harness/blob/main/.env.example",
       "  • Full setup, cloud model keys (OpenAI, Claude, Gemini) and the browser extra: https://github.com/kenhuangus/packt-harness/blob/main/README.md",
       "  • Interactive Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
@@ -279,6 +280,7 @@
   {
     "slide_type": "code",
     "code_filename": "course_implementation/module_03_spec_driven_development/spec_driven_verifier.py",
+    "test_suite": "course_implementation/module_03_spec_driven_development/output/tests",
     "code_language": "python",
     "highlight_lines": [
       6,
@@ -744,7 +746,13 @@
   {
     "slide_type": "reference_tables",
     "raw_lines": [
-      "Capstone Project: Autonomous Deep Research Agent — Execution & Deliverables",
+      "Capstone Project: Autonomous Deep Research Agent — Setup, Execution & Deliverables",
+      "• 1. Clone & CD: git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness",
+      "• 2. Virtual Environment: python -m venv .venv && .venv\\Scripts\\activate (macOS/Linux: source .venv/bin/activate)",
+      "• 3. Dependencies: pip install -r requirements.txt && python -m playwright install chromium",
+      "• 4. Provider Config: copy .env.example .env (Supports OpenAI, OpenRouter, Ollama, Gemini, Claude via aisuite)",
+      "• 5. Launch Server & UI: python deep_research_agent/server.py 8090 (http://localhost:8090/)",
+      "• 6. Verification: pytest -v (23 Tests Passing) & packt-harness audit (5/5 Gates Certified)",
       "| Deliverable / Artifact Title | Direct Repository / Video Link |",
       "|---|---|",
       "| 🐙 GitHub Project Repository | https://github.com/kenhuangus/packt-harness |",
@@ -752,9 +760,9 @@
       "| 📐 System Architecture Diagram SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/architecture_diagram.svg |",
       "| 🔄 8-Stage Execution Flow SVG | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/docs/flow_diagram.svg |",
       "| 💻 Deep Research Web UI & Server | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/ |",
-      "| 🧪 Automated Pytest Test Suite (17 Tests) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
+      "| 🧪 Automated Pytest Test Suite (23 Tests) | https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/tests/ |",
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
-      "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
+      "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#49 |"
     ],
     "number": 49
   },

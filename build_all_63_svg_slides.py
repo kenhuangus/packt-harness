@@ -2697,8 +2697,19 @@ html_template = '''<!DOCTYPE html>
         const pathParts = primaryFile.split('/');
         const moduleFolder = pathParts.length >= 2 ? `${pathParts[0]}/${pathParts[1]}` : 'course_implementation';
         
+        let testsRelativePath = `${moduleFolder}/tests`;
+        if (slide.test_suite) {
+          testsRelativePath = slide.test_suite;
+        } else if (slide.number === 22 || moduleFolder.includes('module_03')) {
+          testsRelativePath = 'course_implementation/module_03_spec_driven_development/output/tests';
+        } else if (slide.number === 45 || moduleFolder.includes('module_09')) {
+          testsRelativePath = 'course_implementation/module_09_practical_workflow_pattern/output/tests';
+        } else if (slide.number === 50 || primaryFile.startsWith('deep_research_agent')) {
+          testsRelativePath = 'deep_research_agent/tests';
+        }
+        
         const fileGithubUrl = `https://github.com/kenhuangus/packt-harness/blob/main/${primaryFile}`;
-        const testsGithubUrl = `https://github.com/kenhuangus/packt-harness/tree/main/${moduleFolder}/tests`;
+        const testsGithubUrl = `https://github.com/kenhuangus/packt-harness/tree/main/${testsRelativePath}`;
         
         bodyHtml += `
           <div class="code-slide-container">
@@ -2728,7 +2739,7 @@ html_template = '''<!DOCTYPE html>
                 <div style="margin-bottom:0.35rem; color:var(--ink); font-size:0.86rem;">Verified directly against runnable tests in GitHub:</div>
                 <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.84rem;">
                   <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
-                  <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${moduleFolder}/tests/</code> ↗</a></div>
+                  <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${testsRelativePath}</code> ↗</a></div>
                 </div>
               </div>
             </div>
@@ -2936,6 +2947,12 @@ html_template = '''<!DOCTYPE html>
                   </div>
                   <div class="setup-links-box">
                     <div>
+                      🔑 <strong>Environment Configuration (.env.example):</strong><br>
+                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/.env.example" target="_blank" rel="noopener noreferrer">
+                        .env.example (API Keys &amp; Model Providers) ↗
+                      </a>
+                    </div>
+                    <div>
                       🔗 <strong>Interactive Lab Demo:</strong><br>
                       <a href="https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md" target="_blank" rel="noopener noreferrer">
                         Module 01: Pre-Hook Interception &amp; Loop Detection ↗
@@ -3047,43 +3064,57 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 83 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project'))) {
+      } else if (slide.number === 49 || slide.number === 83 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Capstone Project'))) {
         const tableLines = slide.raw_lines.filter(l => l.trim().startsWith('|') && l.trim().endsWith('|'));
         bodyHtml += `
           <div id="slide-content-wrap" class="capstone-layout-grid">
             <div class="capstone-info-card">
               <div class="ref-table-card-header">
-                ⚡ Local Execution &amp; Model-Driven Zero-API Engine
+                ⚡ Setup, Execution &amp; Multi-Provider AI Suite Engine
               </div>
               <div class="capstone-info-body">
                 <div class="capstone-section">
-                  <div class="capstone-section-title">💻 How to Run Locally (Step-by-Step Beginner Guide)</div>
-                  <div class="capstone-cmd-box" style="background:transparent; border:none; padding:0; gap:0.35rem;">
+                  <div class="capstone-section-title">💻 Step-by-Step Universal Setup (Zero-to-Run for All Students)</div>
+                  <div class="capstone-cmd-box" style="background:transparent; border:none; padding:0; gap:0.28rem;">
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
+                      <span class="cmd-code-prompt">1. Clone &amp; CD:</span>
                       <code class="cmd-code-text">git clone https://github.com/kenhuangus/packt-harness.git &amp;&amp; cd packt-harness</code>
                       <button class="cmd-copy-btn" onclick="copyCommand(this, 'git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness')" title="Copy Command">
                         <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
-                      <code class="cmd-code-text">cp .env.example .env</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'cp .env.example .env')" title="Copy Command">
+                      <span class="cmd-code-prompt">2. Venv:</span>
+                      <code class="cmd-code-text">python -m venv .venv &amp;&amp; .venv\\Scripts\\activate</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv && .venv\\Scripts\\activate')" title="Copy Command">
                         <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
+                      <span class="cmd-code-prompt">3. Install:</span>
+                      <code class="cmd-code-text">pip install -r requirements.txt &amp;&amp; python -m playwright install chromium</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pip install -r requirements.txt && python -m playwright install chromium')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">4. Config:</span>
+                      <code class="cmd-code-text">copy .env.example .env</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example .env')" title="Copy Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">5. Run UI:</span>
                       <code class="cmd-code-text">python deep_research_agent/server.py 8090</code>
                       <button class="cmd-copy-btn" onclick="copyCommand(this, 'python deep_research_agent/server.py 8090')" title="Copy Command">
                         <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
-                      <code class="cmd-code-text">pytest deep_research_agent/tests/ -v</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pytest deep_research_agent/tests/ -v')" title="Copy Command">
+                      <span class="cmd-code-prompt">6. Test:</span>
+                      <code class="cmd-code-text">pytest -v</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pytest -v')" title="Copy Command">
                         <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
@@ -3091,19 +3122,21 @@ html_template = '''<!DOCTYPE html>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🔑 aisuite Provider Configuration (.env Setup)</div>
+                  <div class="capstone-section-title">🔑 Universal aisuite Provider Support (.env Configuration)</div>
                   <div class="capstone-providers-grid">
                     <div class="provider-pill">💻 <strong>Local vLLM (Default):</strong> <code>LLM_PROVIDER=openai</code> (Port 8000)</div>
-                    <div class="provider-pill">🧡 <strong>Claude (Anthropic):</strong> <code>ANTHROPIC_API_KEY=sk-ant...</code></div>
                     <div class="provider-pill">🟢 <strong>OpenAI:</strong> <code>OPENAI_API_KEY=sk-proj...</code></div>
+                    <div class="provider-pill">🌐 <strong>OpenRouter:</strong> <code>OPENROUTER_API_KEY=sk-or-...</code></div>
+                    <div class="provider-pill">🦙 <strong>Ollama:</strong> <code>LLM_PROVIDER=ollama</code> (Port 11434)</div>
                     <div class="provider-pill">🔵 <strong>Gemini (Google):</strong> <code>GEMINI_API_KEY=AIzaSy...</code></div>
+                    <div class="provider-pill">🧡 <strong>Claude (Anthropic):</strong> <code>ANTHROPIC_API_KEY=sk-ant...</code></div>
                   </div>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🧠 Andrew Ng aisuite &amp; 2-Turn Self-Reflection</div>
+                  <div class="capstone-section-title">🧠 Unified AI Suite &amp; 2-Turn Self-Reflection Engine</div>
                   <div class="capstone-text-desc">
-                    Copy <code>.env.example</code> to <code>.env</code> to switch between local vLLM, Claude, OpenAI, or Gemini via <strong>aisuite</strong>. Multi-agent review executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) across 6 Zero-API public streams (arXiv, OpenAlex, Wikipedia, GitHub, YouTube, HN).
+                    One unified client via Andrew Ng's <strong>aisuite</strong>: switch between OpenAI, OpenRouter, Ollama, Google Gemini, and Anthropic Claude via <code>.env</code>. Multi-agent SOP executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) across 6 Zero-API public streams.
                   </div>
                 </div>
               </div>

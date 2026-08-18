@@ -55,18 +55,29 @@ DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1"
 DEFAULT_PROVIDER = "openai"
 DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
+DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+DEFAULT_OPENROUTER_MODEL = "openai/gpt-4o-mini"
+DEFAULT_OLLAMA_MODEL = "qwen2.5-coder"
 GEMINI_OPENAI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
+OPENROUTER_BASE = "https://openrouter.ai/api/v1"
+OLLAMA_DEFAULT_BASE = "http://127.0.0.1:11434"
 GEMINI_PROVIDERS = {"google", "gemini"}
+CLAUDE_PROVIDERS = {"anthropic", "claude"}
+OPENROUTER_PROVIDERS = {"openrouter", "open_router"}
+OLLAMA_PROVIDERS = {"ollama"}
 VERTEX_PROVIDERS = {"vertex", "vertexai", "google-vertex"}
 KNOWN_PROVIDERS = {
     "openai",
     "anthropic",
+    "claude",
     "google",
     "gemini",
+    "openrouter",
+    "open_router",
+    "ollama",
     "vertex",
     "vertexai",
-    "ollama",
     "mistral",
     "huggingface",
     "aws",
@@ -121,7 +132,7 @@ def _http_json(url: str, timeout: float = 5.0) -> dict:
 
 
 class LLMClient:
-    """aisuite client. Local vLLM by default; Claude and others via .env."""
+    """aisuite client supporting OpenAI, OpenRouter, Ollama, Gemini, and Claude."""
 
     def __init__(self, require_live: bool | None = None) -> None:
         env_provider = os.getenv("LLM_PROVIDER", DEFAULT_PROVIDER).strip().lower()
@@ -136,19 +147,36 @@ class LLMClient:
                 "the client routes that through Google's OpenAI-compatible "
                 f"endpoint ({GEMINI_OPENAI_BASE})."
             )
-        if self.provider == "gemini":
+        if self.provider in CLAUDE_PROVIDERS:
+            self.provider = "anthropic"
+        elif self.provider in GEMINI_PROVIDERS:
             self.provider = "google"
+        elif self.provider in OPENROUTER_PROVIDERS:
+            self.provider = "openrouter"
+        elif self.provider in OLLAMA_PROVIDERS:
+            self.provider = "ollama"
+
         self.base_url = _normalize_base(os.getenv("LLM_BASE_URL", DEFAULT_BASE_URL))
-        if self.provider in GEMINI_PROVIDERS:
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             env_base = os.getenv("LLM_BASE_URL")
             if not env_base or _is_local_base(env_base):
                 self.base_url = _normalize_base(GEMINI_OPENAI_BASE)
+        elif self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base or _is_local_base(env_base):
+                self.base_url = _normalize_base(OPENROUTER_BASE)
+        elif self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base:
+                self.base_url = _normalize_base(OLLAMA_DEFAULT_BASE)
+
         self.api_key = (
             os.getenv("LLM_API_KEY")
             or os.getenv("OPENAI_API_KEY")
             or os.getenv("ANTHROPIC_API_KEY")
             or os.getenv("GEMINI_API_KEY")
             or os.getenv("GOOGLE_API_KEY")
+            or os.getenv("OPENROUTER_API_KEY")
             or "EMPTY"
         )
         self.require_live = (
@@ -169,19 +197,27 @@ class LLMClient:
             raise RuntimeError(self._missing_backend_message())
 
     def _aisuite_provider(self) -> str:
-        """Gemini rides aisuite's openai provider at the OpenAI-compat URL."""
-        if self.provider in GEMINI_PROVIDERS:
+        """Gemini and OpenRouter ride aisuite's openai provider at their respective base URLs."""
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google" or self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
             return "openai"
+        if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
+            return "anthropic"
+        if self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            return "ollama"
         return self.provider
 
     def _default_model(self) -> str:
-        if self.provider == "anthropic":
+        if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             return DEFAULT_ANTHROPIC_MODEL
-        if self.provider in GEMINI_PROVIDERS:
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             return DEFAULT_GEMINI_MODEL
+        if self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            return DEFAULT_OPENROUTER_MODEL
+        if self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            return DEFAULT_OLLAMA_MODEL
         if self.provider == "openai" and _is_local_base(self.base_url):
             return self._discover_local_model() or DEFAULT_LOCAL_MODEL
-        return DEFAULT_LOCAL_MODEL
+        return DEFAULT_OPENAI_MODEL
 
     def _discover_local_model(self) -> str | None:
         try:
@@ -204,35 +240,50 @@ class LLMClient:
                 or "EMPTY",
                 "base_url": self.base_url,
             }
-        elif self.provider == "anthropic":
+        elif self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            key = (
+                os.getenv("OPENROUTER_API_KEY")
+                or os.getenv("LLM_API_KEY")
+                or ""
+            )
+            if not key and self.require_live:
+                raise RuntimeError(
+                    "OPENROUTER_API_KEY is not set. Put it in the gitignored "
+                    ".env for OpenRouter access."
+                )
+            configs["openai"] = {
+                "api_key": key or "EMPTY",
+                "base_url": self.base_url,
+            }
+        elif self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY")
-            if not key:
+            if not key and self.require_live:
                 raise RuntimeError(
                     "ANTHROPIC_API_KEY is not set. Put it in the gitignored "
                     ".env for local testing only."
                 )
-            configs["anthropic"] = {"api_key": key}
-        elif self.provider in GEMINI_PROVIDERS:
+            if key:
+                configs["anthropic"] = {"api_key": key}
+        elif self.provider in GEMINI_PROVIDERS or self.provider == "google":
             key = (
                 os.getenv("GEMINI_API_KEY")
                 or os.getenv("GOOGLE_API_KEY")
                 or os.getenv("LLM_API_KEY")
                 or ""
             )
-            if not key:
+            if not key and self.require_live:
                 raise RuntimeError(
                     "GEMINI_API_KEY is not set. Put it in the gitignored "
                     ".env for local testing only. Gemini uses Google's "
                     "OpenAI-compatible endpoint, not Vertex AI."
                 )
             configs["openai"] = {
-                "api_key": key,
+                "api_key": key or "EMPTY",
                 "base_url": self.base_url,
             }
-        elif self.provider == "ollama":
+        elif self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
             configs["ollama"] = {
-                "api_key": "ollama",
-                "base_url": os.getenv("LLM_BASE_URL", "http://127.0.0.1:11434"),
+                "api_url": self.base_url,
             }
         else:
             key = os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
@@ -267,13 +318,25 @@ class LLMClient:
                 self.live = False
                 self.last_error = str(exc)
             return
-        if self.provider == "anthropic":
+        if self.provider == "openai":
+            key = os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY") or ""
+            self.live = bool(key.strip())
+            if not self.live:
+                self.last_error = "OPENAI_API_KEY missing"
+            return
+        if self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            key = os.getenv("OPENROUTER_API_KEY") or os.getenv("LLM_API_KEY") or ""
+            self.live = bool(key.strip())
+            if not self.live:
+                self.last_error = "OPENROUTER_API_KEY missing"
+            return
+        if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY") or ""
             self.live = bool(key.strip())
             if not self.live:
                 self.last_error = "ANTHROPIC_API_KEY missing"
             return
-        if self.provider in GEMINI_PROVIDERS:
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             key = (
                 os.getenv("GEMINI_API_KEY")
                 or os.getenv("GOOGLE_API_KEY")
@@ -284,21 +347,41 @@ class LLMClient:
             if not self.live:
                 self.last_error = "GEMINI_API_KEY missing"
             return
+        if self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            try:
+                url = f"{self.base_url.rstrip('/')}/api/tags"
+                req = urllib.request.Request(url)
+                with urllib.request.urlopen(req, timeout=3.0) as resp:
+                    self.live = resp.status == 200
+            except Exception:
+                self.live = bool(self._client is not None)
+            return
         if self._client is not None:
             self.live = True
 
     def _missing_backend_message(self) -> str:
-        if self.provider == "anthropic":
+        if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             return (
                 "Claude is selected but ANTHROPIC_API_KEY is not set. "
                 "Add it to the gitignored .env for local testing only."
             )
-        if self.provider in GEMINI_PROVIDERS:
+        if self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            return (
+                "OpenRouter is selected but OPENROUTER_API_KEY is not set. "
+                "Add it to the gitignored .env."
+            )
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             return (
                 "Gemini is selected but GEMINI_API_KEY (or GOOGLE_API_KEY) "
                 "is not set. Add it to the gitignored .env for local testing "
                 "only. This client uses Google's OpenAI-compatible endpoint, "
                 "not Vertex AI."
+            )
+        if self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            return (
+                f"Ollama is selected but not reachable at {self.base_url}. "
+                "Make sure Ollama is running (`ollama serve`) or set "
+                "HARNESS_ALLOW_SIMULATED_LLM=1."
             )
         if self.provider == "openai" and _is_local_base(self.base_url):
             return (
@@ -306,6 +389,11 @@ class LLMClient:
                 f"{self.base_url}. Start vLLM or set "
                 "HARNESS_ALLOW_SIMULATED_LLM=1. "
                 f"Last error: {self.last_error}"
+            )
+        if self.provider == "openai":
+            return (
+                "OpenAI is selected but OPENAI_API_KEY is not set. "
+                "Add it to the gitignored .env."
             )
         return f"LLM backend {self.provider}:{self.model} is not live: {self.last_error}"
 

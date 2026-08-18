@@ -55,50 +55,58 @@ The agent fetches real-world multi-modal evidence across 6 distinct public chann
 
 ---
 
-## 🚀 Quickstart & Running the Web UI
+## 🚀 Quickstart & Setup (Zero-to-Run for All Students)
 
-### 0. Install
-
-All commands run from the repository root, inside the project virtualenv (see the
-[root README](../README.md#setup)). The GitHub and YouTube crawlers drive a real
-headless browser, so they need the `capstone` extra plus a browser binary:
+### 1. Clone, CD, and Virtual Environment Setup
 
 ```bash
-pip install -e ".[capstone]"
+# 1. Clone repository & cd to project directory
+git clone https://github.com/kenhuangus/packt-harness.git
+cd packt-harness
+
+# 2. Create and activate virtual environment
+python -m venv .venv
+# On Windows PowerShell / CMD:
+.venv\Scripts\activate
+# On macOS / Linux:
+source .venv/bin/activate
+
+# 3. Install dependencies & headless browser for GitHub/YouTube crawlers
+pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-Without that extra the agent still runs — arXiv, OpenAlex, HackerNews and
-Wikipedia need no browser — but the GitHub and YouTube streams return no
-documents and say so, and their two tests skip rather than pass.
+### 2. Configure AI Model Provider (aisuite)
 
-Use a `git clone` rather than a downloaded ZIP: module 8 drives `git worktree`
-and fails without a `.git` directory.
+Copy `.env.example` to `.env`. Andrew Ng's **aisuite** allows switching seamlessly between 5 major LLM providers:
 
-### 1. Start the Live Research Server
+```bash
+cp .env.example .env   # On Windows: copy .env.example .env
+```
+
+| Provider | `LLM_PROVIDER` in `.env` | Required Key / Config | Target URL |
+| :--- | :--- | :--- | :--- |
+| **Local vLLM (Default)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:8000/v1` |
+| **OpenAI Cloud** | `openai` | `OPENAI_API_KEY=sk-proj...` | standard OpenAI endpoint |
+| **OpenRouter** | `openrouter` | `OPENROUTER_API_KEY=sk-or-...` | `https://openrouter.ai/api/v1` |
+| **Ollama Local** | `ollama` | None (Local engine) | `http://127.0.0.1:11434` |
+| **Google Gemini** | `google` / `gemini` | `GEMINI_API_KEY=AIzaSy...` | `generativelanguage.googleapis.com` (OpenAI-compat) |
+| **Anthropic Claude** | `anthropic` / `claude` | `ANTHROPIC_API_KEY=sk-ant...` | Anthropic Messages API via aisuite |
+
+### 3. Start the Live Research Server & Web UI
 ```bash
 # Launch the API server and Web UI on port 8090
 python deep_research_agent/server.py 8090
 ```
 Open **[http://localhost:8090/](http://localhost:8090/)** in your browser.
 
-### 2. Run the Full Pytest Test Suite
+### 4. Run the Full Pytest Test Suite
 ```bash
 pytest -v
 ```
-17 tests. Two of them (HP-07 GitHub, HP-08 YouTube) drive a real browser against
-a live site, so their result depends on the network rather than on the code:
+Runs 17 tests across all 5 layers, including live Playwright crawling and TDA self-healing.
 
-| Situation | Result |
-| --- | --- |
-| `capstone` extra installed, crawls succeed | 17 passed |
-| Crawl runs but the site rate-limits or blocks it | 16 passed, 1 skipped (reason names the cause) |
-| No `capstone` extra | 15 passed, 2 skipped |
-
-Those two never pass without documents from a real crawl. A skip is the honest
-outcome when the crawl cannot run; the suite will not manufacture a result.
-
-### 3. Run the 5-Gate Production Readiness Audit
+### 5. Run the 5-Gate Production Readiness Audit
 ```bash
 packt-harness audit
 ```

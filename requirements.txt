@@ -1,0 +1,13 @@
+# Packt Masterclass: Harness Engineering for AI Coding Agents
+# Universal Dependencies for All 10 Modules, AI Providers, and Capstone Project
+
+pytest>=8.0.0
+mcp>=1.0.0
+python-dotenv>=1.0.0
+aisuite[openai]>=0.1.0
+aisuite[anthropic]>=0.1.0
+anthropic>=0.40.0
+openai>=1.50.0
+httpx>=0.27.0
+playwright>=1.40.0
+requests>=2.31.0

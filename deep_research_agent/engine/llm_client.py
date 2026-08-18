@@ -44,8 +44,15 @@ DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+DEFAULT_OPENROUTER_MODEL = "openai/gpt-4o-mini"
+DEFAULT_OLLAMA_MODEL = "qwen2.5-coder"
 GEMINI_OPENAI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
+OPENROUTER_BASE = "https://openrouter.ai/api/v1"
+OLLAMA_DEFAULT_BASE = "http://127.0.0.1:11434"
 GEMINI_PROVIDERS = {"google", "gemini"}
+CLAUDE_PROVIDERS = {"anthropic", "claude"}
+OPENROUTER_PROVIDERS = {"openrouter", "open_router"}
+OLLAMA_PROVIDERS = {"ollama"}
 VERTEX_PROVIDERS = {"vertex", "vertexai", "google-vertex"}
 
 
@@ -65,6 +72,8 @@ class ResearchLLMClient:
         env_prov = os.getenv("LLM_PROVIDER", "").strip().lower()
         if env_prov:
             self.provider = env_prov
+        elif os.getenv("OPENROUTER_API_KEY"):
+            self.provider = "openrouter"
         elif os.getenv("ANTHROPIC_API_KEY"):
             self.provider = "anthropic"
         elif os.getenv("OPENAI_API_KEY") and not _is_local_base(self.base_url):
@@ -73,6 +82,16 @@ class ResearchLLMClient:
             self.provider = "google"
         else:
             self.provider = DEFAULT_PROVIDER  # local vLLM default
+
+        # Normalize provider alias
+        if self.provider in CLAUDE_PROVIDERS:
+            self.provider = "anthropic"
+        elif self.provider in GEMINI_PROVIDERS:
+            self.provider = "google"
+        elif self.provider in OPENROUTER_PROVIDERS:
+            self.provider = "openrouter"
+        elif self.provider in OLLAMA_PROVIDERS:
+            self.provider = "ollama"
 
         # Model selection
         env_model = os.getenv("LLM_MODEL", "").strip()
@@ -84,11 +103,14 @@ class ResearchLLMClient:
             else:
                 self.model = env_model
         else:
-            if self.provider == "anthropic":
+            if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
                 self.model = DEFAULT_ANTHROPIC_MODEL
-            elif self.provider in GEMINI_PROVIDERS:
-                self.provider = "google"
+            elif self.provider in GEMINI_PROVIDERS or self.provider == "google":
                 self.model = DEFAULT_GEMINI_MODEL
+            elif self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+                self.model = DEFAULT_OPENROUTER_MODEL
+            elif self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+                self.model = DEFAULT_OLLAMA_MODEL
             elif self.provider == "openai" and not _is_local_base(self.base_url):
                 self.model = DEFAULT_OPENAI_MODEL
             else:
@@ -104,12 +126,19 @@ class ResearchLLMClient:
                 "the client routes that through Google's OpenAI-compatible "
                 f"endpoint ({GEMINI_OPENAI_BASE})."
             )
-        if self.provider == "gemini":
-            self.provider = "google"
-        if self.provider in GEMINI_PROVIDERS:
+
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             env_base = os.getenv("LLM_BASE_URL")
             if not env_base or _is_local_base(env_base):
                 self.base_url = GEMINI_OPENAI_BASE.rstrip("/")
+        elif self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base or _is_local_base(env_base):
+                self.base_url = OPENROUTER_BASE.rstrip("/")
+        elif self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            env_base = os.getenv("LLM_BASE_URL")
+            if not env_base:
+                self.base_url = OLLAMA_DEFAULT_BASE.rstrip("/")
 
         self.live = False
         self.last_error = ""
@@ -129,23 +158,26 @@ class ResearchLLMClient:
                 "api_key": api_key,
                 "base_url": self.base_url,
             }
-        elif self.provider == "anthropic":
+        elif self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            key = os.getenv("OPENROUTER_API_KEY") or os.getenv("LLM_API_KEY") or ""
+            configs["openai"] = {
+                "api_key": key or "EMPTY",
+                "base_url": self.base_url,
+            }
+        elif self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY") or ""
             if key:
                 configs["anthropic"] = {"api_key": key}
-        elif self.provider in GEMINI_PROVIDERS:
+        elif self.provider in GEMINI_PROVIDERS or self.provider == "google":
             key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("LLM_API_KEY") or ""
             if key:
-                # aisuite's google provider is Vertex AI and does not accept
-                # api_key. Route Gemini through the OpenAI-compat endpoint.
                 configs["openai"] = {
                     "api_key": key,
                     "base_url": self.base_url,
                 }
-        elif self.provider == "ollama":
+        elif self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
             configs["ollama"] = {
-                "api_key": "ollama",
-                "base_url": os.getenv("LLM_BASE_URL", "http://127.0.0.1:11434"),
+                "api_url": self.base_url,
             }
         return configs
 
@@ -170,12 +202,26 @@ class ResearchLLMClient:
                 self.last_error = str(exc)
             return
 
-        if self.provider == "anthropic":
+        if self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter":
+            self.live = bool(os.getenv("OPENROUTER_API_KEY") or os.getenv("LLM_API_KEY"))
+            return
+
+        if self.provider in CLAUDE_PROVIDERS or self.provider == "anthropic":
             self.live = bool(os.getenv("ANTHROPIC_API_KEY") or os.getenv("LLM_API_KEY"))
             return
 
-        if self.provider in GEMINI_PROVIDERS:
+        if self.provider in GEMINI_PROVIDERS or self.provider == "google":
             self.live = bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("LLM_API_KEY"))
+            return
+
+        if self.provider in OLLAMA_PROVIDERS or self.provider == "ollama":
+            try:
+                url = f"{self.base_url.rstrip('/')}/api/tags"
+                req = urllib.request.Request(url)
+                with urllib.request.urlopen(req, timeout=3.0) as resp:
+                    self.live = resp.status == 200
+            except Exception:
+                self.live = bool(self._client is not None)
             return
 
         if self.provider == "openai":
@@ -197,7 +243,7 @@ class ResearchLLMClient:
             if self.provider == "openai" and _is_local_base(self.base_url):
                 kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": False}}
 
-            aisuite_provider = "openai" if self.provider in GEMINI_PROVIDERS else self.provider
+            aisuite_provider = "openai" if (self.provider in GEMINI_PROVIDERS or self.provider == "google" or self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter") else self.provider
             try:
                 response = self._client.chat.completions.create(
                     model=f"{aisuite_provider}:{self.model}",

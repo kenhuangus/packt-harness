@@ -4,7 +4,7 @@ compiler: note: unused symbol _2
 compiler: note: unused symbol _3
 compiler: note: unused symbol _4
 
-... [HARNESS COMPACTION: Omitted 20 lines of compiler stdout] ...
+... [HARNESS COMPACTION: Omitted 20 lines of verbose log / conversation output] ...
 
 compiler: note: unused symbol _25
 compiler: note: unused symbol _26

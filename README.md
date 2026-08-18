@@ -44,13 +44,12 @@ module cannot pass by finding a different Python on `PATH`.
 git clone https://github.com/kenhuangus/packt-harness.git
 cd packt-harness
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install -e .
+.venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt # or: pip install -e ".[capstone]"
+python -m playwright install chromium
 ```
 
-On macOS or Linux the interpreter is `.venv/bin/python` instead.
-
-That single editable install pulls `pytest`, `mcp`, `python-dotenv`, and
-`aisuite`, and puts the `packt-harness` CLI on the venv's path.
+That installs `pytest`, `mcp`, `python-dotenv`, `aisuite[openai]`, `aisuite[anthropic]`, and `playwright`, and puts the `packt-harness` CLI on the venv's path.
 
 Activating is optional. These are equivalent:
 
@@ -75,33 +74,22 @@ happens, or to avoid it up front:
 git config --global core.longpaths true
 ```
 
-Two parts of the repository need a real browser, which the ten modules do not:
-the dashboard in `course_implementation/dashboard/`, and the capstone's GitHub
-and YouTube crawlers. Both come from the same extra:
-
-```powershell
-.venv\Scripts\python.exe -m pip install -e ".[capstone]"
-.venv\Scripts\python.exe -m playwright install chromium
-```
-
-`[dashboard]` is an alias for the same package, so either name works.
-
-### Using a cloud model instead of the local one
+### AI Model Provider Configuration (aisuite)
 
 The default is the local OpenAI-compatible endpoint and needs no key. To switch,
 set `LLM_PROVIDER` and the matching key in a gitignored `.env` (see
 `course_implementation/.env.example`):
 
-| Provider | `LLM_PROVIDER` | Key | Extra install |
+| Provider | `LLM_PROVIDER` | Key / Configuration | Endpoint / Extra |
 | --- | --- | --- | --- |
-| OpenAI | `openai` | `OPENAI_API_KEY` | none |
-| Claude | `anthropic` | `ANTHROPIC_API_KEY` | `pip install -e ".[anthropic]"` |
-| Gemini | `google` | `GEMINI_API_KEY` | none |
+| Local vLLM (Default) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:8000/v1` |
+| OpenAI Cloud | `openai` | `OPENAI_API_KEY` | standard OpenAI API |
+| OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `https://openrouter.ai/api/v1` |
+| Ollama | `ollama` | none (local endpoint) | `http://127.0.0.1:11434` |
+| Claude (Anthropic) | `anthropic` | `ANTHROPIC_API_KEY` | Anthropic SDK via aisuite |
+| Gemini (Google) | `google` | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | `generativelanguage.googleapis.com/v1beta/openai/` |
 
-Gemini needs no extra because it routes through Google's OpenAI-compatible
-endpoint. It is deliberately not `aisuite[google]`: that extra is Vertex AI and
-requires `GOOGLE_PROJECT_ID`, `GOOGLE_REGION`, and a service-account credentials
-file, not a Gemini API key.
+Gemini routes through Google's OpenAI-compatible endpoint (not Vertex AI), so no GCP credentials are required.
 
 ### Verify the install
 
