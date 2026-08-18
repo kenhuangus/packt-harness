@@ -46,16 +46,17 @@ function renderTabContent() {
       return `<div style="overflow-x: auto; margin: 1.25rem 0;"><table style="width: 100%; border-collapse: collapse; background: var(--bg-primary); border-radius: 6px;"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
     });
 
-    // Convert Headings
+    // Convert Headings and Links
     raw = raw
-      .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.4rem; color: var(--text-primary); margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 style="font-size: 1.15rem; color: var(--accent-emerald); margin-top: 1.5rem; margin-bottom: 0.5rem;">$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3 style="font-size: 0.98rem; color: var(--accent-sapphire); margin-top: 1.2rem; margin-bottom: 0.4rem;">$1</h3>')
-      .replace(/^\> (.*$)/gim, '<blockquote style="border-left: 3px solid var(--accent-emerald); padding-left: 10px; margin: 0.75rem 0; color: var(--text-secondary); font-style: italic;">$1</blockquote>')
+      .replace(/\[(.*?)\]\((https?:\/\/[^\s<>"']+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sapphire); text-decoration: underline; font-weight: 600;">$1 ↗</a>')
+      .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.45rem; color: var(--text-primary); margin-bottom: 0.85rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; letter-spacing: -0.01em;">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 style="font-size: 1.2rem; color: var(--accent-emerald); margin-top: 1.6rem; margin-bottom: 0.6rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.35rem;">$1</h2>')
+      .replace(/^### (.*$)/gim, '<h3 style="font-size: 1.02rem; color: var(--accent-sapphire); margin-top: 1.3rem; margin-bottom: 0.45rem;">$1</h3>')
+      .replace(/^\> (.*$)/gim, '<blockquote style="border-left: 3px solid var(--accent-emerald); padding-left: 12px; margin: 0.85rem 0; color: var(--text-secondary); font-style: italic; background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 4px;">$1</blockquote>')
       .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: var(--text-primary);">$1</strong>')
-      .replace(/`(.*?)`/gim, '<code style="background: var(--bg-primary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em;">$1</code>')
-      .replace(/^---$/gim, '<hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">')
-      .replace(/\n\n/gim, '<p style="margin-bottom: 0.85rem; line-height: 1.6; font-size: 0.88rem; color: var(--text-secondary);"></p>')
+      .replace(/`(.*?)`/gim, '<code style="background: var(--bg-primary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em; border: 1px solid var(--border-color);">$1</code>')
+      .replace(/^---$/gim, '<hr style="border: 0; border-top: 1.5px solid var(--border-color); margin: 1.6rem 0;">')
+      .replace(/\n\n/gim, '<p style="margin-bottom: 0.85rem; line-height: 1.65; font-size: 0.9rem; color: var(--text-secondary);"></p>')
       .replace(/\n/gim, '<br>');
 
     container.innerHTML = raw;
