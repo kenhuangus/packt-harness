@@ -748,6 +748,44 @@ def generate_svg_for_slide(num, title):
     <text x="54" y="74" fill="#BD5D3A" font-family="Inter" font-size="7.5" font-weight="750" text-anchor="middle">Human Review</text>
   </g>
 </svg>'''
+    elif 'TEST TIERS' in title_upper or 'VERIFICATION PYRAMID' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <!-- 1. Functional Tiers -->
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="24" fill="#1e40af" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🧪 1. Unit &amp; Integration</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Function &amp; Tool Contracts</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Fast, deterministic mocks</text>
+    <text x="90" y="78" fill="#2563eb" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Schema &amp; AST validation</text>
+  </g>
+
+  <!-- 2. System & UI -->
+  <g transform="translate(210, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="90" y="24" fill="#047857" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🌐 2. E2E &amp; Full UI</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Multi-Turn Workflows</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Browser automation / DOM</text>
+    <text x="90" y="78" fill="#047857" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Full artifact verification</text>
+  </g>
+
+  <!-- 3. Regression & Scale -->
+  <g transform="translate(405, 6)">
+    <rect x="0" y="0" width="185" height="90" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
+    <text x="92" y="24" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">⚡ 3. Regression &amp; Scale</text>
+    <text x="92" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Permanent Bug Fixtures</text>
+    <text x="92" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">p50/p95/p99 Latency &amp; load</text>
+    <text x="92" y="78" fill="#BD5D3A" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Concurrency throughput</text>
+  </g>
+
+  <!-- 4. Security & Red Teaming -->
+  <g transform="translate(605, 6)">
+    <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
+    <text x="90" y="24" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🛡️ 4. Security / Red Team</text>
+    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Pen-Testing &amp; Jailbreaks</text>
+    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Prompt injection &amp; SSRF</text>
+    <text x="90" y="78" fill="#E06C75" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Credential leak defense</text>
+  </g>
+</svg>'''
     elif 'TDA LOOP' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="165" height="86" rx="10" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>

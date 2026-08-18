@@ -385,10 +385,15 @@
   {
     "number": 28,
     "raw_lines": [
-      "Test Tiers",
-      "• Unit: one function",
-      "• Integration: module boundaries",
-      "• E2E: the whole flow"
+      "Test Tiers for Agentic AI Systems",
+      "Comprehensive Verification Pyramid: From Unit Functions to Red Teaming",
+      "• 1. Unit Testing: Isolates individual functions, schema serializers, and tool validators.",
+      "• 2. Integration Testing: Verifies component boundaries, tool invocations, and MCP protocol handshakes.",
+      "• 3. End-to-End (E2E) Testing: Executes complete multi-turn workflows from initial user prompt to finished artifact.",
+      "• 4. Regression Testing: Captures every historical failure and automatically appends it to the test suite fixture.",
+      "• 5. Performance & Scalability Testing: Benchmarks agent concurrency, latency percentiles (p50/p95/p99), and token throughput under load.",
+      "• 6. Full UI Testing: Validates end-to-end visual flows, DOM interactions, and human-in-the-loop frontend review screens.",
+      "• 7. Security Testing & Red Teaming: Pen-testing for prompt injection, jailbreaks, SSRF, credential extraction, and unauthorized tool escalation."
     ]
   },
   {
