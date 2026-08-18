@@ -28,12 +28,16 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path in ("/favicon.ico", "/favicon.svg"):
-            favicon_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚛️</text></svg>'
+            favicon_path = UI_DIR / "favicon.svg"
+            if favicon_path.is_file():
+                content = favicon_path.read_bytes()
+            else:
+                content = b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">\xe2\x9a\x9b\xef\xb8\x8f</text></svg>'
             self.send_response(200)
             self.send_header("Content-Type", "image/svg+xml")
             self.send_header("Cache-Control", "public, max-age=86400")
             self.end_headers()
-            self.wfile.write(favicon_svg.encode("utf-8"))
+            self.wfile.write(content)
             return
         super().do_GET()
 
