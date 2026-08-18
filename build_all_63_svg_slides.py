@@ -2268,6 +2268,51 @@ html_template = '''<!DOCTYPE html>
       font-weight: 700;
       color: var(--ink);
     }
+    .memory-slide-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      width: 100%;
+      height: 100%;
+    }
+    .memory-grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .memory-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 9px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .memory-card-header {
+      padding: 0.40rem 0.70rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-display);
+      font-size: 0.84rem;
+    }
+    .memory-card-body {
+      padding: 0.55rem 0.70rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+    }
+    .memory-comp-table th, .memory-comp-table td {
+      border: 1px solid var(--rule);
+      padding: 0.25rem 0.45rem;
+      font-size: 0.76rem;
+      line-height: 1.30;
+    }
 
     .grid-viewport {
       width: 100%; height: 100%; overflow-y: auto; padding: clamp(1rem, 2.5vw, 1.8rem);
@@ -2959,7 +3004,107 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 9 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Universal Environment Setup'))) {
+      } else if (slide.raw_lines && slide.raw_lines[0] && (slide.raw_lines[0].includes('Pillar 1: Memory') || slide.raw_lines[0].includes('How Claude Remembers'))) {
+        bodyHtml += `
+          <div id="slide-content-wrap" class="memory-slide-wrap">
+            ${svgMap[slide.number] || ''}
+            <div class="memory-grid-container">
+              <!-- Left Column: Dual Memory Architecture -->
+              <div class="memory-card">
+                <div class="memory-card-header" style="background:#FAF0EA; border-bottom:1.5px solid #F5D3C4;">
+                  <span style="color:#BD5D3A; font-weight:800;">🧠 Dual Memory Systems: CLAUDE.md vs. Auto Memory</span>
+                  <span style="font-size:0.73rem; background:#BD5D3A; color:#FFF; padding:2px 8px; border-radius:12px; font-weight:700;">Claude Code v2.1+</span>
+                </div>
+                <div class="memory-card-body">
+                  <div style="font-size:0.81rem; color:#2D2C28; margin-bottom:0.45rem; line-height:1.35;">
+                    Each Claude Code session starts with a clean context window. Two complementary mechanisms bridge knowledge across sessions:
+                  </div>
+
+                  <table class="memory-comp-table" style="width:100%; border-collapse:collapse; font-size:0.77rem; margin-bottom:0.45rem;">
+                    <thead>
+                      <tr style="background:#F0EEE6; border-bottom:1.5px solid #DDD9CD; text-align:left;">
+                        <th style="padding:4px 6px;">Feature</th>
+                        <th style="padding:4px 6px; color:#BD5D3A;">CLAUDE.md Files</th>
+                        <th style="padding:4px 6px; color:#2563eb;">Auto Memory (MEMORY.md)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #EBE8DE;">
+                        <td style="padding:3px 6px; font-weight:700;">Who writes it</td>
+                        <td style="padding:3px 6px;">You (Developer, Team, Org)</td>
+                        <td style="padding:3px 6px;">Claude (Autonomously)</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #EBE8DE;">
+                        <td style="padding:3px 6px; font-weight:700;">Content</td>
+                        <td style="padding:3px 6px;">Coding standards, workflows, architecture</td>
+                        <td style="padding:3px 6px;">Build commands, debugging notes, preferences</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #EBE8DE;">
+                        <td style="padding:3px 6px; font-weight:700;">Scope</td>
+                        <td style="padding:3px 6px;">Managed Policy, User, Project, Local</td>
+                        <td style="padding:3px 6px;">Per repo (<code>~/.claude/projects/</code>), shared worktrees</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid #EBE8DE;">
+                        <td style="padding:3px 6px; font-weight:700;">Loaded into</td>
+                        <td style="padding:3px 6px;">Every session in full at start</td>
+                        <td style="padding:3px 6px;">First 200 lines or 25KB of <code>MEMORY.md</code></td>
+                      </tr>
+                      <tr>
+                        <td style="padding:3px 6px; font-weight:700;">Compaction</td>
+                        <td style="padding:3px 6px;">Root file re-injected after <code>/compact</code></td>
+                        <td style="padding:3px 6px;">Topic notes read on-demand via tools</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.35;">
+                    💡 <strong>Enforcement vs. Context:</strong> Memory files provide behavioral guidance. To strictly block actions regardless of model discretion, enforce with deterministic <code>PreToolUse</code> hooks.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: 4-Tier Hierarchy, Rules & Interop -->
+              <div class="memory-card">
+                <div class="memory-card-header" style="background:#EBF3FA; border-bottom:1.5px solid #C9E0F5;">
+                  <span style="color:#1e40af; font-weight:800;">🌲 Scope Hierarchy, Rules &amp; Interoperability</span>
+                  <span style="font-size:0.73rem; background:#1e40af; color:#FFF; padding:2px 8px; border-radius:12px; font-weight:700;">Resolution Order</span>
+                </div>
+                <div class="memory-card-body" style="display:flex; flex-direction:column; gap:0.35rem;">
+                  <!-- Scope Hierarchy -->
+                  <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
+                    <strong style="color:#141413;">4-Tier Load Precedence (Broadest ➔ Most Specific):</strong>
+                    <div style="display:flex; flex-direction:column; gap:0.12rem; margin-top:0.22rem;">
+                      <div>🏛️ <strong>1. Managed Policy:</strong> <code>/etc/claude-code/CLAUDE.md</code> or <code>C:\\Program Files\\ClaudeCode\\CLAUDE.md</code></div>
+                      <div>👤 <strong>2. User Instructions:</strong> <code>~/.claude/CLAUDE.md</code> (Personal preferences across all repos)</div>
+                      <div>📦 <strong>3. Project Instructions:</strong> <code>./CLAUDE.md</code> or <code>./.claude/CLAUDE.md</code> (Team standards in git)</div>
+                      <div>🔒 <strong>4. Local Instructions:</strong> <code>./CLAUDE.local.md</code> (Personal sandbox prefs; gitignored)</div>
+                    </div>
+                  </div>
+
+                  <!-- Path-Scoped Rules & Imports -->
+                  <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
+                    <strong style="color:#141413;">Modular Rules &amp; Cross-Agent Interoperability:</strong>
+                    <ul style="margin:0.2rem 0 0 1rem; padding:0;">
+                      <li><strong>Path-Scoped Rules:</strong> <code>.claude/rules/*.md</code> with <code>paths: ["src/api/**/*.ts"]</code> load only when matching files are opened.</li>
+                      <li><strong>Modular Imports:</strong> <code>@path/to/import</code> syntax expands up to 4 hops recursively.</li>
+                      <li><strong>AGENTS.md Interop:</strong> Claude Code reads <code>CLAUDE.md</code>; use <code>@AGENTS.md</code> or <code>ln -s AGENTS.md CLAUDE.md</code> to share instructions.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Official Documentation Box -->
+                  <div style="background:#F0FDF4; border:1.2px solid #86EFAC; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
+                    <div style="color:#166534; font-weight:750;">📖 Official Anthropic Documentation:</div>
+                    <div style="margin-top:0.12rem;">
+                      • Docs Index: <a href="https://code.claude.com/docs/llms.txt" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/llms.txt</code> ↗</a><br>
+                      • Memory Guide: <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/en/memory</code> ↗</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Universal Environment Setup')) {
         bodyHtml += `
           <div id="slide-content-wrap" class="setup-slide-grid">
             <div class="setup-left-col">

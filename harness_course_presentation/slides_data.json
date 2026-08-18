@@ -118,11 +118,11 @@
     "number": 9,
     "raw_lines": [
       "Pillar 1: Memory Files & Auto Memory in Claude Code",
-      "How Claude Remembers Your Project: Persistent Instructions vs. Autonomous Learnings",
+      "How Claude Remembers Your Project: CLAUDE.md Files vs. Auto Memory",
       "• Dual Memory Architecture: Each Claude Code session begins with a fresh context window. Knowledge carries over via two complementary systems: CLAUDE.md files (instructions you write) and Auto Memory (notes Claude writes automatically).",
       "• CLAUDE.md vs. Auto Memory Comparison:",
       "  • CLAUDE.md Files: Written by you; holds instructions, coding standards & architecture; scoped to project/user/managed policy; loaded in full at session start.",
-      "  • Auto Memory (~/.claude/projects/<project>/memory/): Written by Claude; holds build commands, debugging insights & discovered preferences; loaded first 200 lines / 25KB.",
+      "  • Auto Memory (~/.claude/projects/<project>/memory/): Written by Claude; holds build commands, debugging insights & discovered preferences; loaded first 200 lines / 25KB of MEMORY.md.",
       "• Multi-Tier Scope Precedence (Broadest to Most Specific):",
       "  • 1. Managed Policy: Organization-wide IT policy (/etc/claude-code/CLAUDE.md or C:\\Program Files\\ClaudeCode\\CLAUDE.md).",
       "  • 2. User Instructions: Personal preferences across all projects (~/.claude/CLAUDE.md).",
@@ -131,8 +131,7 @@
       "  • 5. Path-Scoped Rules: Modular rules in .claude/rules/*.md scoped by glob patterns (paths: ['src/api/**/*.ts']).",
       "• Modular Imports & AGENTS.md Interoperability: Reference files with @path/to/import syntax (expands up to 4 hops recursively). Claude Code reads CLAUDE.md, so add @AGENTS.md into CLAUDE.md or symlink ln -s AGENTS.md CLAUDE.md for cross-agent compatibility.",
       "• Compaction Survival & Enforcement Boundary: Root CLAUDE.md survives /compact and re-injects automatically into context. Memory files guide behavior; use PreToolUse hooks for non-negotiable security blocks.",
-      "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)",
-      "• Advanced Memory Research: https://kenhuangus.github.io/agent-memory-harness/presentation/#1"
+      "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)"
     ]
   },
   {
