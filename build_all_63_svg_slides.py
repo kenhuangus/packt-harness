@@ -2833,7 +2833,7 @@ html_template = '''<!DOCTYPE html>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 2:</strong> Core Harness Stack</li>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 3:</strong> Spec-Driven Development</li>
                   <li><span class="mod-bullet">◆</span> <strong>Mod 4:</strong> Guardrails &amp; Hooks</li>
-                  <li><span class="mod-bullet">◆</span> <strong>Mod 5:</strong> Break &amp; Permission Gateways</li>
+                  <li><span class="mod-bullet">◆</span> <strong>Mod 5:</strong> Permission Gateways</li>
                 </ul>
               </div>
               <div class="course-map-part-col">

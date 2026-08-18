@@ -42,7 +42,7 @@
       "• Mod 2: Core Harness Stack",
       "• Mod 3: Spec-Driven Development",
       "• Mod 4: Guardrails & Hooks",
-      "• Mod 5: Break & Permission Gateways",
+      "• Mod 5: Permission Gateways",
       "PART 2: RELIABILITY & TEAMS",
       "• Mod 6: Tests as Reliability",
       "• Mod 7: Agent Extensions (Skills, Plugins, MCP)",
@@ -383,7 +383,7 @@
   {
     "number": 30,
     "raw_lines": [
-      "MODULE 5: Break & Permission Gateways",
+      "MODULE 5: Permission Gateways",
       "Risk-Tiered Approval Gateways & Mid-Course Q&A",
       "• 4-Tier Risk Matrix: LOW (auto-approve reads), MEDIUM (sandboxed writes), HIGH (scanned commands), CRITICAL (approvals.json).",
       "• Cryptographic Escalation: Critical operations (e.g. git_push) require explicit authorization tokens.",
