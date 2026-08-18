@@ -80,8 +80,7 @@
       "Retry Traps & Token Bleed",
       "• The Hazard: Agents executing the exact same failing command with minor punctuation tweaks in an infinite loop.",
       "• Failure Impact: Burns token budgets, stalls progress indefinitely, and pollutes context memory.",
-      "• Deterministic Defense: Sliding-window memory tracks command history and triggers a LoopDetector RuntimeError after max_retries.",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
+      "• Deterministic Defense: Sliding-window memory tracks command history and triggers a LoopDetector RuntimeError after max_retries."
     ]
   },
   {
