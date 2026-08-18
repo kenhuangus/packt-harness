@@ -188,6 +188,27 @@ def generate_svg_for_slide(num, title):
     <text x="197" y="113" fill="#047857" font-family="Inter" font-size="9.5" font-weight="800" text-anchor="middle">Goal: Reliable · Observable · Secure · Governable · Manageable</text>
   </g>
 </svg>'''
+    elif 'EXECUTION LOOPS' in title_upper or 'FAILURE MODE 2' in title_upper or 'RETRY TRAPS' in title_upper:
+        return '''<svg viewBox="0 0 800 105" class="slide-svg">
+  <g transform="translate(15, 6)">
+    <rect x="0" y="0" width="240" height="88" rx="10" fill="#FAF9F5" stroke="#E06C75" stroke-width="2"/>
+    <text x="120" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🚨 Hazard: Retry Traps</text>
+    <text x="120" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Infinite Loops &amp; Token Waste</text>
+    <text x="120" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Minor Punctuation Tweaks</text>
+  </g>
+  <g transform="translate(270, 6)">
+    <rect x="0" y="0" width="245" height="88" rx="10" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
+    <text x="122" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ Sliding Window Memory</text>
+    <text x="122" y="50" fill="#059669" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Command History Buffer</text>
+    <text x="122" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Tracks Repeated Calls</text>
+  </g>
+  <g transform="translate(530, 6)">
+    <rect x="0" y="0" width="255" height="88" rx="10" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2"/>
+    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">⚡ LoopDetector Guard</text>
+    <text x="127" y="50" fill="#BD5D3A" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Deterministic Circuit Break</text>
+    <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Raises RuntimeError &gt; max_retries</text>
+  </g>
+</svg>'''
     elif 'DANGEROUS TOOLS' in title_upper or 'FAILURE MODE 3' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <g transform="translate(15, 6)">
@@ -2851,7 +2872,7 @@ html_template = '''<!DOCTYPE html>
             </div>
           </div>
         `;
-      } else if (slide.number === 7) {
+      } else if (slide.number === 9 || (slide.raw_lines && slide.raw_lines[0] && slide.raw_lines[0].includes('Universal Environment Setup'))) {
         bodyHtml += `
           <div id="slide-content-wrap" class="setup-slide-grid">
             <div class="setup-left-col">
