@@ -2270,7 +2270,7 @@ html_template = '''<!DOCTYPE html>
       <button id="btn-prev" class="btn" onclick="prevSlide()">❮ Prev</button>
       <select id="slide-select" class="slide-select" onchange="goToSlide(this.value)"></select>
       <div class="goto-group">
-        <input type="number" id="goto-input" min="1" max="86" placeholder="#" class="goto-input" title="Enter slide number (1-86)" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
+        <input type="number" id="goto-input" min="1" max="''' + str(len(slides)) + '''" placeholder="#" class="goto-input" title="Enter slide number (1-''' + str(len(slides)) + ''')" onkeydown="if(event.key==='Enter') jumpToEnteredSlide()">
         <button id="btn-goto" class="btn btn-goto" onclick="jumpToEnteredSlide()" title="Jump to entered slide number">Go ➔</button>
       </div>
       <button id="btn-next" class="btn" onclick="nextSlide()">Next ❯</button>
@@ -2287,7 +2287,7 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / 85</div>
+          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / ''' + str(len(slides)) + '''</div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
