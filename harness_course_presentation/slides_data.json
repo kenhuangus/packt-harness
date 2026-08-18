@@ -131,7 +131,8 @@
       "  • 5. Path-Scoped Rules: Modular rules in .claude/rules/*.md scoped by glob patterns (paths: ['src/api/**/*.ts']).",
       "• Modular Imports & AGENTS.md Interoperability: Reference files with @path/to/import syntax (expands up to 4 hops recursively). Claude Code reads CLAUDE.md, so add @AGENTS.md into CLAUDE.md or symlink ln -s AGENTS.md CLAUDE.md for cross-agent compatibility.",
       "• Compaction Survival & Enforcement Boundary: Root CLAUDE.md survives /compact and re-injects automatically into context. Memory files guide behavior; use PreToolUse hooks for non-negotiable security blocks.",
-      "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)"
+      "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)",
+      "• Advanced Research & Benchmarks: https://kenhuangus.github.io/agent-memory-harness/presentation/#1"
     ]
   },
   {

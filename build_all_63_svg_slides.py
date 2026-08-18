@@ -3091,12 +3091,13 @@ html_template = '''<!DOCTYPE html>
                     </ul>
                   </div>
 
-                  <!-- Official Documentation Box -->
+                  <!-- Official Documentation & Research Box -->
                   <div style="background:#F0FDF4; border:1.2px solid #86EFAC; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
-                    <div style="color:#166534; font-weight:750;">📖 Official Anthropic Documentation:</div>
+                    <div style="color:#166534; font-weight:750;">📖 Official Documentation &amp; Advanced Research:</div>
                     <div style="margin-top:0.12rem;">
                       • Docs Index: <a href="https://code.claude.com/docs/llms.txt" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/llms.txt</code> ↗</a><br>
-                      • Memory Guide: <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/en/memory</code> ↗</a>
+                      • Memory Guide: <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/en/memory</code> ↗</a><br>
+                      • Advanced Research &amp; Benchmarks: <a href="https://kenhuangus.github.io/agent-memory-harness/presentation/#1" target="_blank" rel="noopener noreferrer"><code>Agent Memory Harness Presentation</code> ↗</a>
                     </div>
                   </div>
                 </div>
