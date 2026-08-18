@@ -97,10 +97,10 @@ class FiveStepResearchPipeline:
                 res_data = json.loads(raw_res)
                 results = res_data.get("results", [])
                 for r in results:
-                    # Verify claim
-                    claim_verify_raw = verify_citation_claim(sq["focus"], r["doc_id"])
+                    # Verify claim against user query and track focus
+                    claim_verify_raw = verify_citation_claim(f"{user_query} {sq.get('query', '')}", r["doc_id"])
                     claim_verify = json.loads(claim_verify_raw)
-                    score = claim_verify.get("confidence_score", 0.95)
+                    score = claim_verify.get("confidence_score", 0.88)
 
                     evidence.append({
                         "doc_id": r["doc_id"],
