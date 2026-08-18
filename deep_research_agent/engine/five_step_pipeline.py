@@ -46,7 +46,7 @@ class FiveStepResearchPipeline:
         self.tda = TdaReliabilityPipeline(self.output_dir)
         self.auditor = ProductionReadinessAuditor(Path(__file__).parents[2])
 
-    async def execute_deep_research(self, user_query: str) -> dict[str, Any]:
+    def execute_deep_research(self, user_query: str) -> dict[str, Any]:
         t0 = time.time()
         pipeline_log = []
 

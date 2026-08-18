@@ -81,7 +81,7 @@ def test_hp_03_multi_agent_planner():
 def test_hp_05_five_step_pipeline_execution():
     """HP-05: 5-Step SOP Pipeline execution end-to-end."""
     pipeline = FiveStepResearchPipeline(WORKSPACE_DIR)
-    result = asyncio.run(pipeline.execute_deep_research("Autonomous Harness Engineering"))
+    result = pipeline.execute_deep_research("Autonomous Harness Engineering")
 
     assert result["status"] == "SUCCESS"
     assert len(result["pipeline_steps"]) == 5

@@ -46,7 +46,7 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
 
             # Run 5-step SOP pipeline
             pipeline = FiveStepResearchPipeline(WORKSPACE_DIR)
-            result = asyncio.run(pipeline.execute_deep_research(query))
+            result = pipeline.execute_deep_research(query)
 
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
