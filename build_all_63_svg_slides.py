@@ -3085,6 +3085,13 @@ html_template = '''<!DOCTYPE html>
                   <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.35;">
                     💡 <strong>Enforcement vs. Context:</strong> Memory files provide behavioral guidance. To strictly block actions regardless of model discretion, enforce with deterministic <code>PreToolUse</code> hooks.
                   </div>
+
+                  <div style="background:#F0F7FF; border:1.2px solid #93C5FD; border-radius:6px; padding:0.30rem 0.55rem; font-size:0.74rem; line-height:1.35; margin-top:0.30rem;">
+                    📁 <strong>Live Student Demo (MEMORY.md):</strong><br>
+                    <a href="file:///C:/Users/kenhu/.claude/projects/C--Users-kenhu-security-tools/memory/MEMORY.md" target="_blank" rel="noopener noreferrer" style="color:#0369a1; font-weight:700; word-break:break-all;">
+                      <code>C:\\Users\\kenhu\\.claude\\projects\\C--Users-kenhu-security-tools\\memory\\MEMORY.md</code> ↗
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -3118,10 +3125,11 @@ html_template = '''<!DOCTYPE html>
 
                   <!-- Official Documentation & Research Box -->
                   <div style="background:#F0FDF4; border:1.2px solid #86EFAC; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
-                    <div style="color:#166534; font-weight:750;">📖 Official Documentation &amp; Advanced Research:</div>
+                    <div style="color:#166534; font-weight:750;">📖 Official Documentation &amp; Live References:</div>
                     <div style="margin-top:0.12rem;">
                       • Docs Index: <a href="https://code.claude.com/docs/llms.txt" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/llms.txt</code> ↗</a><br>
                       • Memory Guide: <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer"><code>https://code.claude.com/docs/en/memory</code> ↗</a><br>
+                      • Live Example: <a href="file:///C:/Users/kenhu/.claude/projects/C--Users-kenhu-security-tools/memory/MEMORY.md" target="_blank" rel="noopener noreferrer"><code>MEMORY.md (Real-World Demo)</code> ↗</a><br>
                       • Advanced Research &amp; Benchmarks: <a href="https://kenhuangus.github.io/agent-memory-harness/presentation/#1" target="_blank" rel="noopener noreferrer"><code>Agent Memory Harness Presentation</code> ↗</a>
                     </div>
                   </div>
