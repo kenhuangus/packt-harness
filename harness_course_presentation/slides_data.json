@@ -350,20 +350,6 @@
   {
     "number": 28,
     "raw_lines": [
-      "Evaluation Harnesses for Agentic AI",
-      "The Hardest Frontier in AI Engineering",
-      "• The Hardest Engineering Challenge: Evaluating autonomous agents (especially coding agents) is notoriously difficult due to non-deterministic multi-turn trajectories, dynamic state explosion, and test contamination.",
-      "• Strict Evaluation Isolation: the evaluator must run in an external, independent control sandbox completely out of the agent's context and reach.",
-      "• Industry Benchmark Examples:",
-      "  • SWE-bench (Verified / Lite): Real-world GitHub issues evaluated against hidden unit test assertions.",
-      "  • HumanEval & MBPP: Function-level code synthesis and unit-test benchmarks.",
-      "  • TerminalBench & InterCode: Multi-turn interactive bash shell and CLI execution tasks.",
-      "  • In-Repo Deterministic Replay Suites: Scored on test pass rate, scope fidelity, token spend, and permission denies."
-    ]
-  },
-  {
-    "number": 29,
-    "raw_lines": [
       "Safety Checklist",
       "Three Must-Haves",
       "• JSONL audit with timestamps",
@@ -394,10 +380,10 @@
       "• [Lines 12-15] Claude Code PreToolUse Schema: Emits standard permissionDecision JSON (allow, deny, ask, defer).",
       "• [Lines 22-23] AST & Regex Secret Audit: Parses syntax and scans for vendor credentials (OpenAI sk-proj-, AWS IAM AKIA) before writing files."
     ],
-    "number": 30
+    "number": 29
   },
   {
-    "number": 31,
+    "number": 30,
     "raw_lines": [
       "MODULE 5: Permission Gateways",
       "Risk-Tiered Approval Gateways & Mid-Course Q&A",
@@ -430,10 +416,10 @@
       "• [Line 9] Sandboxed Writes: Logs and permits file changes within the workspace (MEDIUM risk).",
       "• [Lines 14-18] Approvals Ledger: Gates critical actions (git_push) behind approvals.json tokens, writing pending_push.json artifacts."
     ],
-    "number": 32
+    "number": 31
   },
   {
-    "number": 33,
+    "number": 32,
     "raw_lines": [
       "MODULE 6: Tests as Reliability Layer",
       "The Test-Driven Agent (TDA) Red-Repair-Green Loop",
@@ -444,7 +430,7 @@
     ]
   },
   {
-    "number": 34,
+    "number": 33,
     "raw_lines": [
       "Test Tiers",
       "• Unit: one function",
@@ -453,7 +439,7 @@
     ]
   },
   {
-    "number": 35,
+    "number": 34,
     "raw_lines": [
       "Pytest Capture vs. Observability Platforms",
       "Dual-Loop Architecture: Black-Box Verification & Glass-Box Tracing",
@@ -471,7 +457,7 @@
     ]
   },
   {
-    "number": 36,
+    "number": 35,
     "raw_lines": [
       "Anti-Regression",
       "Keep the Bug",
@@ -479,6 +465,20 @@
       "• Append it to the suite",
       "• Rerun before you ship",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_06_tests_as_reliability_layer/README.md"
+    ]
+  },
+  {
+    "number": 36,
+    "raw_lines": [
+      "Evaluation Harnesses for Agentic AI",
+      "The Hardest Frontier in AI Engineering",
+      "• The Hardest Engineering Challenge: Evaluating autonomous agents (especially coding agents) is notoriously difficult due to non-deterministic multi-turn trajectories, dynamic state explosion, and test contamination.",
+      "• Strict Evaluation Isolation: the evaluator must run in an external, independent control sandbox completely out of the agent's context and reach.",
+      "• Industry Benchmark Examples:",
+      "  • SWE-bench (Verified / Lite): Real-world GitHub issues evaluated against hidden unit test assertions.",
+      "  • HumanEval & MBPP: Function-level code synthesis and unit-test benchmarks.",
+      "  • TerminalBench & InterCode: Multi-turn interactive bash shell and CLI execution tasks.",
+      "  • In-Repo Deterministic Replay Suites: Scored on test pass rate, scope fidelity, token spend, and permission denies."
     ]
   },
   {
