@@ -647,7 +647,8 @@
       "• Open-source framework: https://github.com/kenhuangus/compound-orchestrator",
       "• Core Loop: brainstorm -> plan -> 6 contracts -> 2-round review -> work -> compound",
       "• Durable Learning: Every task logs reusable decisions, failure notes, and compound notes",
-      "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux"
+      "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux",
+      "• Skill for this Plug-in: https://github.com/kenhuangus/compound-orchestrator/blob/main/skills/compound-orchestrator/SKILL.md"
     ],
     "number": 46
   },
@@ -695,6 +696,7 @@
       "• Slash Commands: /compound-start, /compound-plan, /compound-review, /compound-learn, /compound-claim",
       "• Specialized Subagents: compound-architect, compound-reviewer, compound-test-runner, compound-cross-tool-reviewer",
       "• Agent-Team Enablement: Native support for multi-agent dynamic teams",
+      "• Skill for this Plug-in: https://github.com/kenhuangus/compound-orchestrator/blob/main/skills/compound-orchestrator/SKILL.md",
       "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
     ],
     "number": 50
