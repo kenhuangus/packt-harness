@@ -681,92 +681,9 @@
       "• Specialization: Divide execution into Planner (architect), Implementer (coder), and Reviewer (auditor).",
       "• Git Worktree Isolation: Ephemeral isolation: worktree branches prevent implementer edits from dirtying main.",
       "• Sub-Spec Extraction: Deliver lean, slice-specific prompt contexts to subagents for maximum efficiency.",
-      "• Compounding Loop: telemetry.jsonl feeds lessons and failure patterns into AGENTS.md for continuous improvement."
-    ]
-  },
-  {
-    "number": 48,
-    "raw_lines": [
-      "Planner",
-      "Architect",
-      "• Read-only",
-      "• Reads SPEC.md",
-      "• Emits a file-scoped plan"
-    ]
-  },
-  {
-    "number": 49,
-    "raw_lines": [
-      "Implementer",
-      "Constrained Coder",
-      "• One subtask at a time",
-      "• Writes only allowed files",
-      "• Isolated worktree"
-    ]
-  },
-  {
-    "number": 50,
-    "raw_lines": [
-      "Reviewer",
-      "Independent Audit",
-      "• Separate context window",
-      "• AST, scope, tests",
-      "• Does not implement"
-    ]
-  },
-  {
-    "number": 51,
-    "raw_lines": [
-      "Worktree Isolation",
-      "isolation: worktree",
-      "• Agents live in .claude/agents/",
-      "• Frontmatter isolation: worktree",
-      "• Own git worktree, own edits"
-    ]
-  },
-  {
-    "number": 52,
-    "raw_lines": [
-      "Subagent Context",
-      "Pass Less",
-      "• Each subagent has a clean window",
-      "• Hand only the focused spec",
-      "• Agent tool; Task is an alias"
-    ]
-  },
-  {
-    "number": 53,
-    "raw_lines": [
-      "Self-Improvement",
-      "Close the Loop",
-      "• Log runs to telemetry.jsonl",
-      "• Find repeating failures",
-      "• Write the lesson into AGENTS.md",
+      "• Compounding Loop: telemetry.jsonl feeds lessons and failure patterns into AGENTS.md for continuous improvement.",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_08_compound_engineering/README.md"
     ]
-  },
-  {
-    "slide_type": "code",
-    "code_filename": "course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
-    "code_language": "python",
-    "highlight_lines": [
-      4,
-      5,
-      6,
-      11,
-      12,
-      18,
-      19
-    ],
-    "code_block": "class WorktreeIsolation:\n    def add(self) -> Path:\n        # Line 3-7: Creates ephemeral git worktree branch for isolated implementer\n        stamp = datetime.now(timezone.utc).strftime(\"%Y%m%d%H%M%S%f\")\n        self.branch = f\"module08-agent-{os.getpid()}-{stamp}\"\n        self.path = Path(os.environ.get(\"TEMP\", str(MODULE_DIR))) / self.branch\n        subprocess.run([\"git\", \"worktree\", \"add\", \"-b\", self.branch, str(self.path), \"HEAD\"], cwd=self.repo_root)\n        return self.path\n\n    def remove(self) -> None:\n        # Line 10-13: Cleans up worktree and temporary branch after completion\n        if self.path and self.branch:\n            subprocess.run([\"git\", \"worktree\", \"remove\", \"--force\", str(self.path)], cwd=self.repo_root)\n            subprocess.run([\"git\", \"branch\", \"-D\", self.branch], cwd=self.repo_root)\n\nclass MultiAgentTeam:\n    def run_implementer(self, subtask: dict, master_spec: str) -> Path:\n        # Line 18-20: Sub-spec isolation minimizes token context window\n        focused = self.isolator.extract_sub_spec(master_spec, subtask[\"name\"])\n        target = self.workspace_root / subtask[\"target_file\"]\n        target.write_text(auth_validator_source(), encoding=\"utf-8\")\n        return target",
-    "raw_lines": [
-      "Module 8 Code Lab: Git Worktree Isolation & Multi-Agent Team",
-      "File: course_implementation/module_08_compound_engineering/multi_agent_team_simulator.py",
-      "• [Lines 4-6] Git Worktree Isolation: Creates ephemeral git worktree branches so implementer edits never dirty main.",
-      "• [Lines 11-12] Clean Workspace Teardown: Safely removes temporary worktrees and branches after testing.",
-      "• [Lines 18-19] Sub-Spec Extraction: Delivers focused task slices to subagents, preventing context window fatigue."
-    ],
-    "number": 54
   },
   {
     "raw_lines": [
@@ -777,7 +694,7 @@
       "• Durable Learning: Every task logs reusable decisions, failure notes, and compound notes",
       "• Cross-runtime: First-class Claude Code & Codex support; portable across Windows, macOS, Linux"
     ],
-    "number": 55
+    "number": 48
   },
   {
     "raw_lines": [
@@ -789,7 +706,7 @@
       "• Shared Memory & Rules: AGENTS.md & CLAUDE.md managed protocol blocks",
       "• Framework Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 56
+    "number": 49
   },
   {
     "raw_lines": [
@@ -801,7 +718,7 @@
       "• Review Rubrics: Standardized scorecards for architecture, security, tests, and maintainability",
       "• Protocol Reference: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 57
+    "number": 50
   },
   {
     "raw_lines": [
@@ -813,7 +730,7 @@
       "• Clean Handoffs: Atomic release upon task integration or review handoff",
       "• Orchestration Code: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 58
+    "number": 51
   },
   {
     "raw_lines": [
@@ -825,7 +742,7 @@
       "• Agent-Team Enablement: Native support for multi-agent dynamic teams",
       "• Plugin Repository: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 59
+    "number": 52
   },
   {
     "raw_lines": [
@@ -836,10 +753,10 @@
       "• README Maintenance Policy: README.md is part of the product; updated on every workflow change",
       "• Framework & Plugin: https://github.com/kenhuangus/compound-orchestrator"
     ],
-    "number": 60
+    "number": 53
   },
   {
-    "number": 61,
+    "number": 54,
     "raw_lines": [
       "MODULE 9: The Five-Step Practical SOP Pipeline",
       "Deterministic End-to-End Delivery Lifecycle",
@@ -851,7 +768,7 @@
     ]
   },
   {
-    "number": 62,
+    "number": 55,
     "raw_lines": [
       "Steps 1 & 2",
       "Spec and Sandbox",
@@ -861,7 +778,7 @@
     ]
   },
   {
-    "number": 63,
+    "number": 56,
     "raw_lines": [
       "Steps 3 & 4",
       "Check then Test",
@@ -871,7 +788,7 @@
     ]
   },
   {
-    "number": 64,
+    "number": 57,
     "raw_lines": [
       "Step 5",
       "Human Review",
@@ -906,10 +823,10 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 65
+    "number": 58
   },
   {
-    "number": 66,
+    "number": 59,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -921,7 +838,7 @@
     ]
   },
   {
-    "number": 67,
+    "number": 60,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -933,7 +850,7 @@
     ]
   },
   {
-    "number": 68,
+    "number": 61,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -968,7 +885,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 69
+    "number": 62
   },
   {
     "slide_type": "comparison",
@@ -987,7 +904,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 70
+    "number": 63
   },
   {
     "slide_type": "concept",
@@ -1001,7 +918,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 71
+    "number": 64
   },
   {
     "slide_type": "code",
@@ -1026,7 +943,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 72
+    "number": 65
   },
   {
     "slide_type": "reference_tables",
@@ -1043,7 +960,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 73
+    "number": 66
   },
   {
     "slide_type": "reference_tables",
@@ -1058,6 +975,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 74
+    "number": 67
   }
 ]
