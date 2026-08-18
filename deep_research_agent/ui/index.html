@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -75,6 +76,23 @@
               <span>⚡</span> Execute Autonomous Research
             </button>
           </form>
+
+          <!-- Live Autonomous Search Progress Bar Section -->
+          <div class="progress-section" id="progressSection" style="display: none;">
+            <div class="progress-header">
+              <div class="progress-title-row">
+                <span class="progress-spinner" id="progressSpinner">⚡</span>
+                <strong class="progress-label" id="progressLabel">Initializing Research Harness...</strong>
+              </div>
+              <span class="progress-pct" id="progressPct">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+            </div>
+            <div class="progress-substatus" id="progressSubstatus">
+              Preparing isolated worktree and MCP crawler clients...
+            </div>
+          </div>
 
           <div class="section-divider">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">

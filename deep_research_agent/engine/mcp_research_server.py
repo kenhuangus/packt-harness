@@ -12,6 +12,7 @@ Zero API Keys Required:
 from __future__ import annotations
 
 import asyncio
+import concurrent.futures
 import json
 from pathlib import Path
 import re
@@ -131,6 +132,20 @@ def _canonical_youtube_video_id(url: str) -> str:
     parsed = urllib.parse.urlparse(url)
     video_id = urllib.parse.parse_qs(parsed.query).get("v", [None])[0]
     return video_id or url.rstrip("/")
+
+
+def _run_sync_in_clean_thread_if_in_async_loop(func, *args, **kwargs):
+    """Runs func in a worker thread if the current thread is running an asyncio event loop,
+    preventing Playwright Sync API from throwing RuntimeError."""
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+
+    if loop is not None and loop.is_running():
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            return executor.submit(func, *args, **kwargs).result()
+    return func(*args, **kwargs)
 
 
 def _canonical_github_repo_url(url: str) -> str:
@@ -304,11 +319,7 @@ def fetch_live_hackernews(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
-def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
-    """
-    Fast public GitHub repository search without API key.
-    Uses Playwright browser automation and returns zero documents on crawl failure.
-    """
+def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
     docs = []
     try:
         from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
@@ -376,15 +387,19 @@ def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
+def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
+    """
+    Fast public GitHub repository search without API key.
+    Uses Playwright browser automation and returns zero documents on crawl failure.
+    """
+    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_github_impl, query, limit)
+
+
 # ==============================================================================
 # 3. YOUTUBE TECHNICAL VIDEO SEARCH (Playwright Browser Agent)
 # ==============================================================================
 
-def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
-    """
-    Searches YouTube for technical conference talks, keynotes & engineering walkthroughs without API key.
-    Uses Playwright browser automation.
-    """
+def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
     docs = []
     try:
         from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
@@ -450,6 +465,14 @@ def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
     except Exception as exc:
         _report_crawl_failure("YouTube", query, "unexpected_failure", exc)
     return docs
+
+
+def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
+    """
+    Searches YouTube for technical conference talks, keynotes & engineering walkthroughs without API key.
+    Uses Playwright browser automation.
+    """
+    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_youtube_impl, query, limit)
 
 
 # ==============================================================================

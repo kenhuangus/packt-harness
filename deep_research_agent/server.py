@@ -5,7 +5,7 @@ Python HTTP API Server for Deep Research Agent UI and 5-Step Pipeline.
 from __future__ import annotations
 
 import asyncio
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 from pathlib import Path
@@ -25,6 +25,17 @@ WORKSPACE_DIR = Path(__file__).parent / "output"
 class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(UI_DIR), **kwargs)
+
+    def do_GET(self):
+        if self.path in ("/favicon.ico", "/favicon.svg"):
+            favicon_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚛️</text></svg>'
+            self.send_response(200)
+            self.send_header("Content-Type", "image/svg+xml")
+            self.send_header("Cache-Control", "public, max-age=86400")
+            self.end_headers()
+            self.wfile.write(favicon_svg.encode("utf-8"))
+            return
+        super().do_GET()
 
     def do_POST(self):
         if self.path == "/api/research":
@@ -52,10 +63,6 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
-
-from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
-
-# ...
 
 def run_server(port: int = 8090):
     server = ThreadingHTTPServer(("0.0.0.0", port), DeepResearchAPIHandler)
