@@ -389,7 +389,7 @@
     "number": 28,
     "raw_lines": [
       "Test Tiers for Agentic AI Systems",
-      "Comprehensive Verification Pyramid: From Unit Functions to Red Teaming",
+      "Comprehensive Verification Pyramid: From Unit Testing to Red Teaming",
       "• 1. Unit Testing: Isolates individual functions, schema serializers, and tool validators.",
       "• 2. Integration Testing: Verifies component boundaries, tool invocations, and MCP protocol handshakes.",
       "• 3. End-to-End (E2E) Testing: Executes complete multi-turn workflows from initial user prompt to finished artifact.",
