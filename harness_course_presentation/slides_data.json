@@ -650,38 +650,8 @@
       "• Step 2 (Sandbox Execution): Execute implementation tasks in isolated ephemeral git worktrees.",
       "• Step 3 (Guardrails & Scanning): Intercept dangerous flags and scan AST/regex for secret leaks.",
       "• Step 4 (Pytest TDA Loop): Run automated test suites and self-heal from captured tracebacks.",
-      "• Step 5 (Human Review & Audit): Generate unified diffs and verify 5-gate production readiness scorecard."
-    ]
-  },
-  {
-    "number": 45,
-    "raw_lines": [
-      "Steps 1 & 2",
-      "Spec and Sandbox",
-      "• Agree the spec before any code",
-      "• Minimal tools, listed files only",
-      "• Out-of-scope writes do not land"
-    ]
-  },
-  {
-    "number": 46,
-    "raw_lines": [
-      "Steps 3 & 4",
-      "Check then Test",
-      "• Hooks, AST, secret scan",
-      "• Real pytest, not a slogan",
-      "• Failures go back into the loop"
-    ]
-  },
-  {
-    "number": 47,
-    "raw_lines": [
-      "Step 5",
-      "Human Review",
-      "• Show the actual diff",
-      "• Check business logic",
-      "• Merge is out of band",
-      "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
+      "• Step 5 (Human Review & Audit): Generate unified diffs and verify 5-gate production readiness scorecard.",
+      "• Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_09_practical_workflow_pattern/README.md"
     ]
   },
   {
@@ -709,10 +679,10 @@
       "• [Line 19] Step 4 Test Gate: Runs real pytest suite in isolated subprocess before review.",
       "• [Line 22] Step 5 Human Diff Review: Generates standard unified diffs for manual pull request sign-off."
     ],
-    "number": 48
+    "number": 45
   },
   {
-    "number": 49,
+    "number": 46,
     "raw_lines": [
       "MODULE 10: Four Principles of Harness Engineering",
       "Core Tenets & Production Readiness Benchmarking",
@@ -724,7 +694,7 @@
     ]
   },
   {
-    "number": 50,
+    "number": 47,
     "raw_lines": [
       "Readiness Scorecard",
       "Five Checks",
@@ -736,7 +706,7 @@
     ]
   },
   {
-    "number": 51,
+    "number": 48,
     "raw_lines": [
       "Wrap-Up",
       "Where to Go Next",
@@ -771,7 +741,7 @@
       "• [Line 20] Gate 4 MCP Declarations: AST-walks repository to verify @mcp.tool and @mcp.resource implementations.",
       "• Production Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS."
     ],
-    "number": 52
+    "number": 49
   },
   {
     "slide_type": "comparison",
@@ -790,7 +760,7 @@
       "• Decision Guide: Use Dynamic Workflows for terminal repo refactors & large migrations; build Custom Engineering Graphs for strict enterprise compliance, permanent integrations & UI approval gates.",
       "• Reference Sources: https://code.claude.com/docs/en/workflows, https://www.youtube.com/watch?v=zyKWWJJ9HvI, https://aipractitioner.substack.com/p/claude-dynamic-workflows-scaling, https://blakecrosley.com/guides/loop-engineering"
     ],
-    "number": 53
+    "number": 50
   },
   {
     "slide_type": "concept",
@@ -804,7 +774,7 @@
       "• Project Source: https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent",
       "• Demo Video: https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/demo/deep_research_agent_demo.mp4"
     ],
-    "number": 54
+    "number": 51
   },
   {
     "slide_type": "code",
@@ -829,7 +799,7 @@
       "• [Lines 14-16] Step 4 Pytest TDA Loop: Self-heals citation failures and appends anti-regression test guards to disk.",
       "• Capstone Deliverable: Full 1080p demo video and complete implementation in repository root."
     ],
-    "number": 55
+    "number": 52
   },
   {
     "slide_type": "reference_tables",
@@ -846,7 +816,7 @@
       "| 🛡️ 5-Gate Production Scorecard (100% Certified) | https://github.com/kenhuangus/packt-harness/blob/main/deep_research_agent/README.md |",
       "| 🌐 Live Course Presentation Slides | https://kenhuangus.github.io/packt-harness/slides.html#83 |"
     ],
-    "number": 56
+    "number": 53
   },
   {
     "slide_type": "reference_tables",
@@ -861,6 +831,6 @@
       "| Agentic AI Substack (Ken Huang) | https://kenhuangus.substack.com/ |",
       "| Harness Engineering: Design Patterns for Securing Long-Horizon Multi-Agent AI Systems | https://www.amazon.com/dp/B0HF3F86YM |"
     ],
-    "number": 57
+    "number": 54
   }
 ]
