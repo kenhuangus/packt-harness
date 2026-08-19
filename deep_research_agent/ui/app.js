@@ -25,13 +25,6 @@ function switchTab(tab) {
   renderTabContent();
 }
 
-function renderTabContent() {
-  const container = document.getElementById('dossierContent');
-  if (!latestResult) {
-    container.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">No research executed yet.</p>';
-    return;
-  }
-
 // ==============================================================================
 // SVG ARCHITECTURE & METRICS DIAGRAM GENERATORS
 // ==============================================================================
@@ -502,7 +495,7 @@ function openProgressModal(query, days_back = 30) {
     document.getElementById('modalStepName').textContent = 'Initializing Worktree Sandbox...';
 
     // Clear live evidence list
-    const list = document.getElementById('liveEvidenceList');
+    const list = document.getElementById('modalLiveEvidenceList');
     if (list) {
       list.innerHTML = `
         <div class="live-evidence-empty" id="liveEvidenceEmpty">
