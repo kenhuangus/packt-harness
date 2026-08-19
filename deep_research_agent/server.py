@@ -47,10 +47,11 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
             body = self.rfile.read(content_len).decode("utf-8")
             data = json.loads(body) if body else {}
             query = data.get("query", "Autonomous Harness Engineering")
+            days_back = int(data.get("days_back", 30))
 
-            # Run 5-step SOP pipeline
+            # Run 5-step SOP pipeline with user-selected time horizon
             pipeline = FiveStepResearchPipeline(WORKSPACE_DIR)
-            result = pipeline.execute_deep_research(query)
+            result = pipeline.execute_deep_research(query, days_back=days_back)
 
             self.send_response(200)
             self.send_header("Content-Type", "application/json")

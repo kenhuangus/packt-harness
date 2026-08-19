@@ -64,6 +64,18 @@
             </div>
 
             <div class="form-group">
+              <label for="timeHorizonSelect">Search Time Horizon (Recency Filter)</label>
+              <select id="timeHorizonSelect" class="select-input">
+                <option value="7">📅 Past 7 Days (Ultra Fresh / Breaking)</option>
+                <option value="30" selected>📅 Past 30 Days (Default / Last Month)</option>
+                <option value="90">📅 Past 90 Days (Past Quarter)</option>
+                <option value="180">📅 Past 180 Days (Past 6 Months)</option>
+                <option value="365">📅 Past 1 Year (Past 365 Days)</option>
+                <option value="0">🌐 All Time (Full Unbounded Archive)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label>Active Zero-API Public Streams</label>
               <div class="source-tags-grid">
                 <span class="source-pill">📄 arXiv / OpenAlex</span>

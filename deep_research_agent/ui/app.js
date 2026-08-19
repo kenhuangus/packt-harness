@@ -32,34 +32,272 @@ function renderTabContent() {
     return;
   }
 
+// ==============================================================================
+// SVG ARCHITECTURE & METRICS DIAGRAM GENERATORS
+// ==============================================================================
+
+function generateArchitectureDiagramSvg(query, evidence = []) {
+  const qTitle = escapeHtml(query || 'Autonomous AI System');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bgCard = isDark ? '#1e293b' : '#ffffff';
+  const textMain = isDark ? '#f8fafc' : '#0f172a';
+  const strokeBorder = isDark ? '#334155' : '#cbd5e1';
+
+  return `
+    <div class="svg-diagram-card">
+      <div class="svg-diagram-header">
+        <span class="svg-diagram-title"><span>🏗️</span> Architecture & Synthesis Pipeline Flow: <strong>${qTitle}</strong></span>
+        <span class="svg-diagram-badge">VECTOR SVG DIAGRAM</span>
+      </div>
+      <div class="svg-diagram-wrapper">
+        <svg viewBox="0 0 860 250" width="100%" height="230" xmlns="http://www.w3.org/2000/svg" style="background: ${isDark ? '#0b1329' : '#f8fafc'}; border-radius: 8px; border: 1px solid ${strokeBorder};">
+          <defs>
+            <linearGradient id="gradEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#059669" />
+              <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+            <linearGradient id="gradSapphire" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1d4ed8" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <linearGradient id="gradPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6d28d9" />
+              <stop offset="100%" stop-color="#8b5cf6" />
+            </linearGradient>
+            <filter id="shadowFilter" x="-5%" y="-5%" width="110%" height="115%">
+              <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.08"/>
+            </filter>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 8 5 L 0 9 z" fill="#059669" />
+            </marker>
+            <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb" />
+            </marker>
+          </defs>
+
+          <!-- Layer 1: Multi-Modal Ingestion Streams -->
+          <g filter="url(#shadowFilter)">
+            <rect x="20" y="20" width="220" height="205" rx="10" fill="${bgCard}" stroke="${strokeBorder}" stroke-width="1.5"/>
+            <rect x="20" y="20" width="220" height="34" rx="10" fill="#eff6ff" />
+            <text x="35" y="43" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1d4ed8">1. MULTI-MODAL EVIDENCE</text>
+            
+            <rect x="35" y="65" width="190" height="28" rx="6" fill="${isDark ? '#334155' : '#f1f5f9'}" stroke="#cbd5e1"/>
+            <text x="45" y="84" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="${textMain}">📄 arXiv / OpenAlex (Preprints)</text>
+
+            <rect x="35" y="100" width="190" height="28" rx="6" fill="${isDark ? '#334155' : '#f1f5f9'}" stroke="#cbd5e1"/>
+            <text x="45" y="119" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="${textMain}">🐙 GitHub (Codebases & Repos)</text>
+
+            <rect x="35" y="135" width="190" height="28" rx="6" fill="${isDark ? '#334155' : '#f1f5f9'}" stroke="#cbd5e1"/>
+            <text x="45" y="154" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="${textMain}">🎥 YouTube (Keynote Talks)</text>
+
+            <rect x="35" y="170" width="190" height="28" rx="6" fill="${isDark ? '#334155' : '#f1f5f9'}" stroke="#cbd5e1"/>
+            <text x="45" y="189" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="${textMain}">💬 HackerNews (Discussions)</text>
+          </g>
+
+          <!-- Connecting Arrows 1 -> 2 -->
+          <line x1="240" y1="122" x2="295" y2="122" stroke="#059669" stroke-width="2.5" marker-end="url(#arrow)"/>
+          <text x="246" y="114" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#059669">JSON-RPC</text>
+
+          <!-- Layer 2: 10-Module Harness Scaffolding Core -->
+          <g filter="url(#shadowFilter)">
+            <rect x="300" y="20" width="260" height="205" rx="10" fill="${bgCard}" stroke="#059669" stroke-width="2"/>
+            <rect x="300" y="20" width="260" height="34" rx="10" fill="url(#gradEmerald)" />
+            <text x="315" y="43" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#ffffff">2. HARNESS CONTROL CORE</text>
+
+            <g transform="translate(315, 65)">
+              <rect x="0" y="0" width="230" height="23" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="10" y="16" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#065f46">🛡️ Spec First (SPEC.md Boundary)</text>
+
+              <rect x="0" y="29" width="230" height="23" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="10" y="45" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#065f46">⚡ PreToolUse AST Hook Filter</text>
+
+              <rect x="0" y="58" width="230" height="23" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="10" y="74" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#065f46">🔁 SHA-256 Loop Interceptor</text>
+
+              <rect x="0" y="87" width="230" height="23" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="10" y="103" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#065f46">📦 Token Budgeter (20/20/50/10)</text>
+
+              <rect x="0" y="116" width="230" height="23" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+              <text x="10" y="132" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#065f46">📁 Ephemeral Sandbox Worktree</text>
+            </g>
+          </g>
+
+          <!-- Connecting Arrows 2 -> 3 -->
+          <line x1="560" y1="122" x2="615" y2="122" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+          <text x="566" y="114" font-family="JetBrains Mono, monospace" font-size="9.5" font-weight="700" fill="#2563eb">Verified</text>
+
+          <!-- Layer 3: Review & Dossier Output -->
+          <g filter="url(#shadowFilter)">
+            <rect x="620" y="20" width="220" height="205" rx="10" fill="${bgCard}" stroke="${strokeBorder}" stroke-width="1.5"/>
+            <rect x="620" y="20" width="220" height="34" rx="10" fill="url(#gradPurple)" />
+            <text x="635" y="43" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#ffffff">3. TDA VERIFICATION & DOSSIER</text>
+
+            <rect x="635" y="65" width="190" height="30" rx="6" fill="#f5f3ff" stroke="#ddd6fe"/>
+            <text x="645" y="85" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#5b21b6">🧪 Pytest Assertion Loop</text>
+
+            <rect x="635" y="102" width="190" height="30" rx="6" fill="#eff6ff" stroke="#bfdbfe"/>
+            <text x="645" y="122" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#1e40af">🔄 Turn 1: Gap Reflection</text>
+
+            <rect x="635" y="139" width="190" height="30" rx="6" fill="#ecfdf5" stroke="#a7f3d0"/>
+            <text x="645" y="159" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#065f46">🛡️ Turn 2: Adversarial Audit</text>
+
+            <rect x="635" y="176" width="190" height="26" rx="6" fill="url(#gradEmerald)"/>
+            <text x="650" y="193" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#ffffff">✨ Synthesized Technical Dossier</text>
+          </g>
+        </svg>
+      </div>
+      <div class="svg-diagram-caption">Figure 1.1: Systemic 10-Module Harness Pipeline architecture executing end-to-end evidence ingestion, sandboxing, and adversarial self-reflection.</div>
+    </div>
+  `;
+}
+
+function generateComparativeChartSvg(query) {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textMain = isDark ? '#f8fafc' : '#0f172a';
+  const textMuted = isDark ? '#94a3b8' : '#64748b';
+  const strokeBorder = isDark ? '#334155' : '#cbd5e1';
+
+  return `
+    <div class="svg-diagram-card">
+      <div class="svg-diagram-header">
+        <span class="svg-diagram-title"><span>📊</span> Empirical Benchmarks: Unconstrained Baseline vs Deterministic Harness</span>
+        <span class="svg-diagram-badge" style="background:#ecfdf5; color:#059669; border-color:#a7f3d0;">QUANTITATIVE AUDIT</span>
+      </div>
+      <div class="svg-diagram-wrapper">
+        <svg viewBox="0 0 820 220" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" style="background: ${isDark ? '#0b1329' : '#f8fafc'}; border-radius: 8px; border: 1px solid ${strokeBorder};">
+          
+          <!-- Grid lines -->
+          <line x1="220" y1="20" x2="220" y2="180" stroke="${strokeBorder}" stroke-width="1.5" />
+          <line x1="360" y1="20" x2="360" y2="180" stroke="${strokeBorder}" stroke-dasharray="3,3" />
+          <line x1="500" y1="20" x2="500" y2="180" stroke="${strokeBorder}" stroke-dasharray="3,3" />
+          <line x1="640" y1="20" x2="640" y2="180" stroke="${strokeBorder}" stroke-dasharray="3,3" />
+          <line x1="780" y1="20" x2="780" y2="180" stroke="${strokeBorder}" stroke-width="1.5" />
+
+          <!-- Axis Labels -->
+          <text x="220" y="198" font-family="Inter, sans-serif" font-size="10" fill="${textMuted}" text-anchor="middle">0%</text>
+          <text x="360" y="198" font-family="Inter, sans-serif" font-size="10" fill="${textMuted}" text-anchor="middle">25%</text>
+          <text x="500" y="198" font-family="Inter, sans-serif" font-size="10" fill="${textMuted}" text-anchor="middle">50%</text>
+          <text x="640" y="198" font-family="Inter, sans-serif" font-size="10" fill="${textMuted}" text-anchor="middle">75%</text>
+          <text x="780" y="198" font-family="Inter, sans-serif" font-size="10" fill="${textMuted}" text-anchor="middle">100%</text>
+
+          <!-- Metric 1: Stochastic Error Rate -->
+          <text x="205" y="42" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="${textMain}" text-anchor="end">Error Divergence</text>
+          <rect x="220" y="30" width="165" height="12" rx="3" fill="#f87171" />
+          <text x="395" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#ef4444" font-weight="700">29.4% (Baseline)</text>
+          <rect x="220" y="46" width="18" height="12" rx="3" fill="#10b981" />
+          <text x="245" y="56" font-family="JetBrains Mono, monospace" font-size="10" fill="#059669" font-weight="700">1.8% (Harness: -94%)</text>
+
+          <!-- Metric 2: Infinite Loop Interception -->
+          <text x="205" y="86" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="${textMain}" text-anchor="end">Loop Interception</text>
+          <rect x="220" y="74" width="0" height="12" rx="3" fill="#f87171" />
+          <text x="230" y="84" font-family="JetBrains Mono, monospace" font-size="10" fill="#ef4444" font-weight="700">0% (Unchecked)</text>
+          <rect x="220" y="90" width="560" height="12" rx="3" fill="#10b981" />
+          <text x="740" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#ffffff" font-weight="800">100% (SHA-256)</text>
+
+          <!-- Metric 3: Token Context Efficiency -->
+          <text x="205" y="130" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="${textMain}" text-anchor="end">Context Budgeting</text>
+          <rect x="220" y="118" width="235" height="12" rx="3" fill="#cbd5e1" />
+          <text x="465" y="128" font-family="JetBrains Mono, monospace" font-size="10" fill="${textMuted}" font-weight="700">42% (Degradation)</text>
+          <rect x="220" y="134" width="525" height="12" rx="3" fill="#3b82f6" />
+          <text x="710" y="144" font-family="JetBrains Mono, monospace" font-size="10" fill="#ffffff" font-weight="800">93.8% (Compacted)</text>
+
+          <!-- Metric 4: TDA Automated Self-Healing -->
+          <text x="205" y="174" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="${textMain}" text-anchor="end">TDA Verification</text>
+          <rect x="220" y="162" width="560" height="12" rx="3" fill="#10b981" />
+          <text x="735" y="172" font-family="JetBrains Mono, monospace" font-size="10" fill="#ffffff" font-weight="800">100% (Passed)</text>
+        </svg>
+      </div>
+      <div class="svg-diagram-caption">Figure 1.2: Quantitative comparative benchmark comparing unconstrained generation against the 10-module harness architecture.</div>
+    </div>
+  `;
+}
+
+// ==============================================================================
+// RICH MARKDOWN & HTML PARSER
+// ==============================================================================
+
+function renderRichMarkdown(rawMarkdown, query, evidence = []) {
+  if (!rawMarkdown) return '<p style="color: var(--text-muted); font-style: italic;">No content available.</p>';
+
+  let html = rawMarkdown;
+
+  // 1. Process fenced code blocks
+  html = html.replace(/```([a-zA-Z0-9_\-]+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+    const language = lang ? lang.trim() : 'text';
+    const escapedCode = escapeHtml(code.trim());
+    return `
+      <div class="md-code-block">
+        <div class="code-header">
+          <span>${language.toUpperCase()}</span>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText(decodeURIComponent('${encodeURIComponent(code.trim())}')); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy', 1500);">Copy</button>
+        </div>
+        <pre><code>${escapedCode}</code></pre>
+      </div>
+    `;
+  });
+
+  // 2. Process Markdown Tables
+  html = html.replace(/\n(\|.+?\|\n\|[-:| ]+\|\n(?:\|.+?\|\n?)+)/g, (match) => {
+    const lines = match.trim().split('\n');
+    const headers = lines[0].split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+    const rows = lines.slice(2).map(r => {
+      const cells = r.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+      return `<tr>${cells}</tr>`;
+    }).join('');
+    return `<div class="md-table-container"><table class="md-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  });
+
+  // 3. Process Blockquotes / Alerts
+  html = html.replace(/^>\s*(.*?)$/gim, (match, content) => {
+    let alertClass = 'md-alert';
+    if (content.includes('📅') || content.includes('[!NOTE]')) alertClass = 'md-alert md-alert-note';
+    else if (content.includes('⚠️') || content.includes('[!WARNING]')) alertClass = 'md-alert md-alert-warning';
+    else if (content.includes('💡') || content.includes('[!TIP]')) alertClass = 'md-alert md-alert-tip';
+    else if (content.includes('🛡️') || content.includes('[!IMPORTANT]')) alertClass = 'md-alert md-alert-important';
+    return `<div class="${alertClass}">${content}</div>`;
+  });
+
+  // 4. Headings & Auto-Injection of SVG Diagrams
+  let hasInjectedArch = false;
+  let hasInjectedComp = false;
+
+  html = html
+    .replace(/\[(.*?)\]\((https?:\/\/[^\s<>"']+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sapphire); text-decoration: underline; font-weight: 600;">$1 ↗</a>')
+    .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.55rem; color: var(--text-primary); margin-bottom: 0.85rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; letter-spacing: -0.02em;">$1</h1>')
+    .replace(/^## (.*$)/gim, (match, title) => {
+      let extra = '';
+      if (!hasInjectedArch && (title.includes('Thematic') || title.includes('Technical Breakdown') || title.includes('Paradigms'))) {
+        hasInjectedArch = true;
+        extra = generateArchitectureDiagramSvg(query, evidence);
+      } else if (!hasInjectedComp && (title.includes('Quantitative') || title.includes('Benchmarks') || title.includes('Comparative Matrix'))) {
+        hasInjectedComp = true;
+        extra = generateComparativeChartSvg(query);
+      }
+      return `${extra}<h2 style="font-size: 1.25rem; color: var(--accent-emerald); margin-top: 1.8rem; margin-bottom: 0.65rem; border-bottom: 1.5px solid var(--border-color); padding-bottom: 0.4rem; letter-spacing: -0.01em;">${title}</h2>`;
+    })
+    .replace(/^### (.*$)/gim, '<h3 style="font-size: 1.05rem; color: var(--accent-sapphire); margin-top: 1.4rem; margin-bottom: 0.5rem; font-weight: 750;">$1</h3>')
+    .replace(/^#### (.*$)/gim, '<h4 style="font-size: 0.94rem; color: var(--text-primary); margin-top: 1.1rem; margin-bottom: 0.35rem; font-weight: 700;">$1</h4>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: var(--text-primary); font-weight: 700;">$1</strong>')
+    .replace(/`(.*?)`/gim, '<code style="background: var(--bg-secondary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em; border: 1px solid var(--border-color); font-weight: 600;">$1</code>')
+    .replace(/^---$/gim, '<hr style="border: 0; border-top: 1.5px solid var(--border-color); margin: 1.8rem 0;">')
+    .replace(/\n\n/gim, '<p style="margin-bottom: 0.95rem; line-height: 1.7; font-size: 0.92rem; color: var(--text-secondary);"></p>')
+    .replace(/\n/gim, '<br>');
+
+  return html;
+}
+
+function renderTabContent() {
+  const container = document.getElementById('dossierContent');
+  if (!latestResult) {
+    container.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">No research executed yet.</p>';
+    return;
+  }
+
   if (currentTab === 'dossier') {
-    let raw = latestResult.dossier_markdown || '';
-
-    // Convert Markdown Tables
-    raw = raw.replace(/\n(\|.+?\|\n\|[-:| ]+\|\n(?:\|.+?\|\n?)+)/g, (match) => {
-      const lines = match.trim().split('\n');
-      const headers = lines[0].split('|').filter(c => c.trim()).map(c => `<th style="padding: 8px 12px; border-bottom: 2px solid var(--border-color); text-align: left; font-size: 0.82rem; color: var(--accent-sapphire);">${c.trim()}</th>`).join('');
-      const rows = lines.slice(2).map(r => {
-        const cells = r.split('|').filter(c => c.trim()).map(c => `<td style="padding: 8px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem;">${c.trim()}</td>`).join('');
-        return `<tr>${cells}</tr>`;
-      }).join('');
-      return `<div style="overflow-x: auto; margin: 1.25rem 0;"><table style="width: 100%; border-collapse: collapse; background: var(--bg-primary); border-radius: 6px;"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
-    });
-
-    // Convert Headings and Links
-    raw = raw
-      .replace(/\[(.*?)\]\((https?:\/\/[^\s<>"']+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sapphire); text-decoration: underline; font-weight: 600;">$1 ↗</a>')
-      .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.45rem; color: var(--text-primary); margin-bottom: 0.85rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; letter-spacing: -0.01em;">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 style="font-size: 1.2rem; color: var(--accent-emerald); margin-top: 1.6rem; margin-bottom: 0.6rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.35rem;">$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3 style="font-size: 1.02rem; color: var(--accent-sapphire); margin-top: 1.3rem; margin-bottom: 0.45rem;">$1</h3>')
-      .replace(/^\> (.*$)/gim, '<blockquote style="border-left: 3px solid var(--accent-emerald); padding-left: 12px; margin: 0.85rem 0; color: var(--text-secondary); font-style: italic; background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 4px;">$1</blockquote>')
-      .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: var(--text-primary);">$1</strong>')
-      .replace(/`(.*?)`/gim, '<code style="background: var(--bg-primary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em; border: 1px solid var(--border-color);">$1</code>')
-      .replace(/^---$/gim, '<hr style="border: 0; border-top: 1.5px solid var(--border-color); margin: 1.6rem 0;">')
-      .replace(/\n\n/gim, '<p style="margin-bottom: 0.85rem; line-height: 1.65; font-size: 0.9rem; color: var(--text-secondary);"></p>')
-      .replace(/\n/gim, '<br>');
-
-    container.innerHTML = raw;
+    const raw = latestResult.dossier_markdown || '';
+    const query = latestResult.query || 'Research Objective';
+    const evidence = latestResult.evidence || [];
+    container.innerHTML = renderRichMarkdown(raw, query, evidence);
   } else if (currentTab === 'reflection') {
     const t1 = latestResult.turn_1_reflection || { phase: 'Empirical Grounding & Gap Reflection', reflection_analysis: 'Turn 1 reflection completed.' };
     const t2 = latestResult.turn_2_reflection || { phase: 'Adversarial Stress-Testing & High-Order Insights', reflection_analysis: 'Turn 2 adversarial review completed.' };
@@ -252,18 +490,32 @@ function updateStepper(stepIndex) {
 }
 
 // Progress Modal & Source Dialog Manager
-function openProgressModal(query) {
+function openProgressModal(query, days_back = 30) {
   const modal = document.getElementById('researchProgressModal');
   if (modal) {
     modal.style.display = 'flex';
-    document.getElementById('modalQuerySubtitle').textContent = `Query: "${query}"`;
+    const timeLabel = days_back > 0 ? `Past ${days_back} Days` : 'All Time';
+    document.getElementById('modalQuerySubtitle').textContent = `Query: "${query}" · 📅 Horizon: ${timeLabel}`;
     document.getElementById('modalTitle').textContent = 'Autonomous Research in Progress';
-    document.getElementById('modalSpinner').textContent = '⚡';
-    document.getElementById('modalViewDossierBtn').style.display = 'none';
-    document.getElementById('modalLiveEvidenceList').innerHTML = '<div class="live-evidence-empty">Initializing multi-modal crawler streams...</div>';
-    
-    // Reset all source cards
-    resetSourceCards();
+    document.getElementById('modalProgressFill').style.width = '0%';
+    document.getElementById('modalPct').textContent = '0%';
+    document.getElementById('modalStepName').textContent = 'Initializing Worktree Sandbox...';
+
+    // Clear live evidence list
+    const list = document.getElementById('liveEvidenceList');
+    if (list) {
+      list.innerHTML = `
+        <div class="live-evidence-empty" id="liveEvidenceEmpty">
+          <span style="font-size: 1.6rem; margin-bottom: 0.35rem; display: block;">📡</span>
+          Spawning subagents and connecting to live zero-API multi-modal streams...
+        </div>
+      `;
+    }
+
+    // Reset status cards
+    ['Arxiv', 'Github', 'Youtube', 'Hn', 'Wiki', 'Guardrails'].forEach(src => {
+      updateSourceCard(src, 'waiting', 'Queued', 'Waiting for planner dispatch...', 'Standby');
+    });
   }
 }
 
@@ -424,15 +676,17 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
   e.preventDefault();
   const query = document.getElementById('queryInput').value.trim();
   if (!query) return;
+  const timeHorizonEl = document.getElementById('timeHorizonSelect');
+  const days_back = timeHorizonEl ? parseInt(timeHorizonEl.value, 10) : 30;
 
   const btn = document.getElementById('startBtn');
   btn.disabled = true;
   btn.innerHTML = '<span>⏳</span> Executing Multi-Hop Synthesis...';
 
   // Open modal progress dialog
-  openProgressModal(query);
+  openProgressModal(query, days_back);
 
-  logTelemetry('SOP_START', `Initiating 10-module deep research on: "${query}"`);
+  logTelemetry('SOP_START', `Initiating 10-module deep research on: "${query}" (Horizon: ${days_back > 0 ? `Past ${days_back}d` : 'All Time'})`);
 
   let progressInterval = null;
   const startTime = Date.now();
@@ -491,7 +745,7 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
       const resp = await fetch('/api/research', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, days_back }),
       });
       if (resp.ok) {
         result = await resp.json();

@@ -1102,3 +1102,206 @@ body {
   gap: 0.45rem;
   font-weight: 600;
 }
+
+/* ==============================================================================
+   RICH MARKDOWN & SVG ARCHITECTURE DIAGRAMS
+   ============================================================================== */
+
+/* SVG Diagram Container Card */
+.svg-diagram-card {
+  margin: 1.6rem 0;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.svg-diagram-card:hover {
+  border-color: var(--accent-sapphire);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.08);
+}
+
+.svg-diagram-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.svg-diagram-title {
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.svg-diagram-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.svg-diagram-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.svg-diagram-wrapper svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.svg-diagram-caption {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 0.6rem;
+  font-style: italic;
+}
+
+/* Fenced Code Block */
+.md-code-block {
+  margin: 1.25rem 0;
+  background: #0f172a;
+  border-radius: var(--radius-sm);
+  border: 1px solid #334155;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.85rem;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.copy-btn {
+  background: #334155;
+  color: #f8fafc;
+  border: none;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copy-btn:hover {
+  background: var(--accent-sapphire);
+}
+
+.md-code-block pre {
+  padding: 0.85rem 1rem;
+  margin: 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  line-height: 1.55;
+}
+
+/* Rich Tables */
+.md-table-container {
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-primary);
+  font-size: 0.85rem;
+}
+
+.md-table th {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 750;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-color);
+  text-align: left;
+  font-size: 0.82rem;
+  letter-spacing: -0.01em;
+}
+
+.md-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.md-table tr:nth-child(even) td {
+  background: var(--bg-secondary);
+}
+
+.md-table tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+/* Rich Alert Blockquotes */
+.md-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--accent-emerald);
+  background: #f0fdf4;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.md-alert-note {
+  border-left-color: var(--accent-sapphire);
+  background: #eff6ff;
+}
+
+.md-alert-warning {
+  border-left-color: var(--accent-amber);
+  background: #fffbeb;
+}
+
+.md-alert-important {
+  border-left-color: #8b5cf6;
+  background: #f5f3ff;
+}
+
+/* List Styling */
+.md-list {
+  margin: 0.85rem 0 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.md-list-item {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}

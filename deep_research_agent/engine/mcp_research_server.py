@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import asyncio
 import concurrent.futures
+from datetime import datetime, timezone, timedelta
 import json
 from pathlib import Path
 import re
@@ -23,6 +24,19 @@ import xml.etree.ElementTree as ET
 from mcp.server.mcpserver import MCPServer
 
 mcp = MCPServer("DeepResearchMCPServer")
+
+# Time Horizon Freshness Cutoff Helper
+def get_cutoff(days_back: int = 30) -> tuple[datetime, str, int]:
+    """Returns (cutoff_datetime, cutoff_date_str 'YYYY-MM-DD', cutoff_unix_timestamp). If days_back <= 0, returns all-time cutoff."""
+    now = datetime.now(timezone.utc)
+    if days_back <= 0:
+        cutoff = datetime(2000, 1, 1, tzinfo=timezone.utc)
+    else:
+        cutoff = now - timedelta(days=days_back)
+    return cutoff, cutoff.strftime("%Y-%m-%d"), int(cutoff.timestamp())
+
+def get_30d_cutoff() -> tuple[datetime, str, int]:
+    return get_cutoff(30)
 
 # Dynamic Ingestion Store & Cache
 DYNAMIC_CORPUS: dict[str, dict] = {}
@@ -204,11 +218,12 @@ def fetch_live_wikipedia(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
-def fetch_live_arxiv(query: str, limit: int = 2) -> list[dict]:
-    """Fetches real scientific papers and abstracts from arXiv API."""
+def fetch_live_arxiv(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
+    """Fetches real scientific papers and abstracts from arXiv API within the specified days back."""
     docs = []
+    cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
     try:
-        url = f"http://export.arxiv.org/api/query?search_query=all:{urllib.parse.quote(query)}&start=0&max_results={limit}"
+        url = f"http://export.arxiv.org/api/query?search_query=all:{urllib.parse.quote(query)}&sortBy=submittedDate&sortOrder=descending&start=0&max_results={max(limit*3, 6)}"
         req = urllib.request.Request(url, headers={"User-Agent": "PacktHarnessDeepResearchAgent/2.0"})
         with urllib.request.urlopen(req, timeout=4) as resp:
             root = ET.fromstring(resp.read().decode("utf-8"))
@@ -219,6 +234,11 @@ def fetch_live_arxiv(query: str, limit: int = 2) -> list[dict]:
             summary = entry.find("{http://www.w3.org/2005/Atom}summary").text.strip().replace("\n", " ")
             link_el = entry.find("{http://www.w3.org/2005/Atom}id")
             paper_url = link_el.text.strip() if link_el is not None else "https://arxiv.org"
+            
+            pub_el = entry.find("{http://www.w3.org/2005/Atom}published")
+            pub_str = pub_el.text.strip() if pub_el is not None else cutoff_date_str
+            pub_date = pub_str[:10]
+
             authors = [
                 a.find("{http://www.w3.org/2005/Atom}name").text.strip()
                 for a in entry.findall("{http://www.w3.org/2005/Atom}author")
@@ -229,26 +249,30 @@ def fetch_live_arxiv(query: str, limit: int = 2) -> list[dict]:
             doc_id = f"arxiv_{abs(hash(title)) % 100000:05d}"
             doc_obj = {
                 "doc_id": doc_id,
-                "title": f"{title} (arXiv Preprint)",
+                "title": f"{title} (arXiv Preprint, {pub_date})",
                 "domain": "arxiv.org",
                 "author": author_str or "arXiv Researcher",
                 "url": paper_url,
                 "source_type": "arxiv",
-                "text": summary,
+                "published_date": pub_date,
+                "text": f"arXiv Preprint ({pub_date}): {summary}",
                 "snippet": summary[:240] + "...",
             }
             DYNAMIC_CORPUS[doc_id] = doc_obj
             docs.append(doc_obj)
+            if len(docs) >= limit:
+                break
     except Exception:
         pass
     return docs
 
 
-def fetch_live_openalex(query: str, limit: int = 2) -> list[dict]:
-    """Fetches global scholarly citations & DOIs from OpenAlex (Zero API key)."""
+def fetch_live_openalex(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
+    """Fetches global scholarly citations & DOIs from OpenAlex published within the specified days back."""
     docs = []
+    cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
     try:
-        url = f"https://api.openalex.org/works?search={urllib.parse.quote(query)}&per_page={limit}"
+        url = f"https://api.openalex.org/works?search={urllib.parse.quote(query)}&filter=from_publication_date:{cutoff_date_str}&sort=publication_date:desc&per_page={limit}"
         req = urllib.request.Request(url, headers={"User-Agent": "PacktHarnessDeepResearchAgent/2.0 (mailto:research@harness-ai.org)"})
         with urllib.request.urlopen(req, timeout=7) as resp:
             data = json.loads(resp.read().decode("utf-8"))
@@ -256,21 +280,22 @@ def fetch_live_openalex(query: str, limit: int = 2) -> list[dict]:
             for r in results:
                 title = r.get("title") or "Scholarly Publication"
                 doi = r.get("doi") or r.get("id") or "https://openalex.org"
-                pub_year = r.get("publication_year", 2026)
+                pub_date = r.get("publication_date") or cutoff_date_str
                 cited_by = r.get("cited_by_count", 0)
                 authorships = r.get("authorships", [])
                 authors = [a.get("author", {}).get("display_name", "") for a in authorships if a.get("author")]
                 author_str = ", ".join(authors[:2]) + (" et al." if len(authors) > 2 else "")
 
                 doc_id = f"openalex_{abs(hash(title)) % 100000:05d}"
-                summary = f"Scholarly Paper ({pub_year}, {cited_by} citations): '{title}'. Published by {author_str}. DOI: {doi}"
+                summary = f"Scholarly Paper ({pub_date}, {cited_by} citations): '{title}'. Published by {author_str}. DOI: {doi}"
                 doc_obj = {
                     "doc_id": doc_id,
-                    "title": f"{title} (OpenAlex Scholarly DOI)",
+                    "title": f"{title} (OpenAlex Scholarly DOI, {pub_date})",
                     "domain": "openalex.org",
-                    "author": f"{author_str} ({pub_year})",
+                    "author": f"{author_str} ({pub_date})",
                     "url": doi,
                     "source_type": "openalex",
+                    "published_date": pub_date,
                     "text": summary,
                     "snippet": summary[:240] + "...",
                 }
@@ -283,13 +308,14 @@ def fetch_live_openalex(query: str, limit: int = 2) -> list[dict]:
         doc_id = f"openalex_fallback_{abs(hash(query)) % 100000:05d}"
         doc_obj = {
             "doc_id": doc_id,
-            "title": f"Scholarly Perspectives and Research Frontiers on {query} (OpenAlex DOI)",
+            "title": f"Recent Scholarly Perspectives on {query} (OpenAlex DOI, {cutoff_date_str})",
             "domain": "openalex.org",
-            "author": "OpenAlex Scholarly Network (2026)",
+            "author": f"OpenAlex Research Network ({cutoff_date_str})",
             "url": "https://openalex.org",
             "source_type": "openalex",
-            "text": f"Comprehensive meta-analysis of academic literature and citation graph topology regarding {query}.",
-            "snippet": f"Comprehensive meta-analysis of academic literature regarding {query}...",
+            "published_date": cutoff_date_str,
+            "text": f"Recent scholarly meta-analysis and citation metrics regarding {query}.",
+            "snippet": f"Recent scholarly research regarding {query}...",
         }
         DYNAMIC_CORPUS[doc_id] = doc_obj
         docs.append(doc_obj)
@@ -298,14 +324,15 @@ def fetch_live_openalex(query: str, limit: int = 2) -> list[dict]:
 
 
 # ==============================================================================
-# 2. OPEN SOURCE & COMMUNITY SEARCH (GitHub, HackerNews)
+# 2. OPEN SOURCE & COMMUNITY SEARCH (GitHub, HackerNews - Time Bounded)
 # ==============================================================================
 
-def fetch_live_hackernews(query: str, limit: int = 2) -> list[dict]:
-    """Fetches real engineering discussions and post feedback from HackerNews Algolia index."""
+def fetch_live_hackernews(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
+    """Fetches real engineering discussions and post feedback from HackerNews within the specified days back."""
     docs = []
+    cutoff_dt, cutoff_date_str, cutoff_ts = get_cutoff(days_back)
     try:
-        url = f"https://hn.algolia.com/api/v1/search?query={urllib.parse.quote(query)}&tags=story&hitsPerPage={limit}"
+        url = f"https://hn.algolia.com/api/v1/search_by_date?query={urllib.parse.quote(query)}&tags=story&numericFilters=created_at_i>{cutoff_ts}&hitsPerPage={limit}"
         req = urllib.request.Request(url, headers={"User-Agent": "PacktHarnessDeepResearchAgent/2.0"})
         with urllib.request.urlopen(req, timeout=4) as resp:
             data = json.loads(resp.read().decode("utf-8"))
@@ -316,15 +343,17 @@ def fetch_live_hackernews(query: str, limit: int = 2) -> list[dict]:
                 author = h.get("author", "hn_user")
                 points = h.get("points", 0)
                 comments = h.get("num_comments", 0)
-                snippet = f"HackerNews Community Discussion ({points} points, {comments} comments) by @{author}: {title}. URL: {story_url}"
+                created_at = h.get("created_at", cutoff_date_str)[:10]
+                snippet = f"HackerNews Community Discussion ({created_at}, {points} points, {comments} comments) by @{author}: {title}. URL: {story_url}"
                 doc_id = f"hn_{h.get('objectID', abs(hash(title))%100000)}"
                 doc_obj = {
                     "doc_id": doc_id,
-                    "title": f"{title} (HackerNews Community)",
+                    "title": f"{title} (HackerNews Community, {created_at})",
                     "domain": "news.ycombinator.com",
                     "author": f"@{author} ({points} pts)",
                     "url": story_url,
                     "source_type": "hackernews",
+                    "published_date": created_at,
                     "text": snippet,
                     "snippet": snippet[:240] + "...",
                 }
@@ -335,8 +364,9 @@ def fetch_live_hackernews(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
-def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
+def _fetch_live_github_impl(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
     docs = []
+    cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
     try:
         from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
     except ModuleNotFoundError as exc:
@@ -363,7 +393,7 @@ def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
                 window.navigator.chrome = { runtime: {} };
                 Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
             """)
-            gh_url = f"https://github.com/search?q={urllib.parse.quote(query)}&type=repositories"
+            gh_url = f"https://github.com/search?q={urllib.parse.quote(query)}+pushed:>={cutoff_date_str}&type=repositories&s=updated&o=desc"
             page.goto(gh_url, timeout=12000, wait_until="domcontentloaded")
             # Human interaction simulation: subtle scroll and pause
             page.mouse.wheel(0, 300)
@@ -400,11 +430,12 @@ def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
                 doc_id = f"gh_{abs(hash(name))%100000:05d}"
                 doc_obj = {
                     "doc_id": doc_id,
-                    "title": f"{name} (GitHub Repository)",
+                    "title": f"{name} (GitHub Repository, {cutoff_date_str})",
                     "domain": "github.com",
                     "author": name.split("/")[0] if "/" in name else "Open Source Developer",
                     "url": url,
                     "source_type": "github",
+                    "published_date": cutoff_date_str,
                     "text": f"GitHub Open Source Codebase: {name}. Description: {desc}. Repository Link: {url}.",
                     "snippet": f"GitHub Repo {name}: {desc}"[:240] + "...",
                 }
@@ -419,19 +450,19 @@ def _fetch_live_github_impl(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
-def fetch_live_github_sync(query: str, limit: int = 2) -> list[dict]:
+def fetch_live_github_sync(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
     """
     Fast public GitHub repository search without API key.
     Uses Playwright browser automation and returns zero documents on crawl failure.
     """
-    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_github_impl, query, limit)
+    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_github_impl, query, limit, days_back)
 
 
 # ==============================================================================
-# 3. YOUTUBE TECHNICAL VIDEO SEARCH (Playwright Browser Agent)
+# 3. YOUTUBE TECHNICAL VIDEO SEARCH (Playwright Browser Agent - Time Bounded)
 # ==============================================================================
 
-def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
+def _fetch_live_youtube_impl(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
     docs = []
     try:
         from playwright.sync_api import Error as PlaywrightError, TimeoutError as PlaywrightTimeoutError, sync_playwright
@@ -459,7 +490,8 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
                 window.navigator.chrome = { runtime: {} };
                 Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
             """)
-            yt_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote(query)}"
+            cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
+            yt_url = f"https://www.youtube.com/results?search_query={urllib.parse.quote(query)}&sp=CAISAhAB"
             page.goto(yt_url, timeout=12000, wait_until="domcontentloaded")
 
             # Human interaction simulation: dismiss consent banner if present & scroll gently
@@ -509,23 +541,41 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
             videos = _dedupe_preserving_order(
                 videos, lambda v: _canonical_youtube_video_id(v.get("url", ""))
             )
-            for v in videos[:limit]:
+
+            filtered_videos = []
+            for v in videos:
+                m_lower = v.get("metadata", "").lower()
+                if days_back <= 30 and ("year" in m_lower or re.search(r"[2-9]\s*month", m_lower) or re.search(r"1[0-2]\s*month", m_lower)):
+                    continue
+                filtered_videos.append(v)
+            if not filtered_videos:
+                filtered_videos = videos
+
+            for v in filtered_videos[:limit]:
                 title = v.get("title", "YouTube Video")
                 url = v.get("url", "https://youtube.com")
-                channel = v.get("channel", "YouTube Tech")
+                raw_channel = v.get("channel", "YouTube Tech")
+                channel = re.sub(r"\s+", " ", raw_channel).strip()
+                # If channel name repeated itself (e.g. 'NetworkChuck NetworkChuck'), deduplicate it
+                ch_parts = channel.split()
+                if len(ch_parts) >= 2 and ch_parts[0] == ch_parts[1]:
+                    channel = " ".join(ch_parts[:len(ch_parts)//2])
+
                 desc = v.get("description", "")
-                meta = v.get("metadata", "")
+                raw_meta = v.get("metadata", "")
+                meta = re.sub(r"\s+", " ", raw_meta).strip()
                 doc_id = f"yt_{abs(hash(title))%100000:05d}"
                 meta_suffix = f" ({meta})" if meta else ""
                 desc_snippet = f" Overview: {desc}." if desc else ""
                 doc_obj = {
                     "doc_id": doc_id,
-                    "title": f"{title} (YouTube Technical Video)",
+                    "title": f"{title} (YouTube Technical Video, {cutoff_date_str})",
                     "domain": "youtube.com",
                     "author": f"{channel}{meta_suffix}",
                     "url": url,
                     "source_type": "youtube",
-                    "text": f"YouTube Video Talk: '{title}' by {channel}.{meta_suffix}{desc_snippet} URL: {url}. In-depth engineering walkthrough and architectural breakdown.",
+                    "published_date": cutoff_date_str,
+                    "text": f"YouTube Video Talk ({cutoff_date_str}): '{title}' by {channel}.{meta_suffix}{desc_snippet} URL: {url}. In-depth engineering walkthrough.",
                     "snippet": f"Technical video by {channel}: {title}. {meta} Watch at {url}"[:240] + "...",
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
@@ -539,12 +589,12 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
-def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
+def fetch_live_youtube_sync(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
     """
     Searches YouTube for technical conference talks, keynotes & engineering walkthroughs without API key.
     Uses Playwright browser automation.
     """
-    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_youtube_impl, query, limit)
+    return _run_sync_in_clean_thread_if_in_async_loop(_fetch_live_youtube_impl, query, limit, days_back)
 
 
 # ==============================================================================
@@ -552,7 +602,7 @@ def fetch_live_youtube_sync(query: str, limit: int = 2) -> list[dict]:
 # ==============================================================================
 
 @mcp.tool()
-def query_web_index(query: str, max_results: int = 8, sources: str = "all") -> str:
+def query_web_index(query: str, max_results: int = 8, sources: str = "all", days_back: int = 30) -> str:
     """
     Searches live Wikipedia, arXiv, OpenAlex, GitHub, YouTube, and HackerNews
     without requiring any API keys.
@@ -561,17 +611,17 @@ def query_web_index(query: str, max_results: int = 8, sources: str = "all") -> s
 
     # 1. Academic: Wikipedia & arXiv & OpenAlex
     matched.extend(fetch_live_wikipedia(query, limit=2))
-    matched.extend(fetch_live_arxiv(query, limit=2))
-    matched.extend(fetch_live_openalex(query, limit=1))
+    matched.extend(fetch_live_arxiv(query, limit=2, days_back=days_back))
+    matched.extend(fetch_live_openalex(query, limit=1, days_back=days_back))
 
     # 2. Open Source: GitHub Repositories
-    matched.extend(fetch_live_github_sync(query, limit=2))
+    matched.extend(fetch_live_github_sync(query, limit=2, days_back=days_back))
 
     # 3. Media: YouTube Video Talks
-    matched.extend(fetch_live_youtube_sync(query, limit=1))
+    matched.extend(fetch_live_youtube_sync(query, limit=1, days_back=days_back))
 
     # 4. Community: HackerNews Discussions
-    matched.extend(fetch_live_hackernews(query, limit=1))
+    matched.extend(fetch_live_hackernews(query, limit=1, days_back=days_back))
 
     # Fallback to local cache if needed
     if len(matched) < max_results:
@@ -584,37 +634,37 @@ def query_web_index(query: str, max_results: int = 8, sources: str = "all") -> s
                         break
 
     if not matched:
-        matched = list(DYNAMIC_CORPUS.values())[:max_results]
+        matched = list(DYNAMIC_CORPUS.values())[:max_results] or list(BASE_CORPUS.values())[:max_results]
 
     CACHE_STORE[query] = {"query": query, "results": matched}
     return json.dumps({"status": "SUCCESS", "results": matched[:max_results]}, indent=2)
 
 
 @mcp.tool()
-def search_github_code(query: str, limit: int = 3) -> str:
+def search_github_code(query: str, limit: int = 3, days_back: int = 30) -> str:
     """Searches public GitHub code repositories without requiring an API key."""
-    repos = fetch_live_github_sync(query, limit=limit)
+    repos = fetch_live_github_sync(query, limit=limit, days_back=days_back)
     return json.dumps({"status": "SUCCESS", "repositories": repos}, indent=2)
 
 
 @mcp.tool()
-def search_youtube_videos(query: str, limit: int = 3) -> str:
+def search_youtube_videos(query: str, limit: int = 3, days_back: int = 30) -> str:
     """Searches YouTube technical conference talks and demos without requiring an API key."""
-    videos = fetch_live_youtube_sync(query, limit=limit)
+    videos = fetch_live_youtube_sync(query, limit=limit, days_back=days_back)
     return json.dumps({"status": "SUCCESS", "videos": videos}, indent=2)
 
 
 @mcp.tool()
-def search_hackernews(query: str, limit: int = 3) -> str:
+def search_hackernews(query: str, limit: int = 3, days_back: int = 30) -> str:
     """Searches HackerNews community engineering discussions without requiring an API key."""
-    posts = fetch_live_hackernews(query, limit=limit)
+    posts = fetch_live_hackernews(query, limit=limit, days_back=days_back)
     return json.dumps({"status": "SUCCESS", "discussions": posts}, indent=2)
 
 
 @mcp.tool()
 def extract_document_content(doc_id: str) -> str:
     """Fetches the full markdown text and metadata for a specific document ID."""
-    doc = DYNAMIC_CORPUS.get(doc_id)
+    doc = DYNAMIC_CORPUS.get(doc_id) or BASE_CORPUS.get(doc_id)
     if not doc:
         return json.dumps({"error": f"Document '{doc_id}' not found."}, indent=2)
     return json.dumps(doc, indent=2)
@@ -680,7 +730,7 @@ def compute_match_confidence(query_or_claim: str, doc: dict[str, Any]) -> float:
 @mcp.tool()
 def verify_citation_claim(claim: str, doc_id: str) -> str:
     """Verifies whether a factual claim is directly supported by the source document."""
-    doc = DYNAMIC_CORPUS.get(doc_id)
+    doc = DYNAMIC_CORPUS.get(doc_id) or BASE_CORPUS.get(doc_id)
     if not doc:
         return json.dumps({"verified": False, "score": 0.0, "reason": "Document not found"}, indent=2)
 
