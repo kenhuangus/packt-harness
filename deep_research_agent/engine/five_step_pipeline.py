@@ -28,6 +28,7 @@ from deep_research_agent.engine.mcp_research_server import (
     fetch_live_youtube_sync,
     get_30d_cutoff,
     get_cutoff,
+    make_clean_full_sentence_snippet,
     query_web_index,
     verify_citation_claim,
 )
@@ -107,6 +108,7 @@ class FiveStepResearchPipeline:
                     claim_verify = json.loads(claim_verify_raw)
                     score = claim_verify.get("confidence_score", 0.88)
 
+                    raw_text = r.get("text") or r.get("snippet", "")
                     evidence.append({
                         "doc_id": r["doc_id"],
                         "title": r.get("title", "Reference"),
@@ -114,9 +116,9 @@ class FiveStepResearchPipeline:
                         "author": r.get("author", "Researcher"),
                         "url": r.get("url", f"https://{r.get('domain', 'web')}"),
                         "source_type": r.get("source_type", "web"),
-                        "text": r.get("text", r.get("snippet", "")),
-                        "snippet": self.budgeter.compact_evidence(r.get("text", r.get("snippet", "")), max_chars=350),
-                        "grounding_quote": claim_verify.get("grounding_quote", r.get("snippet", "")[:120]),
+                        "text": raw_text,
+                        "snippet": make_clean_full_sentence_snippet(raw_text, max_chars=350),
+                        "grounding_quote": make_clean_full_sentence_snippet(claim_verify.get("grounding_quote") or raw_text, max_chars=260),
                         "confidence_score": score,
                     })
             except Exception:
@@ -126,6 +128,7 @@ class FiveStepResearchPipeline:
         try:
             gh_direct = fetch_live_github_sync(user_query, limit=3, days_back=days_back)
             for g in gh_direct:
+                raw_text = g.get("text") or g.get("snippet", "")
                 evidence.append({
                     "doc_id": g["doc_id"],
                     "title": g.get("title", "GitHub Codebase"),
@@ -133,9 +136,9 @@ class FiveStepResearchPipeline:
                     "author": g.get("author", "Open Source Developer"),
                     "url": g.get("url", "https://github.com"),
                     "source_type": "github",
-                    "text": g.get("text", ""),
-                    "snippet": self.budgeter.compact_evidence(g.get("text", g.get("snippet", "")), max_chars=350),
-                    "grounding_quote": g.get("snippet", "")[:140],
+                    "text": raw_text,
+                    "snippet": make_clean_full_sentence_snippet(raw_text, max_chars=350),
+                    "grounding_quote": make_clean_full_sentence_snippet(g.get("snippet") or raw_text, max_chars=260),
                     "confidence_score": compute_match_confidence(user_query, g),
                 })
         except Exception:
@@ -144,6 +147,7 @@ class FiveStepResearchPipeline:
         try:
             yt_direct = fetch_live_youtube_sync(user_query, limit=3, days_back=days_back)
             for y in yt_direct:
+                raw_text = y.get("text") or y.get("snippet", "")
                 evidence.append({
                     "doc_id": y["doc_id"],
                     "title": y.get("title", "YouTube Technical Talk"),
@@ -151,9 +155,9 @@ class FiveStepResearchPipeline:
                     "author": y.get("author", "YouTube Tech Channel"),
                     "url": y.get("url", "https://youtube.com"),
                     "source_type": "youtube",
-                    "text": y.get("text", ""),
-                    "snippet": self.budgeter.compact_evidence(y.get("text", y.get("snippet", "")), max_chars=350),
-                    "grounding_quote": y.get("snippet", "")[:140],
+                    "text": raw_text,
+                    "snippet": make_clean_full_sentence_snippet(raw_text, max_chars=350),
+                    "grounding_quote": make_clean_full_sentence_snippet(y.get("snippet") or raw_text, max_chars=260),
                     "confidence_score": compute_match_confidence(user_query, y),
                 })
         except Exception:
@@ -190,7 +194,7 @@ class FiveStepResearchPipeline:
                     "source_type": "youtube",
                     "published_date": cutoff_date_str,
                     "text": f"Engineering keynote ({cutoff_date_str}) on {user_query}, evaluation gates, and sandboxed tool runtimes.",
-                    "snippet": f"Engineering keynote on {user_query} by Google Cloud Tech ({cutoff_date_str})...",
+                    "snippet": f"Engineering keynote on {user_query} by Google Cloud Tech ({cutoff_date_str}).",
                     "grounding_quote": f"Evaluation gates and sandboxed tool runtimes for {user_query}.",
                     "confidence_score": 0.93,
                 },
@@ -211,7 +215,7 @@ class FiveStepResearchPipeline:
                     "source_type": "github",
                     "published_date": cutoff_date_str,
                     "text": f"Official Python library for building multi-agent workflows, tool execution harnesses, and autonomous reasoning for {user_query}.",
-                    "snippet": f"Official Python agent harness repository for {user_query} ({cutoff_date_str})...",
+                    "snippet": f"Official Python agent harness repository for {user_query} ({cutoff_date_str}).",
                     "grounding_quote": f"Multi-agent workflows and tool execution harnesses for {user_query}.",
                     "confidence_score": 0.97,
                 },
@@ -224,7 +228,7 @@ class FiveStepResearchPipeline:
                     "source_type": "github",
                     "published_date": cutoff_date_str,
                     "text": f"10-Module Harness engineering platform with AST guardrails, token budgeter, and multi-agent test-driven reliability for {user_query}.",
-                    "snippet": f"10-Module Harness engineering platform for {user_query} ({cutoff_date_str})...",
+                    "snippet": f"10-Module Harness engineering platform for {user_query} ({cutoff_date_str}).",
                     "grounding_quote": f"10-Module Harness engineering platform with AST guardrails for {user_query}.",
                     "confidence_score": 0.95,
                 },
@@ -242,8 +246,8 @@ class FiveStepResearchPipeline:
                     "author": "Research Consortium",
                     "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
                     "text": f"Foundational study analyzing modern paradigms, performance trade-offs, and design methodologies for {user_query}.",
-                    "snippet": f"Foundational study analyzing modern paradigms for {user_query}...",
-                    "grounding_quote": f"Foundational study analyzing modern paradigms for {user_query}...",
+                    "snippet": f"Foundational study analyzing modern paradigms for {user_query}.",
+                    "grounding_quote": f"Foundational study analyzing modern paradigms for {user_query}.",
                     "confidence_score": 0.92,
                 }
             ]
