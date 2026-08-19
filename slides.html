@@ -1012,29 +1012,32 @@
       border: 1px solid var(--rule);
       border-radius: 6px;
       padding: 0.25rem 0.55rem;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       color: var(--ink);
-      text-decoration: none;
-      transition: all 0.15s ease-in-out;
-    }
-    .slide-1-social-pill:hover {
-      background: var(--accent-sf);
-      border-color: var(--accent);
-      color: var(--accent-dk);
-      transform: translateY(-1px);
     }
     .slide-1-social-pill .social-icon {
       font-size: 0.95rem;
     }
-    .slide-1-social-pill strong {
-      color: var(--accent-dk);
-      text-decoration: underline;
-      text-underline-offset: 2px;
+    .slide-1-social-pill .social-label {
+      font-weight: 600;
+      color: var(--ink-muted);
     }
-    .slide-1-social-pill .ext-arrow {
+    .slide-1-social-link {
+      color: var(--accent-dk);
+      font-weight: 750;
+      text-decoration: underline;
+      text-underline-offset: 2.5px;
+      transition: color 0.15s ease-in-out;
+    }
+    .slide-1-social-link:hover {
+      color: var(--accent);
+    }
+    .slide-1-social-link .ext-arrow {
       color: var(--accent);
       font-weight: 800;
       font-size: 0.85em;
+      text-decoration: none;
+      display: inline-block;
     }
     .slide-1-pillars-row {
       display: grid;
@@ -2131,14 +2134,16 @@
                 </div>
 
                 <div class="slide-1-social-links">
-                  <a href="https://kenhuangus.substack.com/" target="_blank" rel="noopener noreferrer" class="slide-1-social-pill" title="Read Ken Huang's Substack">
+                  <div class="slide-1-social-pill">
                     <span class="social-icon">✍️</span>
-                    <span>Substack: <strong>kenhuangus.substack.com</strong> <span class="ext-arrow">↗</span></span>
-                  </a>
-                  <a href="https://www.linkedin.com/in/kenhuang8/" target="_blank" rel="noopener noreferrer" class="slide-1-social-pill" title="Connect with Ken Huang on LinkedIn">
+                    <span class="social-label">Substack:</span>
+                    <a href="https://kenhuangus.substack.com/" target="_blank" rel="noopener noreferrer" class="slide-1-social-link" title="Read Ken Huang's Substack">kenhuangus.substack.com <span class="ext-arrow">↗</span></a>
+                  </div>
+                  <div class="slide-1-social-pill">
                     <span class="social-icon">💼</span>
-                    <span>LinkedIn: <strong>kenhuang8</strong> <span class="ext-arrow">↗</span></span>
-                  </a>
+                    <span class="social-label">LinkedIn:</span>
+                    <a href="https://www.linkedin.com/in/kenhuang8/" target="_blank" rel="noopener noreferrer" class="slide-1-social-link" title="Connect with Ken Huang on LinkedIn">linkedin.com/in/kenhuang8 <span class="ext-arrow">↗</span></a>
+                  </div>
                 </div>
               </div>
             </div>
