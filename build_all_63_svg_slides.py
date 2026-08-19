@@ -1017,6 +1017,33 @@ html_template = '''<!DOCTYPE html>
       font-family: var(--font-display); font-size: clamp(1.40rem, 2.2vw, 1.95rem);
       font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink);
     }
+    .slide-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.60rem;
+      flex: 0 0 auto;
+    }
+    .packt-logo-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.18rem 0.50rem;
+      background: #FAF8F2;
+      border: 1.2px solid var(--rule);
+      border-radius: 6px;
+      transition: all 0.16s ease-in-out;
+      text-decoration: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .packt-logo-link:hover {
+      background: var(--accent-sf);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .packt-title-logo {
+      height: 22px;
+      width: auto;
+      display: block;
+    }
     .slide-num-badge {
       background: var(--accent-sf); color: var(--ink); border: 1px solid var(--rule);
       padding: 0.22rem 0.60rem; border-radius: 9999px; font-size: 0.78rem; font-weight: 750; white-space: nowrap;
@@ -2515,7 +2542,14 @@ html_template = '''<!DOCTYPE html>
           <div class="slide-title-wrap">
             <div id="slide-title" class="slide-title">Slide Title</div>
           </div>
-          <div id="slide-num-badge" class="slide-num-badge">Slide 1 / ''' + str(len(slides)) + '''</div>
+          <div class="slide-header-right">
+            <div id="slide-packt-badge" style="display:none;">
+              <a href="https://www.packtpub.com/" target="_blank" rel="noopener noreferrer" class="packt-logo-link" title="Packt Publishing">
+                <img src="assets/images/packt_logo.svg" alt="Packt Publishing" class="packt-title-logo" />
+              </a>
+            </div>
+            <div id="slide-num-badge" class="slide-num-badge">Slide 1 / ''' + str(len(slides)) + '''</div>
+          </div>
         </div>
         <div id="slide-body" class="slide-body"></div>
       </div>
@@ -2909,6 +2943,11 @@ html_template = '''<!DOCTYPE html>
       const title = slide.raw_lines[0] || `Slide ${slide.number}`;
       document.getElementById('slide-title').innerText = title;
       document.getElementById('slide-num-badge').innerText = `Slide ${slide.number} of ${slidesData.length}`;
+
+      const packtBadge = document.getElementById('slide-packt-badge');
+      if (packtBadge) {
+        packtBadge.style.display = (slide.number === 1) ? 'inline-flex' : 'none';
+      }
 
       if (window.location.hash !== '#' + slide.number) {
         history.replaceState(null, '', '#' + slide.number);
