@@ -1849,54 +1849,69 @@ html_template = '''<!DOCTYPE html>
     .slide-1-instructor-titles {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
-      margin-top: 0.30rem;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
     }
-    .slide-1-title-link-card {
-      display: inline-flex;
+    .slide-1-title-item {
+      display: flex;
       align-items: center;
-      gap: 0.55rem;
-      background: var(--surface);
-      border: 1.5px solid var(--rule);
-      border-radius: 8px;
-      padding: 0.35rem 0.75rem;
-      font-size: 1.02rem;
+      gap: 0.50rem;
+      font-size: 1.05rem;
       font-weight: 600;
       color: var(--ink);
-      text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      transition: all 0.18s ease-in-out;
-      cursor: pointer;
-      width: fit-content;
     }
-    .slide-1-title-link-card:hover {
-      background: var(--accent-sf);
-      border-color: var(--accent);
-      transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(217, 119, 87, 0.15);
-    }
-    .slide-1-title-link-card .title-icon {
-      font-size: 1.20rem;
+    .slide-1-title-item .title-icon {
+      font-size: 1.15rem;
       flex-shrink: 0;
     }
-    .slide-1-title-link-card .title-text {
-      color: var(--ink);
-      font-size: 1.02rem;
-    }
-    .slide-1-title-link-card .slide-1-title-highlight {
+    .slide-1-org-link {
       color: var(--accent-dk);
       font-weight: 750;
       text-decoration: underline;
       text-underline-offset: 3px;
+      transition: color 0.15s ease-in-out;
     }
-    .slide-1-title-link-card .ext-icon {
+    .slide-1-org-link:hover {
       color: var(--accent);
-      font-size: 0.90em;
+    }
+    .slide-1-social-links {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .slide-1-social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.40rem;
+      background: #FAF8F2;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.86rem;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+    }
+    .slide-1-social-pill:hover {
+      background: var(--accent-sf);
+      border-color: var(--accent);
+      color: var(--accent-dk);
+      transform: translateY(-1px);
+    }
+    .slide-1-social-pill .social-icon {
+      font-size: 0.95rem;
+    }
+    .slide-1-social-pill strong {
+      color: var(--accent-dk);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .slide-1-social-pill .ext-arrow {
+      color: var(--accent);
       font-weight: 800;
-      margin-left: 0.15rem;
-    }
-    .slide-1-title-link-card:hover .slide-1-title-highlight {
-      color: var(--accent);
+      font-size: 0.85em;
     }
     .slide-1-pillars-row {
       display: grid;
@@ -2982,13 +2997,24 @@ html_template = '''<!DOCTYPE html>
                 </div>
                 <div class="slide-1-instructor-name">Ken Huang</div>
                 <div class="slide-1-instructor-titles">
-                  <a href="https://www.usfca.edu/faculty/ken-huang" target="_blank" rel="noopener noreferrer" class="slide-1-title-link-card" title="View Ken Huang's Faculty Profile at University of San Francisco">
+                  <div class="slide-1-title-item">
                     <span class="title-icon">🏛️</span>
-                    <span class="title-text">Adjunct Professor, <strong class="slide-1-title-highlight">University of San Francisco</strong> <span class="ext-icon">↗</span></span>
-                  </a>
-                  <a href="https://distributedapps.ai/" target="_blank" rel="noopener noreferrer" class="slide-1-title-link-card" title="Visit DistributedApps.ai">
+                    <span>Adjunct Professor, <a href="https://www.usfca.edu/faculty/ken-huang" target="_blank" rel="noopener noreferrer" class="slide-1-org-link" title="View Ken Huang's Faculty Profile at University of San Francisco">University of San Francisco ↗</a></span>
+                  </div>
+                  <div class="slide-1-title-item">
                     <span class="title-icon">🚀</span>
-                    <span class="title-text">CEO, <strong class="slide-1-title-highlight">Distributedapps.ai</strong> <span class="ext-icon">↗</span></span>
+                    <span>CEO, <a href="https://distributedapps.ai/" target="_blank" rel="noopener noreferrer" class="slide-1-org-link" title="Visit DistributedApps.ai">DistributedApps.ai ↗</a></span>
+                  </div>
+                </div>
+
+                <div class="slide-1-social-links">
+                  <a href="https://kenhuangus.substack.com/" target="_blank" rel="noopener noreferrer" class="slide-1-social-pill" title="Read Ken Huang's Substack">
+                    <span class="social-icon">✍️</span>
+                    <span>Substack: <strong>kenhuangus.substack.com</strong> <span class="ext-arrow">↗</span></span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/kenhuang8/" target="_blank" rel="noopener noreferrer" class="slide-1-social-pill" title="Connect with Ken Huang on LinkedIn">
+                    <span class="social-icon">💼</span>
+                    <span>LinkedIn: <strong>kenhuang8</strong> <span class="ext-arrow">↗</span></span>
                   </a>
                 </div>
               </div>
