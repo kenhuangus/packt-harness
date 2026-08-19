@@ -257,45 +257,6 @@ def generate_svg_for_slide(num, title):
     <text x="92" y="74" fill="#6B6B63" font-family="Inter" font-size="9.5" text-anchor="middle">JSON Schemas &amp; State</text>
   </g>
 </svg>'''
-    elif num == 1 or 'MASTERCLASS' in title_upper:
-        return '''<svg viewBox="0 0 800 130" class="slide-svg">
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#BD5D3A"/>
-    </marker>
-  </defs>
-  <rect x="15" y="10" width="210" height="110" rx="12" fill="#FAF9F5" stroke="#D97757" stroke-width="2.2"/>
-  <text x="120" y="45" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Probabilistic LLM</text>
-  <text x="120" y="70" fill="#6B6B63" font-family="Inter" font-size="12" text-anchor="middle">Reasoning &amp; Generation</text>
-  <text x="120" y="95" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">⚠ Non-Deterministic Output</text>
-  
-  <path d="M225 65 L340 65" stroke="#BD5D3A" stroke-width="3" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-  <rect x="240" y="38" width="90" height="24" rx="6" fill="#F5E6DF" stroke="#BD5D3A" stroke-width="1.5"/>
-  <text x="285" y="54" fill="#BD5D3A" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">Harness ➔</text>
-  
-  <rect x="350" y="5" width="435" height="120" rx="14" fill="#FAF9F5" stroke="#BD5D3A" stroke-width="2.5"/>
-  <text x="567" y="34" fill="#141413" font-family="Inter" font-size="15" font-weight="800" text-anchor="middle">Deterministic Harness Control System</text>
-  <g transform="translate(365, 48)">
-    <rect x="0" y="0" width="92" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="46" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Memory</text>
-    <text x="46" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">CLAUDE.md</text>
-  </g>
-  <g transform="translate(467, 48)">
-    <rect x="0" y="0" width="92" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="46" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Sandbox</text>
-    <text x="46" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Path Scoping</text>
-  </g>
-  <g transform="translate(569, 48)">
-    <rect x="0" y="0" width="98" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="49" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Hooks &amp; AST</text>
-    <text x="49" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pre/Post Guards</text>
-  </g>
-  <g transform="translate(677, 48)">
-    <rect x="0" y="0" width="98" height="62" rx="8" fill="#F0EEE6" stroke="#E3E0D6"/>
-    <text x="49" y="27" fill="#141413" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle">Tests</text>
-    <text x="49" y="48" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">Pytest Loop</text>
-  </g>
-</svg>'''
     elif 'ABOUT THE INSTRUCTOR' in title_upper or 'ABOUT ME' in title_upper or 'KEN HUANG' in title_upper:
         return '''<svg viewBox="0 0 800 110" class="slide-svg">
   <defs>
@@ -1801,40 +1762,156 @@ html_template = '''<!DOCTYPE html>
       flex-shrink: 0;
     }
 
-    /* Slide 1 Custom Links Layout with 50% Reduced Text Size */
-    .slide-1-links-card {
-      margin-top: 0.85rem;
-      background: var(--surface);
-      border: 1.5px solid var(--rule);
-      border-radius: 10px;
-      padding: 0.65rem 1.0rem;
+    /* Slide 1 Hero & Instructor Cover Layout */
+    .slide-1-container {
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 0.40rem;
-      font-size: 0.30em; /* Reduced by half */
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      justify-content: space-between;
+      gap: 0.85rem;
     }
-    .slide-1-link-item {
+    .slide-1-hero-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-left: 5px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.10rem 1.50rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .slide-1-hero-tagline {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-dk);
+      line-height: 1.35;
+    }
+    .slide-1-hero-desc {
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    .slide-1-instructor-card {
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 12px;
+      padding: 1.15rem 1.50rem;
+      display: flex;
+      align-items: center;
+      gap: 1.50rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .slide-1-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .slide-1-avatar-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 4px 12px rgba(217, 119, 87, 0.25);
+      background: var(--surface-alt);
+    }
+    .slide-1-instructor-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+    }
+    .slide-1-instructor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--accent-sf);
+      color: var(--accent-dk);
+      border: 1px solid var(--accent);
+      font-family: var(--font-code);
+      font-size: 0.75rem;
+      font-weight: 750;
+      padding: 0.18rem 0.55rem;
+      border-radius: 6px;
+      width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .slide-1-instructor-name {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.15;
+    }
+    .slide-1-instructor-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 0.15rem;
+    }
+    .slide-1-title-item {
       display: flex;
       align-items: center;
       gap: 0.50rem;
-      font-size: 1.0em;
-      line-height: 1.40;
+      font-size: 1.05rem;
+      font-weight: 650;
+      color: var(--ink);
     }
-    .slide-1-link-label {
+    .slide-1-title-item .title-icon {
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .slide-1-title-highlight {
+      color: var(--accent-dk);
+      font-weight: 750;
+    }
+    .slide-1-pillars-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 900px) {
+      .slide-1-pillars-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .slide-1-instructor-card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+      .slide-1-instructor-badge {
+        margin: 0 auto;
+      }
+      .slide-1-title-item {
+        justify-content: center;
+      }
+    }
+    .slide-1-pillar-pill {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .slide-1-pillar-title {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
       font-weight: 750;
       color: var(--ink);
-      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
-    .slide-1-link-url {
-      font-family: var(--font-code);
-      color: var(--accent-dk);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      word-break: break-all;
-    }
-    .slide-1-link-url:hover {
-      color: var(--accent);
+    .slide-1-pillar-desc {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      line-height: 1.30;
     }
     .books-gallery-grid {
       display: grid;
@@ -2855,16 +2932,54 @@ html_template = '''<!DOCTYPE html>
         `;
       } else if (slide.number === 1) {
         bodyHtml += `
-          <div id="slide-content-wrap" class="slide-content-wrapper slide-1-wrapper">
-            ${svgMap[1] || ''}
-            <div class="slide-1-links-card">
-              <div class="slide-1-link-item">
-                <span class="slide-1-link-label">🐙 GitHub:</span>
-                <a href="https://github.com/kenhuangus/packt-harness" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://github.com/kenhuangus/packt-harness</a>
+          <div id="slide-content-wrap" class="slide-1-container">
+            <div class="slide-1-hero-card">
+              <div class="slide-1-hero-tagline">
+                Architecting Deterministic Control Systems for Non-Deterministic AI Agents
               </div>
-              <div class="slide-1-link-item">
-                <span class="slide-1-link-label">🌐 Site:</span>
-                <a href="https://kenhuangus.github.io/packt-harness/slides.html#1" target="_blank" rel="noopener noreferrer" class="slide-1-link-url">https://kenhuangus.github.io/packt-harness/slides.html#1</a>
+              <div class="slide-1-hero-desc">
+                A comprehensive masterclass in engineering reliable, observable, and secure production agent harnesses with Claude, memory architectures, AST guardrails, TDA self-healing loops, and compound multi-agent teams.
+              </div>
+            </div>
+
+            <div class="slide-1-instructor-card">
+              <div class="slide-1-avatar-wrap">
+                <img src="assets/images/ken-head-shot.png" alt="Ken Huang" class="slide-1-avatar-img" />
+              </div>
+              <div class="slide-1-instructor-info">
+                <div class="slide-1-instructor-badge">
+                  <span>🎓 Course Instructor</span>
+                </div>
+                <div class="slide-1-instructor-name">Ken Huang</div>
+                <div class="slide-1-instructor-titles">
+                  <div class="slide-1-title-item">
+                    <span class="title-icon">🏛️</span>
+                    <span>Adjunct Professor of <span class="slide-1-title-highlight">University of San Francisco</span></span>
+                  </div>
+                  <div class="slide-1-title-item">
+                    <span class="title-icon">🚀</span>
+                    <span>CEO of <span class="slide-1-title-highlight">Distributedapps.ai</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-1-pillars-row">
+              <div class="slide-1-pillar-pill">
+                <div class="slide-1-pillar-title">🛡️ Deterministic Harness</div>
+                <div class="slide-1-pillar-desc">Memory, scoped sandboxing &amp; AST hooks</div>
+              </div>
+              <div class="slide-1-pillar-pill">
+                <div class="slide-1-pillar-title">🧪 Test-Driven Reliability</div>
+                <div class="slide-1-pillar-desc">Pytest feedback &amp; anti-regression suites</div>
+              </div>
+              <div class="slide-1-pillar-pill">
+                <div class="slide-1-pillar-title">🤖 Multi-Agent Systems</div>
+                <div class="slide-1-pillar-desc">Planner, implementer &amp; reviewer worktrees</div>
+              </div>
+              <div class="slide-1-pillar-pill">
+                <div class="slide-1-pillar-title">📜 5-Gate Scorecard</div>
+                <div class="slide-1-pillar-desc">100% certified production readiness audit</div>
               </div>
             </div>
           </div>
@@ -3461,7 +3576,7 @@ html_template = '''<!DOCTYPE html>
         const wrapper = document.getElementById('slide-content-wrap') || bodyEl;
         const clientH = bodyEl.clientHeight;
         const targetH = clientH * 0.90;
-        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid') || wrapper.querySelector('.setup-slide-grid') || wrapper.querySelector('.thesis-grid')) ? 1.20 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
+        const maxScale = (wrapper.querySelector('.sub-bullets') || wrapper.querySelector('.capstone-layout-grid') || wrapper.querySelector('.course-map-columns-grid') || wrapper.querySelector('.setup-slide-grid') || wrapper.querySelector('.thesis-grid') || wrapper.querySelector('.slide-1-container')) ? 1.20 : (wrapper.querySelector('.main-bullets') ? 1.50 : 3.25);
         
         let scale = 1.0;
         let growIter = 0;
