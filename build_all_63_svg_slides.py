@@ -1868,6 +1868,15 @@ html_template = '''<!DOCTYPE html>
       color: var(--accent-dk);
       font-weight: 750;
     }
+    a.slide-1-title-highlight {
+      color: var(--accent-dk);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s;
+    }
+    a.slide-1-title-highlight:hover {
+      color: var(--accent);
+    }
     .slide-1-pillars-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -2954,11 +2963,11 @@ html_template = '''<!DOCTYPE html>
                 <div class="slide-1-instructor-titles">
                   <div class="slide-1-title-item">
                     <span class="title-icon">🏛️</span>
-                    <span>Adjunct Professor of <span class="slide-1-title-highlight">University of San Francisco</span></span>
+                    <span>Adjunct Professor of <a href="https://www.usfca.edu/faculty/ken-huang" target="_blank" rel="noopener noreferrer" class="slide-1-title-highlight">University of San Francisco ↗</a></span>
                   </div>
                   <div class="slide-1-title-item">
                     <span class="title-icon">🚀</span>
-                    <span>CEO of <span class="slide-1-title-highlight">Distributedapps.ai</span></span>
+                    <span>CEO of <a href="https://distributedapps.ai/" target="_blank" rel="noopener noreferrer" class="slide-1-title-highlight">Distributedapps.ai ↗</a></span>
                   </div>
                 </div>
               </div>
