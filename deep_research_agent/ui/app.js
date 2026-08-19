@@ -212,13 +212,28 @@ function generateComparativeChartSvg(query) {
 function renderRichMarkdown(rawMarkdown, query, evidence = []) {
   if (!rawMarkdown) return '<p style="color: var(--text-muted); font-style: italic;">No content available.</p>';
 
-  let html = rawMarkdown;
+  const tokens = {};
+  let tokenIdx = 0;
 
-  // 1. Process fenced code blocks
-  html = html.replace(/```([a-zA-Z0-9_\-]+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+  function storeToken(htmlContent) {
+    const key = `%%%TOKEN_BLOCK_${tokenIdx++}%%%`;
+    tokens[key] = htmlContent;
+    return key;
+  }
+
+  let text = rawMarkdown;
+
+  // 1. Pre-generate SVG Diagrams as tokens
+  const archSvg = generateArchitectureDiagramSvg(query, evidence);
+  const compSvg = generateComparativeChartSvg(query);
+  const archKey = storeToken(archSvg);
+  const compKey = storeToken(compSvg);
+
+  // 2. Extract and protect fenced code blocks
+  text = text.replace(/```([a-zA-Z0-9_\-]+)?\n([\s\S]*?)```/g, (match, lang, code) => {
     const language = lang ? lang.trim() : 'text';
     const escapedCode = escapeHtml(code.trim());
-    return `
+    const codeHtml = `
       <div class="md-code-block">
         <div class="code-header">
           <span>${language.toUpperCase()}</span>
@@ -227,21 +242,51 @@ function renderRichMarkdown(rawMarkdown, query, evidence = []) {
         <pre><code>${escapedCode}</code></pre>
       </div>
     `;
+    return storeToken(codeHtml);
   });
 
-  // 2. Process Markdown Tables
-  html = html.replace(/\n(\|.+?\|\n\|[-:| ]+\|\n(?:\|.+?\|\n?)+)/g, (match) => {
-    const lines = match.trim().split('\n');
+  // 3. Extract and protect Markdown tables
+  text = text.replace(/(?:^|\n)(\|.+?\|\n\|[-:| ]+\|\n(?:\|.+?\|\n?)+)/g, (match, tableBody) => {
+    const lines = tableBody.trim().split('\n');
     const headers = lines[0].split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
     const rows = lines.slice(2).map(r => {
       const cells = r.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
       return `<tr>${cells}</tr>`;
     }).join('');
-    return `<div class="md-table-container"><table class="md-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    const tableHtml = `<div class="md-table-container"><table class="md-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    return '\n' + storeToken(tableHtml) + '\n';
   });
 
-  // 3. Process Blockquotes / Alerts
-  html = html.replace(/^>\s*(.*?)$/gim, (match, content) => {
+  // 4. Inject diagram tokens into headings
+  let hasInjectedArch = false;
+  let hasInjectedComp = false;
+
+  text = text
+    .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.55rem; color: var(--text-primary); margin-bottom: 0.85rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; letter-spacing: -0.02em;">$1</h1>')
+    .replace(/^## (.*$)/gim, (match, title) => {
+      let prefix = '';
+      if (!hasInjectedArch && (title.includes('Thematic') || title.includes('Technical Breakdown') || title.includes('Paradigms') || title.includes('Executive Summary') || title.includes('Landscape'))) {
+        hasInjectedArch = true;
+        prefix = `\n${archKey}\n`;
+      } else if (!hasInjectedComp && (title.includes('Quantitative') || title.includes('Benchmarks') || title.includes('Comparative Matrix') || title.includes('Trade-offs') || title.includes('Insights') || title.includes('Synergies'))) {
+        hasInjectedComp = true;
+        prefix = `\n${compKey}\n`;
+      }
+      return `${prefix}<h2 style="font-size: 1.25rem; color: var(--accent-emerald); margin-top: 1.8rem; margin-bottom: 0.65rem; border-bottom: 1.5px solid var(--border-color); padding-bottom: 0.4rem; letter-spacing: -0.01em;">${title}</h2>`;
+    })
+    .replace(/^### (.*$)/gim, '<h3 style="font-size: 1.05rem; color: var(--accent-sapphire); margin-top: 1.4rem; margin-bottom: 0.5rem; font-weight: 750;">$1</h3>')
+    .replace(/^#### (.*$)/gim, '<h4 style="font-size: 0.94rem; color: var(--text-primary); margin-top: 1.1rem; margin-bottom: 0.35rem; font-weight: 700;">$1</h4>');
+
+  // If diagrams weren't matched in headings, ensure both diagrams are present
+  if (!hasInjectedArch) {
+    text = `${archKey}\n` + text;
+  }
+  if (!hasInjectedComp) {
+    text = text + `\n${compKey}\n`;
+  }
+
+  // 5. Blockquotes / Alerts
+  text = text.replace(/^>\s*(.*?)$/gim, (match, content) => {
     let alertClass = 'md-alert';
     if (content.includes('📅') || content.includes('[!NOTE]')) alertClass = 'md-alert md-alert-note';
     else if (content.includes('⚠️') || content.includes('[!WARNING]')) alertClass = 'md-alert md-alert-warning';
@@ -250,33 +295,21 @@ function renderRichMarkdown(rawMarkdown, query, evidence = []) {
     return `<div class="${alertClass}">${content}</div>`;
   });
 
-  // 4. Headings & Auto-Injection of SVG Diagrams
-  let hasInjectedArch = false;
-  let hasInjectedComp = false;
-
-  html = html
+  // 6. Inline styles & links
+  text = text
     .replace(/\[(.*?)\]\((https?:\/\/[^\s<>"']+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sapphire); text-decoration: underline; font-weight: 600;">$1 ↗</a>')
-    .replace(/^# (.*$)/gim, '<h1 style="font-size: 1.55rem; color: var(--text-primary); margin-bottom: 0.85rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; letter-spacing: -0.02em;">$1</h1>')
-    .replace(/^## (.*$)/gim, (match, title) => {
-      let extra = '';
-      if (!hasInjectedArch && (title.includes('Thematic') || title.includes('Technical Breakdown') || title.includes('Paradigms'))) {
-        hasInjectedArch = true;
-        extra = generateArchitectureDiagramSvg(query, evidence);
-      } else if (!hasInjectedComp && (title.includes('Quantitative') || title.includes('Benchmarks') || title.includes('Comparative Matrix'))) {
-        hasInjectedComp = true;
-        extra = generateComparativeChartSvg(query);
-      }
-      return `${extra}<h2 style="font-size: 1.25rem; color: var(--accent-emerald); margin-top: 1.8rem; margin-bottom: 0.65rem; border-bottom: 1.5px solid var(--border-color); padding-bottom: 0.4rem; letter-spacing: -0.01em;">${title}</h2>`;
-    })
-    .replace(/^### (.*$)/gim, '<h3 style="font-size: 1.05rem; color: var(--accent-sapphire); margin-top: 1.4rem; margin-bottom: 0.5rem; font-weight: 750;">$1</h3>')
-    .replace(/^#### (.*$)/gim, '<h4 style="font-size: 0.94rem; color: var(--text-primary); margin-top: 1.1rem; margin-bottom: 0.35rem; font-weight: 700;">$1</h4>')
     .replace(/\*\*(.*?)\*\*/gim, '<strong style="color: var(--text-primary); font-weight: 700;">$1</strong>')
     .replace(/`(.*?)`/gim, '<code style="background: var(--bg-secondary); color: var(--accent-emerald); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.85em; border: 1px solid var(--border-color); font-weight: 600;">$1</code>')
     .replace(/^---$/gim, '<hr style="border: 0; border-top: 1.5px solid var(--border-color); margin: 1.8rem 0;">')
     .replace(/\n\n/gim, '<p style="margin-bottom: 0.95rem; line-height: 1.7; font-size: 0.92rem; color: var(--text-secondary);"></p>')
     .replace(/\n/gim, '<br>');
 
-  return html;
+  // 7. Restore protected tokens cleanly without string corruption
+  Object.keys(tokens).forEach(key => {
+    text = text.split(key).join(tokens[key]);
+  });
+
+  return text;
 }
 
 function renderTabContent() {

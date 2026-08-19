@@ -1160,8 +1160,11 @@ body {
 }
 
 .svg-diagram-wrapper svg {
-  max-width: 100%;
+  width: 100%;
+  max-width: 860px;
   height: auto;
+  min-height: 210px;
+  display: block;
 }
 
 .svg-diagram-caption {
