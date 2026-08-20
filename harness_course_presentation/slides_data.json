@@ -658,13 +658,14 @@
   {
     "number": 42,
     "raw_lines": [
-      "MODULE 10: Four Principles of Harness Engineering",
-      "Core Tenets & Production Readiness Benchmarking",
-      "• Principle 1: Predictability over randomness (deterministic scaffolding over prompt tuning).",
-      "• Principle 2: Specs over prompts (machine-readable contracts over conversational requests).",
-      "• Principle 3: Automated checks over vigilance (compiler AST, pytest, and hook interceptors).",
-      "• Principle 4: Trust over raw speed (verified correctness before merging to main).",
-      "• 5-Gate Scorecard: Memory files, PreToolUse hooks, test runner, MCP tools, and subagent schemas.",
+      "5 Gates",
+      "Production Readiness Benchmarking & Automated Scorecard",
+      "• Gate 1 — Memory Files: Persistent instructions in CLAUDE.md and AGENTS.md.",
+      "• Gate 2 — PreToolUse Hooks: Deterministic shell and AST security interceptors in .claude/settings.json.",
+      "• Gate 3 — Test Runner: Isolated pytest execution with exit code assertions and anti-regression suites.",
+      "• Gate 4 — MCP Tools: Validates strongly typed @mcp.tool and @mcp.resource declarations.",
+      "• Gate 5 — Subagent Definitions: Scoped subagent roles and ephemeral worktree boundaries.",
+      "• 5-Gate Scorecard: Programmatically benchmarks repository readiness with ALL 5 GATES PASS.",
       "• Dashboard: course_implementation/dashboard/index.html",
       "• Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_10_closing_and_principles/README.md"
     ]

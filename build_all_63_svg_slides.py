@@ -850,7 +850,7 @@ def generate_svg_for_slide(num, title):
     <text x="77" y="52" fill="#141413" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Diff &amp; PR Merge</text>
   </g>
 </svg>'''
-    elif 'SCORECARD' in title_upper or 'WRAP-UP' in title_upper or 'READINESS' in title_upper:
+    elif 'SCORECARD' in title_upper or 'WRAP-UP' in title_upper or 'READINESS' in title_upper or '5 GATES' in title_upper or '5-GATE' in title_upper:
         return '''<svg viewBox="0 0 800 100" class="slide-svg">
   <rect x="15" y="6" width="770" height="86" rx="14" fill="#FAF9F5" stroke="#D97757" stroke-width="2.5"/>
   <text x="400" y="36" fill="#141413" font-family="Inter" font-size="15" font-weight="900" text-anchor="middle">PRODUCTION READINESS SCORECARD: ALL 5 GATES PASS</text>
