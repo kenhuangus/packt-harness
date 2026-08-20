@@ -94,7 +94,7 @@ def generate_svg_for_slide(num, title):
   </g>
   <g transform="translate(530, 6)">
     <rect x="0" y="0" width="255" height="88" rx="10" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
-    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ 100% Production Certified</text>
+    <text x="127" y="28" fill="#141413" font-family="Inter" font-size="12.5" font-weight="800" text-anchor="middle">🛡️ Production Scorecard</text>
     <text x="127" y="50" fill="#7c3aed" font-family="Inter" font-size="10.5" font-weight="700" text-anchor="middle">Pytest TDA Self-Healing</text>
     <text x="127" y="71" fill="#6B6B63" font-family="Inter" font-size="10" text-anchor="middle">14/14 Tests &amp; 5-Gate Scorecard</text>
   </g>
