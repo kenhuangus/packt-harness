@@ -134,7 +134,7 @@
       "  • 3. Project Instructions: Shared repository standards (./CLAUDE.md or ./.claude/CLAUDE.md).",
       "  • 4. Local Instructions: Personal project-specific preferences; gitignored (./CLAUDE.local.md).",
       "  • 5. Path-Scoped Rules: Modular rules in .claude/rules/*.md scoped by glob patterns (paths: ['src/api/**/*.ts']).",
-      "• Modular Imports & AGENTS.md Interoperability: Reference files with @path/to/import syntax (expands up to 4 hops recursively). Claude Code reads CLAUDE.md, so add @AGENTS.md into CLAUDE.md or symlink ln -s AGENTS.md CLAUDE.md for cross-agent compatibility.",
+      "• AGENTS.md Interoperability: Claude Code reads CLAUDE.md, so add @AGENTS.md into CLAUDE.md or symlink ln -s AGENTS.md CLAUDE.md for cross-agent compatibility.",
       "• Compaction Survival & Enforcement Boundary: Root CLAUDE.md survives /compact and re-injects automatically into context. Memory files guide behavior; use PreToolUse hooks for non-negotiable security blocks.",
       "• Live Example Link (MEMORY.md): [C:\\Users\\kenhu\\.claude\\projects\\C--Users-kenhu-security-tools\\memory\\MEMORY.md](file:///C:/Users/kenhu/.claude/projects/C--Users-kenhu-security-tools/memory/MEMORY.md)",
       "• Official Documentation Index: https://code.claude.com/docs/llms.txt (Guide: https://code.claude.com/docs/en/memory)",

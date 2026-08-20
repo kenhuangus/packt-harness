@@ -342,10 +342,9 @@ def generate_svg_for_slide(num, title):
   <!-- 4. Imports & AGENTS.md -->
   <g transform="translate(605, 6)">
     <rect x="0" y="0" width="180" height="90" rx="8" fill="#FAF9F5" stroke="#7c3aed" stroke-width="2"/>
-    <text x="90" y="24" fill="#7c3aed" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🔗 4. Imports &amp; Interop</text>
-    <text x="90" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Modular @path Syntax</text>
-    <text x="90" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">4-Hop recursive expansion</text>
-    <text x="90" y="78" fill="#7c3aed" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">@AGENTS.md bridge</text>
+    <text x="90" y="28" fill="#7c3aed" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🔗 4. Imports &amp; Interop</text>
+    <text x="90" y="52" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Modular @path Syntax</text>
+    <text x="90" y="74" fill="#7c3aed" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">@AGENTS.md bridge</text>
   </g>
 </svg>'''
     elif 'PILLARS 4 & 5' in title_upper or 'BUDGET & TRACING' in title_upper or 'JSONL TRANSCRIPTS' in title_upper:
@@ -3339,7 +3338,6 @@ html_template = '''<!DOCTYPE html>
                     <strong style="color:#141413;">Modular Rules &amp; Cross-Agent Interoperability:</strong>
                     <ul style="margin:0.2rem 0 0 1rem; padding:0;">
                       <li><strong>Path-Scoped Rules:</strong> <code>.claude/rules/*.md</code> with <code>paths: ["src/api/**/*.ts"]</code> load only when matching files are opened.</li>
-                      <li><strong>Modular Imports:</strong> <code>@path/to/import</code> syntax expands up to 4 hops recursively.</li>
                       <li><strong>AGENTS.md Interop:</strong> Claude Code reads <code>CLAUDE.md</code>; use <code>@AGENTS.md</code> or <code>ln -s AGENTS.md CLAUDE.md</code> to share instructions.</li>
                     </ul>
                   </div>
