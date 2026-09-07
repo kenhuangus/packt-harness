@@ -3429,24 +3429,77 @@ html_template = '''<!DOCTYPE html>
                       <span class="copy-icon">📋</span> Copy
                     </button>
                   </div>
-                  <div class="cmd-code-row">
-                    <span class="cmd-code-prompt">$</span>
-                    <code class="cmd-code-text">python -m venv .venv</code>
-                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv')" title="Copy venv Command">
-                      <span class="copy-icon">📋</span> Copy
-                    </button>
+                  <div class="os-cmd-group">
+                    <div class="os-cmd-label">🪟 Windows (PowerShell / Command Prompt):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">PS&gt;</span>
+                      <code class="cmd-code-text">python -m venv .venv</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv')" title="Copy Windows venv Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (Bash / Zsh):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">python3 -m venv .venv</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python3 -m venv .venv')" title="Copy macOS/Linux venv Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
                   </div>
                 </div>
 
                 <div class="cmd-step-card">
                   <div class="cmd-step-head">
-                    <span class="cmd-step-title">3️⃣ Step 3: Install in Editable Mode</span>
+                    <span class="cmd-step-title">3️⃣ Step 3: Activate Virtual Environment</span>
+                    <span class="cmd-step-badge">Required each session</span>
+                  </div>
+                  <div class="cmd-step-desc">Activate <code>.venv</code> so <code>python</code> and <code>pip</code> point at the project interpreter (re-run in every new terminal):</div>
+                  <div class="os-cmd-group">
+                    <div class="os-cmd-label">🪟 Windows (PowerShell):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">PS&gt;</span>
+                      <code class="cmd-code-text">.venv\\\\Scripts\\\\Activate.ps1</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv\\\\\\\\Scripts\\\\\\\\Activate.ps1')" title="Copy Windows PowerShell Activate Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🪟 Windows (Command Prompt):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">&gt;</span>
+                      <code class="cmd-code-text">.venv\\\\Scripts\\\\activate.bat</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv\\\\\\\\Scripts\\\\\\\\activate.bat')" title="Copy Windows CMD Activate Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (Bash / Zsh):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">source .venv/bin/activate</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'source .venv/bin/activate')" title="Copy macOS/Linux Activate Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">4️⃣ Step 4: Install in Editable Mode</span>
                     <span class="cmd-step-badge"><code>-e .</code></span>
                   </div>
-                  <div class="cmd-step-desc">Install the harness package into the active virtual environment:</div>
+                  <div class="cmd-step-desc">Install the harness package (after activation, or use the direct <code>.venv</code> interpreter path):</div>
                   
                   <div class="os-cmd-group">
-                    <div class="os-cmd-label">🪟 Windows (PowerShell / Command Prompt):</div>
+                    <div class="os-cmd-label">✅ After activate (all platforms):</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">pip install -e .</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pip install -e .')" title="Copy pip install Command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🪟 Windows (without activate):</div>
                     <div class="cmd-code-row">
                       <span class="cmd-code-prompt">PS&gt;</span>
                       <code class="cmd-code-text">.venv\\\\Scripts\\\\python.exe -m pip install -e .</code>
@@ -3454,8 +3507,7 @@ html_template = '''<!DOCTYPE html>
                         <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
-                    
-                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (Bash / Zsh):</div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (without activate):</div>
                     <div class="cmd-code-row">
                       <span class="cmd-code-prompt">$</span>
                       <code class="cmd-code-text">.venv/bin/python -m pip install -e .</code>
@@ -3468,14 +3520,14 @@ html_template = '''<!DOCTYPE html>
 
                 <div class="cmd-step-card">
                   <div class="cmd-step-head">
-                    <span class="cmd-step-title">4️⃣ Step 4: Check &amp; Verify All Modules</span>
+                    <span class="cmd-step-title">5️⃣ Step 5: Check &amp; Verify All Modules</span>
                     <span class="cmd-step-badge" style="background:#e8f5e9; color:#2e7d32; border-color:#a5d6a7;">14 Passed ✓</span>
                   </div>
                   <div class="cmd-step-desc">Run the harness test runner across all modules (expects <code>Summary: 14 passed, 0 failed</code>):</div>
                   <div class="cmd-code-row">
                     <span class="cmd-code-prompt">$</span>
                     <code class="cmd-code-text">python run_all_modules.py</code>
-                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python run_all_modules.py')" title="Copy Step 4 Command">
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python run_all_modules.py')" title="Copy Step 5 Command">
                       <span class="copy-icon">📋</span> Copy
                     </button>
                   </div>
