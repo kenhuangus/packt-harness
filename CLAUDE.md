@@ -19,7 +19,7 @@ Before editing teaching content about Claude Code, subagents, hooks, skills, plu
 
 ## Common commands
 
-Run all modules (preflight requires the local vLLM model at `http://127.0.0.1:8000/v1`):
+Run all modules (preflight requires the local LM Studio model at `http://127.0.0.1:1234/v1`):
 
 ```powershell
 python run_all_modules.py

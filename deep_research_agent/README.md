@@ -86,7 +86,7 @@ cp .env.example .env   # On Windows: copy .env.example .env
 
 | Provider | `LLM_PROVIDER` in `.env` | Required Key / Config | Target URL |
 | :--- | :--- | :--- | :--- |
-| **Local vLLM (Default)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:8000/v1` |
+| **Local LM Studio (Default)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` |
 | **OpenAI Cloud** | `openai` | `OPENAI_API_KEY=sk-proj...` | standard OpenAI endpoint |
 | **OpenRouter** | `openrouter` | `OPENROUTER_API_KEY=sk-or-...` | `https://openrouter.ai/api/v1` |
 | **Ollama Local** | `ollama` | None (Local engine) | `http://127.0.0.1:11434` |

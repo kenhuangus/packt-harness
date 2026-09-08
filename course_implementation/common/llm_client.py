@@ -4,8 +4,8 @@ Course LLM client, built on Andrew Ng's aisuite
 
 One API, many providers. Model ids are `provider:model`.
 
-Default is the local OpenAI-compatible vLLM server
-(http://127.0.0.1:8000/v1, nvidia/Qwen3.6-35B-A3B-NVFP4).
+Default is a local OpenAI-compatible LM Studio server
+(http://127.0.0.1:1234/v1, qwen3.8-4b-distill).
 Switch providers with a gitignored .env, for example:
 
     LLM_PROVIDER=anthropic
@@ -51,9 +51,13 @@ def _load_env_files() -> None:
 
 _load_env_files()
 
-DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1"
+# DGX Spark / vLLM (not available on this machine — keep for reference):
+# VLLM_BASE_URL = "http://127.0.0.1:8000/v1"
+# VLLM_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
+
+DEFAULT_BASE_URL = "http://127.0.0.1:1234/v1"
 DEFAULT_PROVIDER = "openai"
-DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
+DEFAULT_LOCAL_MODEL = "qwen3.8-4b-distill"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
@@ -106,6 +110,32 @@ def _normalize_base(url: str) -> str:
 def _is_local_base(url: str) -> bool:
     host = url.lower()
     return "127.0.0.1" in host or "localhost" in host or "0.0.0.0" in host
+
+
+_LOCAL_DIRECT_SYSTEM = (
+    "Answer concisely in plain direct text. "
+    "Do not use chain-of-thought, reasoning tags, or preamble."
+)
+
+
+def _effective_system_prompt(system_prompt: str | None, is_local: bool) -> str | None:
+    if not is_local:
+        return system_prompt
+    if system_prompt:
+        return f"{system_prompt}\n\n{_LOCAL_DIRECT_SYSTEM}"
+    return _LOCAL_DIRECT_SYSTEM
+
+
+def _extract_message_text(message) -> str:
+    text = (getattr(message, "content", None) or "").strip()
+    if text:
+        return text
+    text = (getattr(message, "reasoning", None) or "").strip()
+    if text:
+        return text
+    if hasattr(message, "model_dump"):
+        text = (message.model_dump().get("reasoning_content") or "").strip()
+    return text
 
 
 def _split_model(raw: str | None, default_provider: str) -> tuple[str, str | None]:
@@ -386,7 +416,8 @@ class LLMClient:
         if self.provider == "openai" and _is_local_base(self.base_url):
             return (
                 "Local model is required but not reachable at "
-                f"{self.base_url}. Start vLLM or set "
+                f"{self.base_url}. Start LM Studio (or another local "
+                "OpenAI-compatible server) or set "
                 "HARNESS_ALLOW_SIMULATED_LLM=1. "
                 f"Last error: {self.last_error}"
             )
@@ -398,9 +429,11 @@ class LLMClient:
         return f"LLM backend {self.provider}:{self.model} is not live: {self.last_error}"
 
     def generate(self, prompt: str, system_prompt: str | None = None) -> str:
+        is_local = self.provider == "openai" and _is_local_base(self.base_url)
+        effective_system = _effective_system_prompt(system_prompt, is_local)
         messages = []
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
+        if effective_system:
+            messages.append({"role": "system", "content": effective_system})
         messages.append({"role": "user", "content": prompt})
 
         if self._client is None:
@@ -410,9 +443,9 @@ class LLMClient:
                 )
             return f"[Harness Simulated Output for prompt: {prompt[:60]}...]"
 
-        kwargs: dict = {"temperature": 0.2, "max_tokens": 256}
+        kwargs: dict = {"temperature": 0.2, "max_tokens": 512 if is_local else 256}
         # Local Qwen thinking models otherwise return empty content.
-        if self.provider == "openai" and _is_local_base(self.base_url):
+        if is_local:
             kwargs["extra_body"] = {
                 "chat_template_kwargs": {"enable_thinking": False}
             }
@@ -424,9 +457,7 @@ class LLMClient:
                 **kwargs,
             )
             message = response.choices[0].message
-            text = (getattr(message, "content", None) or "").strip()
-            if not text:
-                text = (getattr(message, "reasoning", None) or "").strip()
+            text = _extract_message_text(message)
             if text:
                 return text
             self.last_error = "empty model content"

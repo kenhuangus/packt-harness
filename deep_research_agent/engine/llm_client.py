@@ -1,7 +1,7 @@
 """
 Deep Research LLM Client built on Andrew Ng's aisuite (https://github.com/andrewyng/aisuite).
 Supports:
-- Local Model (Default): OpenAI-compatible vLLM (http://127.0.0.1:8000/v1) or Ollama (http://127.0.0.1:11434)
+- Local Model (Default): OpenAI-compatible LM Studio (http://127.0.0.1:1234/v1) or Ollama (http://127.0.0.1:11434)
 - Anthropic Claude: claude-sonnet-4-5 / claude-3-5-sonnet-20241022 via ANTHROPIC_API_KEY
 - OpenAI: gpt-4o / gpt-4o-mini via OPENAI_API_KEY
 - Google Gemini via Google's OpenAI-compatible endpoint
@@ -38,9 +38,13 @@ def _load_env_files() -> None:
 
 _load_env_files()
 
-DEFAULT_BASE_URL = "http://127.0.0.1:8000/v1"
+# DGX Spark / vLLM (not available on this machine — keep for reference):
+# VLLM_BASE_URL = "http://127.0.0.1:8000/v1"
+# VLLM_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
+
+DEFAULT_BASE_URL = "http://127.0.0.1:1234/v1"
 DEFAULT_PROVIDER = "openai"
-DEFAULT_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
+DEFAULT_LOCAL_MODEL = "qwen3.8-4b-distill"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
 DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
@@ -59,6 +63,32 @@ VERTEX_PROVIDERS = {"vertex", "vertexai", "google-vertex"}
 def _is_local_base(url: str) -> bool:
     host = url.lower()
     return "127.0.0.1" in host or "localhost" in host or "0.0.0.0" in host
+
+
+_LOCAL_DIRECT_SYSTEM = (
+    "Answer concisely in plain direct text. "
+    "Do not use chain-of-thought, reasoning tags, or preamble."
+)
+
+
+def _effective_system_prompt(system_prompt: str | None, is_local: bool) -> str | None:
+    if not is_local:
+        return system_prompt
+    if system_prompt:
+        return f"{system_prompt}\n\n{_LOCAL_DIRECT_SYSTEM}"
+    return _LOCAL_DIRECT_SYSTEM
+
+
+def _extract_message_text(message) -> str:
+    text = (getattr(message, "content", None) or "").strip()
+    if text:
+        return text
+    text = (getattr(message, "reasoning", None) or "").strip()
+    if text:
+        return text
+    if hasattr(message, "model_dump"):
+        text = (message.model_dump().get("reasoning_content") or "").strip()
+    return text
 
 
 class ResearchLLMClient:
@@ -81,7 +111,7 @@ class ResearchLLMClient:
         elif os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"):
             self.provider = "google"
         else:
-            self.provider = DEFAULT_PROVIDER  # local vLLM default
+            self.provider = DEFAULT_PROVIDER  # local LM Studio default
 
         # Normalize provider alias
         if self.provider in CLAUDE_PROVIDERS:
@@ -234,13 +264,15 @@ class ResearchLLMClient:
     def generate(self, prompt: str, system_prompt: str | None = None, max_tokens: int = 1024) -> str:
         """Invokes aisuite with configured provider, falling back to agentic heuristic synthesis if offline."""
         if self._client is not None and self.live:
+            is_local = self.provider == "openai" and _is_local_base(self.base_url)
+            effective_system = _effective_system_prompt(system_prompt, is_local)
             messages = []
-            if system_prompt:
-                messages.append({"role": "system", "content": system_prompt})
+            if effective_system:
+                messages.append({"role": "system", "content": effective_system})
             messages.append({"role": "user", "content": prompt})
 
-            kwargs: dict = {"temperature": 0.2, "max_tokens": max_tokens}
-            if self.provider == "openai" and _is_local_base(self.base_url):
+            kwargs: dict = {"temperature": 0.2, "max_tokens": max(max_tokens, 512) if is_local else max_tokens}
+            if is_local:
                 kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": False}}
 
             aisuite_provider = "openai" if (self.provider in GEMINI_PROVIDERS or self.provider == "google" or self.provider in OPENROUTER_PROVIDERS or self.provider == "openrouter") else self.provider
@@ -251,9 +283,7 @@ class ResearchLLMClient:
                     **kwargs,
                 )
                 message = response.choices[0].message
-                text = (getattr(message, "content", None) or "").strip()
-                if not text:
-                    text = (getattr(message, "reasoning", None) or "").strip()
+                text = _extract_message_text(message)
                 if text:
                     return text
             except Exception as exc:

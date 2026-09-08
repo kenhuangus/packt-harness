@@ -22,14 +22,14 @@ This repository supports the Packt masterclass **Build Reliable Claude Code Work
 ## Prerequisites
 
 - Python 3.10 or newer (3.13 on the authoring machine).
-- A **local** OpenAI-compatible model by default (`http://127.0.0.1:8000/v1`, vLLM `nvidia/Qwen3.6-35B-A3B-NVFP4`). Switch to Claude or others with a gitignored `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`). Never commit keys. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
+- A **local** OpenAI-compatible model by default (`http://127.0.0.1:1234/v1`, LM Studio `qwen3.8-4b-distill`). Switch to Claude or others with a gitignored `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`). Never commit keys. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
 
 Example configuration:
 
 ```env
 LLM_PROVIDER=openai
-LLM_MODEL=nvidia/Qwen3.6-35B-A3B-NVFP4
-LLM_BASE_URL=http://127.0.0.1:8000/v1
+LLM_MODEL=qwen3.8-4b-distill
+LLM_BASE_URL=http://127.0.0.1:1234/v1
 LLM_API_KEY=EMPTY
 ```
 
@@ -82,7 +82,7 @@ set `LLM_PROVIDER` and the matching key in a gitignored `.env` (see
 
 | Provider | `LLM_PROVIDER` | Key / Configuration | Endpoint / Extra |
 | --- | --- | --- | --- |
-| Local vLLM (Default) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:8000/v1` |
+| Local LM Studio (Default) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` |
 | OpenAI Cloud | `openai` | `OPENAI_API_KEY` | standard OpenAI API |
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `https://openrouter.ai/api/v1` |
 | Ollama | `ollama` | none (local endpoint) | `http://127.0.0.1:11434` |

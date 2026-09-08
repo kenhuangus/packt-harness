@@ -4,24 +4,24 @@
       {
         "attempt": 1,
         "returncode": 2,
-        "last_line": "1 error in 0.88s"
+        "last_line": "1 error in 0.30s"
       },
       {
         "attempt": 2,
         "returncode": 2,
-        "last_line": "1 error in 1.10s"
+        "last_line": "1 error in 0.13s"
       },
       {
         "attempt": 3,
         "returncode": 2,
-        "last_line": "1 error in 1.44s"
+        "last_line": "1 error in 0.12s"
       }
     ],
     "deleted": [
       "C:\\Users\\kenhu\\packt-harness\\course_implementation\\module_01_why_harness_engineering\\output\\unharnessed_workspace\\var\\log\\app.log"
     ],
     "log_survived": false,
-    "llm_reply": "A harness is essential to enforce safety, manage state, and orchestrate tool execution, ensuring the model operates reliably within a controlled environment rather than acting unpredictably."
+    "llm_reply": "A harness constrains the model's output to stay within safe, relevant, and usable bounds while preventing it from generating harmful or inappropriate content."
   },
   "harnessed": {
     "first_pytest": {
