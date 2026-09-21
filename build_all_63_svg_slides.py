@@ -2971,22 +2971,7 @@ html_template = '''<!DOCTYPE html>
         const rawBullets = slide.raw_lines.slice(1);
         
         const primaryFile = fileTag.split(' & ')[0].trim();
-        const pathParts = primaryFile.split('/');
-        const moduleFolder = pathParts.length >= 2 ? `${pathParts[0]}/${pathParts[1]}` : 'course_implementation';
-        
-        let testsRelativePath = `${moduleFolder}/tests`;
-        if (slide.test_suite) {
-          testsRelativePath = slide.test_suite;
-        } else if (slide.number === 22 || moduleFolder.includes('module_03')) {
-          testsRelativePath = 'course_implementation/module_03_spec_driven_development/output/tests';
-        } else if (slide.number === 45 || moduleFolder.includes('module_09')) {
-          testsRelativePath = 'course_implementation/module_09_practical_workflow_pattern/output/tests';
-        } else if (slide.number === 50 || primaryFile.startsWith('deep_research_agent')) {
-          testsRelativePath = 'deep_research_agent/tests';
-        }
-        
         const fileGithubUrl = `https://github.com/kenhuangus/packt-harness/blob/main/${primaryFile}`;
-        const testsGithubUrl = `https://github.com/kenhuangus/packt-harness/tree/main/${testsRelativePath}`;
         
         bodyHtml += `
           <div class="code-slide-container">
@@ -3016,7 +3001,6 @@ html_template = '''<!DOCTYPE html>
                 <div style="margin-bottom:0.35rem; color:var(--ink); font-size:0.86rem;">Verified directly against runnable tests in GitHub:</div>
                 <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.84rem;">
                   <div>📄 <strong>Source File:</strong> <a href="${fileGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${primaryFile}</code> ↗</a></div>
-                  <div>🧪 <strong>Test Suite:</strong> <a href="${testsGithubUrl}" target="_blank" rel="noopener noreferrer"><code>${testsRelativePath}</code> ↗</a></div>
                 </div>
               </div>
             </div>

@@ -21,7 +21,6 @@ Every Code Slide must include:
      </div>
      <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.84rem;">
        <div>📄 <strong>Source File:</strong> <a href="https://github.com/<org>/<repo>/blob/main/<file_path>" target="_blank" rel="noopener noreferrer"><code><file_path></code> ↗</a></div>
-       <div>🧪 <strong>Test Suite:</strong> <a href="https://github.com/<org>/<repo>/tree/main/<module_path>/tests" target="_blank" rel="noopener noreferrer"><code><module_path>/tests/</code> ↗</a></div>
      </div>
    </div>
    ```
