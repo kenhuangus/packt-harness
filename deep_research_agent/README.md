@@ -78,15 +78,20 @@ python -m playwright install chromium
 
 ### 2. Configure AI Model Provider (aisuite)
 
-Copy `.env.example` to `.env`. Andrew Ng's **aisuite** allows switching seamlessly between 5 major LLM providers:
+Copy a language profile to `.env`. Andrew Ng's **aisuite** allows switching seamlessly between major LLM providers:
 
 ```bash
-cp .env.example .env   # On Windows: copy .env.example .env
+# English demo (DGX Spark Qwen3.6 on LAN)
+cp .env.example.en .env   # Windows: copy .env.example.en .env
+
+# 中文演示 (本机 LM Studio Qwen)
+cp .env.example.zh .env   # Windows: copy .env.example.zh .env
 ```
 
 | Provider | `LLM_PROVIDER` in `.env` | Required Key / Config | Target URL |
 | :--- | :--- | :--- | :--- |
-| **Local LM Studio (Default)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` |
+| **DGX Spark vLLM (English)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://192.168.1.164:8888/v1` |
+| **Local LM Studio (中文)** | `openai` | None (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` |
 | **OpenAI Cloud** | `openai` | `OPENAI_API_KEY=sk-proj...` | standard OpenAI endpoint |
 | **OpenRouter** | `openrouter` | `OPENROUTER_API_KEY=sk-or-...` | `https://openrouter.ai/api/v1` |
 | **Ollama Local** | `ollama` | None (Local engine) | `http://127.0.0.1:11434` |

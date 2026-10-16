@@ -51,11 +51,19 @@ def _load_env_files() -> None:
 
 _load_env_files()
 
-# DGX Spark / vLLM (not available on this machine — keep for reference):
-# VLLM_BASE_URL = "http://127.0.0.1:8000/v1"
-# VLLM_LOCAL_MODEL = "nvidia/Qwen3.6-35B-A3B-NVFP4"
+# DGX Spark Unsloth Qwen3.6 vLLM (English profile — see .env.example.en):
+# VLLM_BASE_URL = "http://192.168.1.164:8888/v1"
+# VLLM_LOCAL_MODEL = "unsloth/Qwen3.6-35B-A3B-NVFP4"
 
 DEFAULT_BASE_URL = "http://127.0.0.1:1234/v1"
+# Host fragments treated as "local OpenAI-compatible" (LM Studio + DGX Spark).
+_LOCAL_BASE_MARKERS = (
+    "127.0.0.1",
+    "localhost",
+    "0.0.0.0",
+    "192.168.1.164",
+    "100.88.156.38",
+)
 DEFAULT_PROVIDER = "openai"
 DEFAULT_LOCAL_MODEL = "qwen3.8-4b-distill"
 DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5"
@@ -109,7 +117,7 @@ def _normalize_base(url: str) -> str:
 
 def _is_local_base(url: str) -> bool:
     host = url.lower()
-    return "127.0.0.1" in host or "localhost" in host or "0.0.0.0" in host
+    return any(marker in host for marker in _LOCAL_BASE_MARKERS)
 
 
 _LOCAL_DIRECT_SYSTEM = (

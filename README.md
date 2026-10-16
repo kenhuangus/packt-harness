@@ -22,9 +22,21 @@ This repository supports the Packt masterclass **Build Reliable Claude Code Work
 ## Prerequisites
 
 - Python 3.10 or newer (3.13 on the authoring machine).
-- A **local** OpenAI-compatible model by default (`http://127.0.0.1:1234/v1`, LM Studio `qwen3.8-4b-distill`). Switch to Claude or others with a gitignored `.env` (`LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`). Never commit keys. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
+- Language-specific LLM profiles (copy one to a gitignored `.env`; never commit keys):
+  - **English / DGX Spark:** `copy .env.example.en .env` → `unsloth/Qwen3.6-35B-A3B-NVFP4` at `http://192.168.1.164:8888/v1`
+  - **中文 / LM Studio:** `copy .env.example.zh .env` → `qwen3.8-4b-distill` at `http://127.0.0.1:1234/v1`
+  - Plain `.env.example` matches the Chinese / LM Studio profile. Switch to Claude or others with `LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-4-5`, `ANTHROPIC_API_KEY=...`. `run_all_modules.py` fails if the configured backend is down. Simulated fallback is opt-in only (`HARNESS_ALLOW_SIMULATED_LLM=1`).
 
-Example configuration:
+Example — English (DGX Spark):
+
+```env
+LLM_PROVIDER=openai
+LLM_MODEL=unsloth/Qwen3.6-35B-A3B-NVFP4
+LLM_BASE_URL=http://192.168.1.164:8888/v1
+LLM_API_KEY=EMPTY
+```
+
+Example — 中文 (LM Studio):
 
 ```env
 LLM_PROVIDER=openai
@@ -76,13 +88,15 @@ git config --global core.longpaths true
 
 ### AI Model Provider Configuration (aisuite)
 
-The default is the local OpenAI-compatible endpoint and needs no key. To switch,
-set `LLM_PROVIDER` and the matching key in a gitignored `.env` (see
-`course_implementation/.env.example`):
+Pick a language profile, then copy it to `.env` (also under
+`course_implementation/` and `deep_research_agent/` if you run those folders
+directly). See `.env.example.en`, `.env.example.zh`, and
+`course_implementation/.env.example*`.
 
 | Provider | `LLM_PROVIDER` | Key / Configuration | Endpoint / Extra |
 | --- | --- | --- | --- |
-| Local LM Studio (Default) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` |
+| DGX Spark vLLM (English profile) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://192.168.1.164:8888/v1` (`.env.example.en`) |
+| Local LM Studio (中文 profile) | `openai` | none (`LLM_API_KEY=EMPTY`) | `http://127.0.0.1:1234/v1` (`.env.example.zh`) |
 | OpenAI Cloud | `openai` | `OPENAI_API_KEY` | standard OpenAI API |
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `https://openrouter.ai/api/v1` |
 | Ollama | `ollama` | none (local endpoint) | `http://127.0.0.1:11434` |

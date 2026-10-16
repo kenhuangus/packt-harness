@@ -3352,9 +3352,12 @@ html_template = '''<!DOCTYPE html>
                 <div class="failure-mode-body">
                   <div class="setup-links-box" style="border-top:none; padding-top:0;">
                     <div>
-                      🔑 <strong>Environment Configuration (.env.example):</strong><br>
-                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/.env.example" target="_blank" rel="noopener noreferrer">
-                        .env.example (API Keys &amp; Model Providers) ↗
+                      🔑 <strong>Environment Configuration (language profiles):</strong><br>
+                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/.env.example.en" target="_blank" rel="noopener noreferrer">
+                        .env.example.en (English / DGX Spark :8888) ↗
+                      </a><br>
+                      <a href="https://github.com/kenhuangus/packt-harness/blob/main/.env.example.zh" target="_blank" rel="noopener noreferrer">
+                        .env.example.zh (中文 / LM Studio :1234) ↗
                       </a>
                     </div>
                     <div>
@@ -3563,12 +3566,12 @@ html_template = '''<!DOCTYPE html>
                     </div>
                     <div class="cmd-code-row">
                       <span class="cmd-code-prompt">4. Config:</span>
-                      <code class="cmd-code-text">copy .env.example .env (Win) | cp .env.example .env (Mac/Linux)</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example .env')" title="Copy Windows Config Command">
-                        <span class="copy-icon">📋</span> Win
+                      <code class="cmd-code-text">copy .env.example.en .env (EN/Spark) | copy .env.example.zh .env (中文/LM Studio)</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example.en .env')" title="Copy English / DGX Spark Config">
+                        <span class="copy-icon">📋</span> EN
                       </button>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'cp .env.example .env')" title="Copy Mac/Linux Config Command">
-                        <span class="copy-icon">📋</span> Mac/Linux
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example.zh .env')" title="Copy Chinese / LM Studio Config">
+                        <span class="copy-icon">📋</span> 中文
                       </button>
                     </div>
                     <div class="cmd-code-row">
@@ -3591,7 +3594,8 @@ html_template = '''<!DOCTYPE html>
                 <div class="capstone-section">
                   <div class="capstone-section-title">🔑 Universal aisuite Provider Support (.env Configuration)</div>
                   <div class="capstone-providers-grid">
-                    <div class="provider-pill">💻 <strong>Local vLLM (Default):</strong> <code>LLM_PROVIDER=openai</code> (Port 8000)</div>
+                    <div class="provider-pill">💻 <strong>EN DGX Spark:</strong> <code>.env.example.en</code> → <code>:8888</code></div>
+                    <div class="provider-pill">🈶 <strong>中文 LM Studio:</strong> <code>.env.example.zh</code> → <code>:1234</code></div>
                     <div class="provider-pill">🟢 <strong>OpenAI:</strong> <code>OPENAI_API_KEY=sk-proj...</code></div>
                     <div class="provider-pill">🌐 <strong>OpenRouter:</strong> <code>OPENROUTER_API_KEY=sk-or-...</code></div>
                     <div class="provider-pill">🦙 <strong>Ollama:</strong> <code>LLM_PROVIDER=ollama</code> (Port 11434)</div>

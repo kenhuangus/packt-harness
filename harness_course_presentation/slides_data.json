@@ -79,7 +79,7 @@
       "  • Step 4 - Install: pip install -e .   (or without activate: .venv\\Scripts\\python.exe -m pip install -e . on Windows; .venv/bin/python -m pip install -e . on macOS/Linux)",
       "  • Step 5 - Check it: python run_all_modules.py   expects Summary: 14 passed, 0 failed",
       "  • Why the venv: each module launches pytest with sys.executable, so the interpreter that starts a module is the one that runs its tests - it cannot pass by finding another Python on PATH",
-      "  • Environment Configuration (.env.example): https://github.com/kenhuangus/packt-harness/blob/main/.env.example",
+      "  • Environment Configuration: English → copy .env.example.en .env (DGX Spark http://192.168.1.164:8888/v1); 中文 → copy .env.example.zh .env (LM Studio http://127.0.0.1:1234/v1). Index: https://github.com/kenhuangus/packt-harness/blob/main/.env.example",
       "  • Full setup, cloud model keys (OpenAI, Claude, Gemini) and the browser extra: https://github.com/kenhuangus/packt-harness/blob/main/README.md",
       "  • Interactive Lab Demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_01_why_harness_engineering/README.md"
     ]
@@ -724,7 +724,7 @@
       "• 1. Clone & CD: git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness",
       "• 2. Virtual Environment: Windows (PowerShell): python -m venv .venv ; .venv\\Scripts\\Activate.ps1 (CMD: .venv\\Scripts\\activate) | macOS/Linux: python3 -m venv .venv && source .venv/bin/activate",
       "• 3. Dependencies: pip install -r requirements.txt && python -m playwright install chromium",
-      "• 4. Provider Config: Windows: copy .env.example .env | macOS/Linux: cp .env.example .env",
+      "• 4. Provider Config: English: copy .env.example.en .env (DGX Spark :8888) | 中文: copy .env.example.zh .env (LM Studio :1234)",
       "• 5. Launch Server & UI: python deep_research_agent/server.py 8090 (http://localhost:8090/)",
       "• 6. Verification: pytest -v (23 Tests Passing) & packt-harness audit (5/5 Gates Certified)",
       "| Deliverable / Artifact Title | Direct Repository / Video Link |",

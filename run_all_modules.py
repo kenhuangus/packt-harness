@@ -4,7 +4,7 @@ import sys
 
 base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'course_implementation')
 
-print("Preflight: local model at LLM_BASE_URL / http://127.0.0.1:1234/v1 (LM Studio)")
+print("Preflight: model at LLM_BASE_URL (EN: .env.example.en DGX Spark :8888 | ZH: .env.example.zh LM Studio :1234)")
 preflight = subprocess.run(
     [sys.executable, os.path.join(base_dir, "common", "llm_client.py")],
     cwd=base_dir,
