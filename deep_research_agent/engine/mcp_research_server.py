@@ -43,12 +43,15 @@ DYNAMIC_CORPUS: dict[str, dict] = {}
 CACHE_STORE: dict[str, dict] = {}
 
 BASE_CORPUS = {
+    # Seed fallback only — must never reuse a real arXiv abs ID with fabricated authors.
+    # (Previously pointed at https://arxiv.org/abs/2605.18747 with author "Ken Huang et al.",
+    #  but that paper is "Code as Agent Harness" by Xuying Ning et al.)
     "doc_001": {
         "title": "Harness Engineering for Autonomous Coding Agents (Huang, 2026)",
-        "domain": "arxiv.org",
-        "author": "Ken Huang et al.",
-        "url": "https://arxiv.org/abs/2605.18747",
-        "source_type": "arxiv",
+        "domain": "amazon.com",
+        "author": "Ken Huang",
+        "url": "https://www.amazon.com/dp/B0HF3F86YM",
+        "source_type": "web",
         "text": (
             "Harness Engineering establishes a deterministic runtime boundary for large language models. "
             "By enforcing 5 core pillars—Memory Files, Scoped Tools, Deterministic Hooks, Context Token Budgeting, "
@@ -170,12 +173,22 @@ def _canonical_github_repo_url(url: str) -> str:
 
 def _clean_search_query_tags(query: str) -> str:
     """Strips meta search tags like 'foundations principles arXiv Wikipedia', 'youtube video technical talk', etc."""
+    # Preserve URLs so stripping 'arxiv' does not turn arxiv.org into '.org'.
+    urls = re.findall(r"https?://\S+", query)
+    placeholder_map = {}
+    scrubbed = query
+    for i, url in enumerate(urls):
+        token = f"URLPLACEHOLDER{i}XYZ"
+        placeholder_map[token] = url
+        scrubbed = scrubbed.replace(url, token)
     cleaned = re.sub(
         r"\b(foundations|principles|arxiv|wikipedia|youtube|video|technical|talk|hackernews|discussion|failure|modes|github|repository|implementation|conference|analysis|preprints|codebases|walkthroughs|consensus|trade-offs)\b",
         "",
-        query,
+        scrubbed,
         flags=re.IGNORECASE,
     ).strip()
+    for token, url in placeholder_map.items():
+        cleaned = cleaned.replace(token, url)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     return cleaned or query
 
@@ -254,45 +267,164 @@ def fetch_live_wikipedia(query: str, limit: int = 2) -> list[dict]:
     return docs
 
 
+def _normalize_author_name(name: str) -> str:
+    """Converts 'Last, First' citation meta form to 'First Last' when applicable."""
+    raw = re.sub(r"\s+", " ", (name or "").strip())
+    if "," in raw:
+        last, first = [p.strip() for p in raw.split(",", 1)]
+        if first and last:
+            return f"{first} {last}"
+    return raw
+
+
+def _format_author_list(authors: list[str], max_named: int = 2) -> str:
+    """Formats author lists as 'A, B et al.' without inventing names."""
+    names = [_normalize_author_name(a) for a in authors if a and a.strip()]
+    names = [n for n in names if n]
+    if not names:
+        return ""
+    if len(names) <= max_named:
+        return ", ".join(names)
+    return f"{names[0]} et al."
+
+
+def _arxiv_id_from_url(url: str) -> str | None:
+    """Extracts a bare arXiv id (e.g. 2605.18747) from an abs/pdf/API id URL."""
+    if not url:
+        return None
+    match = re.search(r"(?:arxiv\.org/(?:abs|pdf)/)(\d{4}\.\d{4,5})(?:v\d+)?", url, re.I)
+    if match:
+        return match.group(1)
+    match = re.search(r"\b(\d{4}\.\d{4,5})(?:v\d+)?\b", url)
+    return match.group(1) if match else None
+
+
+def _fetch_arxiv_abs_html(arxiv_id: str) -> str:
+    abs_url = f"https://arxiv.org/abs/{arxiv_id}"
+    req = urllib.request.Request(
+        abs_url,
+        headers={"User-Agent": "PacktHarnessDeepResearchAgent/2.0"},
+    )
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        return resp.read().decode("utf-8", errors="replace")
+
+
+def _fetch_arxiv_authors_from_abs(arxiv_id: str) -> list[str]:
+    """Fallback author scrape from abs HTML citation_author meta tags when Atom API is rate-limited."""
+    try:
+        html = _fetch_arxiv_abs_html(arxiv_id)
+        return re.findall(
+            r'<meta\s+name="citation_author"\s+content="([^"]+)"',
+            html,
+            flags=re.I,
+        )
+    except Exception:
+        return []
+
+
+def _fetch_arxiv_paper_from_abs(arxiv_id: str) -> dict | None:
+    """Builds a full evidence doc from abs HTML meta tags (title/authors/abstract)."""
+    try:
+        html = _fetch_arxiv_abs_html(arxiv_id)
+    except Exception as exc:
+        print(f"[WARN] arXiv abs fetch failed for {arxiv_id}: {_compact_error_message(exc)}")
+        return None
+
+    def _meta(name: str) -> str:
+        match = re.search(
+            rf'<meta\s+name="{re.escape(name)}"\s+content="([^"]*)"',
+            html,
+            flags=re.I,
+        )
+        return match.group(1).strip() if match else ""
+
+    title = _meta("citation_title") or f"arXiv:{arxiv_id}"
+    abstract = _meta("citation_abstract")
+    pub_date = (_meta("citation_date") or _meta("citation_online_date") or "").replace("/", "-")
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", pub_date) is None and re.fullmatch(r"\d{4}/\d{2}/\d{2}", _meta("citation_date") or ""):
+        pub_date = _meta("citation_date").replace("/", "-")
+    authors = re.findall(
+        r'<meta\s+name="citation_author"\s+content="([^"]+)"',
+        html,
+        flags=re.I,
+    )
+    author_str = _format_author_list(authors)
+    paper_url = f"https://arxiv.org/abs/{arxiv_id}"
+    summary = abstract or f"arXiv preprint {arxiv_id}."
+    return {
+        "doc_id": f"arxiv_{arxiv_id.replace('.', '_')}",
+        "title": f"{title} (arXiv Preprint, {pub_date or 'n.d.'})",
+        "domain": "arxiv.org",
+        "author": author_str or "arXiv Authors (unlisted)",
+        "url": paper_url,
+        "source_type": "arxiv",
+        "published_date": pub_date,
+        "arxiv_id": arxiv_id,
+        "text": f"arXiv Preprint ({pub_date or 'n.d.'}): {summary}",
+        "snippet": make_clean_full_sentence_snippet(summary, 280),
+    }
+
+
 def fetch_live_arxiv(query: str, limit: int = 2, days_back: int = 30) -> list[dict]:
     """Fetches real scientific papers and abstracts from arXiv API within the specified days back."""
     docs = []
     cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
     clean_q = _clean_search_query_tags(query)
     try:
-        url = f"http://export.arxiv.org/api/query?search_query=all:{urllib.parse.quote(clean_q)}&sortBy=submittedDate&sortOrder=descending&start=0&max_results={max(limit*3, 6)}"
+        url = (
+            "https://export.arxiv.org/api/query?"
+            f"search_query=all:{urllib.parse.quote(clean_q)}"
+            f"&sortBy=submittedDate&sortOrder=descending&start=0&max_results={max(limit * 3, 6)}"
+        )
         req = urllib.request.Request(url, headers={"User-Agent": "PacktHarnessDeepResearchAgent/2.0"})
-        with urllib.request.urlopen(req, timeout=4) as resp:
-            root = ET.fromstring(resp.read().decode("utf-8"))
-            entries = root.findall("{http://www.w3.org/2005/Atom}entry")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            payload = resp.read().decode("utf-8", errors="replace")
+        if "Rate exceeded" in payload:
+            raise RuntimeError("arXiv API rate exceeded")
+        root = ET.fromstring(payload)
+        entries = root.findall("{http://www.w3.org/2005/Atom}entry")
 
-        for idx, entry in enumerate(entries):
-            title = entry.find("{http://www.w3.org/2005/Atom}title").text.strip().replace("\n", " ")
-            summary = entry.find("{http://www.w3.org/2005/Atom}summary").text.strip().replace("\n", " ")
+        for entry in entries:
+            title_el = entry.find("{http://www.w3.org/2005/Atom}title")
+            summary_el = entry.find("{http://www.w3.org/2005/Atom}summary")
+            if title_el is None or summary_el is None or not title_el.text or not summary_el.text:
+                continue
+            title = title_el.text.strip().replace("\n", " ")
+            summary = summary_el.text.strip().replace("\n", " ")
             link_el = entry.find("{http://www.w3.org/2005/Atom}id")
-            paper_url = link_el.text.strip() if link_el is not None else "https://arxiv.org"
-            
+            paper_url = link_el.text.strip() if link_el is not None and link_el.text else "https://arxiv.org"
+            # Prefer canonical abs URL over Atom id form.
+            arxiv_id = _arxiv_id_from_url(paper_url)
+            if arxiv_id:
+                paper_url = f"https://arxiv.org/abs/{arxiv_id}"
+
             pub_el = entry.find("{http://www.w3.org/2005/Atom}published")
-            pub_str = pub_el.text.strip() if pub_el is not None else cutoff_date_str
+            pub_str = pub_el.text.strip() if pub_el is not None and pub_el.text else cutoff_date_str
             pub_date = pub_str[:10]
+            if pub_date < cutoff_date_str and days_back > 0:
+                continue
 
             authors = [
                 a.find("{http://www.w3.org/2005/Atom}name").text.strip()
                 for a in entry.findall("{http://www.w3.org/2005/Atom}author")
                 if a.find("{http://www.w3.org/2005/Atom}name") is not None
+                and a.find("{http://www.w3.org/2005/Atom}name").text
             ]
-            author_str = ", ".join(authors[:3]) + (" et al." if len(authors) > 3 else "")
+            if not authors and arxiv_id:
+                authors = _fetch_arxiv_authors_from_abs(arxiv_id)
+            author_str = _format_author_list(authors)
 
             clean_snippet = make_clean_full_sentence_snippet(summary, 280)
-            doc_id = f"arxiv_{abs(hash(title)) % 100000:05d}"
+            doc_id = f"arxiv_{arxiv_id.replace('.', '_')}" if arxiv_id else f"arxiv_{abs(hash(title)) % 100000:05d}"
             doc_obj = {
                 "doc_id": doc_id,
                 "title": f"{title} (arXiv Preprint, {pub_date})",
                 "domain": "arxiv.org",
-                "author": author_str or "arXiv Researcher",
+                "author": author_str or "arXiv Authors (unlisted)",
                 "url": paper_url,
                 "source_type": "arxiv",
                 "published_date": pub_date,
+                "arxiv_id": arxiv_id or "",
                 "text": f"arXiv Preprint ({pub_date}): {summary}",
                 "snippet": clean_snippet,
             }
@@ -300,8 +432,24 @@ def fetch_live_arxiv(query: str, limit: int = 2, days_back: int = 30) -> list[di
             docs.append(doc_obj)
             if len(docs) >= limit:
                 break
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"[WARN] arXiv Atom query failed for '{clean_q}': {_compact_error_message(exc)}")
+
+    # When Atom is rate-limited/unavailable, still resolve explicit arXiv ids correctly
+    # (including author metadata from abs citation_* tags).
+    if len(docs) < limit:
+        for arxiv_id in re.findall(r"\b(\d{4}\.\d{4,5})\b", query):
+            if any(d.get("arxiv_id") == arxiv_id for d in docs):
+                continue
+            paper = _fetch_arxiv_paper_from_abs(arxiv_id)
+            if not paper:
+                continue
+            if days_back > 0 and paper.get("published_date") and paper["published_date"] < cutoff_date_str:
+                continue
+            DYNAMIC_CORPUS[paper["doc_id"]] = paper
+            docs.append(paper)
+            if len(docs) >= limit:
+                break
     return docs
 
 
@@ -669,10 +817,19 @@ def query_web_index(query: str, max_results: int = 8, sources: str = "all", days
     # 4. Community: HackerNews Discussions
     matched.extend(fetch_live_hackernews(query, limit=1, days_back=days_back))
 
-    # Fallback to local cache if needed
+    # Fallback to local cache if needed — never prefer seed docs that reuse a live URL.
+    live_urls = {(d.get("url") or "").rstrip("/").lower() for d in matched}
+    live_arxiv_ids = {d.get("arxiv_id") for d in matched if d.get("arxiv_id")}
     if len(matched) < max_results:
-        q_terms = query.lower().split()
+        q_terms = [t for t in query.lower().split() if len(t) > 2]
         for doc_id, doc in DYNAMIC_CORPUS.items():
+            doc_url = (doc.get("url") or "").rstrip("/").lower()
+            doc_arxiv = _arxiv_id_from_url(doc.get("url") or "")
+            if doc_url in live_urls or (doc_arxiv and doc_arxiv in live_arxiv_ids):
+                continue
+            # Skip seed BASE_CORPUS docs when we already have live academic hits.
+            if doc_id in BASE_CORPUS and any(d.get("source_type") in {"arxiv", "openalex"} for d in matched):
+                continue
             if any(term in doc["title"].lower() or term in doc["text"].lower() for term in q_terms):
                 if doc not in matched:
                     matched.append(doc)
@@ -680,7 +837,9 @@ def query_web_index(query: str, max_results: int = 8, sources: str = "all", days
                         break
 
     if not matched:
-        matched = list(DYNAMIC_CORPUS.values())[:max_results] or list(BASE_CORPUS.values())[:max_results]
+        matched = [
+            d for d in DYNAMIC_CORPUS.values() if d.get("doc_id") not in BASE_CORPUS
+        ][:max_results] or list(BASE_CORPUS.values())[:max_results]
 
     CACHE_STORE[query] = {"query": query, "results": matched}
     return json.dumps({"status": "SUCCESS", "results": matched[:max_results]}, indent=2)
