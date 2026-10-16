@@ -3472,36 +3472,18 @@ html_template = '''<!DOCTYPE html>
 
                 <div class="cmd-step-card">
                   <div class="cmd-step-head">
-                    <span class="cmd-step-title">4️⃣ Step 4: Install in Editable Mode</span>
+                    <span class="cmd-step-title">${slideLang === 'zh' ? '4️⃣ 步骤 4：可编辑模式安装' : '4️⃣ Step 4: Install in Editable Mode'}</span>
                     <span class="cmd-step-badge"><code>-e .</code></span>
                   </div>
-                  <div class="cmd-step-desc">Install the harness package (after activation, or use the direct <code>.venv</code> interpreter path):</div>
-                  
-                  <div class="os-cmd-group">
-                    <div class="os-cmd-label">✅ After activate (all platforms):</div>
-                    <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
-                      <code class="cmd-code-text">pip install -e .</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'pip install -e .')" title="Copy pip install Command">
-                        <span class="copy-icon">📋</span> Copy
-                      </button>
-                    </div>
-                    <div class="os-cmd-label" style="margin-top:0.25rem;">🪟 Windows (without activate):</div>
-                    <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">PS&gt;</span>
-                      <code class="cmd-code-text">.venv\\\\Scripts\\\\python.exe -m pip install -e .</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv\\\\\\\\Scripts\\\\\\\\python.exe -m pip install -e .')" title="Copy Windows Install Command">
-                        <span class="copy-icon">📋</span> Copy
-                      </button>
-                    </div>
-                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux (without activate):</div>
-                    <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">$</span>
-                      <code class="cmd-code-text">.venv/bin/python -m pip install -e .</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv/bin/python -m pip install -e .')" title="Copy macOS/Linux Install Command">
-                        <span class="copy-icon">📋</span> Copy
-                      </button>
-                    </div>
+                  <div class="cmd-step-desc">${slideLang === 'zh'
+                    ? '激活虚拟环境后，安装 harness 包（所有平台相同）：'
+                    : 'After activating the venv, install the harness package (same on all platforms):'}</div>
+                  <div class="cmd-code-row">
+                    <span class="cmd-code-prompt">$</span>
+                    <code class="cmd-code-text">pip install -e .</code>
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'pip install -e .')" title="Copy pip install Command">
+                      <span class="copy-icon">📋</span> Copy
+                    </button>
                   </div>
                 </div>
 
