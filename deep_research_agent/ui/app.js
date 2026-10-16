@@ -6,7 +6,8 @@ themeToggle.addEventListener('click', () => {
   const current = document.documentElement.getAttribute('data-theme');
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
-  themeToggle.textContent = next === 'dark' ? '🌙 Theme' : '☀️ Theme';
+  // Button shows the action to switch TO the other mode.
+  themeToggle.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
 });
 
 // Preset helper
@@ -17,6 +18,8 @@ function setPreset(query) {
 // Tab Switching
 let currentTab = 'dossier';
 let latestResult = null;
+// Expose for E2E / console diagnostics (classic script `let` is not on window).
+window.getLatestResult = () => latestResult;
 
 function switchTab(tab) {
   currentTab = tab;
@@ -336,7 +339,7 @@ function renderTabContent() {
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-size: 1.2rem;">🔄</span>
-              <strong style="color: var(--accent-emerald); font-size: 1.02rem;">Turn 1 Review: ${t1.phase || 'Empirical Grounding & Gap Analysis'}</strong>
+              <strong style="color: var(--accent-emerald); font-size: 1.02rem;">Turn 1 Review: ${escapeHtml(t1.phase || 'Empirical Grounding & Gap Analysis')}</strong>
             </div>
             <span style="font-size: 0.75rem; font-weight: 700; background: #ecfdf5; color: #059669; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(5,150,105,0.2);">APPROVED</span>
           </div>
@@ -350,7 +353,7 @@ ${escapeHtml(t1.reflection_analysis || '')}
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-size: 1.2rem;">🛡️</span>
-              <strong style="color: var(--accent-sapphire); font-size: 1.02rem;">Turn 2 Review: ${t2.phase || 'Adversarial Stress-Testing & High-Order Insights'}</strong>
+              <strong style="color: var(--accent-sapphire); font-size: 1.02rem;">Turn 2 Review: ${escapeHtml(t2.phase || 'Adversarial Stress-Testing & High-Order Insights')}</strong>
             </div>
             <span style="font-size: 0.75rem; font-weight: 700; background: #eff6ff; color: #2563eb; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(37,99,235,0.2);">FINALIZED</span>
           </div>
@@ -374,8 +377,8 @@ ${escapeHtml(t2.reflection_analysis || '')}
             <li style="display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.5rem; background: var(--bg-secondary); border-radius: 4px;">
               <span style="font-size: 1.1rem;">${g.passed ? '✅' : '❌'}</span>
               <div>
-                <strong style="color: var(--text-primary);">${g.gate}:</strong>
-                <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">${g.message}</div>
+                <strong style="color: var(--text-primary);">${escapeHtml(g.gate)}:</strong>
+                <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">${escapeHtml(g.message)}</div>
               </div>
             </li>
           `).join('')}
@@ -387,7 +390,12 @@ ${escapeHtml(t2.reflection_analysis || '')}
 }
 
 function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // Log telemetry
@@ -396,7 +404,7 @@ function logTelemetry(type, msg) {
   const row = document.createElement('div');
   row.className = 'telemetry-row';
   const time = new Date().toISOString().substring(11, 19);
-  row.innerHTML = `<span class="telemetry-time">${time}</span><span class="telemetry-type">${type}</span><span>${msg}</span>`;
+  row.innerHTML = `<span class="telemetry-time">${time}</span><span class="telemetry-type">${escapeHtml(type)}</span><span>${escapeHtml(msg)}</span>`;
   stream.prepend(row);
 }
 
@@ -480,21 +488,22 @@ function renderCitations(evidence) {
 
     const targetUrl = item.url || (item.domain ? `https://${item.domain}` : '#');
 
+    const safeUrl = escapeHtml(targetUrl);
     card.innerHTML = `
       <div class="citation-header">
-        <span class="citation-title">${icon} ${item.title}</span>
+        <span class="citation-title">${icon} ${escapeHtml(item.title || 'Untitled')}</span>
         <div style="display:flex; gap:0.4rem; align-items:center;">
-          <span class="source-type-badge">${typeBadge}</span>
-          <span class="trust-badge" style="background:#ecfdf5; color:#059669; border:1px solid #6ee7b7;">🟢 HTTP ${item.url_status || 200}</span>
+          <span class="source-type-badge">${escapeHtml(typeBadge)}</span>
+          <span class="trust-badge" style="background:#ecfdf5; color:#059669; border:1px solid #6ee7b7;">🟢 HTTP ${escapeHtml(item.url_status || 200)}</span>
           <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
         </div>
       </div>
       <div class="citation-domain">
-        <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline;">
-          ${item.domain} • ${item.author || 'Author'} ↗
+        <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline;">
+          ${escapeHtml(item.domain || 'web')} • ${escapeHtml(item.author || 'Author')} ↗
         </a>
       </div>
-      <div class="citation-quote">"${item.grounding_quote || item.snippet}"</div>
+      <div class="citation-quote">"${escapeHtml(item.grounding_quote || item.snippet || '')}"</div>
     `;
     grid.appendChild(card);
   });
@@ -704,6 +713,8 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
   if (!query) return;
   const timeHorizonEl = document.getElementById('timeHorizonSelect');
   const days_back = timeHorizonEl ? parseInt(timeHorizonEl.value, 10) : 30;
+  const depthEl = document.getElementById('depthSelect');
+  const depth = depthEl ? depthEl.value : 'multi-source';
 
   const btn = document.getElementById('startBtn');
   btn.disabled = true;
@@ -712,7 +723,7 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
   // Open modal progress dialog
   openProgressModal(query, days_back);
 
-  logTelemetry('SOP_START', `Initiating 10-module deep research on: "${query}" (Horizon: ${days_back > 0 ? `Past ${days_back}d` : 'All Time'})`);
+  logTelemetry('SOP_START', `Initiating 10-module deep research on: "${query}" (Horizon: ${days_back > 0 ? `Past ${days_back}d` : 'All Time'}; Depth: ${depth})`);
 
   let progressInterval = null;
   const startTime = Date.now();
@@ -765,51 +776,26 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
   }, 300);
 
   try {
-    // Check if API server is reachable, or run mock simulation
     let result;
+    let apiError = null;
     try {
       const resp = await fetch('/api/research', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, days_back }),
+        body: JSON.stringify({ query, days_back, depth }),
       });
       if (resp.ok) {
         result = await resp.json();
+      } else {
+        const errText = await resp.text();
+        apiError = `HTTP ${resp.status}: ${errText.slice(0, 240)}`;
       }
     } catch (err) {
-      // Offline fallback
+      apiError = err.message || String(err);
     }
 
     if (!result) {
-      // Simulate client-side 5-step SOP
-      for (let s = 1; s <= 5; s++) {
-        updateStepper(s);
-        logTelemetry(`STEP_${s}_RUN`, `Executing Step ${s}...`);
-        await new Promise(r => setTimeout(r, 600));
-      }
-      updateStepper(6);
-
-      result = {
-        status: 'SUCCESS',
-        query,
-        duration_sec: 2.8,
-        evidence: [
-          { doc_id: 'doc_001', title: 'Harness Engineering for Autonomous Coding Agents', domain: 'arxiv.org', source_type: 'arxiv', author: 'Ken Huang et al.', confidence_score: 0.98, grounding_quote: 'Enforcing 5 core pillars reduces unverified mutations by 94.2%.' },
-          { doc_id: 'doc_002', title: 'Model Context Protocol Architecture and Transports', domain: 'modelcontextprotocol.io', source_type: 'arxiv', author: 'Anthropic MCP Working Group', confidence_score: 0.95, grounding_quote: 'Stdio transport provides local child process containment.' },
-          { doc_id: 'doc_003', title: 'Harness Engineering: What Separates Top Agentic Engineers', domain: 'youtube.com', source_type: 'youtube', author: 'Cole Medin (77K views)', confidence_score: 0.97, grounding_quote: 'Architectural breakdown of deterministic agent boundaries.' },
-          { doc_id: 'doc_004', title: 'Compound Orchestrator: Multi-Agent Compounding Loops', domain: 'github.com', source_type: 'github', author: 'Ken Huang', confidence_score: 0.96, grounding_quote: 'Two-round cross-review protocol eliminates single-model confirmation bias.' },
-          { doc_id: 'doc_005', title: 'Test-Driven Agent Reliability in Production Pipelines', domain: 'news.ycombinator.com', source_type: 'hackernews', author: '@techlead (142 pts)', confidence_score: 0.94, grounding_quote: 'Subprocess stderr capture enables targeted automatic patching.' },
-        ],
-        dossier_markdown: `# Autonomous Deep Research Dossier: ${query}\n\n## Executive Summary\nThis report presents a verified, multi-hop investigation into **${query}** using the full 10-Module Harness Architecture.\n\n### 1. Harness Engineering & 5 Golden Pillars\nBy enforcing Memory Files, Scoped Tools, Deterministic Hooks, Context Token Budgeting, and Structured Event Logging, unverified mutations drop by **94.2%**.\n\n### 2. Model Context Protocol (MCP 2.x)\nChild process stdio isolation decouples tool execution from model inference, enforcing strict enterprise guardrails.\n\n### 3. Compounding Multi-Agent Workflows\nCompound Orchestrator's 6 planning contracts and two-round cross-reviews ensure lessons persist across tasks.\n\n## Verified Sources\n- **[Harness Engineering (Huang 2026)]**: arxiv.org | 98% Confidence\n- **[Model Context Protocol (Anthropic 2026)]**: modelcontextprotocol.io | 95% Confidence\n- **[Compound Orchestrator (Huang 2026)]**: github.com | 96% Confidence`,
-        unified_diff: `--- a/dossier_baseline.md\n+++ b/dossier.md\n@@ -1,3 +1,18 @@\n+# Autonomous Deep Research Dossier: ${query}\n+## Executive Summary\n+Synthesized with 10-Module Harness Architecture.\n+Verified 5 authoritative sources with 100% pytest pass rate.`,
-        audit: { score_pct: 100, details: [
-          { gate: 'Gate 1: Memory Files', passed: true, message: 'CLAUDE.md & AGENTS.md present.' },
-          { gate: 'Gate 2: Guardrails & Hooks', passed: true, message: '.claude/settings.json verified.' },
-          { gate: 'Gate 3: Automated Test Layer', passed: true, message: 'Pytest suites passing.' },
-          { gate: 'Gate 4: Model Context Protocol', passed: true, message: 'MCP 2.x FastMCP server verified.' },
-          { gate: 'Gate 5: Subagent Specialization', passed: true, message: 'Planner/Crawler/Reviewer defined.' },
-        ]},
-      };
+      throw new Error(apiError || 'Research API returned no result. Is the server running on this port?');
     }
 
     if (progressInterval) clearInterval(progressInterval);
@@ -847,7 +833,8 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
     latestResult = result;
     renderGraph(result.evidence);
     renderCitations(result.evidence);
-    renderTabContent();
+    // Always land on the dossier tab after a successful run (preserves prior tab only for empty state).
+    switchTab('dossier');
     logTelemetry('SOP_COMPLETE', `Research completed in ${result.duration_sec}s with ${result.evidence.length} verified sources.`);
 
   } catch (error) {

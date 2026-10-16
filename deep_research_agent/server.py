@@ -48,10 +48,13 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
             data = json.loads(body) if body else {}
             query = data.get("query", "Autonomous Harness Engineering")
             days_back = int(data.get("days_back", 30))
+            depth = str(data.get("depth", "multi-source") or "multi-source").strip().lower()
+            if depth not in {"multi-source", "deep-audit", "quick-scan"}:
+                depth = "multi-source"
 
-            # Run 5-step SOP pipeline with user-selected time horizon
+            # Run 5-step SOP pipeline with user-selected time horizon + synthesis depth
             pipeline = FiveStepResearchPipeline(WORKSPACE_DIR)
-            result = pipeline.execute_deep_research(query, days_back=days_back)
+            result = pipeline.execute_deep_research(query, days_back=days_back, depth=depth)
 
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
@@ -71,7 +74,7 @@ class DeepResearchAPIHandler(SimpleHTTPRequestHandler):
 
 def run_server(port: int = 8090):
     server = ThreadingHTTPServer(("0.0.0.0", port), DeepResearchAPIHandler)
-    print(f"[*] Deep Research Agent UI running at http://localhost:{port}/")
+    print(f"[*] Deep Research Agent UI running at http://localhost:{port}/", flush=True)
     server.serve_forever()
 
 

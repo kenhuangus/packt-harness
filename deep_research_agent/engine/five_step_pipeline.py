@@ -57,19 +57,43 @@ class FiveStepResearchPipeline:
         self.tda = TdaReliabilityPipeline(self.output_dir)
         self.auditor = ProductionReadinessAuditor(Path(__file__).parents[2])
 
-    def execute_deep_research(self, user_query: str, days_back: int = 30) -> dict[str, Any]:
+    def execute_deep_research(
+        self,
+        user_query: str,
+        days_back: int = 30,
+        depth: str = "multi-source",
+    ) -> dict[str, Any]:
         t0 = time.time()
         pipeline_log = []
         cutoff_dt, cutoff_date_str, _ = get_cutoff(days_back)
+        depth_mode = (depth or "multi-source").strip().lower()
+        if depth_mode not in {"multi-source", "deep-audit", "quick-scan"}:
+            depth_mode = "multi-source"
+        # Synthesis depth controls crawl breadth (UI "Synthesis Depth & Mode").
+        if depth_mode == "quick-scan":
+            web_max_results, gh_limit, yt_limit = 3, 1, 1
+        elif depth_mode == "deep-audit":
+            web_max_results, gh_limit, yt_limit = 10, 4, 4
+        else:
+            web_max_results, gh_limit, yt_limit = 8, 3, 3
 
         # =========================================================================
         # STEP 1: SPECIFICATION CONTRACT FORMULATION (Module 3)
         # =========================================================================
-        self.logger.log("STEP_1_SPEC_START", {"query": user_query, "days_back": days_back, "cutoff_date": cutoff_date_str})
+        self.logger.log(
+            "STEP_1_SPEC_START",
+            {
+                "query": user_query,
+                "days_back": days_back,
+                "cutoff_date": cutoff_date_str,
+                "depth": depth_mode,
+            },
+        )
         time_desc = f"Past {days_back} Days (since {cutoff_date_str})" if days_back > 0 else "All Time"
         spec_text = f"""# SPECIFICATION CONTRACT: Autonomous Deep Research
 - Goal: Conduct exhaustive, evidence-grounded research on '{user_query}'
 - Time Horizon: {time_desc}
+- Synthesis Depth: {depth_mode}
 - Non-Goals: Speculative ungrounded hallucination, dead links, out-of-sandbox mutations
 - Allowed Files: citations.json, research_dossier.md, tests/test_citations.py, output/unified_diff.patch
 - Acceptance Criteria:
@@ -98,7 +122,7 @@ class FiveStepResearchPipeline:
                 continue
 
             # Query live MCP tools
-            raw_res = query_web_index(sq["query"], max_results=8, days_back=days_back)
+            raw_res = query_web_index(sq["query"], max_results=web_max_results, days_back=days_back)
             try:
                 res_data = json.loads(raw_res)
                 results = res_data.get("results", [])
@@ -126,7 +150,7 @@ class FiveStepResearchPipeline:
 
         # Dedicated multi-modal pass for GitHub codebases and YouTube technical videos
         try:
-            gh_direct = fetch_live_github_sync(user_query, limit=3, days_back=days_back)
+            gh_direct = fetch_live_github_sync(user_query, limit=gh_limit, days_back=days_back)
             for g in gh_direct:
                 raw_text = g.get("text") or g.get("snippet", "")
                 evidence.append({
@@ -145,7 +169,7 @@ class FiveStepResearchPipeline:
             pass
 
         try:
-            yt_direct = fetch_live_youtube_sync(user_query, limit=3, days_back=days_back)
+            yt_direct = fetch_live_youtube_sync(user_query, limit=yt_limit, days_back=days_back)
             for y in yt_direct:
                 raw_text = y.get("text") or y.get("snippet", "")
                 evidence.append({
@@ -337,6 +361,7 @@ class FiveStepResearchPipeline:
             "status": "SUCCESS",
             "query": user_query,
             "days_back": days_back,
+            "depth": depth_mode,
             "cutoff_date": cutoff_date_str,
             "duration_sec": round(elapsed, 2),
             "pipeline_steps": pipeline_log,
