@@ -82,13 +82,17 @@ def test_hp_03_multi_agent_planner():
 def test_hp_05_five_step_pipeline_execution():
     """HP-05: 5-Step SOP Pipeline execution end-to-end."""
     pipeline = FiveStepResearchPipeline(WORKSPACE_DIR)
-    result = pipeline.execute_deep_research("Autonomous Harness Engineering")
+    result = pipeline.execute_deep_research("Autonomous Harness Engineering", depth="quick-scan")
 
-    assert result["status"] == "SUCCESS"
+    assert result["status"] in {"SUCCESS", "PARTIAL"}
     assert len(result["pipeline_steps"]) == 5
-    assert len(result["evidence"]) >= 2
+    assert "warnings" in result
+    assert result.get("include_browser_sources") is False
     assert Path(result["dossier_file"]).exists()
     assert Path(result["diff_file"]).exists()
+    # Flat workspace: artifacts must not nest under output/output
+    dossier_norm = Path(result["dossier_file"]).as_posix()
+    assert "/output/output/" not in dossier_norm
 
 
 def test_hp_06_production_readiness_audit():

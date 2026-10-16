@@ -454,7 +454,8 @@ function renderGraph(evidence) {
 function renderCitations(evidence) {
   const grid = document.getElementById('citationsGrid');
   grid.innerHTML = '';
-  document.getElementById('evidenceCountBadge').textContent = `${evidence.length} Sources Verified`;
+  const liveCount = evidence.filter(e => (e.provenance || 'live') !== 'synthetic').length;
+  document.getElementById('evidenceCountBadge').textContent = `${liveCount} Live Sources`;
 
   evidence.forEach(item => {
     const card = document.createElement('div');
@@ -487,15 +488,23 @@ function renderCitations(evidence) {
     }
 
     const targetUrl = item.url || (item.domain ? `https://${item.domain}` : '#');
+    const provenance = (item.provenance || 'live');
+    const provBadge = provenance === 'synthetic'
+      ? '<span class="trust-badge" style="background:#fef3c7;color:#b45309;border:1px solid #fcd34d;">synthetic</span>'
+      : '<span class="trust-badge" style="background:#ecfdf5;color:#059669;border:1px solid #6ee7b7;">live</span>';
+    const httpBadge = item.link_verified === false
+      ? '<span class="trust-badge">unverified link</span>'
+      : `<span class="trust-badge" style="background:#ecfdf5; color:#059669; border:1px solid #6ee7b7;">🟢 HTTP ${escapeHtml(item.url_status || 200)}</span>`;
 
     const safeUrl = escapeHtml(targetUrl);
     card.innerHTML = `
       <div class="citation-header">
         <span class="citation-title">${icon} ${escapeHtml(item.title || 'Untitled')}</span>
-        <div style="display:flex; gap:0.4rem; align-items:center;">
+        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
           <span class="source-type-badge">${escapeHtml(typeBadge)}</span>
-          <span class="trust-badge" style="background:#ecfdf5; color:#059669; border:1px solid #6ee7b7;">🟢 HTTP ${escapeHtml(item.url_status || 200)}</span>
-          <span class="trust-badge">${Math.round((item.confidence_score || 0.95) * 100)}% Match</span>
+          ${provBadge}
+          ${httpBadge}
+          <span class="trust-badge">${Math.round((item.confidence_score || 0) * 100)}% Match</span>
         </div>
       </div>
       <div class="citation-domain">
@@ -706,7 +715,78 @@ function updateProgress(pct, label, substatus, isDone = false, isError = false) 
   }
 }
 
-// Execute Research
+let activeJobId = null;
+let activeEventSource = null;
+
+function applyProgressEvent(evt) {
+  const details = evt.details || {};
+  const pct = details.pct != null ? details.pct : undefined;
+  const label = details.label || evt.event || 'Working...';
+  const step = details.step || 1;
+  if (pct != null) updateProgress(pct, label, details.action || details.query || '');
+  if (step) updateStepper(step);
+  if (String(evt.event || '').includes('STEP_2') || evt.event === 'STEP_2_SANDBOX_CRAWL') {
+    updateSourceCard('Arxiv', 'active', 'Crawling...', 'Querying arXiv / OpenAlex / Wiki...', 'Live');
+    updateSourceCard('Hn', 'active', 'Indexing...', 'HackerNews Algolia...', 'Live');
+    updateSourceCard('Wiki', 'active', 'Ingesting...', 'Wikipedia...', 'Live');
+    if (details.include_browser === false) {
+      updateSourceCard('Github', 'done', 'Skipped', 'quick-scan: no Playwright', '0 repos');
+      updateSourceCard('Youtube', 'done', 'Skipped', 'quick-scan: no Playwright', '0 videos');
+    } else {
+      updateSourceCard('Github', 'active', 'Crawling...', 'Playwright GitHub...', 'Live');
+      updateSourceCard('Youtube', 'active', 'Crawling...', 'Playwright YouTube...', 'Live');
+    }
+  }
+  if (evt.event === 'STEP_3_GUARDRAILS') {
+    updateSourceCard('Guardrails', 'active', 'Scanning...', 'AST & secrets...', 'Live');
+  }
+  if (evt.event === 'STEP_4_TDA_PYTEST') {
+    updateStepper(4);
+  }
+  if (String(evt.event || '').startsWith('STEP_5')) {
+    updateStepper(5);
+  }
+}
+
+function finishWithResult(result) {
+  updateProgress(100, 'Autonomous Research Completed (100%)', `Synthesized ${result.evidence ? result.evidence.length : 0} sources in ${result.duration_sec || '?'}s.`, true);
+  updateStepper(6);
+  if (result.evidence && result.evidence.length > 0) {
+    let counts = { arxiv: 0, github: 0, youtube: 0, hackernews: 0, wikipedia: 0 };
+    result.evidence.forEach(item => {
+      addLiveModalEvidence(item);
+      const stype = (item.source_type || '').toLowerCase();
+      if (stype === 'arxiv' || stype === 'openalex') counts.arxiv++;
+      else if (stype === 'github') counts.github++;
+      else if (stype === 'youtube') counts.youtube++;
+      else if (stype === 'hackernews') counts.hackernews++;
+      else if (stype === 'wikipedia') counts.wikipedia++;
+    });
+    updateSourceCard('Arxiv', 'done', 'Completed', 'arXiv / OpenAlex verified', `${counts.arxiv} papers`);
+    updateSourceCard('Github', 'done', result.include_browser_sources === false ? 'Skipped' : 'Completed', 'GitHub', `${counts.github} repos`);
+    updateSourceCard('Youtube', 'done', result.include_browser_sources === false ? 'Skipped' : 'Completed', 'YouTube', `${counts.youtube} videos`);
+    updateSourceCard('Hn', 'done', 'Completed', 'HackerNews', `${counts.hackernews} threads`);
+    updateSourceCard('Wiki', 'done', 'Completed', 'Wikipedia', `${counts.wikipedia} articles`);
+    const gates = (result.audit && result.audit.passed_gates) || 'n/a';
+    updateSourceCard('Guardrails', 'done', result.pytest_passed ? 'Passed' : 'Partial', `Pytest ${result.pytest_passed ? 'OK' : 'issues'}`, gates);
+  }
+  const modalBtn = document.getElementById('modalViewDossierBtn');
+  if (modalBtn) modalBtn.style.display = 'inline-flex';
+  const cancelBtn = document.getElementById('modalCancelBtn');
+  if (cancelBtn) cancelBtn.style.display = 'none';
+  const modalFooter = document.getElementById('modalFooterStatus');
+  const warnN = (result.warnings || []).length;
+  if (modalFooter) {
+    modalFooter.innerHTML = `<span>✅</span> ${result.evidence ? result.evidence.length : 0} sources in ${result.duration_sec || '?'}s${warnN ? ` · ${warnN} warning(s)` : ''}${result.llm_live === false ? ' · LLM offline' : ''}`;
+  }
+  latestResult = result;
+  renderGraph(result.evidence || []);
+  renderCitations(result.evidence || []);
+  switchTab('dossier');
+  logTelemetry('SOP_COMPLETE', `Research completed in ${result.duration_sec}s with ${(result.evidence || []).length} sources.`);
+}
+
+// Execute Research via async job + SSE progress (falls back to sync POST)
 document.getElementById('researchForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const query = document.getElementById('queryInput').value.trim();
@@ -720,130 +800,98 @@ document.getElementById('researchForm').addEventListener('submit', async (e) => 
   btn.disabled = true;
   btn.innerHTML = '<span>⏳</span> Executing Multi-Hop Synthesis...';
 
-  // Open modal progress dialog
   openProgressModal(query, days_back);
+  const cancelBtn = document.getElementById('modalCancelBtn');
+  if (cancelBtn) cancelBtn.style.display = 'inline-flex';
+  const viewBtn = document.getElementById('modalViewDossierBtn');
+  if (viewBtn) viewBtn.style.display = 'none';
 
-  logTelemetry('SOP_START', `Initiating 10-module deep research on: "${query}" (Horizon: ${days_back > 0 ? `Past ${days_back}d` : 'All Time'}; Depth: ${depth})`);
-
-  let progressInterval = null;
-  const startTime = Date.now();
-
-  updateProgress(8, 'Step 1/5: Formulating Specification Contracts', 'Generating SPEC.md & boundary whitelist contracts...');
+  logTelemetry('SOP_START', `Initiating deep research: "${query}" (Horizon: ${days_back > 0 ? `Past ${days_back}d` : 'All Time'}; Depth: ${depth})`);
+  updateProgress(5, 'Starting research job...', 'POST /api/research/start');
   updateStepper(1);
-  updateSourceCard('Guardrails', 'active', 'Scoping...', 'Formulating SPEC.md boundaries...', 'AC-01 through AC-04');
-
-  // Progress animation ticker
-  progressInterval = setInterval(() => {
-    const elapsed = (Date.now() - startTime) / 1000;
-    if (elapsed < 2.0) {
-      const simulatedPct = Math.min(22, 8 + elapsed * 7);
-      updateProgress(simulatedPct, 'Step 1/5: Formulating Specification Contracts', 'Generating SPEC.md & boundary whitelist contracts...');
-      updateStepper(1);
-    } else if (elapsed < 5.5) {
-      const simulatedPct = Math.min(48, 22 + (elapsed - 2.0) * 7.5);
-      updateProgress(simulatedPct, 'Step 2/5: Spawning Multi-Agent Planner & Crawlers', 'Executing 6 Zero-API public streams (arXiv, GitHub, YouTube, HN, Wiki)...');
-      updateStepper(2);
-      updateSourceCard('Arxiv', 'active', 'Crawling...', 'Querying arXiv preprints & OpenAlex DOIs...', 'Connecting...');
-      updateSourceCard('Github', 'active', 'Stealth Agent...', 'Launching Playwright headless session...', 'Bypassing automation checks...');
-      updateSourceCard('Youtube', 'active', 'Anti-Bot Crawl...', 'Simulating human scroll & querying videos...', 'Parsing technical talks...');
-      updateSourceCard('Hn', 'active', 'Algolia Index...', 'Fetching developer discussion threads...', 'Ranking comments...');
-      updateSourceCard('Wiki', 'active', 'Ingesting...', 'Fetching foundational concepts...', 'Extracting summary...');
-    } else if (elapsed < 9.0) {
-      const simulatedPct = Math.min(68, 48 + (elapsed - 5.5) * 5.7);
-      updateProgress(simulatedPct, 'Step 2/5: Ingesting Multi-Modal Evidence', 'Deduplicating references and indexing ground truth...');
-      updateStepper(2);
-      updateSourceCard('Arxiv', 'done', 'Indexed', 'Extracted peer-reviewed preprints & DOIs', '2+ papers ingested');
-      updateSourceCard('Wiki', 'done', 'Indexed', 'Extracted architectural encyclopedia ground truth', '2 articles ingested');
-    } else if (elapsed < 13.0) {
-      const simulatedPct = Math.min(82, 68 + (elapsed - 9.0) * 3.5);
-      updateProgress(simulatedPct, 'Step 3/5: Guardrails & Secret Filtering', 'PreToolUse hooks scanning AST syntax & path sandboxing...');
-      updateStepper(3);
-      updateSourceCard('Github', 'done', 'Crawled', 'Playwright stealth extraction completed', 'Codebase repos verified');
-      updateSourceCard('Youtube', 'done', 'Crawled', 'Extracted conference talks & view counts', 'Technical videos verified');
-      updateSourceCard('Hn', 'done', 'Crawled', 'Extracted community sentiments & upvotes', 'Discussions ranked');
-      updateSourceCard('Guardrails', 'active', 'Scanning AST...', 'Validating syntax & secret tokens...', '0 violations');
-    } else if (elapsed < 17.0) {
-      const simulatedPct = Math.min(92, 82 + (elapsed - 13.0) * 2.5);
-      updateProgress(simulatedPct, 'Step 4/5: Running Pytest Verification Loop', 'Executing subprocess test runner for citation grounding integrity...');
-      updateStepper(4);
-      updateSourceCard('Guardrails', 'active', 'Pytest Verifying...', 'Running citation integrity assertions...', 'Pass rate 100%');
-    } else {
-      const simulatedPct = Math.min(97, 92 + (elapsed - 17.0) * 0.5);
-      updateProgress(simulatedPct, 'Step 5/5: Synthesizing Dossier & 2-Turn Reflection', 'Executing Turn 1 Gap Reflection & Turn 2 Adversarial Review...');
-      updateStepper(5);
-      updateSourceCard('Guardrails', 'done', 'Passed', 'Pytest 100% passed · Zero secret leaks', '5/5 Gates Certified');
-    }
-  }, 300);
 
   try {
-    let result;
-    let apiError = null;
-    try {
+    let result = null;
+    const startResp = await fetch('/api/research/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, days_back, depth }),
+    });
+
+    if (startResp.ok) {
+      const startData = await startResp.json();
+      activeJobId = startData.job_id;
+      result = await new Promise((resolve, reject) => {
+        if (activeEventSource) {
+          activeEventSource.close();
+          activeEventSource = null;
+        }
+        const es = new EventSource(`/api/research/events?job_id=${encodeURIComponent(activeJobId)}`);
+        activeEventSource = es;
+        es.addEventListener('progress', (msg) => {
+          let evt;
+          try { evt = JSON.parse(msg.data); } catch (_) { return; }
+          if (evt.event === 'RESULT' && evt.result) {
+            es.close();
+            activeEventSource = null;
+            resolve(evt.result);
+            return;
+          }
+          if (evt.event === 'ERROR') {
+            es.close();
+            activeEventSource = null;
+            reject(new Error((evt.details && evt.details.message) || 'Research job failed'));
+            return;
+          }
+          if (evt.event === 'CANCELLED') {
+            es.close();
+            activeEventSource = null;
+            reject(new Error('Research cancelled'));
+            return;
+          }
+          applyProgressEvent(evt);
+        });
+        es.onerror = () => {
+          // Keep waiting; server may still be running. Sync fallback if closed early.
+        };
+      });
+    } else {
+      // Fallback: synchronous API for older servers / tests
       const resp = await fetch('/api/research', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, days_back, depth }),
       });
-      if (resp.ok) {
-        result = await resp.json();
-      } else {
-        const errText = await resp.text();
-        apiError = `HTTP ${resp.status}: ${errText.slice(0, 240)}`;
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}: ${(await resp.text()).slice(0, 240)}`);
       }
-    } catch (err) {
-      apiError = err.message || String(err);
+      result = await resp.json();
     }
 
-    if (!result) {
-      throw new Error(apiError || 'Research API returned no result. Is the server running on this port?');
-    }
-
-    if (progressInterval) clearInterval(progressInterval);
-    updateProgress(100, 'Autonomous Research Completed (100%)', `Synthesized ${result.evidence ? result.evidence.length : 0} verified sources in ${result.duration_sec || '3.2'}s with 100% test pass rate.`, true);
-    updateStepper(6);
-
-    // Populate all live evidence items into modal feed
-    if (result.evidence && result.evidence.length > 0) {
-      let counts = { arxiv: 0, github: 0, youtube: 0, hackernews: 0, wikipedia: 0 };
-      result.evidence.forEach(item => {
-        addLiveModalEvidence(item);
-        const stype = (item.source_type || '').toLowerCase();
-        if (stype === 'arxiv' || stype === 'openalex') counts.arxiv++;
-        else if (stype === 'github') counts.github++;
-        else if (stype === 'youtube') counts.youtube++;
-        else if (stype === 'hackernews') counts.hackernews++;
-        else if (stype === 'wikipedia') counts.wikipedia++;
-      });
-
-      // Update source cards with exact final counts
-      updateSourceCard('Arxiv', 'done', 'Completed', 'arXiv preprints & OpenAlex DOIs verified', `${counts.arxiv} papers found`);
-      updateSourceCard('Github', 'done', 'Completed', 'GitHub repositories verified', `${counts.github} repos found`);
-      updateSourceCard('Youtube', 'done', 'Completed', 'YouTube conference talks & metrics verified', `${counts.youtube} videos found`);
-      updateSourceCard('Hn', 'done', 'Completed', 'HackerNews engineering discussions verified', `${counts.hackernews} threads found`);
-      updateSourceCard('Wiki', 'done', 'Completed', 'Wikipedia knowledge base verified', `${counts.wikipedia} articles found`);
-      updateSourceCard('Guardrails', 'done', 'Passed', 'Pytest 100% passed · AST & secrets clean', '5/5 Gates Certified');
-    }
-
-    // Show modal complete actions
-    const modalBtn = document.getElementById('modalViewDossierBtn');
-    if (modalBtn) modalBtn.style.display = 'inline-flex';
-    const modalFooter = document.getElementById('modalFooterStatus');
-    if (modalFooter) modalFooter.innerHTML = `<span>✅</span> Successfully gathered ${result.evidence ? result.evidence.length : 0} verified sources in ${result.duration_sec || '3.2'}s`;
-
-    latestResult = result;
-    renderGraph(result.evidence);
-    renderCitations(result.evidence);
-    // Always land on the dossier tab after a successful run (preserves prior tab only for empty state).
-    switchTab('dossier');
-    logTelemetry('SOP_COMPLETE', `Research completed in ${result.duration_sec}s with ${result.evidence.length} verified sources.`);
-
+    finishWithResult(result);
   } catch (error) {
-    if (progressInterval) clearInterval(progressInterval);
     updateProgress(100, 'Research Execution Error', error.message || 'An unexpected error occurred.', false, true);
     logTelemetry('SOP_ERROR', `Execution failed: ${error.message}`);
+    if (cancelBtn) cancelBtn.style.display = 'none';
   } finally {
+    activeJobId = null;
     btn.disabled = false;
     btn.innerHTML = '<span>⚡</span> Execute Autonomous Research';
+  }
+});
+
+document.getElementById('modalCancelBtn')?.addEventListener('click', async () => {
+  if (!activeJobId) return;
+  try {
+    await fetch('/api/research/cancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job_id: activeJobId }),
+    });
+    logTelemetry('SOP_CANCEL', `Cancel requested for job ${activeJobId}`);
+    updateProgress(100, 'Cancel requested', 'Waiting for pipeline to stop...', false, true);
+  } catch (err) {
+    logTelemetry('SOP_CANCEL_ERROR', String(err));
   }
 });
 

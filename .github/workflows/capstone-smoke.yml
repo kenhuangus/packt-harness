@@ -1,0 +1,49 @@
+name: Capstone Smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "deep_research_agent/**"
+      - "requirements.txt"
+      - ".github/workflows/capstone-smoke.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "deep_research_agent/**"
+      - "requirements.txt"
+      - ".github/workflows/capstone-smoke.yml"
+
+jobs:
+  unit-and-improvements:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Capstone unit + improvement tests
+        env:
+          LLM_PROVIDER: openai
+          LLM_BASE_URL: http://127.0.0.1:9/v1
+          LLM_MODEL: offline-ci
+        run: |
+          pytest deep_research_agent/tests/test_edge_cases.py \
+                 deep_research_agent/tests/test_improvements.py \
+                 deep_research_agent/tests/test_happy_path.py::test_hp_01_spec_parsing \
+                 deep_research_agent/tests/test_happy_path.py::test_hp_03_multi_agent_planner \
+                 deep_research_agent/tests/test_happy_path.py::test_hp_06_production_readiness_audit \
+                 deep_research_agent/tests/test_happy_path.py::test_hp_10_aisuite_llm_client \
+                 -q --tb=short
+      - name: API health smoke
+        run: |
+          python deep_research_agent/server.py 8765 &
+          sleep 2
+          curl -sf http://127.0.0.1:8765/api/health | tee /tmp/health.json
+          python -c "import json; d=json.load(open('/tmp/health.json')); assert d['status']=='ok'"

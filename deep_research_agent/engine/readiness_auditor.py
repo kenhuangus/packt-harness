@@ -1,12 +1,12 @@
 """
 Module 10 Integration: Production Readiness Auditor for Deep Research Agent.
-Inspects repository against 5 automated compliance gates.
+Inspects repository against compliance gates and (when provided) the latest run artifacts.
 """
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
+from typing import Any
 
 
 class ProductionReadinessAuditor:
@@ -41,7 +41,28 @@ class ProductionReadinessAuditor:
         ok = agents_dir.exists() and len(list(agents_dir.glob("*.md"))) >= 3
         return ok, "Gate 5 (Subagents): Specialized subagent role manifests verified." if ok else "Gate 5 Failed."
 
-    def run_full_audit(self) -> dict[str, Any]:
+    def audit_run_artifacts(self, run_context: dict[str, Any] | None) -> tuple[bool, str]:
+        """Run-aware gate: citations, dossier, and pytest outcome from the current execution."""
+        if not run_context:
+            return True, "Run gate skipped (static repo audit only)."
+        evidence = run_context.get("evidence") or []
+        live = [e for e in evidence if e.get("provenance") != "synthetic"]
+        dossier = (run_context.get("dossier_markdown") or "").strip()
+        pytest_passed = bool(run_context.get("pytest_passed", False))
+        depth = (run_context.get("depth") or "multi-source").lower()
+        min_live = 2 if depth == "quick-scan" else 3
+        ok = len(live) >= min_live and len(dossier) >= 200 and pytest_passed
+        if ok:
+            return True, (
+                f"Run gate: {len(live)} live citations, dossier {len(dossier)} chars, pytest OK "
+                f"(depth={depth})."
+            )
+        return False, (
+            f"Run gate failed: live={len(live)} (need {min_live}), "
+            f"dossier_len={len(dossier)}, pytest_passed={pytest_passed}."
+        )
+
+    def run_full_audit(self, run_context: dict[str, Any] | None = None) -> dict[str, Any]:
         results = [
             ("Gate 1: Memory Files", *self.audit_gate_1_memory()),
             ("Gate 2: Guardrails & Hooks", *self.audit_gate_2_guardrails()),
@@ -49,11 +70,15 @@ class ProductionReadinessAuditor:
             ("Gate 4: Model Context Protocol", *self.audit_gate_4_mcp()),
             ("Gate 5: Subagent Specialization", *self.audit_gate_5_subagents()),
         ]
-        passed_count = sum(1 for _, ok, _ in results)
-        score_pct = (passed_count / len(results)) * 100.0
+        if run_context is not None:
+            results.append(("Gate 6: Latest Run Artifacts", *self.audit_run_artifacts(run_context)))
+
+        passed_count = sum(1 for _, ok, _ in results if ok)
+        total = len(results)
+        score_pct = (passed_count / total) * 100.0 if total else 0.0
         return {
             "score_pct": score_pct,
-            "passed_gates": f"{passed_count}/{len(results)}",
-            "is_production_ready": passed_count == len(results),
+            "passed_gates": f"{passed_count}/{total}",
+            "is_production_ready": passed_count == total,
             "details": [{"gate": g, "passed": ok, "message": msg} for g, ok, msg in results],
         }

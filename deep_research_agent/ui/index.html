@@ -423,9 +423,14 @@
         <div class="modal-footer-status" id="modalFooterStatus">
           <span>⚡</span> Autonomous MCP Search &amp; Crawl Engine Active
         </div>
-        <button class="btn-primary" id="modalViewDossierBtn" onclick="closeProgressModal()" style="display: none; width: auto; padding: 0.6rem 1.4rem;">
-          <span>📊</span> View Final Synthesized Dossier
-        </button>
+        <div style="display:flex; gap:0.6rem; align-items:center;">
+          <button class="theme-btn" id="modalCancelBtn" type="button" title="Cancel research job" style="display:inline-flex;">
+            ✕ Cancel
+          </button>
+          <button class="btn-primary" id="modalViewDossierBtn" onclick="closeProgressModal()" style="display: none; width: auto; padding: 0.6rem 1.4rem;">
+            <span>📊</span> View Final Synthesized Dossier
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -489,26 +489,10 @@ def fetch_live_openalex(query: str, limit: int = 2, days_back: int = 30) -> list
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
                 docs.append(doc_obj)
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"[WARN] OpenAlex query failed for '{clean_q}': {_compact_error_message(exc)}")
 
-    if not docs:
-        doc_id = f"openalex_fallback_{abs(hash(clean_q)) % 100000:05d}"
-        full_text = f"Scholarly meta-analysis examining empirical methodologies, mechanistic models, and recent peer-reviewed findings regarding {clean_q}. The literature analyzes baseline benchmarks, structural invariants, and experimental validations reported across research institutions."
-        doc_obj = {
-            "doc_id": doc_id,
-            "title": f"Recent Scholarly Perspectives on {clean_q} (OpenAlex DOI, {cutoff_date_str})",
-            "domain": "openalex.org",
-            "author": f"OpenAlex Research Network ({cutoff_date_str})",
-            "url": "https://openalex.org",
-            "source_type": "openalex",
-            "published_date": cutoff_date_str,
-            "text": full_text,
-            "snippet": full_text,
-        }
-        DYNAMIC_CORPUS[doc_id] = doc_obj
-        docs.append(doc_obj)
-
+    # No synthetic OpenAlex fillers — empty list is an honest miss.
     return docs
 
 
@@ -750,26 +734,35 @@ def _fetch_live_youtube_impl(query: str, limit: int = 2, days_back: int = 30) ->
                 url = v.get("url", "https://youtube.com")
                 raw_channel = v.get("channel", "YouTube Tech")
                 channel = re.sub(r"\s+", " ", raw_channel).strip()
-                # If channel name repeated itself (e.g. 'NetworkChuck NetworkChuck'), deduplicate it
+                # Collapse half-repeated / doubled channel names (e.g. "IBM Technology IBM Technology")
                 ch_parts = channel.split()
-                if len(ch_parts) >= 2 and ch_parts[0] == ch_parts[1]:
-                    channel = " ".join(ch_parts[:len(ch_parts)//2])
+                n = len(ch_parts)
+                if n >= 2 and n % 2 == 0 and ch_parts[: n // 2] == ch_parts[n // 2 :]:
+                    channel = " ".join(ch_parts[: n // 2])
+                else:
+                    collapsed = []
+                    for w in ch_parts:
+                        if collapsed and collapsed[-1].lower() == w.lower():
+                            continue
+                        collapsed.append(w)
+                    channel = " ".join(collapsed)
 
                 desc = v.get("description", "")
                 raw_meta = v.get("metadata", "")
                 meta = re.sub(r"\s+", " ", raw_meta).strip()
                 clean_desc = make_clean_full_sentence_snippet(desc, 180) or f"Technical video breakdown analyzing key engineering concepts of {clean_q}."
                 doc_id = f"yt_{abs(hash(title))%100000:05d}"
-                meta_suffix = f" ({meta})" if meta else ""
+                # Keep scrape metadata off the author field (UI shows channel only).
                 doc_obj = {
                     "doc_id": doc_id,
                     "title": f"{title} (YouTube Technical Video, {cutoff_date_str})",
                     "domain": "youtube.com",
-                    "author": f"{channel}{meta_suffix}",
+                    "author": channel or "YouTube Tech Channel",
                     "url": url,
                     "source_type": "youtube",
                     "published_date": cutoff_date_str,
-                    "text": f"YouTube Video Talk ({cutoff_date_str}): '{title}' by {channel}.{meta_suffix} Overview: {clean_desc}",
+                    "scrape_metadata": meta,
+                    "text": f"YouTube Video Talk ({cutoff_date_str}): '{title}' by {channel}. Overview: {clean_desc}",
                     "snippet": f"Technical video by {channel}: '{title}'. {clean_desc}",
                 }
                 DYNAMIC_CORPUS[doc_id] = doc_obj
@@ -800,19 +793,24 @@ def query_web_index(query: str, max_results: int = 8, sources: str = "all", days
     """
     Searches live Wikipedia, arXiv, OpenAlex, GitHub, YouTube, and HackerNews
     without requiring any API keys.
+
+    sources:
+      - "all": academic + HN + Playwright GitHub/YouTube
+      - "none" / "academic": Wikipedia, arXiv, OpenAlex, HackerNews only (no Playwright)
     """
     matched = []
+    src = (sources or "all").strip().lower()
+    include_browser = src not in {"none", "academic", "no-browser", "quick"}
 
     # 1. Academic: Wikipedia & arXiv & OpenAlex
     matched.extend(fetch_live_wikipedia(query, limit=2))
     matched.extend(fetch_live_arxiv(query, limit=2, days_back=days_back))
     matched.extend(fetch_live_openalex(query, limit=1, days_back=days_back))
 
-    # 2. Open Source: GitHub Repositories
-    matched.extend(fetch_live_github_sync(query, limit=2, days_back=days_back))
-
-    # 3. Media: YouTube Video Talks
-    matched.extend(fetch_live_youtube_sync(query, limit=1, days_back=days_back))
+    # 2/3. Browser sources (optional — skipped for quick-scan)
+    if include_browser:
+        matched.extend(fetch_live_github_sync(query, limit=2, days_back=days_back))
+        matched.extend(fetch_live_youtube_sync(query, limit=1, days_back=days_back))
 
     # 4. Community: HackerNews Discussions
     matched.extend(fetch_live_hackernews(query, limit=1, days_back=days_back))
