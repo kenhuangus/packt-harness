@@ -723,7 +723,7 @@
     "raw_lines": [
       "Capstone Project: Autonomous Deep Research Agent — Setup, Execution & Deliverables",
       "• 1. Clone & CD: git clone https://github.com/kenhuangus/packt-harness.git && cd packt-harness",
-      "• 2. Virtual Environment: Windows (PowerShell): python -m venv .venv ; .venv\\Scripts\\Activate.ps1 (CMD: .venv\\Scripts\\activate) | macOS/Linux: python3 -m venv .venv && source .venv/bin/activate",
+      "• 2. Virtual Environment: create with python -m venv .venv (run alone — do not chain with ;). Then activate: Windows PowerShell .venv\\Scripts\\Activate.ps1 | Windows CMD .venv\\Scripts\\activate.bat | macOS/Linux: source .venv/bin/activate",
       "• 3. Dependencies: pip install -r requirements.txt && python -m playwright install chromium",
       "• 4. Provider Config (English / DGX Spark): Windows: copy .env.example.en .env | macOS/Linux: cp .env.example.en .env → http://192.168.1.164:8888/v1 (unsloth/Qwen3.6-35B-A3B-NVFP4)",
       "• 5. Launch Server & UI: python deep_research_agent/server.py 8090 (http://localhost:8090/)",

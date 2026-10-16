@@ -3556,17 +3556,24 @@ html_template = '''<!DOCTYPE html>
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">2. Venv (Win):</span>
-                      <code class="cmd-code-text">python -m venv .venv ; .venv\\Scripts\\Activate.ps1</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv ; .venv\\\\\\\\Scripts\\\\\\\\Activate.ps1')" title="Copy Windows PowerShell Command">
-                        <span class="copy-icon">📋</span> Copy Win
+                      <span class="cmd-code-prompt">2a. Create venv:</span>
+                      <code class="cmd-code-text">python -m venv .venv</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python -m venv .venv')" title="Copy create venv command">
+                        <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">2. Venv (Mac/Linux):</span>
-                      <code class="cmd-code-text">python3 -m venv .venv &amp;&amp; source .venv/bin/activate</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'python3 -m venv .venv && source .venv/bin/activate')" title="Copy macOS/Linux Command">
-                        <span class="copy-icon">📋</span> Copy Mac/Linux
+                      <span class="cmd-code-prompt">2b. Activate (Win PS):</span>
+                      <code class="cmd-code-text">.venv\\Scripts\\Activate.ps1</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '.venv\\\\\\\\Scripts\\\\\\\\Activate.ps1')" title="Copy Windows PowerShell activate">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">2b. Activate (Mac/Linux):</span>
+                      <code class="cmd-code-text">source .venv/bin/activate</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'source .venv/bin/activate')" title="Copy macOS/Linux activate">
+                        <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
