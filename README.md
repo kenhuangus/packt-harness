@@ -147,6 +147,9 @@ A production-grade, end-to-end autonomous research platform synthesizing all 10 
 * 📖 **[Deep Research Agent Documentation](https://github.com/kenhuangus/packt-harness/tree/main/deep_research_agent/)**.
 
 ```bash
+# English / DGX Spark (required for the English capstone demo)
+copy .env.example.en .env   # macOS/Linux: cp .env.example.en .env
+
 # Launch the Deep Research Web UI & Server on port 8090
 python deep_research_agent/server.py 8090
 

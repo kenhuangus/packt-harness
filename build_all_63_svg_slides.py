@@ -3577,13 +3577,17 @@ html_template = '''<!DOCTYPE html>
                       </button>
                     </div>
                     <div class="cmd-code-row">
-                      <span class="cmd-code-prompt">4. Config:</span>
-                      <code class="cmd-code-text">copy .env.example.en .env (EN/Spark) | copy .env.example.zh .env (中文/LM Studio)</code>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example.en .env')" title="Copy English / DGX Spark Config">
-                        <span class="copy-icon">📋</span> EN
+                      <span class="cmd-code-prompt">${slideLang === 'zh' ? '4. 配置:' : '4. Config:'}</span>
+                      <code class="cmd-code-text">${slideLang === 'zh' ? 'copy .env.example.zh .env' : 'copy .env.example.en .env'}</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '${slideLang === 'zh' ? 'copy .env.example.zh .env' : 'copy .env.example.en .env'}')" title="${slideLang === 'zh' ? 'Copy LM Studio .env' : 'Copy DGX Spark .env'}">
+                        <span class="copy-icon">📋</span> ${slideLang === 'zh' ? '中文' : 'Copy'}
                       </button>
-                      <button class="cmd-copy-btn" onclick="copyCommand(this, 'copy .env.example.zh .env')" title="Copy Chinese / LM Studio Config">
-                        <span class="copy-icon">📋</span> 中文
+                    </div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">${slideLang === 'zh' ? '4. macOS/Linux:' : '4. macOS/Linux:'}</span>
+                      <code class="cmd-code-text">${slideLang === 'zh' ? 'cp .env.example.zh .env' : 'cp .env.example.en .env'}</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '${slideLang === 'zh' ? 'cp .env.example.zh .env' : 'cp .env.example.en .env'}')" title="${slideLang === 'zh' ? 'Copy LM Studio .env' : 'Copy DGX Spark .env'}">
+                        <span class="copy-icon">📋</span> Copy
                       </button>
                     </div>
                     <div class="cmd-code-row">
@@ -3604,10 +3608,11 @@ html_template = '''<!DOCTYPE html>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🔑 Universal aisuite Provider Support (.env Configuration)</div>
+                  <div class="capstone-section-title">${slideLang === 'zh' ? '🔑 aisuite 提供商（.env 配置）' : '🔑 aisuite Provider Support (.env Configuration)'}</div>
                   <div class="capstone-providers-grid">
-                    <div class="provider-pill">💻 <strong>EN DGX Spark:</strong> <code>.env.example.en</code> → <code>:8888</code></div>
-                    <div class="provider-pill">🈶 <strong>中文 LM Studio:</strong> <code>.env.example.zh</code> → <code>:1234</code></div>
+                    ${slideLang === 'zh'
+                      ? `<div class="provider-pill">🈶 <strong>默认 中文 / LM Studio:</strong> <code>.env.example.zh</code> → <code>http://127.0.0.1:1234/v1</code></div>`
+                      : `<div class="provider-pill">💻 <strong>Default English / DGX Spark:</strong> <code>.env.example.en</code> → <code>http://192.168.1.164:8888/v1</code> (<code>unsloth/Qwen3.6-35B-A3B-NVFP4</code>)</div>`}
                     <div class="provider-pill">🟢 <strong>OpenAI:</strong> <code>OPENAI_API_KEY=sk-proj...</code></div>
                     <div class="provider-pill">🌐 <strong>OpenRouter:</strong> <code>OPENROUTER_API_KEY=sk-or-...</code></div>
                     <div class="provider-pill">🦙 <strong>Ollama:</strong> <code>LLM_PROVIDER=ollama</code> (Port 11434)</div>
@@ -3617,9 +3622,11 @@ html_template = '''<!DOCTYPE html>
                 </div>
 
                 <div class="capstone-section">
-                  <div class="capstone-section-title">🧠 Unified AI Suite &amp; 2-Turn Self-Reflection Engine</div>
+                  <div class="capstone-section-title">${slideLang === 'zh' ? '🧠 统一 AI Suite 与两轮自反思引擎' : '🧠 Unified AI Suite &amp; 2-Turn Self-Reflection Engine'}</div>
                   <div class="capstone-text-desc">
-                    One unified client via Andrew Ng's <strong>aisuite</strong>: switch between OpenAI, OpenRouter, Ollama, Google Gemini, and Anthropic Claude via <code>.env</code>. Multi-agent SOP executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) across 6 Zero-API public streams.
+                    ${slideLang === 'zh'
+                      ? '通过 Andrew Ng 的 <strong>aisuite</strong> 统一客户端：用 <code>.env</code> 在 LM Studio、OpenAI、OpenRouter、Ollama、Gemini、Claude 之间切换。多智能体 SOP 执行<strong>两轮自反思</strong>（第 1 轮：缺口反思 ➔ 第 2 轮：对抗审计），覆盖 6 条零 API 公开数据流。'
+                      : 'English capstone default is <strong>DGX Spark</strong> via <code>.env.example.en</code>. One unified client via Andrew Ng\\'s <strong>aisuite</strong>: switch providers in <code>.env</code>. Multi-agent SOP executes <strong>Two-Turn Self-Reflection</strong> (Turn 1: Gap Reflection ➔ Turn 2: Adversarial Audit) across 6 Zero-API public streams.'}
                   </div>
                 </div>
               </div>
