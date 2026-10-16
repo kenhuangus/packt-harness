@@ -3507,14 +3507,44 @@ html_template = '''<!DOCTYPE html>
 
                 <div class="cmd-step-card">
                   <div class="cmd-step-head">
-                    <span class="cmd-step-title">5️⃣ Step 5: Check &amp; Verify All Modules</span>
+                    <span class="cmd-step-title">${slideLang === 'zh' ? '5️⃣ 步骤 5：配置 LLM（.env）' : '5️⃣ Step 5: Configure LLM (.env)'}</span>
+                    <span class="cmd-step-badge">${slideLang === 'zh' ? 'LM Studio :1234' : 'DGX Spark :8888'}</span>
+                  </div>
+                  <div class="cmd-step-desc">${slideLang === 'zh'
+                    ? '复制中文配置到 <code>.env</code>，指向本机 LM Studio Qwen（<code>http://127.0.0.1:1234/v1</code>）：'
+                    : 'Copy the English profile to <code>.env</code> so labs use DGX Spark Qwen3.6 (<code>http://192.168.1.164:8888/v1</code>):'}</div>
+                  <div class="os-cmd-group">
+                    <div class="os-cmd-label">🪟 Windows:</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">PS&gt;</span>
+                      <code class="cmd-code-text">${slideLang === 'zh' ? 'copy .env.example.zh .env' : 'copy .env.example.en .env'}</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '${slideLang === 'zh' ? 'copy .env.example.zh .env' : 'copy .env.example.en .env'}')" title="Copy .env config command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                    <div class="os-cmd-label" style="margin-top:0.25rem;">🍎 macOS / 🐧 Linux:</div>
+                    <div class="cmd-code-row">
+                      <span class="cmd-code-prompt">$</span>
+                      <code class="cmd-code-text">${slideLang === 'zh' ? 'cp .env.example.zh .env' : 'cp .env.example.en .env'}</code>
+                      <button class="cmd-copy-btn" onclick="copyCommand(this, '${slideLang === 'zh' ? 'cp .env.example.zh .env' : 'cp .env.example.en .env'}')" title="Copy .env config command">
+                        <span class="copy-icon">📋</span> Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cmd-step-card">
+                  <div class="cmd-step-head">
+                    <span class="cmd-step-title">${slideLang === 'zh' ? '6️⃣ 步骤 6：检查并验证全部模块' : '6️⃣ Step 6: Check &amp; Verify All Modules'}</span>
                     <span class="cmd-step-badge" style="background:#e8f5e9; color:#2e7d32; border-color:#a5d6a7;">14 Passed ✓</span>
                   </div>
-                  <div class="cmd-step-desc">Run the harness test runner across all modules (expects <code>Summary: 14 passed, 0 failed</code>):</div>
+                  <div class="cmd-step-desc">${slideLang === 'zh'
+                    ? '运行全部模块测试（期望 <code>Summary: 14 passed, 0 failed</code>）：'
+                    : 'Run the harness test runner across all modules (expects <code>Summary: 14 passed, 0 failed</code>):'}</div>
                   <div class="cmd-code-row">
                     <span class="cmd-code-prompt">$</span>
                     <code class="cmd-code-text">python run_all_modules.py</code>
-                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python run_all_modules.py')" title="Copy Step 5 Command">
+                    <button class="cmd-copy-btn" onclick="copyCommand(this, 'python run_all_modules.py')" title="Copy verify command">
                       <span class="copy-icon">📋</span> Copy
                     </button>
                   </div>
