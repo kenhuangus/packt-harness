@@ -347,7 +347,7 @@ def generate_svg_for_slide(num, title):
     <text x="90" y="74" fill="#7c3aed" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">@AGENTS.md bridge</text>
   </g>
 </svg>'''
-    elif 'PILLARS 4 & 5' in title_upper or 'BUDGET & TRACING' in title_upper or 'JSONL TRANSCRIPTS' in title_upper:
+    elif 'PILLARS 4 & 5' in title_upper or 'BUDGET & TRACING' in title_upper or 'STRUCTURED OBSERVABILITY' in title_upper:
         return '''<svg viewBox="0 0 800 105" class="slide-svg">
   <!-- Pillar 4: Token Budgeting & Compaction -->
   <g transform="translate(15, 6)">
@@ -358,13 +358,13 @@ def generate_svg_for_slide(num, title):
     <text x="187" y="78" fill="#BD5D3A" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">Eliminates Context Drift &amp; Prevents OOM Exhaustion</text>
   </g>
 
-  <!-- Pillar 5: Structured Tracing (Claude Code JSONL) -->
+  <!-- Pillar 5: Structured Tracing (own harness + LangSmith/Langfuse examples) -->
   <g transform="translate(410, 6)">
     <rect x="0" y="0" width="375" height="92" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
-    <text x="187" y="24" fill="#047857" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">📜 PILLAR 5: Claude Code JSONL Transcripts</text>
-    <text x="187" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">~/.claude/projects/&lt;encoded-path&gt;/&lt;session-id&gt;.jsonl</text>
-    <text x="187" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Append-Only Events: user · assistant · tool_use · tool_result · usage</text>
-    <text x="187" y="78" fill="#047857" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">Direct jq / Python Inspection · Token Attribution &amp; Audit</text>
+    <text x="187" y="24" fill="#047857" font-family="Inter" font-size="11.5" font-weight="800" text-anchor="middle">📜 PILLAR 5: Harness Tracing &amp; Observability</text>
+    <text x="187" y="44" fill="#141413" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle">EventLogger ➔ events.jsonl / telemetry spans</text>
+    <text x="187" y="62" fill="#6B6B63" font-family="Inter" font-size="9" text-anchor="middle">Tool · Hook · Permission · Token Usage · Latency</text>
+    <text x="187" y="78" fill="#047857" font-family="Inter" font-size="8.5" font-weight="750" text-anchor="middle">Examples: LangSmith · Langfuse dashboards &amp; evals</text>
   </g>
 </svg>'''
     elif 'PILLAR 3: HOOKS' in title_upper or 'LIFECYCLE HOOK' in title_upper or '31 DETERMINISTIC' in title_upper or '31-EVENT' in title_upper:
@@ -441,8 +441,8 @@ def generate_svg_for_slide(num, title):
   <g transform="translate(630, 5)">
     <rect x="0" y="0" width="155" height="88" rx="8" fill="#FAF9F5" stroke="#D97757" stroke-width="2"/>
     <text x="77" y="28" fill="#141413" font-family="Inter" font-size="12" font-weight="800" text-anchor="middle">Pillar 5: Tracing</text>
-    <text x="77" y="52" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">events.jsonl Audit</text>
-    <text x="77" y="72" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">ISO UTC Timestamps</text>
+    <text x="77" y="52" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">EventLogger Spans</text>
+    <text x="77" y="72" fill="#6B6B63" font-family="Inter" font-size="10.5" text-anchor="middle">LangSmith / Langfuse</text>
   </g>
 </svg>'''
     elif '4-LAYER' in title_upper or 'GUARDRAILS' in title_upper or 'MODULE 4' in title_upper:

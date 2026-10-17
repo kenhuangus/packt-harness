@@ -171,16 +171,15 @@
   {
     "number": 12,
     "raw_lines": [
-      "Pillars 4 & 5: Budget & Tracing (Claude Code JSONL Transcripts)",
-      "Context Allocation & Immutable Audit Logs (~/.claude/projects/<encoded-path>/<session-id>.jsonl)",
+      "Pillars 4 & 5: Budget & Tracing",
+      "Context Allocation & Structured Observability (Harness EventLogger · LangSmith / Langfuse)",
       "• Pillar 4: Context Token Budgeting & Compaction (ContextTokenBudgeter in core_harness_stack.py):",
       "  • 20/20/50/10 Token Allocation: 20% Memory (CLAUDE.md), 20% Spec (SPEC.md), 50% Workspace (active code/diffs), 10% Output Headroom.",
       "  • Head/Tail Compaction: Preserves first 5 & last 15 lines/turns of conversation history, omitting noisy intermediate logs to prevent context drift.",
-      "• Pillar 5: Structured Tracing & Claude Code JSONL Transcript Architecture:",
-      "  • File Layout & Storage: Stored under ~/.claude/projects/<encoded-project-path>/<session-id>.jsonl (one file per session UUID, append-only, one JSON object per line).",
-      "  • Common Top-Level Schema: type (user/assistant/system), uuid, parentUuid, timestamp (ISO 8601), sessionId, cwd, gitBranch, and version.",
-      "  • Event Types & Payloads: type: 'user' (prompts & tool_result blocks), type: 'assistant' (text, thinking, tool_use blocks, and message.usage token accounting).",
-      "  • Direct Audit Inspection (jq/Python): Scan tool calls via jq -c 'select(.type==\"assistant\") | .message.content[] | select(.type==\"tool_use\") | {name, input}' or query token usage via .message.usage.",
+      "• Pillar 5: Structured Tracing & Observability (harness-owned EventLogger):",
+      "  • Harness EventLogger: Append-only events.jsonl / telemetry records with ISO UTC timestamps for every tool request, permission decision, hook result, and token-usage span.",
+      "  • Trace Schema: event_type, timestamp, session/run id, tool name, inputs/outputs (redacted), latency_ms, token usage, and allow/deny outcome — one JSON object per line for replay and audit.",
+      "  • Industry Examples: Export or mirror the same spans into LangSmith or Langfuse for UI dashboards, latency/token charts, and eval datasets (same observability pattern; different backends).",
       "• Lab demo: https://github.com/kenhuangus/packt-harness/blob/main/course_implementation/module_02_core_harness_stack/README.md"
     ]
   },
