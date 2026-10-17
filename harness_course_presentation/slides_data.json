@@ -203,7 +203,7 @@
       "• [Lines 4-5] Tool Permission Allowlist: Replaces unconstrained agent capabilities with an explicit allowed tool registry.",
       "• [Lines 11-13] Path Sandboxing: Uses Path.resolve().is_relative_to() to prevent directory traversal (../) and external access.",
       "• [Lines 19-20] Post-Edit Secret Scan: Inspects proposed code edits for hardcoded API keys (sk-proj-) before writing to disk.",
-      "• Audit Observability: All tool requests and hook decisions are logged to events.jsonl with ISO timestamps."
+      "• Audit Observability: EventLogger appends every tool request and hook decision to events.jsonl with ISO timestamps. For local dashboards and evals, mirror the same spans into Langfuse (self-hostable / local-friendly); LangSmith is an optional cloud alternative."
     ],
     "number": 13
   },
