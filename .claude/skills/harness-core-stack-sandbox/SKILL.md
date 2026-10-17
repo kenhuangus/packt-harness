@@ -2,11 +2,12 @@
 name: harness-core-stack-sandbox
 description: 'Enforces the 5 core harness pillars: CLAUDE.md/AGENTS.md memory, least-privilege
   tool allowlists, Path.is_relative_to() sandboxing, post-edit secret scanning, token
-  budgeting, and append-only event tracing. Trigger when sandboxing agent tools, enforcing
-  workspace boundaries, or establishing events.jsonl audit trails.'
+  budgeting, and harness-owned EventLogger tracing (events.jsonl spans; LangSmith/Langfuse
+  as export examples). Trigger when sandboxing agent tools, enforcing workspace boundaries,
+  or establishing append-only audit trails.'
 version: 1.0.0
 author: Harness Engineering Team
-allowed-tools: Read, Write, Grep, Bash
+allowed-tools: Read, Write, Grep
 ---
 
 # Harness Core Stack & Sandbox
@@ -23,7 +24,7 @@ Implements the 5 core architectural harness pillars (Memory, Sandboxing, Hooks, 
 - When configuring workspace memory guidelines (`CLAUDE.md`, `AGENTS.md`).
 - When restricting file write operations strictly within workspace boundaries via `Path.resolve().is_relative_to()`.
 - When scanning code edits for hardcoded API keys and secrets before saving.
-- When recording immutable audit events in `events.jsonl`.
+- When recording immutable EventLogger spans in `events.jsonl` (optionally mirrored to LangSmith or Langfuse).
 
 ## Required Inputs
 - Workspace root directory path.
@@ -36,7 +37,7 @@ Run all commands from the repository root.
 2. Validate tool requests against `assets/allowed_tools.json`; reject any unlisted tools.
 3. Run `python .claude/skills/harness-core-stack-sandbox/scripts/validate_sandbox.py --workspace "." --path "<target>"` to ensure path containment.
 4. Scan file contents against secret patterns in `references/secret-patterns.md` (OpenAI, AWS, GitHub tokens).
-5. Append an ISO UTC timestamped record to `events.jsonl` matching `assets/event_schema.json`.
+5. Append an ISO UTC EventLogger span to `events.jsonl` matching `assets/event_schema.json` (same fields you would export to LangSmith or Langfuse).
 
 ## Output Format
 Always format output adhering to this structure:

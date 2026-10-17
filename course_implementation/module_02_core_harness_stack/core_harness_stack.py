@@ -5,7 +5,8 @@ Demonstrates the 5 pillars of a production AI coding harness:
 2. Scoped Tools & Path Sandboxing
 3. Deterministic Hooks & Policy Engine
 4. Context Token Budgeting & Compacting
-5. JSONL Tracing & Observability
+5. Harness EventLogger Tracing & Observability
+   (local events.jsonl spans; same pattern as LangSmith / Langfuse)
 """
 
 import ast
@@ -16,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import uuid
 from datetime import datetime, timezone
 
 class ContextTokenBudgeter:
@@ -58,23 +60,27 @@ class CoreHarnessStack:
     In-process teaching harness for the five pillars.
 
     workspace_root is the only directory write_file may touch. Every
-    permission decision and hook result is appended to events.jsonl
-    inside that workspace as one JSON object per line.
+    permission decision and hook result is appended via EventLogger to
+    events.jsonl inside that workspace as one JSON object per line.
+    Those spans are the local system of record; the same fields can be
+    mirrored to LangSmith or Langfuse for UI dashboards and evals.
     """
 
-    def __init__(self, workspace_root: str):
+    def __init__(self, workspace_root: str, session_id: str | None = None):
         self.workspace_root = os.path.abspath(workspace_root)
         # Durable audit trail for this run. The demo uses a TemporaryDirectory,
         # so this file lives under %TEMP%\module_02_harness_*\events.jsonl.
         self.audit_log_path = os.path.join(self.workspace_root, "events.jsonl")
+        self.session_id = session_id or f"mod02-{uuid.uuid4().hex[:12]}"
         self.budgeter = ContextTokenBudgeter()
 
     def log_event(self, event_type: str, details: dict):
-        """Append one structured event. Never overwrite previous lines."""
+        """Append one EventLogger span. Never overwrite previous lines."""
         payload = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "event_type": event_type,
-            "details": details
+            "session_id": self.session_id,
+            "details": details,
         }
         with open(self.audit_log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(payload) + "\n")
@@ -202,7 +208,7 @@ if __name__ == "__main__":
         if last_event.get("event_type") != "WRITE_FILE_SUCCESS":
             print("[FAIL] WRITE_FILE_SUCCESS was not the final audit event.")
             raise SystemExit(1)
-        print("[Pillar 5 - Trace] Logged 'WRITE_FILE_SUCCESS' to JSONL audit file.")
+        print("[Pillar 5 - Trace] EventLogger span 'WRITE_FILE_SUCCESS' -> events.jsonl")
 
         print("\n>>> HARNESS EXECUTION TASK: run_test <<<")
         permission_granted = harness.validate_tool_permission("run_test")
@@ -257,7 +263,7 @@ if __name__ == "__main__":
         if last_event.get("event_type") != "RUN_TEST_SUCCESS":
             print("[FAIL] RUN_TEST_SUCCESS was not the final audit event.")
             raise SystemExit(1)
-        print("[Pillar 5 - Trace] Logged 'RUN_TEST_SUCCESS' to JSONL audit file.")
+        print("[Pillar 5 - Trace] EventLogger span 'RUN_TEST_SUCCESS' -> events.jsonl")
 
         print("\n>>> HARNESS EXECUTION TASK: write_file <<<")
         traversal_target = os.path.join(
@@ -295,7 +301,7 @@ if __name__ == "__main__":
         if last_event.get("event_type") != "HARNESS_ERROR":
             print("[FAIL] HARNESS_ERROR was not the final audit event.")
             raise SystemExit(1)
-        print("[Pillar 5 - Trace] Logged 'HARNESS_ERROR' to JSONL audit file.")
+        print("[Pillar 5 - Trace] EventLogger span 'HARNESS_ERROR' -> events.jsonl")
         print(
             "[FAIL] HARNESS ERROR: Path Traversal Blocked: Target "
             f"'{traversal_target}' is outside workspace '{workspace}'"
@@ -307,6 +313,11 @@ if __name__ == "__main__":
         shutil.copy2(sample_path, Path(module_dir) / "sample_module.py")
         shutil.copy2(Path(workspace) / "compacted_log.txt", output_dir / "compacted_log.txt")
         print(f"[OUTPUT] {output_dir / 'events.jsonl'}")
+        print(
+            f"[Pillar 5 - Observability] session_id={harness.session_id} · "
+            "Local EventLogger trail ready. Mirror spans to LangSmith or Langfuse "
+            "for UI dashboards / evals."
+        )
         print(f"[OUTPUT] {output_dir / 'sample_module.py'}")
         print(f"[OUTPUT] {output_dir / 'compacted_log.txt'}")
 

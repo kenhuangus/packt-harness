@@ -1,9 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Harness EventLogger span",
+  "description": "One append-only span per line in events.jsonl. Same conceptual fields as LangSmith / Langfuse traces; the harness owns the local trail.",
   "type": "object",
   "required": [
     "timestamp",
     "event_type",
+    "session_id",
     "details"
   ],
   "properties": {
@@ -12,10 +15,16 @@
       "format": "date-time"
     },
     "event_type": {
-      "type": "string"
+      "type": "string",
+      "description": "Span name, e.g. PERMISSION_GRANTED, WRITE_FILE_SUCCESS, PATH_TRAVERSAL_BLOCKED"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Run / session id shared by all spans in one harness execution"
     },
     "details": {
-      "type": "object"
+      "type": "object",
+      "description": "Tool name, path, allow/deny, latency_ms, token usage, redacted inputs/outputs"
     }
   }
 }
