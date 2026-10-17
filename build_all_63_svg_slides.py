@@ -333,10 +333,10 @@ def generate_svg_for_slide(num, title):
   <!-- 3. Resolution Hierarchy -->
   <g transform="translate(405, 6)">
     <rect x="0" y="0" width="185" height="90" rx="8" fill="#FAF9F5" stroke="#059669" stroke-width="2"/>
-    <text x="92" y="24" fill="#047857" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">🌲 3. 5-Tier Scope Tree</text>
+    <text x="92" y="24" fill="#047857" font-family="Inter" font-size="11" font-weight="800" text-anchor="middle">📐 3. 4-Tier Scope</text>
     <text x="92" y="44" fill="#141413" font-family="Inter" font-size="9.5" font-weight="700" text-anchor="middle">Resolution Order</text>
     <text x="92" y="62" fill="#6B6B63" font-family="Inter" font-size="8.5" text-anchor="middle">Managed ➔ User ➔ Project</text>
-    <text x="92" y="78" fill="#047857" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">Local .md ➔ .claude/rules/</text>
+    <text x="92" y="78" fill="#047857" font-family="Inter" font-size="8" font-weight="750" text-anchor="middle">➔ Local (4 tiers only)</text>
   </g>
 
   <!-- 4. Imports & AGENTS.md -->
@@ -3299,16 +3299,16 @@ html_template = '''<!DOCTYPE html>
                 </div>
               </div>
 
-              <!-- Right Column: 4-Tier Hierarchy, Rules & Interop -->
+              <!-- Right Column: 4-Tier Scope, Rules & Interop -->
               <div class="memory-card">
                 <div class="memory-card-header" style="background:#EBF3FA; border-bottom:1.5px solid #C9E0F5;">
-                  <span style="color:#1e40af; font-weight:800;">🌲 Scope Hierarchy, Rules &amp; Interoperability</span>
+                  <span style="color:#1e40af; font-weight:800;">📐 4-Tier Scope, Rules &amp; Interoperability</span>
                   <span style="font-size:0.73rem; background:#1e40af; color:#FFF; padding:2px 8px; border-radius:12px; font-weight:700;">Resolution Order</span>
                 </div>
                 <div class="memory-card-body" style="display:flex; flex-direction:column; gap:0.35rem;">
-                  <!-- Scope Hierarchy -->
+                  <!-- 4-Tier Scope -->
                   <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
-                    <strong style="color:#141413;">4-Tier Load Precedence (Broadest ➔ Most Specific):</strong>
+                    <strong style="color:#141413;">4-Tier Scope (Broadest ➔ Most Specific):</strong>
                     <div style="display:flex; flex-direction:column; gap:0.12rem; margin-top:0.22rem;">
                       <div>🏛️ <strong>1. Managed Policy:</strong> <code>/etc/claude-code/CLAUDE.md</code> or <code>C:\\Program Files\\ClaudeCode\\CLAUDE.md</code></div>
                       <div>👤 <strong>2. User Instructions:</strong> <code>~/.claude/CLAUDE.md</code> (Personal preferences across all repos)</div>
@@ -3317,11 +3317,11 @@ html_template = '''<!DOCTYPE html>
                     </div>
                   </div>
 
-                  <!-- Path-Scoped Rules & Imports -->
+                  <!-- Path rules (not a 5th scope tier) & Imports -->
                   <div style="background:#FAF9F5; border:1px solid #E3E0D6; border-radius:6px; padding:0.35rem 0.55rem; font-size:0.75rem; line-height:1.3;">
                     <strong style="color:#141413;">Modular Rules &amp; Cross-Agent Interoperability:</strong>
                     <ul style="margin:0.2rem 0 0 1rem; padding:0;">
-                      <li><strong>Path-Scoped Rules:</strong> <code>.claude/rules/*.md</code> with <code>paths: ["src/api/**/*.ts"]</code> load only when matching files are opened.</li>
+                      <li><strong>Path Rules (not a 5th scope tier):</strong> <code>.claude/rules/*.md</code> with <code>paths: ["src/api/**/*.ts"]</code> load only when matching files are opened.</li>
                       <li><strong>AGENTS.md Interop:</strong> Claude Code reads <code>CLAUDE.md</code>; use <code>@AGENTS.md</code> or <code>ln -s AGENTS.md CLAUDE.md</code> to share instructions.</li>
                     </ul>
                   </div>
